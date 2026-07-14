@@ -19872,7 +19872,10 @@ namespace Kaushal_Darpan.Api.Controllers
 body{{
     font-family:'Mangal','Nirmala UI','Arial Unicode MS',sans-serif;
     font-size:14px;
-    color:#000;
+    color:#000000;
+    font-weight:600;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
     margin:30px;
 }}
 
@@ -19883,6 +19886,8 @@ table{{
 
 td{{
     vertical-align:top;
+    color:#000000;
+    font-weight:600;
 }}
 
 .center{{ text-align:center; }}
@@ -19892,14 +19897,20 @@ td{{
 
 .list td{{
     padding:4px 0;
+    font-weight:600;
 }}
 
 .footer td{{
     padding-top:40px;
+    font-weight:600;
 }}
 .page-break{{
     page-break-before:always;
     break-before:page;
+}}
+
+b{{
+    font-weight:800;
 }}
 </style>
 
@@ -19920,8 +19931,7 @@ td{{
 
 <td width='80%' class='center'>
 <b>राजस्थान सरकार</b><br/>
-प्राविधिक शिक्षा मण्डल, राजस्थान, जोधपुर<br/>
-W-6 Residency Road, Jodhpur<br/>
+प्राविधिक शिक्षा मण्डल, राजस्थान, जोधपुर W-6 Residency Road, Jodhpur<br/>
 Phone : (0291)-2430440,2636572
 </td>
 
@@ -19948,11 +19958,11 @@ Web Site : www.techedu.rajasthan.gov.in
 <tr>
 
 <td width='50%'>
-क्रमांक : एफ (6/14) / परीक्षा /{endTermName}/
+क्रमांक : एफ (6/14) / गोप/प्रशिम  /{endTermName}/
 </td>
 
 <td width='50%' class='right'>
-दिनांक :- {SemesterName}-{endTermName}
+दिनांक :- {SemesterName},{endTermName}
 </td>
 
 </tr>
@@ -19981,7 +19991,7 @@ Web Site : www.techedu.rajasthan.gov.in
 </td>
 <td>
 <b>
- {SemesterNameHindi} के ग्रेटर संकलित सेशनल अंकों में 85% से अधिक एवं 45% से कम प्राप्तांक वाले विद्यार्थियों का रिकॉर्ड प्रस्तुत करने हेतु।
+ {SemesterNameHindi}  संकलित सेशनल अंकों में प्रदत्त 85% से अधिक एवं 45% से कम प्राप्तांक वाले विद्यार्थियों का रिकॉर्ड प्रस्तुत करने हेतु।
 </b>
 </td>
 </tr>
@@ -19992,7 +20002,7 @@ Web Site : www.techedu.rajasthan.gov.in
 <table>
 <tr>
 <td style='text-align:justify; line-height:24px;'>
-विषयान्तर्गत, आपके द्वारा प्रेषित {SemesterNameHindi} ग्रेटर {endTermName} के सेशनल अंकों में 85% से अधिक एवं 45% से कम प्राप्तांक वाले विद्यार्थियों के सेशनल रिकॉर्ड की संस्था स्तर पर पुनः जाँच कर लें। संस्था ऑनलाइन दर्ज अंकों से संतुष्ट होने पर निम्नानुसार रिकॉर्ड प्रस्तुत करें, जिससे प्राप्तांकों का प्रमाणीकरण किया जा सके।
+विषयान्तर्गत, आपके द्वारा प्रेषित {SemesterNameHindi}, {endTermName} के सेशनल अंकों में 85% से अधिक एवं 45% से कम प्राप्तांक वाले विद्यार्थियों के सेशनल रिकॉर्ड की संस्था स्तर पर पुनः जाँच कर लें। संस्था ऑनलाइन दर्ज अंकों से संतुष्ट होने पर निम्नानुसार रिकॉर्ड प्रस्तुत करें, जिससे प्राप्तांकों का प्रमाणीकरण किया जा सके। यथा
 </td>
 </tr>
 </table>
@@ -20008,11 +20018,11 @@ Web Site : www.techedu.rajasthan.gov.in
 
 <tr>
 <td>3. Online कक्षा टेस्ट की उत्तर पुस्तिका</td>
-<td>4. Online प्रैक्टिकल पावती</td>
+<td>4. Online प्रैक्टिकल पत्रावली</td>
 </tr>
 
 <tr>
-<td>5. Online स्टूडेंट डेटाबेस</td>
+<td>5. Online  सब्जेक्ट ब्रेकअप</td>
 <td>6. उपरोक्त के अलावा अन्य कोई प्रमाण हो</td>
 </tr>
 
@@ -20106,7 +20116,7 @@ Web Site : www.techedu.rajasthan.gov.in
 
 रिकॉर्ड प्रस्तुत करने वाले प्रतिनिधि को रिकॉर्ड के संबंध में पूर्ण जानकारी होनी चाहिए, जिससे जाँच के दौरान पूछे गए प्रश्नों का संतोषजनक उत्तर एवं आवश्यक स्पष्टीकरण प्रस्तुत किया जा सके।
 
-निर्धारित तिथि तक उक्त रिकॉर्ड संस्था के प्रतिनिधि के माध्यम से अनिवार्य रूप से भिजवाया जाए, अन्यथा आपकी संस्था का परिणाम रोक दिया जाएगा, जिसकी सम्पूर्ण जिम्मेदारी संस्था की होगी।
+निर्धारित तिथि तक उक्त रिकॉर्ड संस्था के प्रतिनिधि के माध्यम से अनिवार्य रूप से भिजवाया जाए, अन्यथा आपकी संस्था का परिणाम रोक दिया जाएगा, जिसकी सम्पूर्ण जिम्मेदारी आपकी की होगी।
 
 </td>
 
