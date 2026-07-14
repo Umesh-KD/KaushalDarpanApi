@@ -241,6 +241,10 @@ namespace Kaushal_Darpan.Models.NodalApperentship
         public string Dis_FilePath { get; set; } = string.Empty;
         public string StudentName { get; set; } = string.Empty;
         public string Aadhar { get; set; } = string.Empty;
+        public string DOB { get; set; } 
+        public string Address { get; set; }
+        public string EducationalQualification { get; set; } 
+        public string CurrentOccupation { get; set; } 
     }
 
 

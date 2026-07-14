@@ -972,6 +972,12 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
                         command.Parameters.AddWithValue("@RegDate", request.RegDate);
                         command.Parameters.AddWithValue("@UserID", request.UserID);
+                        command.Parameters.AddWithValue("@FatherName", request.FatherName);
+                        command.Parameters.AddWithValue("@AadharNo", request.Aadhar);
+                        command.Parameters.AddWithValue("@DOB", request.DOB);
+                        command.Parameters.AddWithValue("@Address", request.Address);
+                        command.Parameters.AddWithValue("@EducationalQualification", request.EducationalQualification);
+                        command.Parameters.AddWithValue("@CurrentOccupation", request.CurrentOccupation);
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
 
