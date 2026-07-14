@@ -215,4 +215,44 @@
         public string TotalSubjectCredits { get; set; } = string.Empty;
         public string TotalEarnedCredits { get; set; } = string.Empty;
     }
+
+
+    public class DiplomaCertificateDownloadSearchModel : RequestBaseModel
+    {
+        public int? ModifyBy { get; set; } = 0;
+        public int? SemesterID { get; set; }
+        public int? MarksheetID { get; set; }
+        public int? InstituteID { get; set; }
+        public string? IsRevised { get; set; }
+        public int? IsBridge { get; set; }
+        public int? ResultTypeID { get; set; }
+        public string? RollNo { get; set; }
+        public int? StudentID { get; set; }
+        public int? Eng_NonEngID { get; set; }
+        public int? ExamTypeID { get; set; }
+        public int? RWHResultID { get; set; }
+        public int? AcademicYearID { get; set; }
+        public string? IPAddress { get; set; }
+        public string? MarksheetPath { get; set; }
+        public string? Marksheet { get; set; }
+        public string? SessionName { get; set; }
+        public string? MarksheetFile { get; set; }
+        public string? MarksheetFilePath { get; set; }
+        public string? DOB { get; set; }
+        public string SRNO { get; set; } = string.Empty;
+
+        public bool? IsReval { get; set; }
+        public bool? IsRWHResult { get; set; }
+        public bool? IsLateral { get; set; }
+        public int? ReqId { get; set; }
+        public int? StudentTypeID { get; set; }
+
+        public int RequestEndTerm { get; set; }
+
+        public int? FianancialYearID { get; set; }
+        public int? DocumentID { get; set; }
+        public int? EffectiveEndTermID { get; set; }
+        public int? SchemeID { get; set; }
+
+    }
 }

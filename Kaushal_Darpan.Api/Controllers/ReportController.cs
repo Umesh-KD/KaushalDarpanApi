@@ -20796,5 +20796,375 @@ Web Site : www.techedu.rajasthan.gov.in
         #endregion
 
 
+        #region Bulk Student Diploma Certificate Chunk
+        [HttpPost("StudentDiplomaCertificateDownloadChunk")]
+        public async Task<ApiResult<string>> StudentDiplomaCertificateDownloadChunk([FromBody] List<DiplomaCertificateDownloadSearchModel> Model)
+        {
+            ActionName = "StudentDiplomaCertificateDownloadChunk([FromBody] List<DiplomaCertificateDownloadSearchModel> Model)";
+
+            var result = new ApiResult<string>();
+            var logfilename = "_StudentMarksheetDownload";
+            var Session = string.Empty;
+            try
+            {
+                Session = Model[0].SessionName;
+                var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{Constants.MarksheetFolder}/{Session}";
+
+                // store students that have filename success for merge file for shwoing marksheet
+                List<GenerateMarksheetModel> ListData = new List<GenerateMarksheetModel>();
+                // store students that dont have filename failed any resion
+                List<GenerateMarksheetModel> notGenerateStudents = new List<GenerateMarksheetModel>();
+
+                int i = 1;
+                // passed students list in chunks
+                foreach (var student in Model)
+                {
+                    CommonFuncationHelper.WriteTextLog($"--------------------- main loop start: {i} ------------------------", logfilename);
+                    try
+                    {
+                        CommonFuncationHelper.WriteTextLog($"1. model student loop : {student.RollNo}", logfilename);
+                        GenerateMarksheetModel objStudent = new GenerateMarksheetModel();
+                        // already have saved file
+                        if (student.MarksheetFile != "")
+                        {
+                            CommonFuncationHelper.WriteTextLog($"1.1. already file exists in if : {student.RollNo}", logfilename);
+                            // for merge
+                            objStudent.StudentID = student.StudentID;
+                            objStudent.RollNo = student.RollNo;
+                            objStudent.MarksheetPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{Constants.MarksheetFolder}/{student.MarksheetFilePath}";
+                            objStudent.MarksheetFile = student.MarksheetFile;
+                            // add
+                            ListData.Add(objStudent);
+                        }
+                        else
+                        {
+                            CommonFuncationHelper.WriteTextLog($"1.2. dosenot file exists in else : {student.RollNo}", logfilename);
+
+                            // set for student model
+                            var studentModel = new StudentResultSearchModel
+                            {
+                                DOB = student.DOB,
+                                EndTermID = student.EndTermID,
+                                RollNo = student.RollNo,
+                                SemesterID = student.SemesterID,
+                                ResultType = student.ResultTypeID,
+                                EffectiveEndTermID = student.EffectiveEndTermID
+                            };
+
+                            // get mark sheet data for each student
+                            DataSet data = new DataSet();
+                            if (student.ResultTypeID == (int)EnumResultType.MainResult)
+                            {
+                                data = await _unitOfWork.MarksheetDownloadRepository.GetStudentResult_public(studentModel);
+                            }
+                            else if (student.ResultTypeID == (int)EnumResultType.RevaluationResult)
+                            {
+                                data = await _unitOfWork.MarksheetDownloadRepository.GetStudentResultReval_public(studentModel);
+                            }
+                            else if (student.ResultTypeID == (int)EnumResultType.RwhResult ||
+                                student.ResultTypeID == (int)EnumResultType.RwhRevalEffected)
+                            {
+                                data = await _unitOfWork.MarksheetDownloadRepository.GetStudentResultRWH_public(studentModel);
+                            }
+                            else if (student.ResultTypeID == (int)EnumResultType.Ufm)
+                            {
+                                throw new Exception("Invalid Request!");
+                            }
+                            else
+                            {
+                                throw new Exception("Invalid Request!");
+                            }
+
+
+                            if (data?.Tables?.Count == 3 && data.Tables[0].Rows.Count > 0)
+                            {
+                                CommonFuncationHelper.WriteTextLog($"1.3. all data found: {student.RollNo}", logfilename);
+
+                                //create folder
+                                if (!System.IO.Directory.Exists(folderPath))
+                                {
+                                    Directory.CreateDirectory(folderPath);
+                                }
+
+                                string timestamp_str = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                                var fileName = $"StudentDiplomaCertificate_{student.RollNo}_{timestamp_str}.pdf";
+                                string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{Constants.MarksheetFolder}/{Session}/{fileName}";
+
+                                //string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/StudentMarksheet.rdlc";
+
+
+                                //// rdlc generate
+                                //System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+
+                                //LocalReport localReport = new LocalReport(rdlcpath);
+                                //localReport.AddDataSource("StudentDetailsForMarksheet", data.Tables[0]);
+                                //localReport.AddDataSource("StudentMarksheetSubjectDetails", data.Tables[1]);
+                                //localReport.AddDataSource("ResultDetails", data.Tables[2]);
+                                //var reportResult = localReport.Execute(RenderType.Pdf);
+
+                                //save in folder
+                                //System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+
+                                // get html
+                                var sb = await _printHtmlFile.GetHtmlOfDiplomaCertificate(data);
+                                var _html = sb.ToString();
+
+                                // remove last blank page
+                                string endTag = "<div class='page-break'></div></body></html>";
+                                if (_html.EndsWith(endTag, StringComparison.OrdinalIgnoreCase))
+                                {
+                                    _html = _html.Substring(0, _html.Length - endTag.Length)
+                                                 + "</body></html>";
+                                }
+
+                                var pdfBytes = await _pdfService.GenerateAsync(_html,
+                                    new PdfOptions
+                                    {
+                                        Format = "A4",
+                                        MarginTop = "10mm",
+                                        MarginBottom = "0mm",
+                                        MarginLeft = "10mm",
+                                        MarginRight = "10mm",
+                                        PrintBackground = true
+                                    });
+
+                                await System.IO.File.WriteAllBytesAsync(filepath, pdfBytes);
+
+                                CommonFuncationHelper.WriteTextLog($"1.4. save file in folder: {student.RollNo}", logfilename);
+
+                                // create an object for new record
+                                MarksheetSaveDataModel objMarksheet = new MarksheetSaveDataModel();
+                                // table 1 for marksheet
+                                DataRow studentData = data.Tables[0].Rows[0];
+
+                                objMarksheet.MarkSheetID = student.MarksheetID ?? 0;// pk
+
+                                objMarksheet.StudentName = studentData["StudentName"].ToString();
+                                objMarksheet.FatherName = studentData["FatherName"].ToString();
+                                objMarksheet.MotherName = studentData["MotherName"].ToString();
+                                objMarksheet.MotherName = studentData["MotherName"].ToString();
+                                objMarksheet.Gender = studentData["Gender"].ToString();
+                                objMarksheet.EnrollmentNo = studentData["EnrollmentNo"].ToString();
+                                objMarksheet.RollNo = studentData["RollNo"].ToString();
+                                objMarksheet.DOB = studentData["DOB"].ToString();
+                                objMarksheet.InstituteName = studentData["InstituteName"].ToString();
+                                objMarksheet.StreamName = studentData["StreamName"].ToString();
+                                objMarksheet.StreamCode = studentData["StreamCode"].ToString();
+                                objMarksheet.EndTerm = studentData["EndTermName"].ToString();
+                                objMarksheet.Session = studentData["Session"].ToString();
+                                objMarksheet.ResultDate = studentData["ResultDate"].ToString();
+                                objMarksheet.SrNo = student.SRNO;
+
+                                objMarksheet.CourseType = (int)studentData["CourseType"];
+                                objMarksheet.StudentID = (int)studentData["StudentID"];
+                                objMarksheet.StudentExamID = (int)studentData["StudentExamID"];
+                                objMarksheet.SemesterID = (int)studentData["SemesterID"];
+                                objMarksheet.InstituteID = (int)studentData["InstituteID"];
+                                objMarksheet.StreamId = (int)studentData["StreamId"];
+                                objMarksheet.Result = (int)studentData["Result"];
+                                objMarksheet.CreatedBy = (int)student.ModifyBy;
+                                objMarksheet.ModifyBy = (int)student.ModifyBy;
+                                objMarksheet.Type = (int)student.StudentTypeID;
+
+                                objMarksheet.IsUFM = (int)studentData["IsUFM"];
+                                objMarksheet.IsRWH = (int)studentData["IsRWH"];
+                                objMarksheet.IsReval = (int)studentData["IsReval"];
+                                objMarksheet.IsBridge = (int)studentData["IsBridge"];
+                                objMarksheet.IsRWHResult = (int)studentData["IsRWHResult"];
+                                objMarksheet.IsLiteral = (int)studentData["IsLiteral"];
+                                objMarksheet.EndTermID = (int)studentData["EndTermID"];
+                                objMarksheet.ResultTypeId = (int)studentData["ResultTypeId"];
+                                objMarksheet.IssueDate = studentData["IssueDate"].ToString();
+                                objMarksheet.MarksheetYear = Convert.ToInt32(studentData["MarksheetYear"]);
+                                objMarksheet.Year = Convert.ToInt32(studentData["Year"]);
+                                objMarksheet.EffectiveEndTermID = Convert.ToInt32(student.EffectiveEndTermID);
+
+                                objMarksheet.MarksheetFile = fileName;
+                                objMarksheet.MarksheetFilePath = $"{Session}/{fileName}";
+
+
+                                // table 2 for subjects
+                                if (data.Tables[1].Rows.Count > 0)
+                                {
+                                    CommonFuncationHelper.WriteTextLog($"1.5. subject data: {student.RollNo}", logfilename);
+                                    foreach (DataRow row in data.Tables[1].Rows)
+                                    {
+                                        // log
+                                        CommonFuncationHelper.WriteTextLog($"1.6. add subject dedails in loop: {student.RollNo}, {row.Field<string>("SubjectCode") ?? string.Empty}", logfilename);
+
+                                        MarksheetSubjectDataModel marksheetSub = new MarksheetSubjectDataModel
+                                        {
+                                            StudentName = row.Field<string>("StudentName") ?? string.Empty,
+                                            StudentID = row.Field<int>("StudentID"),
+                                            SubjectCode = row.Field<string>("SubjectCode") ?? string.Empty,
+                                            SubjectName = row.Field<string>("SubjectName") ?? string.Empty,
+                                            SubjectCredits = row.Field<string>("SubjectCredits"),
+                                            EarnedCredits = row.Field<string>("EarnedCredits"),
+                                            Grade = row.Field<string>("Grade") ?? string.Empty,
+                                            Remarks = row.Field<string>("Remarks") ?? string.Empty,
+                                            IsStudentCenteredActivity = row.Field<bool>("IsStudentCenteredActivity"),
+                                            IsExCurrent = row.Field<int>("IsExCurrent")
+                                        };
+
+                                        // Add the newly mapped object to your list
+                                        objMarksheet.SubjectDetails.Add(marksheetSub);
+                                    }
+                                }
+
+                                // table 3 for results (cgpa, sgpa etc...)
+                                if (data.Tables[2].Rows.Count > 0)
+                                {
+                                    // log
+                                    CommonFuncationHelper.WriteTextLog($"1.7. result data: {student.RollNo}", logfilename);
+
+                                    DataRow row = data.Tables[2].Rows[0];
+
+
+                                    MarksheetResultDataModel marksheetResult = new MarksheetResultDataModel();
+                                    // --- Flags ---
+                                    marksheetResult.IsReval = (bool)row["IsReval"];
+                                    marksheetResult.IsLiteral = (bool)row["IsLiteral"];
+                                    marksheetResult.ResultTypeId = Convert.ToInt32(row["ResultTypeId"]);
+
+                                    // --- Semester 1 ---
+                                    marksheetResult.SubjectCreditsSem1 = row["SubjectCreditsSem1"].ToString();
+                                    marksheetResult.EarnedCreditsSem1 = row["EarnedCreditsSem1"].ToString();
+                                    marksheetResult.CGPASem1 = row["CGPASem1"].ToString();
+                                    marksheetResult.SGPASem1 = row["SGPASem1"].ToString();
+
+                                    // --- Semester 2 ---
+                                    marksheetResult.SubjectCreditsSem2 = row["SubjectCreditsSem2"].ToString();
+                                    marksheetResult.EarnedCreditsSem2 = row["EarnedCreditsSem2"].ToString();
+                                    marksheetResult.CGPASem2 = row["CGPASem2"].ToString();
+                                    marksheetResult.SGPASem2 = row["SGPASem2"].ToString();
+
+                                    // --- Semester 3 ---
+                                    marksheetResult.SubjectCreditsSem3 = row["SubjectCreditsSem3"].ToString();
+                                    marksheetResult.EarnedCreditsSem3 = row["EarnedCreditsSem3"].ToString();
+                                    marksheetResult.CGPASem3 = row["CGPASem3"].ToString();
+                                    marksheetResult.SGPASem3 = row["SGPASem3"].ToString();
+
+                                    // --- Semester 4 ---
+                                    marksheetResult.SubjectCreditsSem4 = row["SubjectCreditsSem4"].ToString();
+                                    marksheetResult.EarnedCreditsSem4 = row["EarnedCreditsSem4"].ToString();
+                                    marksheetResult.CGPASem4 = row["CGPASem4"].ToString();
+                                    marksheetResult.SGPASem4 = row["SGPASem4"].ToString();
+
+                                    // --- Semester 5 ---
+                                    marksheetResult.SubjectCreditsSem5 = row["SubjectCreditsSem5"].ToString();
+                                    marksheetResult.EarnedCreditsSem5 = row["EarnedCreditsSem5"].ToString();
+                                    marksheetResult.CGPASem5 = row["CGPASem5"].ToString();
+                                    marksheetResult.SGPASem5 = row["SGPASem5"].ToString();
+
+                                    // --- Semester 6 ---
+                                    marksheetResult.SubjectCreditsSem6 = row["SubjectCreditsSem6"].ToString();
+                                    marksheetResult.EarnedCreditsSem6 = row["EarnedCreditsSem6"].ToString();
+                                    marksheetResult.CGPASem6 = row["CGPASem6"].ToString();
+                                    marksheetResult.SGPASem6 = row["SGPASem6"].ToString();
+
+                                    // --- Final Summaries & Results ---
+                                    marksheetResult.Percentage = row["Percentage"].ToString();
+                                    marksheetResult.Result = row["Result"].ToString();
+                                    marksheetResult.ResultDeclareDate = row.Table.Columns.Contains("ResultDeclareDate") ? row["ResultDeclareDate"].ToString() : string.Empty;
+                                    marksheetResult.DiplomaFinalResult = row["DiplomaFinalResult"].ToString();
+                                    marksheetResult.Division = row["Division"].ToString();
+                                    marksheetResult.TotalSubjectCredits = row["TotalSubjectCredits"].ToString();
+                                    marksheetResult.TotalEarnedCredits = row["TotalEarnedCredits"].ToString();
+
+                                    // set in main model
+                                    objMarksheet.ResultDetails = marksheetResult;
+                                }
+
+                                await _unitOfWork.MarksheetDownloadRepository.AddUpdateMarksheet(objMarksheet);
+                                await _unitOfWork.SaveChangesAsync();
+
+                                CommonFuncationHelper.WriteTextLog($"1.8. save student done : {student.RollNo}", logfilename);
+
+
+                                // for merge
+                                objStudent.StudentID = student.StudentID;
+                                objStudent.RollNo = student.RollNo;
+                                objStudent.MarksheetPath = filepath;
+                                objStudent.MarksheetFile = fileName;
+                                // add
+                                ListData.Add(objStudent);
+                            }
+                        }
+                    }
+                    catch (Exception ex1)
+                    {
+                        await _unitOfWork.DisposeAsync();
+
+                        // add in list
+                        notGenerateStudents.Add(new GenerateMarksheetModel
+                        {
+                            StudentID = student.StudentID,
+                            RollNo = student.RollNo
+                        });
+
+                        CommonFuncationHelper.WriteTextLog($"2. loop error for student : {student.RollNo}", logfilename);
+                        CommonFuncationHelper.WriteTextLog($"2.1. loop error : {ex1.Message}", logfilename);
+                    }
+
+                    CommonFuncationHelper.WriteTextLog($"--------------------- main loop end: {i} ------------------------", logfilename);
+                    i++;
+                }// end student loop
+
+                #region "Save Multiple PDF PAGES"
+                string timestamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                string outputFile = $"DiplomaCertificate_{timestamp}.pdf";
+                string outputPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{outputFile}";
+                List<string?> strSoureFiles = ListData.Select(s => s.MarksheetPath)?.ToList();
+
+                // merge all files
+                var ismerged = await MergePdfFilesAsync(strSoureFiles, outputPath);
+                CommonFuncationHelper.WriteTextLog($"3. merge done with file count : {strSoureFiles?.Count == 0} and flage : {ismerged}", logfilename);
+                if (ismerged)
+                {
+                    result.Data = outputFile;
+                    result.State = EnumStatus.Success;
+                    var msg = Constants.MSG_DATA_LOAD_SUCCESS;
+                    if (notGenerateStudents?.Count > 0)
+                    {
+                        msg = $"{Constants.MSG_FILE_DOWNLOAD_SUCCESS}, Except these students (Roll No.):<br/> {string.Join(", ", notGenerateStudents.Select(s => s.RollNo))}";
+                    }
+                    result.Message = msg;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    var msg = Constants.MSG_ERROR_IN_MERGING_FILES;
+                    if (strSoureFiles == null || strSoureFiles?.Count == 0)
+                    {
+                        msg = Constants.MSG_FILE_NOT_FOUND;
+                    }
+                    result.Message = msg;
+                }
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                CommonFuncationHelper.WriteTextLog($"4. main error : {ex.Message}", logfilename);
+
+                await _unitOfWork.DisposeAsync();
+
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+                // Write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+
+            }
+            return result;
+        }
+        #endregion
+
+
     }
 }
