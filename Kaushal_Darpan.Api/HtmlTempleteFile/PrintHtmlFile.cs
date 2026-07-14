@@ -2989,75 +2989,75 @@ thead th{
 
                 sb.AppendLine("            <tr>");
 
-                sb.AppendLine("                <td style=\"font-size:11px;padding-bottom:15px; width: 22%;\">");
+                sb.AppendLine("                <td style=\"font-size:11px;padding-bottom:15px; width: 21%;\">");
                 sb.AppendLine("                    &nbsp;");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:12px;padding-bottom:15px; width: 28%;\">");
+                sb.AppendLine("                <td style=\"font-size:12px;padding-bottom:15px; width: 41.5%;\">");
                 sb.AppendLine($"                    {dr_studet["StudentName"]}");
                 sb.AppendLine("                </td>");
 
-                sb.AppendLine("                <td style=\"font-size:11px; width: 29%;padding-bottom:15px;\">");
+                sb.AppendLine("                <td style=\"font-size:11px;padding-bottom:15px; width: 16.7%;\">");
                 sb.AppendLine("                    &nbsp;");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:12px;text-align:left; width: 21%;padding-bottom:15px;\">");
+                sb.AppendLine("                <td style=\"font-size:12px;text-align:left;padding-bottom:15px; width: 20.8%;\">");
                 sb.AppendLine($"                    {dr_studet["EnrollmentNo"]}");
                 sb.AppendLine("                </td>");
 
                 sb.AppendLine("            </tr>");
 
                 sb.AppendLine("            <tr>");
-                sb.AppendLine("                <td style=\"font-size:11px;padding:13px 0 ; width: 22%;\">");
+                sb.AppendLine("                <td style=\"font-size:11px;padding:13px 0 ;\">");
                 sb.AppendLine("                    &nbsp;");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:12px;padding:13px 0 ; width: 28%;\">");
+                sb.AppendLine("                <td style=\"font-size:12px;padding:13px 0 ;\">");
                 sb.AppendLine($"                    {dr_studet["FatherName"]}");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:11px; width: 29%;\">");
+                sb.AppendLine("                <td style=\"font-size:11px;\">");
                 sb.AppendLine("                    &nbsp;");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:12px;text-align:left; width: 21%;\">");
+                sb.AppendLine("                <td style=\"font-size:12px;text-align:left;\">");
                 sb.AppendLine($"                    {dr_studet["RollNo"]}");
                 sb.AppendLine("                </td>");
 
                 sb.AppendLine("            </tr>");
 
                 sb.AppendLine("            <tr>");
-                sb.AppendLine("                <td style=\"font-size:11px;padding:13px 0 ; width: 22%;\">");
+                sb.AppendLine("                <td style=\"font-size:11px;padding:13px 0 ;\">");
                 sb.AppendLine("                    &nbsp;");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:12px;padding:13px 0 ; width: 28%;\">");
+                sb.AppendLine("                <td style=\"font-size:12px;padding:13px 0 ;\">");
                 sb.AppendLine($"                    {dr_studet["MotherName"]}");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:11px; width: 29%;\">");
+                sb.AppendLine("                <td style=\"font-size:11px;\">");
                 sb.AppendLine("                    &nbsp;");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:12px;text-align:left; width: 21%;\">");
+                sb.AppendLine("                <td style=\"font-size:12px;text-align:left;\">");
                 sb.AppendLine($"                    {dr_studet["Branch"]}");
                 sb.AppendLine("                </td>");
 
                 sb.AppendLine("            </tr>");
 
                 sb.AppendLine("            <tr>");
-                sb.AppendLine("                <td style=\"font-size:11px;padding:13px 0 ; width: 23%;\">");
+                sb.AppendLine("                <td style=\"font-size:11px;padding:13px 0 ;\">");
                 sb.AppendLine("                    &nbsp;");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:12px;padding:13px 0 ; width: 27%;\">");
+                sb.AppendLine("                <td style=\"font-size:10px;padding:13px 0 ;\">");
                 sb.AppendLine($"                    {dr_studet["StreamName"]}");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:11px; width: 28%;\">");
+                sb.AppendLine("                <td style=\"font-size:11px;\">");
                 sb.AppendLine("                    &nbsp;");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:11px;text-align:left; width: 22%;\">");
+                sb.AppendLine("                <td style=\"font-size:11px;text-align:left;\">");
                 sb.AppendLine($"                    {dr_studet["YearSemester"]}");
                 sb.AppendLine("                </td>");
 
                 sb.AppendLine("            </tr>");
 
                 sb.AppendLine("            <tr>");
-                sb.AppendLine("                <td style=\"font-size:11px;padding:13px 0; width: 23%;\">");
+                sb.AppendLine("                <td style=\"font-size:11px;padding:13px 0;\">");
                 sb.AppendLine("                    &nbsp;");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td colspan=\"3\" style=\"font-size:12px;padding:13px 0 ; width: 77%;\">");
+                sb.AppendLine("                <td colspan=\"3\" style=\"font-size:12px;padding:13px 0 ;\">");
                 sb.AppendLine($"                    {dr_studet["InstituteName"]}");
                 sb.AppendLine("                </td>");
                 sb.AppendLine("                ");
@@ -4204,7 +4204,371 @@ PROVISIONAL MERIT LIST for the Session {session}
         }
         #endregion
 
+        #region GetApprenticeshipFresherReports_Html
+        public async Task<StringBuilder> GetApprenticeshipFresherReports_Html(DataSet ds, int ResultType)
+        {
+            StringBuilder sb = new StringBuilder();
+            try
+            {
+                if (ds == null || ds.Tables.Count == 0)
+                    return sb;
+                DataTable dt = ds.Tables[0];
+                if (dt == null || dt.Rows.Count == 0)
+                    return sb;
+                int totalRows = dt.Rows.Count;
+                sb.Append(@"
 
+<!DOCTYPE html>
+
+<html lang='en'>
+
+<head>
+
+<meta charset='UTF-8'>
+
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+
+<title>Apprenticeship Registration Report</title>
+
+<style>
+
+@page{
+    size:A4 landscape;
+    margin:15mm;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    font-family:'Nirmala UI','Mangal',Arial,sans-serif;
+
+    font-size:12px;
+
+    color:#000;
+
+}
+
+.container{
+
+    width:100%;
+
+}
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    table-layout:fixed;
+
+}
+
+thead{
+
+    display:table-header-group;
+
+}
+
+tfoot{
+
+    display:table-footer-group;
+
+}
+
+tr{
+
+    page-break-inside:avoid;
+
+}
+
+th{
+
+    border:1px solid #000;
+
+    padding:6px;
+
+    text-align:center;
+
+    vertical-align:middle;
+
+    font-weight:bold;
+
+}
+
+td{
+
+    border:1px solid #000;
+
+    padding:6px;
+
+    text-align:center;
+
+    vertical-align:middle;
+
+    word-wrap:break-word;
+
+}
+
+.title{
+
+    font-size:24px;
+
+    font-weight:bold;
+
+    text-align:left;
+
+    border:none !important;
+
+    padding-bottom:10px;
+
+}
+
+.hindiTitle{
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    text-align:center;
+
+}
+
+.formNo{
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    text-align:right;
+
+}
+
+.numberRow{
+
+    font-weight:bold;
+
+}
+
+.left{
+
+    text-align:left;
+
+}
+
+.center{
+
+    text-align:center;
+
+}
+
+.right{
+
+    text-align:right;
+
+}
+
+.page-break{
+
+    page-break-before:always;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class='container'>
+
+");
+                sb.Append(@"
+
+<table>
+
+<thead>
+
+<tr>
+
+<th colspan='9' class='title' style='border:none;text-align:left;font-size:22px;'>
+Apprenticeship Registration (School/College student)
+</th>
+
+<th class='formNo' style='border:none;text-align:right;font-size:18px;'>
+(प्रपत्र-य)
+</th>
+
+</tr>
+
+<tr>
+
+<th colspan='10'
+style='font-size:18px;
+font-weight:bold;
+text-align:center;
+padding:10px;
+border:1px solid #000;'>
+
+अन्य संस्थानों / विद्यालयों के युवाओं का फ्रेशर के रूप में पंजीकरण की सूची
+
+</th>
+
+</tr>
+
+<tr>
+
+<th style='width:16%;'>
+पंजीकरण करने वाले संस्थान का नाम
+</th>
+
+<th style='width:9%;'>
+पोर्टल पर पंजीकरण<br/>
+करने की तिथि
+</th>
+
+<th style='width:8%;'>
+पंजीकरण संख्या
+</th>
+
+<th style='width:16%;'>
+पिता का नाम
+</th>
+
+<th style='width:10%;'>
+आधार नम्बर
+</th>
+
+<th style='width:9%;'>
+जन्म तिथि
+</th>
+
+<th style='width:14%;'>
+पता
+</th>
+
+<th style='width:8%;'>
+शैक्षिक योग्यता
+</th>
+
+<th style='width:10%;'>
+वर्तमान में क्या कर रहे हैं
+</th>
+
+<th style='width:10%;'>
+विशेष विवरण
+</th>
+
+</tr>
+
+<tr class='numberRow'>
+
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>10</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+");
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    string regDate = "";
+                    string dob = "";
+                    if (dr["RegDate"] != DBNull.Value)
+                    {
+                        regDate = Convert.ToDateTime(dr["RegDate"]).ToString("dd/MM/yyyy");
+                    }
+                    if (dr["DOB"] != DBNull.Value)
+                    {
+                        dob = Convert.ToDateTime(dr["DOB"]).ToString("dd/MM/yyyy");
+                    }
+                    sb.Append($@"
+
+<tr>
+
+<td class='left'>
+{dr["Name"]}
+</td>
+
+<td>
+{regDate}
+</td>
+
+<td>
+{dr["RegCount"]}
+</td>
+
+<td class='left'>
+
+{dr["FatherName"]}
+</td>
+
+<td>
+{dr["AadharNo"]}
+</td>
+
+<td>
+{dob}
+</td>
+
+<td class='left'>
+{dr["Address"]}
+</td>
+
+<td>
+{dr["EducationalQualification"]}
+</td>
+
+<td>
+{dr["CurrentOccupation"]}
+</td>
+
+<td class='left'>
+{dr["Remarks"]}
+</td>
+
+</tr>
+
+");
+                }
+                sb.Append(@"
+
+</tbody>
+
+</table>
+
+</div>
+
+</body>
+
+</html>
+
+");
+                return sb;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error generating Apprenticeship Fresher Report.", ex);
+            }
+        }
+        #endregion
 
     }
 }
