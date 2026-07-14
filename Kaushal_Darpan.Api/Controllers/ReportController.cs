@@ -13665,16 +13665,42 @@ namespace Kaushal_Darpan.Api.Controllers
 <meta charset='UTF-8'>
 
 <style>
-
-body{
-    font-family: ""Segoe UI"",""Nirmala UI"",""Mangal"",sans-serif;
-    font-size:12px;
-    color:#000;
-    margin:15px;
-    line-height:1.4;
-    -webkit-font-smoothing: antialiased;
+@page{
+    size:A4 landscape;
+    margin:12mm;
 }
 
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+body{
+    font-family:'Nirmala UI','Mangal','Segoe UI',Arial,sans-serif;
+    font-size:12px;
+    color:#000;
+}
+
+.formNo{
+    font-size:18px;
+    font-weight:bold;
+    text-align:right;
+    border:none !important;
+}
+
+.subTitle{
+    font-size:18px;
+    font-weight:bold;
+    text-align:center;
+    padding:8px;
+}
+.title{
+    font-size:24px;
+    font-weight:bold;
+    text-align:left;
+    border:none !important;
+    padding-bottom:6px;
+}
 .report-title{
     font-family:""Segoe UI"",Arial,sans-serif;
     text-align:center;
@@ -13691,24 +13717,17 @@ body{
     margin-bottom:15px;
 }
 
-th{
-    font-family:""Nirmala UI"",""Mangal"",sans-serif;
-    font-size:12px;
-    font-weight:700;
+
+
+
+table,th,td{
+    border:1px solid #000;
 }
 
-td{
-    font-family:""Segoe UI"",""Nirmala UI"",""Mangal"",sans-serif;
-    font-size:11px;
-}
 table{
     width:100%;
     border-collapse:collapse;
     table-layout:fixed;
-}
-
-table,th,td{
-    border:1px solid #000;
 }
 
 thead{
@@ -13723,20 +13742,34 @@ tr{
     page-break-inside:avoid;
 }
 
+th,td{
+    border:1px solid #000;
+}
+
 th{
-    font-size:11px;
+    background:#f2f2f2;
+    font-weight:bold;
     text-align:center;
     vertical-align:middle;
-    padding:6px 3px;
-    font-weight:bold;
-    background:#F5F5F5;
+    padding:6px 4px;
+    font-size:11px;
+    line-height:18px;
 }
 
 td{
-    font-size:10px;
     padding:5px;
     vertical-align:top;
+    font-size:10px;
     word-wrap:break-word;
+}
+
+.numberRow th{
+    font-size:12px;
+    padding:3px;
+}
+
+.left{
+    text-align:left;
 }
 
 .center{
@@ -13765,13 +13798,7 @@ td{
 
 <body>
 
-<div class='report-title'>
-Apprenticeship Registration (ITI Pass Out)
-</div>
-
-<div class='report-subtitle'>
-आईटीआई पासआउट के पंजीकरण की सूची
-</div>
+<div class=""container"">
 
 <table>
 
@@ -13779,62 +13806,124 @@ Apprenticeship Registration (ITI Pass Out)
 
 <tr>
 
-<th class='col1'>
+<th colspan=""10"" class=""title""
+style=""border:none !important;
+text-align:left;
+font-size:24px;
+padding-bottom:8px;"">
+
+Apprenticeship Registration (ITI Pass Out)
+
+</th>
+
+<th class=""formNo""
+style=""border:none !important;
+text-align:right;
+font-size:18px;"">
+
+(प्रपत्र-ट)
+
+</th>
+
+</tr>
+
+<tr>
+
+<th colspan=""11""
+style=""
+font-size:18px;
+font-weight:bold;
+text-align:center;
+padding:10px;
+border:1px solid #000;"">
+
+आईटीआई पासआउट के पंजीकरण की सूची
+
+</th>
+
+</tr>
+
+<tr>
+
+<th class=""col1"">
 S.No.
 </th>
 
-<th class='col2'>
-पंजीकरण करने वाले<br>
+<th class=""col2"">
+पंजीकरण करने वाले<br/>
 संस्थान का नाम
 </th>
 
-<th class='col3'>
-पोर्टल पर<br>
-पंजीकरण करने<br>
-की तिथि
+<th class=""col3"">
+पोर्टल पर पंजीकरण<br/>
+करने की तिथि
 </th>
 
-<th class='col4'>
-पंजीकरण<br>
-संख्या
+<th class=""col4"">
+पंजीकरण संख्या
 </th>
 
-<th class='col5'>
+<th class=""col5"">
 नाम / पिता का नाम
 </th>
 
-<th class='col6'>
+<th class=""col6"">
 आधार नम्बर
 </th>
 
-<th class='col7'>
+<th class=""col7"">
 व्यवसाय का नाम
 </th>
 
-<th class='col8'>
-संस्थान, जहाँ से<br>
+<th class=""col8"">
+संस्थान, जहाँ से<br/>
 आईटीआई उत्तीर्ण की है
 </th>
 
-<th class='col9'>
-आईटीआई उत्तीर्ण<br>
+<th class=""col9"">
+आईटीआई उत्तीर्ण<br/>
 करने का वर्ष
 </th>
 
-<th class='col10'>
+<th class=""col10"">
 NCVT / SCVT
 </th>
 
-<th class='col11'>
+<th class=""col11"">
 विशेष विवरण
 </th>
 
 </tr>
 
+<tr class=""numberRow"">
+
+<th>1</th>
+
+<th>2</th>
+
+<th>3</th>
+
+<th>4</th>
+
+<th>5</th>
+
+<th>6</th>
+
+<th>7</th>
+
+<th>8</th>
+
+<th>9</th>
+
+<th>10</th>
+
+<th>11</th>
+
+</tr>
+
 </thead>
 
-<tbody>
-");
+<tbody>");
 
                 int sr = 1;
 
@@ -14042,70 +14131,431 @@ Father : {row["FatherName"]}
 
         #region Apprenticeship  registratuion List Report
         [HttpPost("ApprenticeshipReport")]
-        public async Task<ApiResult<string>> ApprenticeshipReport(ApprenticeshipRegistrationSearchModal model)
+        public async Task<IActionResult> ApprenticeshipReport(ApprenticeshipRegistrationSearchModal model)
         {
-            ActionName = "ApprenticeshipReport()";
-            return await Task.Run(async () =>
+            try
             {
-                var result = new ApiResult<string>();
-                try
+                DataSet ds = await Task.Run(() => _unitOfWork.ReportRepository.ApprenticeshipReport(model));
+
+                if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+                    return BadRequest("No record found.");
+
+                DataTable dt = ds.Tables[0];
+
+                StringBuilder sb = new StringBuilder();
+
+                sb.Append(@"
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset='UTF-8'>
+
+<style>
+
+@page{
+    size:A4 landscape;
+    margin:12mm;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Nirmala UI','Mangal','Segoe UI',Arial,sans-serif;
+    font-size:12px;
+    color:#000;
+    line-height:1.35;
+}
+
+.container{
+    width:100%;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    table-layout:fixed;
+}
+
+thead{
+    display:table-header-group;
+}
+
+tfoot{
+    display:table-footer-group;
+}
+
+tr{
+    page-break-inside:avoid;
+}
+
+th,td{
+    border:1px solid #000;
+}
+
+th{
+    background:#f2f2f2;
+    text-align:center;
+    vertical-align:middle;
+    padding:6px 4px;
+    font-size:11px;
+    font-weight:bold;
+    line-height:17px;
+}
+
+td{
+    padding:5px;
+    font-size:10px;
+    vertical-align:top;
+    word-break:break-word;
+}
+
+.title{
+    border:none !important;
+    text-align:left;
+    font-size:24px;
+    font-weight:bold;
+    padding-bottom:8px;
+}
+
+.formNo{
+    border:none !important;
+    text-align:right;
+    font-size:18px;
+    font-weight:bold;
+}
+
+.subTitle{
+    font-size:18px;
+    font-weight:bold;
+    text-align:center;
+    padding:10px;
+}
+
+.numberRow th{
+    padding:3px;
+    font-size:11px;
+}
+
+.left{
+    text-align:left;
+}
+
+.center{
+    text-align:center;
+}
+
+.small{
+    font-size:9px;
+}
+
+/* Column Width */
+
+.col1{width:4%;}
+.col2{width:8%;}
+.col3{width:16%;}
+.col4{width:8%;}
+.col5{width:10%;}
+.col6{width:8%;}
+.col7{width:12%;}
+.col8{width:12%;}
+.col9{width:8%;}
+.col10{width:8%;}
+.col11{width:8%;}
+.col12{width:6%;}
+
+</style>
+
+</head>
+
+<body>
+
+<div class='container'>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th colspan=""10"" class=""title"">
+
+Apprenticeship Registration Report
+
+</th>
+
+<th class='formNo'>
+
+(प्रपत्र-ट)
+
+</th>
+
+</tr>
+
+<tr>
+
+<th colspan=""11"" class=""subTitle"">
+
+शिक्षुओं के पोर्टल पंजीकरण की प्रगति रिपोर्ट
+
+</th>
+
+</tr>
+"); sb.Append(@"
+
+<tr>
+
+<th rowspan='2' class='col1'>
+Sr.<br/>No.
+</th>
+
+<th rowspan='2' class='col2'>
+आवृत्ति
+</th>
+
+<th rowspan='2' class='col3'>
+संस्थान का नाम
+</th>
+
+<th rowspan='2' class='col4'>
+पोर्टल पर<br/>
+पंजीकरण करने<br/>
+की तिथि
+</th>
+
+<th rowspan='2' class='col5'>
+व्यवसाय का नाम
+</th>
+
+<th rowspan='2' class='col6'>
+व्यवसाय मे कुल<br/>
+प्रशिक्षणार्थियों<br/>
+की संख्या
+</th>
+
+<th colspan='2' class='col7'>
+पोर्टल पर पंजीकृत किये शिक्षुओं का नाम व पंजीकरण संख्या
+</th>
+
+<th rowspan='2' class='col10'>
+दस्तावेज़
+</th>
+
+<th rowspan='2' class='col11'>
+विविध विवरण
+</th>
+
+<th rowspan='2' class='col12'>
+कार्रवाई
+</th>
+
+</tr>
+
+<tr>
+
+<th style='width:16%;'>
+नाम
+</th>
+
+<th style='width:12%;'>
+पंजीकरण संख्या
+</th>
+
+</tr>
+
+<tr class='numberRow'>
+
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>10</th>
+
+
+</tr>
+
+</thead>
+
+<tbody>
+
+");int sr = 1;
+
+foreach (DataRow row in dt.Rows)
+{
+    string regDate = "";
+    string apprenticeNames = "";
+    string registrationNos = "";
+    string document = "";
+
+    if (row["Dateofregistration"] != DBNull.Value)
+    {
+        regDate = Convert.ToDateTime(row["Dateofregistration"])
+            .ToString("dd-MM-yyyy");
+    }
+
+    if (row["Nameofapprentices"] != DBNull.Value)
+    {
+        apprenticeNames = row["Nameofapprentices"]
+            .ToString()
+            .Replace("|", "<br/>")
+            .Replace(",", "<br/>");
+    }
+
+    if (row["Numberofapprentices"] != DBNull.Value)
+    {
+        registrationNos = row["Numberofapprentices"]
+            .ToString()
+            .Replace("|", "<br/>")
+            .Replace(",", "<br/>");
+    }
+
+   
+
+    sb.Append($@"
+
+<tr>
+
+<td class='center'>
+{sr}
+</td>
+
+<td class='center'>
+{row["TypeName"]}
+</td>
+
+<td class='left'>
+{row["Nameofinstitute"]}
+</td>
+
+<td class='center'>
+{regDate}
+</td>
+
+<td class='left'>
+{row["BusinessName"]}
+</td>
+
+<td class='center'>
+{row["NumberofTrainees"]}
+</td>
+
+<td class='left'>
+{apprenticeNames}
+</td>
+
+<td class='left'>
+{registrationNos}
+</td>
+
+
+<td class='left'>
+{row["Remarks"]}
+</td>
+
+<td class='center'>
+-
+</td>
+
+</tr>
+
+");
+
+    sr++;
+                }// Close HTML
+                sb.Append(@"
+
+</tbody>
+
+</table>
+
+</div>
+
+</body>
+
+</html>
+
+");
+
+                // Generate PDF
+                var pdf = new HtmlToPdfDocument
                 {
-                    var data = await _unitOfWork.ReportRepository.ApprenticeshipReport(model);
-                    if (data != null)
+                    GlobalSettings = new GlobalSettings
                     {
-                        var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
-                        //report
-                        //var fileName = $"AllotmentFeeReceipt_{EnrollmentNo}.pdf";
-                        var fileName = $"ApprenticeshipReport.pdf";
-                        string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
-                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderITI}/ApprenticeshipReport.rdlc";
-                        //
-                        var qrcode = CommonFuncationHelper.GenerateQrCode("this is devit");
-                        //
-                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-                        LocalReport localReport = new LocalReport(rdlcpath);
-                        localReport.AddDataSource("ApprenticeshipListReport", data.Tables[0]);
-                        var reportResult = localReport.Execute(RenderType.Pdf);
+                        ColorMode = ColorMode.Color,
+                        Orientation = Orientation.Landscape,
+                        PaperSize = PaperKind.A4,
+                        DPI = 300,
+                        DocumentTitle = "Apprenticeship Registration Report",
 
-
-                        //check file exists
-                        if (!System.IO.Directory.Exists(folderPath))
+                        Margins = new MarginSettings
                         {
-                            Directory.CreateDirectory(folderPath);
+                            Top = 12,
+                            Bottom = 12,
+                            Left = 8,
+                            Right = 8
                         }
-                        //save
+                    },
 
+                    Objects =
+    {
+        new ObjectSettings
+        {
+            HtmlContent = sb.ToString(),
 
-                        System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
-                        //end report
+            PagesCount = true,
 
-                        result.Data = fileName;
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.Message = Constants.MSG_DATA_NOT_FOUND;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    await _unitOfWork.DisposeAsync();
-                    // Write error log
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
-                    //
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
-                }
-                return result;
-            });
+            WebSettings =
+            {
+                DefaultEncoding = "utf-8",
+                LoadImages = true,
+                PrintMediaType = true
+            },
+
+            HeaderSettings =
+            {
+                FontName = "Arial",
+                FontSize = 8,
+                Line = false,
+                Spacing = 3
+            },
+
+            FooterSettings =
+            {
+                FontName = "Arial",
+                FontSize = 8,
+                Left = "Printed On : [date]",
+                Center = "",
+                Right = "Page [page] of [toPage]",
+                Line = true,
+                Spacing = 3
+            }
+        }
+    }
+                };
+
+                byte[] pdfBytes = _converter.Convert(pdf);
+
+                // Return PDF directly
+                return File(
+                    pdfBytes,
+                    "application/pdf",
+                    "ApprenticeshipReport.pdf");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
         #endregion
 
@@ -20740,17 +21190,13 @@ Web Site : www.techedu.rajasthan.gov.in
                 new ObjectSettings
                 {
                     HtmlContent = html,
-                    WebSettings =
-                    {
-                        DefaultEncoding = "utf-8"
-                    },
-                    FooterSettings = new FooterSettings
-                    {
-                        FontName = "Arial",
-                        FontSize = 7,
-                        Center = "Page [page] of [toPage]",
-                        Line = true
-                    }
+                   WebSettings =
+{
+    DefaultEncoding = "utf-8",
+    PrintMediaType = true,
+    LoadImages = true,
+    EnableIntelligentShrinking = false
+},
                 }
             }
                 };

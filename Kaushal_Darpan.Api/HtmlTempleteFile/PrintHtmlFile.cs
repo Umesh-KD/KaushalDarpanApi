@@ -4244,14 +4244,15 @@ PROVISIONAL MERIT LIST for the Session {session}
 }
 
 body{
-
-    font-family:'Nirmala UI','Mangal',Arial,sans-serif;
-
-    font-size:12px;
-
-    color:#000;
-
+    font-family: 'Segoe UI', 'Noto Sans Devanagari', 'Arial Unicode MS',
+                 'Nirmala UI', 'Mangal', sans-serif;
+    font-size:13px;
+    color:#111;
+    line-height:1.45;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
 }
+
 
 .container{
 
@@ -4260,13 +4261,9 @@ body{
 }
 
 table{
-
     width:100%;
-
     border-collapse:collapse;
-
     table-layout:fixed;
-
 }
 
 thead{
@@ -4288,31 +4285,20 @@ tr{
 }
 
 th{
-
     border:1px solid #000;
-
-    padding:6px;
-
-    text-align:center;
-
+    padding:8px;
+    font-size:13px;
+    font-weight:700;
+    background:#f2f2f2;
     vertical-align:middle;
-
-    font-weight:bold;
-
 }
 
 td{
-
     border:1px solid #000;
-
-    padding:6px;
-
-    text-align:center;
-
+    padding:7px;
+    font-size:12px;
     vertical-align:middle;
-
-    word-wrap:break-word;
-
+    word-break:break-word;
 }
 
 .title{
@@ -4329,25 +4315,24 @@ td{
 
 }
 
+.title{
+    font-size:24px;
+    font-weight:700;
+    text-align:left;
+}
+
 .hindiTitle{
-
-    font-size:18px;
-
-    font-weight:bold;
-
+    font-size:20px;
+    font-weight:700;
     text-align:center;
-
 }
 
 .formNo{
-
     font-size:18px;
-
-    font-weight:bold;
-
+    font-weight:700;
     text-align:right;
-
 }
+
 
 .numberRow{
 
@@ -4356,21 +4341,15 @@ td{
 }
 
 .left{
-
     text-align:left;
-
 }
 
 .center{
-
     text-align:center;
-
 }
 
 .right{
-
     text-align:right;
-
 }
 
 .page-break{

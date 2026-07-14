@@ -4332,6 +4332,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 EmitraTransactionsModel objEmitra = new EmitraTransactionsModel();
                 objEmitra.key = "_InsertDetails";
                 objEmitra.ApplicationIdEnc = Model.ApplicationIdEnc;
+                objEmitra.ServiceID = Model.ServiceID;
                 objEmitra.Amount = Model.Amount + Model.FormCommision;
                 objEmitra.StudentID = Model.StudentID;
                 objEmitra.SemesterID = Model.SemesterID;
