@@ -413,5 +413,40 @@ namespace Kaushal_Darpan.Api.Controllers
         #endregion
 
 
+        [HttpPost("GetStudentsDiplomaCertificate")]
+        public async Task<ApiResult<DataTable>> GetStudents([FromBody] DiplomaCertificateDownloadSearchModel body)
+        {
+            ActionName = "GetStudents([FromBody] DiplomaCertificateDownloadSearchModel body)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.MarksheetDownloadRepository.GetStudentsDiplomaCertificate(body));
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
     }
 }

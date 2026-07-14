@@ -531,5 +531,66 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+
+        public async Task<DataTable> GetStudentsDiplomaCertificate(DiplomaCertificateDownloadSearchModel body)
+        {
+            _actionName = "GetStudentsDiplomaCertificate(DiplomaCertificateDownloadSearchModel body)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_StudentListForDiplomaCertificate";
+                    command.CommandTimeout = 0;
+
+                    if (body.ResultTypeID == (int)EnumResultType.MainResult) // main and reval
+                    {
+                        command.Parameters.AddWithValue("@action", "_getStuListForMarksheet");
+                    }
+                    else if (body.ResultTypeID == (int)EnumResultType.RwhResult ||
+                                body.ResultTypeID == (int)EnumResultType.RwhRevalEffected)
+                    {
+                        command.Parameters.AddWithValue("@action", "_getRWHStuListForMarksheet");
+                    }
+                    else if (body.ResultTypeID == (int)EnumResultType.Ufm)
+                    {
+                        throw new Exception("Invalid request!");
+                    }
+                    else
+                    {
+                        throw new Exception("Invalid request!");
+                    }
+
+                    command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                    command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+                    command.Parameters.AddWithValue("@IsBridge", body.IsBridge);
+                    command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                    command.Parameters.AddWithValue("@ResultTypeID", body.ResultTypeID);
+                    command.Parameters.AddWithValue("@RollNo", body.RollNo);
+                    command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEngID);
+                    command.Parameters.AddWithValue("@IsRevised", body.IsRevised);
+                    command.Parameters.AddWithValue("@SchemeID", body.SchemeID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
     }
 }
