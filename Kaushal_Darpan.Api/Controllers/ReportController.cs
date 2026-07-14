@@ -13644,74 +13644,332 @@ namespace Kaushal_Darpan.Api.Controllers
         }
         #endregion
 
-        #region Apprenticeship  registratuion Passout Report
         [HttpPost("ApprenticeshipPassoutReport")]
-        public async Task<ApiResult<string>> ApprenticeshipPassoutReport(ApprenticeshipRegistrationSearchModal model)
+        public async Task<IActionResult> ApprenticeshipPassoutReport(ApprenticeshipRegistrationSearchModal model)
         {
-            ActionName = "ApprenticeshipPassoutReport()";
-            return await Task.Run(async () =>
+            try
             {
-                var result = new ApiResult<string>();
-                try
+                DataSet ds = await Task.Run(() => _unitOfWork.ReportRepository.ApprenticeshipPassoutReport(model));
+
+                if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+                    return BadRequest("No record found.");
+
+                DataTable dt = ds.Tables[0];
+
+                StringBuilder sb = new StringBuilder();
+
+                sb.Append(@"
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='UTF-8'>
+
+<style>
+
+body{
+    font-family: ""Segoe UI"",""Nirmala UI"",""Mangal"",sans-serif;
+    font-size:12px;
+    color:#000;
+    margin:15px;
+    line-height:1.4;
+    -webkit-font-smoothing: antialiased;
+}
+
+.report-title{
+    font-family:""Segoe UI"",Arial,sans-serif;
+    text-align:center;
+    font-size:26px;
+    font-weight:700;
+    margin-bottom:4px;
+}
+
+.report-subtitle{
+    font-family:""Nirmala UI"",""Mangal"",sans-serif;
+    text-align:center;
+    font-size:18px;
+    font-weight:700;
+    margin-bottom:15px;
+}
+
+th{
+    font-family:""Nirmala UI"",""Mangal"",sans-serif;
+    font-size:12px;
+    font-weight:700;
+}
+
+td{
+    font-family:""Segoe UI"",""Nirmala UI"",""Mangal"",sans-serif;
+    font-size:11px;
+}
+table{
+    width:100%;
+    border-collapse:collapse;
+    table-layout:fixed;
+}
+
+table,th,td{
+    border:1px solid #000;
+}
+
+thead{
+    display:table-header-group;
+}
+
+tfoot{
+    display:table-footer-group;
+}
+
+tr{
+    page-break-inside:avoid;
+}
+
+th{
+    font-size:11px;
+    text-align:center;
+    vertical-align:middle;
+    padding:6px 3px;
+    font-weight:bold;
+    background:#F5F5F5;
+}
+
+td{
+    font-size:10px;
+    padding:5px;
+    vertical-align:top;
+    word-wrap:break-word;
+}
+
+.center{
+    text-align:center;
+}
+
+.small{
+    font-size:9px;
+}
+
+.col1{width:4%;}
+.col2{width:15%;}
+.col3{width:8%;}
+.col4{width:8%;}
+.col5{width:13%;}
+.col6{width:9%;}
+.col7{width:9%;}
+.col8{width:14%;}
+.col9{width:6%;}
+.col10{width:7%;}
+.col11{width:9%;}
+
+</style>
+
+</head>
+
+<body>
+
+<div class='report-title'>
+Apprenticeship Registration (ITI Pass Out)
+</div>
+
+<div class='report-subtitle'>
+आईटीआई पासआउट के पंजीकरण की सूची
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th class='col1'>
+S.No.
+</th>
+
+<th class='col2'>
+पंजीकरण करने वाले<br>
+संस्थान का नाम
+</th>
+
+<th class='col3'>
+पोर्टल पर<br>
+पंजीकरण करने<br>
+की तिथि
+</th>
+
+<th class='col4'>
+पंजीकरण<br>
+संख्या
+</th>
+
+<th class='col5'>
+नाम / पिता का नाम
+</th>
+
+<th class='col6'>
+आधार नम्बर
+</th>
+
+<th class='col7'>
+व्यवसाय का नाम
+</th>
+
+<th class='col8'>
+संस्थान, जहाँ से<br>
+आईटीआई उत्तीर्ण की है
+</th>
+
+<th class='col9'>
+आईटीआई उत्तीर्ण<br>
+करने का वर्ष
+</th>
+
+<th class='col10'>
+NCVT / SCVT
+</th>
+
+<th class='col11'>
+विशेष विवरण
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+");
+
+                int sr = 1;
+
+                foreach (DataRow row in dt.Rows)
                 {
-                    var data = await _unitOfWork.ReportRepository.ApprenticeshipPassoutReport(model);
-                    if (data != null)
+                    string regDate = "";
+
+                    if (row["RegDate"] != DBNull.Value)
+                        regDate = Convert.ToDateTime(row["RegDate"]).ToString("dd-MM-yyyy");
+
+                    sb.Append($@"
+
+<tr>
+
+<td class='center'>
+{sr}
+</td>
+
+<td>
+{row["Name"]}
+</td>
+
+<td class='center'>
+{regDate}
+</td>
+
+<td class='center'>
+{row["RegCount"]}
+</td>
+
+<td>
+<b>{row["StudentName"]}</b><br/>
+Father : {row["FatherName"]}
+</td>
+
+<td class='center'>
+{row["Aadhar"]}
+</td>
+
+<td>
+{row["TradeName"]}
+</td>
+
+<td>
+{row["PassItiName"]}
+</td>
+
+<td class='center'>
+{row["PassYear"]}
+</td>
+
+<td class='center'>
+{row["TradeSchemeName"]}
+</td>
+
+<td>
+{row["Remarks"]}
+</td>
+
+</tr>
+
+");
+
+                    sr++;
+                }
+
+                sb.Append(@"
+
+</tbody>
+
+</table>
+
+</body>
+
+</html>");
+
+                var pdf = new HtmlToPdfDocument
+                {
+                    GlobalSettings = new GlobalSettings
                     {
-                        var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
-                        //report
-                        //var fileName = $"AllotmentFeeReceipt_{EnrollmentNo}.pdf";
-                        var fileName = $"ApprenticeshipPassoutReport.pdf";
-                        string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
-                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderITI}/ApprenticeshipPassoutReport.rdlc";
-                        //
-                        var qrcode = CommonFuncationHelper.GenerateQrCode("this is devit");
-                        //
-                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-                        LocalReport localReport = new LocalReport(rdlcpath);
-                        localReport.AddDataSource("ApprenticeshipReport", data.Tables[0]);
-                        var reportResult = localReport.Execute(RenderType.Pdf);
+                        ColorMode = ColorMode.Color,
+                        Orientation = Orientation.Landscape,
+                        PaperSize = PaperKind.A4,
+                        DPI = 300,
+                        DocumentTitle = "Apprenticeship Passout Report",
 
-
-                        //check file exists
-                        if (!System.IO.Directory.Exists(folderPath))
+                        Margins = new MarginSettings
                         {
-                            Directory.CreateDirectory(folderPath);
+                            Top = 12,
+                            Bottom = 12,
+                            Left = 8,
+                            Right = 8
                         }
-                        //save
+                    },
 
-
-                        System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
-                        //end report
-
-                        result.Data = fileName;
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.Message = Constants.MSG_DATA_NOT_FOUND;
-                    }
-                }
-                catch (Exception ex)
+                    Objects =
+            {
+                new ObjectSettings
                 {
-                    await _unitOfWork.DisposeAsync();
-                    // Write error log
-                    var nex = new NewException
+                    HtmlContent = sb.ToString(),
+
+                    PagesCount = true,
+
+                    WebSettings =
                     {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
-                    //
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
+                        DefaultEncoding = "utf-8",
+                        LoadImages = true,
+                        PrintMediaType = true
+                    },
+
+                    FooterSettings =
+                    {
+                        FontName = "Arial",
+                        FontSize = 8,
+                        Left = "Printed On : [date]",
+                        Right = "Page [page] of [toPage]",
+                        Line = true,
+                        Spacing = 3
+                    }
                 }
-                return result;
-            });
+            }
+                };
+
+                byte[] pdfBytes = _converter.Convert(pdf);
+
+                return File(
+                    pdfBytes,
+                    "application/pdf",
+                    "ApprenticeshipPassoutReport.pdf");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
-        #endregion
 
         #region Quarterly Progress Report
         [HttpPost("QuarterlyProgressReport")]

@@ -221,7 +221,9 @@ namespace Kaushal_Darpan.Models.NodalApperentship
         public int DistrictID { get; set; }
         public int TypeID { get; set; }
         public int MonthID { get; set; }
+        public int TradeID { get; set; }
         public int FinancialYearID { get; set; }
+        public string? PassYear { get; set; }
     }
 
     public class ITIApprenticeshipRegPassOutModel : RequestBaseModel
@@ -233,18 +235,19 @@ namespace Kaushal_Darpan.Models.NodalApperentship
         public int PassIti { get; set; } = 0;
         public int PKID { get; set; } = 0;
         public string RegDate { get; set; } = string.Empty;
-        public string PassYear { get; set; } = string.Empty;
-        public string FatherName { get; set; } = string.Empty;
-        public string RegCount { get; set; } = string.Empty;
-        public string Remarks { get; set; } = string.Empty;
-        public string FileName { get; set; } = string.Empty;
-        public string Dis_FilePath { get; set; } = string.Empty;
-        public string StudentName { get; set; } = string.Empty;
-        public string Aadhar { get; set; } = string.Empty;
-        public string DOB { get; set; } 
-        public string Address { get; set; }
-        public string EducationalQualification { get; set; } 
-        public string CurrentOccupation { get; set; } 
+        public string? PassYear { get; set; } = string.Empty;
+        public string? FatherName { get; set; } = string.Empty;
+        public string? RegCount { get; set; } = string.Empty;
+        public string? Remarks { get; set; } = string.Empty;
+        public string?  FileName { get; set; } = string.Empty;
+        public string? Dis_FilePath { get; set; } = string.Empty;
+        public string? StudentName { get; set; } = string.Empty;
+        public string? Aadhar { get; set; } = string.Empty;
+        public string? PassYearID { get; set; } = string.Empty;
+        public string? DOB { get; set; }
+        public string? Address { get; set; }
+        public string? EducationalQualification { get; set; }
+        public string? CurrentOccupation { get; set; }
     }
 
 

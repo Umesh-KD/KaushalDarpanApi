@@ -8092,10 +8092,12 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@PKID", model.PKID);
                         command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
                         command.Parameters.AddWithValue("@UserID", model.UserID);
-                        command.Parameters.AddWithValue("@TypeID", model.TypeID);
-                        command.Parameters.AddWithValue("@ZoneID", model.ZoneID);
+                        //command.Parameters.AddWithValue("@TypeID", model.TypeID);
+                        //command.Parameters.AddWithValue("@ZoneID", model.ZoneID);
                         command.Parameters.AddWithValue("@DistrictID", model.DistrictID);
                         command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                        command.Parameters.AddWithValue("@TradeID", model.TradeID);
+                        command.Parameters.AddWithValue("@PassYear", model.PassYear);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         ds = await command.FillAsync();
 
