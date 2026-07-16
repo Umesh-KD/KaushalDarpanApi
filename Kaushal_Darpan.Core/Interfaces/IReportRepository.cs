@@ -343,5 +343,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetCheck_Merit_List(GetProvesionalMeritModel model);
 
         Task<DataTable> ApprenticeshipFresherReports(ApprenticeshipRegistrationSearchModal model);
+        Task<DataTable> GetGuestHouseSlip(GeustHouseSlipModule model);
     }
 }

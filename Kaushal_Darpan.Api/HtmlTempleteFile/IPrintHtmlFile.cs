@@ -27,5 +27,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
 
 
         Task<StringBuilder> GetHtmlOfDiplomaCertificate(DataSet ds);
+
+        Task<StringBuilder> GetGuestHouseSlip_Html(DataSet dataSet, int ResultType);
     }
 }

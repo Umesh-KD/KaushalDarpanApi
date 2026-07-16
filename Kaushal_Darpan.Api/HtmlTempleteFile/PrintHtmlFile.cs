@@ -5006,5 +5006,197 @@ border:1px solid #000;'>
         }
         #endregion
 
+
+        #region GetGuestHouseSlip_Html
+        public async Task<StringBuilder> GetGuestHouseSlip_Html(DataSet ds, int ResultType)
+        {
+            StringBuilder sb = new StringBuilder();
+            try
+            {
+                if (ds == null || ds.Tables.Count == 0)
+                    return sb;
+
+                DataTable dt = ds.Tables[0];
+
+                if (dt == null || dt.Rows.Count == 0)
+                    return sb;
+
+                DataRow row = dt.Rows[0];
+
+                string name = row["Name"] != DBNull.Value ? row["Name"].ToString() : "";
+                string bookNo = row["BookNo"] != DBNull.Value ? row["BookNo"].ToString() : "";
+                string receiptNo = row["ReceiptNo"] != DBNull.Value ? row["ReceiptNo"].ToString() : "";
+                string date = "";
+                if (dt.Columns.Contains("Date") && row["Date"] != DBNull.Value)
+                {
+                    // Handles both DateTime values and pre-formatted strings like '15-07-2026'
+                    DateTime parsedDate;
+                    if (DateTime.TryParse(row["Date"].ToString(), out parsedDate))
+                        date = parsedDate.ToString("dd-MM-yyyy");
+                    else
+                        date = row["Date"].ToString();
+                }
+                string address = row["Address"] != DBNull.Value ? row["Address"].ToString() : "";
+                string roomFee = row["RoomFee"] != DBNull.Value ? row["RoomFee"].ToString() : "";
+                string stayDays = row["StayDays"] != DBNull.Value ? row["StayDays"].ToString() : "";
+                string totalAmount = row["TotalAmount"] != DBNull.Value ? row["TotalAmount"].ToString() : "";
+                string amountInWords = row["AmountInWords"] != DBNull.Value ? row["AmountInWords"].ToString() : "";
+                string remark = row["Remark"] != DBNull.Value ? row["Remark"].ToString() : "";
+
+                sb.Append(@"
+
+<!DOCTYPE html>
+<html lang='hi'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>रोकड़ पत्र</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 10mm;
+        }
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0;
+            font-family: 'Mangal', Arial, sans-serif;
+            background: #f5f5f5;
+        }
+        .receipt-page {
+            width: 100%;
+            max-width: 190mm;
+            margin: 0 auto;
+            background: #f6e3b4;
+            border: 1px solid #999;
+            padding: 10mm;
+            color: #000;
+            page-break-inside: avoid;
+        }
+    </style>
+</head>
+<body>
+
+    <div class='receipt-page'>
+
+        <!-- Header -->
+        <div style=""text-align:center; line-height:1.6;"">
+            <div style=""font-size:22px; font-weight:bold;"">रोकड़ - पत्र</div>
+            <div style=""font-size:20px;"">राजस्थान सरकार</div>
+            <div style=""font-size:18px;"">
+                कार्यालय संयुक्त निदेशक, प्राविधिक शिक्षा,<br>
+                शिक्षक प्रशिक्षण एवं अधिगम संसाधन विकास केंद्र, जोधपुर
+            </div>
+        </div>
+");
+
+                sb.Append($@"
+        <!-- Top Details -->
+        <div style=""display:flex; justify-content:space-between; margin-top:15px; font-size:14px;"">
+            <div>पुस्तक सं. <b>{bookNo}</b></div>
+            <div>रसीद सं. <b>{receiptNo}</b></div>
+        </div>
+
+        <div style=""display:flex; justify-content:end; margin-bottom:3px; font-size:14px;"">
+            <div>दिनांक : <b>{date}</b></div>
+        </div>
+
+        <div style=""display:flex; justify-content:space-between; margin-top:7px; font-size:14px;"">
+            <div style=""width: 40px;"">नाम : </div>
+            <div style=""width: calc(100% - 45px);border-bottom:1px dotted #000; padding:0 10px;""><span>{name}</span></div>
+        </div>
+
+        <div style=""display:flex; justify-content:space-between; margin-top:7px; font-size:14px;"">
+            <div style=""width: 40px;"">पता : </div>
+            <div style=""width: calc(100% - 45px);border-bottom:1px dotted #000; padding:0 10px;""><span>{address}</span></div>
+        </div>
+
+        <!-- Table -->
+        <table style=""width:100%; border-collapse:collapse; margin-top:15px; font-size:14px;"" border='1'>
+            <tr>
+                <th style=""padding:8px;"">क्र. सं.</th>
+                <th style=""padding:8px;"">विवरण</th>
+                <th style=""padding:8px;"">दर</th>
+                <th style=""padding:8px;"">दिनों / पुस्तकों की संख्या</th>
+                <th style=""padding:8px;"">कुल राशि रुपये</th>
+            </tr>
+
+            <tr style=""height:50px;"">
+                <td style=""text-align:center;"">1</td>
+                <td>अतिथि गृह सुविधा</td>
+                <td style=""text-align:center;"">{roomFee}</td>
+                <td style=""text-align:center;"">{stayDays}</td>
+                <td style=""text-align:center;"">{totalAmount}</td>
+            </tr>
+
+            <tr style=""height:50px;"">
+                <td style=""text-align:center;"">2</td>
+                <td>प्रशिक्षण शुल्क</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+
+            <tr style=""height:50px;"">
+                <td style=""text-align:center;"">3</td>
+                <td>लेब मैनुअल</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+
+            <tr style=""height:50px;"">
+                <td style=""text-align:center;"">4</td>
+                <td>अन्य</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+
+            <tr style=""height:100px;"">
+                <td colspan='4' style=""padding:10px; vertical-align:bottom;"">
+                    (अक्षर रु. : <b>{amountInWords}</b>)
+                </td>
+                <td style=""text-align:center; font-weight:bold; vertical-align:bottom;"">
+                    योग : {totalAmount}
+                </td>
+            </tr>
+        </table>
+");
+
+                if (!string.IsNullOrWhiteSpace(remark))
+                {
+                    sb.Append($@"
+        <!-- Remark -->
+        <div style=""margin-top:10px; font-size:14px;"">
+            टिप्पणी : <b>{remark}</b>
+        </div>
+");
+                }
+
+                sb.Append(@"
+        <!-- Footer -->
+        <div style=""display:flex; justify-content:space-between; margin-top:30px; font-size:14px;"">
+            <div>रा.मु.प्र. 101-2015-16,20 बुक</div>
+            <div style=""text-align:center;"">
+                हस्ताक्षर
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
+");
+
+                return sb;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error generating Guest House Cash Slip Report.", ex);
+            }
+        }
+        #endregion
     }
 }

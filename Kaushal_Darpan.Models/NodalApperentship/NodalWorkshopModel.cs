@@ -268,4 +268,13 @@ namespace Kaushal_Darpan.Models.NodalApperentship
         //public string Name { get; set; }
     }
 
+    public class GeustHouseSlipModule
+    {
+        public int GuestHouseID { get; set; }
+        public int UserID { get; set; }
+        public int StaffID { get; set; }
+        public int GuestReqID { get; set; }
+        public string Action { get; set; }
+    }
+
 }

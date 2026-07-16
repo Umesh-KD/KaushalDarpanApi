@@ -10861,5 +10861,44 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
         #endregion
+
+
+        #region "GetGuestHouseSlip"
+        public async Task<DataTable> GetGuestHouseSlip(GeustHouseSlipModule model)
+        {
+            _actionName = "GetGuestHouseSlip(GeustHouseSlipModule model)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetGuestHouseSlip";
+                    command.Parameters.AddWithValue("@GuestHouseID", model.GuestHouseID);
+                    command.Parameters.AddWithValue("@UserID", model.UserID);
+                    command.Parameters.AddWithValue("@StaffID", model.StaffID);
+                    command.Parameters.AddWithValue("@Action", model.Action);
+                    command.Parameters.AddWithValue("@GuestReqID", model.GuestReqID);
+                    
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        #endregion
     }
 }
