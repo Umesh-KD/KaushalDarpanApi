@@ -10900,5 +10900,42 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
         #endregion
+
+        #region "GetITI_FinalReport"
+        public async Task<DataTable> GetITI_FinalReport(ITI_FinalReportModule model)
+        {
+            _actionName = "GetITI_FinalReport(ITI_FinalReportModule model)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetITI_FinalReport";
+                    command.Parameters.AddWithValue("@CollegeID", model.CollegeID);
+                    command.Parameters.AddWithValue("@UserID", model.UserID);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@FinancialYearID", model.FinancialYearID);
+                    command.Parameters.AddWithValue("@Action", model.Action);
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        #endregion
     }
 }

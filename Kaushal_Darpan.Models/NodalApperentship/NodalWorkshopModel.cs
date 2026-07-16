@@ -277,4 +277,14 @@ namespace Kaushal_Darpan.Models.NodalApperentship
         public string Action { get; set; }
     }
 
+    public class ITI_FinalReportModule
+    {
+        public int CollegeID { get; set; }
+        public int UserID { get; set; }
+        public int EndTermID { get; set; }
+        public int FinancialYearID { get; set; }
+        public string Action { get; set; }
+    }
+
+
 }
