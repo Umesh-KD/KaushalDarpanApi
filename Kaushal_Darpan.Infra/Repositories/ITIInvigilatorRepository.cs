@@ -81,7 +81,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = await _dbContext.CreateCommandAsync())
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_ItiSaveInvigilator";
@@ -327,7 +327,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     int result = 0;
 
-                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                       
                         command.CommandType = CommandType.StoredProcedure;
