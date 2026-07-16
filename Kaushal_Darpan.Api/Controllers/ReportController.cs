@@ -21706,7 +21706,7 @@ Web Site : www.techedu.rajasthan.gov.in
         #endregion
 
 
-
+        #region GetITI_FinalReport
         [HttpPost("GetITI_FinalReport")]
         public async Task<ApiResult<DataTable>> GetITI_FinalReport(ITI_FinalReportModule model)
         {
@@ -21741,5 +21741,7 @@ Web Site : www.techedu.rajasthan.gov.in
             }
             return result;
         }
+        #endregion
     }
+
 }
