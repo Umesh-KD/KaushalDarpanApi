@@ -71,6 +71,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
                     command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEngID);
                     command.Parameters.AddWithValue("@IsRevised", body.IsRevised);
+                    command.Parameters.AddWithValue("@SchemeID", body.SchemeID);
 
                     _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                     dataTable = await command.FillAsync_DataTable();
