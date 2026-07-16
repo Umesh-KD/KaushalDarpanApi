@@ -1149,10 +1149,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Action", model.Action);
                         command.Parameters.AddWithValue("@DivisionID", model.DivisionID);
                         command.Parameters.AddWithValue("@DistrictID", model.DistrictID);
-                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@CollegeID", model.InstituteID);
                         command.Parameters.AddWithValue("@TradeID", model.TradeID);
-               
-               
+                        command.Parameters.AddWithValue("@SearchText", model.SearchText);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
