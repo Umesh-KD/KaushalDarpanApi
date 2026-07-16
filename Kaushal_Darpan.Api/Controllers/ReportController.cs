@@ -21249,7 +21249,7 @@ Web Site : www.techedu.rajasthan.gov.in
             ActionName = "StudentDiplomaCertificateDownloadChunk([FromBody] List<DiplomaCertificateDownloadSearchModel> Model)";
 
             var result = new ApiResult<string>();
-            var logfilename = "_StudentMarksheetDownload";
+            var logfilename = "_DiplomaCertificateDownload";
             var Session = string.Empty;
             try
             {

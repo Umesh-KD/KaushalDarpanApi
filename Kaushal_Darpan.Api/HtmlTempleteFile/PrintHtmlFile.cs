@@ -4581,14 +4581,14 @@ border:1px solid #000;'>
 
                 sb.AppendLine("<head>");
                 sb.AppendLine("    <meta charset=\"UTF-8\">");
-                sb.AppendLine("    <title>Diploma Certificate</title>");
+                sb.AppendLine("    <title>Final Diploma Certificate</title>");
                 sb.AppendLine("</head>");
 
 
                 sb.AppendLine("<body style=\"margin:0;padding:0;background:#ffffff;font-family:Arial,Helvetica,sans-serif;\">");
                 sb.AppendLine(" <div style=\"display:flex;flex-direction:column;padding:10px 15px;box-sizing:border-box;width:100%;\">");
 
-                sb.AppendLine(" <!-- All your marksheet content -->");
+                sb.AppendLine(" <!-- All your final diploma certificate content -->");
 
                 sb.AppendLine("<div>");
                 sb.AppendLine("        <!-- Top Right -->");
