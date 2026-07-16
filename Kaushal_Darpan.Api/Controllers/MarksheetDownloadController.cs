@@ -414,13 +414,13 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         [HttpPost("GetStudentsDiplomaCertificate")]
-        public async Task<ApiResult<DataTable>> GetStudents([FromBody] DiplomaCertificateDownloadSearchModel body)
+        public async Task<ApiResult<DataTable>> GetStudentsDiplomaCertificate([FromBody] DiplomaCertificateDownloadSearchModel body)
         {
-            ActionName = "GetStudents([FromBody] DiplomaCertificateDownloadSearchModel body)";
+            ActionName = "GetStudentsDiplomaCertificate([FromBody] DiplomaCertificateDownloadSearchModel body)";
             var result = new ApiResult<DataTable>();
             try
             {
-                result.Data = await Task.Run(() => _unitOfWork.MarksheetDownloadRepository.GetStudentsDiplomaCertificate(body));
+                result.Data = await _unitOfWork.MarksheetDownloadRepository.GetStudentsDiplomaCertificate(body);
                 if (result.Data.Rows.Count == 0)
                 {
                     result.State = EnumStatus.Warning;

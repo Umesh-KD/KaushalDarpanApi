@@ -548,12 +548,12 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                     if (body.ResultTypeID == (int)EnumResultType.MainResult) // main and reval
                     {
-                        command.Parameters.AddWithValue("@action", "_getStuListForMarksheet");
+                        command.Parameters.AddWithValue("@action", "_getStuListForFinalDiploma");
                     }
                     else if (body.ResultTypeID == (int)EnumResultType.RwhResult ||
                                 body.ResultTypeID == (int)EnumResultType.RwhRevalEffected)
                     {
-                        command.Parameters.AddWithValue("@action", "_getRWHStuListForMarksheet");
+                        command.Parameters.AddWithValue("@action", "_getRWHStuListForFinalDiploma");
                     }
                     else if (body.ResultTypeID == (int)EnumResultType.Ufm)
                     {
