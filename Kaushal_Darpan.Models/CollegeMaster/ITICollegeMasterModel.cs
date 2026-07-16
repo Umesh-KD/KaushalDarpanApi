@@ -79,15 +79,19 @@ public class ItiSearchCollegeModel
 {
     public int DistrictID { get; set; } = 0;
     public int DivisionID { get; set; } = 0;
-    public string SearchText { get; set; } = string.Empty;
+    public string? SearchText { get; set; } = string.Empty;
     public int DepartmentID { get; set; } = 0;
+    public int InstituteID { get; set; } = 0;
+    public int TradeID { get; set; } = 0;
+    public string? Action { get; set; } = string.Empty;
 }
 
 public class PolotectnicSearchCollegeModel
 {
     public int DistrictID { get; set; } = 0;
     public int DivisionID { get; set; } = 0;
-    public string SearchText { get; set; } = string.Empty;
+    public string? SearchText { get; set; } = string.Empty;
+
 }
 
 public class ItiCollegeModel

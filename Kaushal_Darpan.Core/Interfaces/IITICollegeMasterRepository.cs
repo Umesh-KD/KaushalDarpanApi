@@ -29,6 +29,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataSet> Get_ITIsPlanningDataByID(int Id);
         Task<DataTable> ItiSearchCollege(ItiSearchCollegeModel model);
         Task<DataTable> PolotechnicSearchCollege(PolotectnicSearchCollegeModel model);
+        Task<DataTable> ITISearchCollegeTrade(ItiSearchCollegeModel model);
         Task<DataTable> AllNCVTInstituteList(ITIsSearchModel model);
         Task<DataTable> ItiVacantSeatForDirectAdmission(ItiCollegeModel model);
         Task<DataTable> SaveBankGuaranteeData(ITIPlanningBankGuaranteeModel model);
