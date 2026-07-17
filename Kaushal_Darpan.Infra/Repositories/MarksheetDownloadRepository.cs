@@ -593,5 +593,70 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+
+        public async Task<int> AddUpdateFinalDiplomaCertificate(FinalDiplomaCertificateSaveDataModel request)
+        {
+            _actionName = "AddUpdateFinalDiplomaCertificate(FinalDiplomaCertificateSaveDataModel request)";
+            try
+            {
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_SaveStudentFinalDiplomaCertificateData";
+                    command.CommandTimeout = 0;
+
+                    command.Parameters.AddWithValue("@action", "_SaveStudentFinalDiplomaCertificateData");
+
+                    command.Parameters.AddWithValue("@FinalDiploma", request.FinalDiploma); // id
+                    command.Parameters.AddWithValue("@enrollment", request.Enrollment);
+                    command.Parameters.AddWithValue("@institute_id", request.InstituteId);
+                    command.Parameters.AddWithValue("@sr_diploma", request.SrNo); // FD srno.
+                    command.Parameters.AddWithValue("@result_date", request.ResultDate); // publish date
+                    command.Parameters.AddWithValue("@is_locked", request.IsLocked);
+                    command.Parameters.AddWithValue("@diploma_printing_date", request.DiplomaPrintingDate); // printing date
+                    command.Parameters.AddWithValue("@is_rwh_result", request.IsRwhResult);
+                    command.Parameters.AddWithValue("@rwh_result_id", request.RwhResultId);
+                    command.Parameters.AddWithValue("@is_reval", request.IsReval);
+                    command.Parameters.AddWithValue("@is_revised_issue_date", request.IsRevisedIssueDate);
+                    command.Parameters.AddWithValue("@result_id", request.ResultId);// examresultid
+                    command.Parameters.AddWithValue("@revised_id", request.RevisedId);
+                    command.Parameters.AddWithValue("@is_block", request.IsBlock); //
+                    command.Parameters.AddWithValue("@student_id", request.StudentId);
+                    command.Parameters.AddWithValue("@modifed", request.ModifyBy);
+                    command.Parameters.AddWithValue("@is_diploma", request.IsDiploma);
+                    command.Parameters.AddWithValue("@is_duplicate", request.IsDuplicate);
+                    command.Parameters.AddWithValue("@duplicate_diploma_id", request.DuplicateDiplomaId);
+                    command.Parameters.AddWithValue("@request_id", request.RequestId);
+                    command.Parameters.AddWithValue("@is_issued", request.IsIssued);
+                    command.Parameters.AddWithValue("@ResultTypeID", request.ResultTypeID);
+                    command.Parameters.AddWithValue("@EndTermID", request.EndTermID); // current end term id and rwh
+                    command.Parameters.AddWithValue("@EffectiveEndTermID", request.EffectiveEndTermID); // current end term id
+                    command.Parameters.AddWithValue("@IsRevised", request.IsRevised);
+                    command.Parameters.AddWithValue("@FileName", request.FileName); // with file path
+                    command.Parameters.AddWithValue("@Dis_FileName", request.Dis_FileName); // only file name
+                    command.Parameters.AddWithValue("@SemesterID", request.SemesterID);
+                    command.Parameters.AddWithValue("@IpAddress", request.IPAddress);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
     }
 }
