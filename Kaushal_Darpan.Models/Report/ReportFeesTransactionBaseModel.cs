@@ -45,12 +45,12 @@
     {
         public int? DepartmentID { get; set; }
         public int? AcademicYearID { get; set; }
-        public int TransactionType { get; set; }
-        public int CourseType { get; set; }
-        public int PageNumber { get; set; }
-        public int PageSize { get; set; }
+        public int? TransactionType { get; set; }
+        public int? CourseType { get; set; }
+        public int? PageNumber { get; set; }
+        public int? PageSize { get; set; }
         public string? TransctionStatus { get; set; }
-        public int TransactionId { get; set; }
+        public int? TransactionId { get; set; }
         public string? ApplicationID { get; set; }
         public string? TransactionNo { get; set; }
         public string? StudentName { get; set; }
