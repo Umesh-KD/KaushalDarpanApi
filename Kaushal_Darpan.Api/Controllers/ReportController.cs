@@ -21329,10 +21329,10 @@ Web Site : www.techedu.rajasthan.gov.in
                             objFinalDiploma.FinalDiploma = student.FinalDiplomaID ?? 0;// pk
 
                             objFinalDiploma.Enrollment = Convert.ToString(student.EnrollmentNo) ?? string.Empty;
-                            objFinalDiploma.InstituteId = Convert.ToInt32(student.InstituteId);
+                            objFinalDiploma.InstituteId = Convert.ToInt32(student.InstituteID);
                             //objFinalDiploma.SrDiploma = Convert.ToInt32(student.SrDiploma);
-                            objFinalDiploma.SRNO = Convert.ToInt32(student.SRNO);
-                            objFinalDiploma.ResultDate = Convert.ToString(student.ResultDate);
+                            objFinalDiploma.SRNO = Convert.ToString(student.SRNO);
+                            objFinalDiploma.PublishDate = Convert.ToString(student.PublishDate);
                             objFinalDiploma.IsLocked = Convert.ToByte(student.IsLocked);
                             objFinalDiploma.DiplomaPrintingDate = Convert.ToString(student.DiplomaPrintingDate);
                             objFinalDiploma.IsRwhResult = Convert.ToByte(student.IsRWHResult);

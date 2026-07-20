@@ -254,6 +254,7 @@
         public string? EnrollmentNo { get; set; } = string.Empty;
         public string? StudentName { get; set; } = string.Empty;
         public string? ResultDate { get; set; } = string.Empty;
+        public string? PublishDate { get; set; } = string.Empty;
         public bool? IsLocked { get; set; } = false;
         public string? DiplomaPrintingDate { get; set; }=string.Empty;
         public string? IsRevisedIssueDate { get; set; } = string.Empty;
@@ -292,6 +293,7 @@
         public int InstituteId { get; set; }
         public int SrDiploma { get; set; }
         public string ResultDate { get; set; } = string.Empty;
+        public string PublishDate { get; set; } = string.Empty;
         public byte IsLocked { get; set; }
         public string DiplomaPrintingDate { get; set; } = string.Empty;
         public byte IsRwhResult { get; set; }
@@ -313,6 +315,6 @@
         public string FileName { get; set; } = string.Empty; // with file path
         public string Dis_FileName { get; set; } = string.Empty; // file name
         public int SemesterID { get; set; }
-        public int? SRNO { get; set; }
+        public string? SRNO { get; set; }
     }
 }

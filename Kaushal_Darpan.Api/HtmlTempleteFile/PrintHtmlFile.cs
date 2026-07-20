@@ -4682,7 +4682,7 @@ border:1px solid #000;'>
                 sb.AppendLine($"      <div class=\"completion-date\" style=\"margin-left:60px; text-align:left;\">{data.ResultDate}</div>");
 
                 // signature 
-                sb.AppendLine($"      <div class=\"signature\"><img src=\"data:{reg_signmime};base64,{reg_signbase64}\"/></div>");
+                sb.AppendLine($"      <div class=\"signature\"><img src=\"data:{reg_signmime};base64,{reg_signbase64}\" style=\"width:80px;\"/></div>");
 
                 sb.AppendLine($"      <div class=\"sign-date\">{data.DiplomaPrintingDate}</div>");
                 sb.AppendLine("  </div>");

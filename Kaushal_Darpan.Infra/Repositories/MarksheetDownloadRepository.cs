@@ -499,7 +499,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             try
             {
                 int result = 0;
-                using (var command = await _dbContext.CreateCommandAsync(true))
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.CommandText = "USP_SaveStudentMarksheetData";
@@ -574,6 +574,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEngID);
                     command.Parameters.AddWithValue("@IsRevised", body.IsRevised);
                     command.Parameters.AddWithValue("@SchemeID", body.SchemeID);
+                    command.Parameters.AddWithValue("@EnrollmentNo", body.EnrollmentNo);
 
                     _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                     dataTable = await command.FillAsync_DataTable();
@@ -601,7 +602,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             try
             {
                 int result = 0;
-                using (var command = await _dbContext.CreateCommandAsync(true))
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.CommandText = "USP_SaveStudentFinalDiplomaCertificateData";
