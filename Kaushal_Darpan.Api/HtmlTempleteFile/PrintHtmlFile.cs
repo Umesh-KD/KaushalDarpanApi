@@ -2482,12 +2482,13 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                     }
                     else
                     {
+                        var ExCurrentStatus = Convert.ToInt32(dr["IsExCurrent"]) == 1 ? "<span style='color: blue;'> *</span>" : "";
                         sb.Append($@"
                             <tr>                            
                                 <td style='text-align:center;'>{dr["SubjectCode"]}</td>                            
                                 <td style='text-align:left;padding-left:8px;word-wrap:break-word;'>{dr["SubjectName"]}</td>
                                 <td style='text-align:center;'>{dr["SubjectCredits"]}</td>
-                                <td style='text-align:center;'>{dr["EarnedCredits"]}</td>
+                                <td style='text-align:center;'>{dr["EarnedCredits"]}{ExCurrentStatus}</td>
                                 <td style='text-align:center;'>{dr["Grade"]}</td>
                                 <td style='text-align:center;'>{dr["Remarks"]}</td>                           
                             </tr>");
