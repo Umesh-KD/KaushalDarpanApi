@@ -198,12 +198,14 @@ namespace Kaushal_Darpan.Api.Controllers
                     };
                     return resultData;
                 }
+
                 await CreateErrorLog(new NewException
                 {
                     PageName = "JanAdharDataNew-step6",
                     ActionName = JsonConvert.SerializeObject(requestObj),
                     Ex = new Exception(isOtpBypassed ? UrlDataType : "")
                 }, _unitOfWork);
+
                 decryptedResponse = await _service.CallApiAsync(UrlDataType, requestObj);
 
                 var jRoot = JObject.Parse(decryptedResponse);
