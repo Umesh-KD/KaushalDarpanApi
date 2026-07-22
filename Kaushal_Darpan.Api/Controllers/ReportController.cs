@@ -4227,7 +4227,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     {
                         DownloadnRollNoModel ModInsert = RollListDetails.FirstOrDefault() ?? new DownloadnRollNoModel();
                         ModInsert.TotalStudent = RollListDetails.Sum(f => f.Totalstudent);
-                        
+
 
                         foreach (var StudentExamID in RollListDetails)
                         {
@@ -4281,55 +4281,55 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     }
 
-                        //#region "Save Multiple PDF PAGES"    // old Code 
-                        //string outputFile = $"MergePDFRollList_{Model.FirstOrDefault()?.InstituteID}.pdf";
-                        //string outputPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{outputFile}";
-                        //if (await MergePdfFilesAsync(ListRoleListPath, outputPath))
-                        //{
-                        //    //delete files
-                        //    await DeleteFiles(ListRoleListPath);
-                        //    result.Data = outputFile;
-                        //    result.State = EnumStatus.Success;
-                        //    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
-                        //}
-                        //else
-                        //{
-                        //    result.State = EnumStatus.Error;
-                        //    result.ErrorMessage = "Something went wrong";
-                        //}
-                        //#endregion
+                    //#region "Save Multiple PDF PAGES"    // old Code 
+                    //string outputFile = $"MergePDFRollList_{Model.FirstOrDefault()?.InstituteID}.pdf";
+                    //string outputPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{outputFile}";
+                    //if (await MergePdfFilesAsync(ListRoleListPath, outputPath))
+                    //{
+                    //    //delete files
+                    //    await DeleteFiles(ListRoleListPath);
+                    //    result.Data = outputFile;
+                    //    result.State = EnumStatus.Success;
+                    //    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    //}
+                    //else
+                    //{
+                    //    result.State = EnumStatus.Error;
+                    //    result.ErrorMessage = "Something went wrong";
+                    //}
+                    //#endregion
 
 
 
-                        #region "Save Multiple PDF PAGES"
-                        string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
-                        string guid = Guid.NewGuid().ToString().ToUpper();
-                        string outputFile = $"{guid}_{timestamp}.pdf";
-                        string outputPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{outputFile}";
-                        if (await MergePdfFilesAsync(ListRoleListPath, outputPath))
+                    #region "Save Multiple PDF PAGES"
+                    string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+                    string guid = Guid.NewGuid().ToString().ToUpper();
+                    string outputFile = $"{guid}_{timestamp}.pdf";
+                    string outputPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{outputFile}";
+                    if (await MergePdfFilesAsync(ListRoleListPath, outputPath))
+                    {
+                        try
                         {
-                            try
-                            {
-                                //delete files
-                                // await DeleteFiles(ListRoleListPath);
-                            }
-                            catch (Exception exd)
-                            {
-                            }
-                            result.Data = outputFile;
-                            result.State = EnumStatus.Success;
-                            result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
-                           
-                            //var isSave = await _unitOfWork.ReportRepository.ITISaveRollNumbePDFData(ModInsert);
+                            //delete files
+                            // await DeleteFiles(ListRoleListPath);
                         }
-                        else
+                        catch (Exception exd)
                         {
-                            result.State = EnumStatus.Error;
-                            result.ErrorMessage = "Something went wrong";
                         }
-                        #endregion
+                        result.Data = outputFile;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
 
-                    
+                        //var isSave = await _unitOfWork.ReportRepository.ITISaveRollNumbePDFData(ModInsert);
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = "Something went wrong";
+                    }
+                    #endregion
+
+
 
 
                 }
@@ -14389,40 +14389,40 @@ Sr.<br/>No.
 
 <tbody>
 
-");int sr = 1;
+"); int sr = 1;
 
-foreach (DataRow row in dt.Rows)
-{
-    string regDate = "";
-    string apprenticeNames = "";
-    string registrationNos = "";
-    string document = "";
+                foreach (DataRow row in dt.Rows)
+                {
+                    string regDate = "";
+                    string apprenticeNames = "";
+                    string registrationNos = "";
+                    string document = "";
 
-    if (row["Dateofregistration"] != DBNull.Value)
-    {
-        regDate = Convert.ToDateTime(row["Dateofregistration"])
-            .ToString("dd-MM-yyyy");
-    }
+                    if (row["Dateofregistration"] != DBNull.Value)
+                    {
+                        regDate = Convert.ToDateTime(row["Dateofregistration"])
+                            .ToString("dd-MM-yyyy");
+                    }
 
-    if (row["Nameofapprentices"] != DBNull.Value)
-    {
-        apprenticeNames = row["Nameofapprentices"]
-            .ToString()
-            .Replace("|", "<br/>")
-            .Replace(",", "<br/>");
-    }
+                    if (row["Nameofapprentices"] != DBNull.Value)
+                    {
+                        apprenticeNames = row["Nameofapprentices"]
+                            .ToString()
+                            .Replace("|", "<br/>")
+                            .Replace(",", "<br/>");
+                    }
 
-    if (row["Numberofapprentices"] != DBNull.Value)
-    {
-        registrationNos = row["Numberofapprentices"]
-            .ToString()
-            .Replace("|", "<br/>")
-            .Replace(",", "<br/>");
-    }
+                    if (row["Numberofapprentices"] != DBNull.Value)
+                    {
+                        registrationNos = row["Numberofapprentices"]
+                            .ToString()
+                            .Replace("|", "<br/>")
+                            .Replace(",", "<br/>");
+                    }
 
-   
 
-    sb.Append($@"
+
+                    sb.Append($@"
 
 <tr>
 
@@ -14471,7 +14471,7 @@ foreach (DataRow row in dt.Rows)
 
 ");
 
-    sr++;
+                    sr++;
                 }// Close HTML
                 sb.Append(@"
 
@@ -20930,7 +20930,7 @@ Web Site : www.techedu.rajasthan.gov.in
                     result.Message = Constants.MSG_DATA_NOT_FOUND;
                     return result;
                 }
-                
+
                 // Generate HTML
                 var sb = await _printHtmlFile.GetToppersReport_Html(data, 0, ActionType);
                 string html = sb.ToString();
@@ -21015,7 +21015,7 @@ Web Site : www.techedu.rajasthan.gov.in
         {
             ActionName = "GetProvesionalMeritList(ToppersModel model)";
             var result = new ApiResult<string>();
-            
+
             try
             {
                 // Get report data
@@ -21242,7 +21242,7 @@ Web Site : www.techedu.rajasthan.gov.in
         #endregion
 
 
-        #region Bulk Student Diploma Certificate Chunk
+        #region Bulk Student Diploma Certificate
         [HttpPost("StudentDiplomaCertificateDownloadChunk")]
         public async Task<ApiResult<string>> StudentDiplomaCertificateDownloadChunk([FromBody] List<DiplomaCertificateDownloadSearchModel> Model)
         {
@@ -21254,12 +21254,12 @@ Web Site : www.techedu.rajasthan.gov.in
             try
             {
                 Session = Model[0].SessionName;
-                var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{Constants.MarksheetFolder}/{Session}";
+                var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{Constants.FinalDiplomaFolder}/{Session}";
 
                 // store students that have filename success for merge file for shwoing marksheet
-                List<GenerateMarksheetModel> ListData = new List<GenerateMarksheetModel>();
+                List<GenerateFinalDiplomaCertificateModel> ListData = new List<GenerateFinalDiplomaCertificateModel>();
                 // store students that dont have filename failed any resion
-                List<GenerateMarksheetModel> notGenerateStudents = new List<GenerateMarksheetModel>();
+                List<GenerateFinalDiplomaCertificateModel> notGenerateStudents = new List<GenerateFinalDiplomaCertificateModel>();
 
                 int i = 1;
                 // passed students list in chunks
@@ -21268,273 +21268,114 @@ Web Site : www.techedu.rajasthan.gov.in
                     CommonFuncationHelper.WriteTextLog($"--------------------- main loop start: {i} ------------------------", logfilename);
                     try
                     {
-                        CommonFuncationHelper.WriteTextLog($"1. model student loop : {student.RollNo}", logfilename);
-                        GenerateMarksheetModel objStudent = new GenerateMarksheetModel();
+                        CommonFuncationHelper.WriteTextLog($"1. model student loop : {student.StudentName}", logfilename);
+                        GenerateFinalDiplomaCertificateModel objStudent = new GenerateFinalDiplomaCertificateModel();
                         // already have saved file
-                        if (student.MarksheetFile != "")
+                        if (student.Dis_FileName != "")
                         {
-                            CommonFuncationHelper.WriteTextLog($"1.1. already file exists in if : {student.RollNo}", logfilename);
+                            CommonFuncationHelper.WriteTextLog($"1.1. already file exists in if : {student.StudentName}", logfilename);
                             // for merge
                             objStudent.StudentID = student.StudentID;
                             objStudent.RollNo = student.RollNo;
-                            objStudent.MarksheetPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{Constants.MarksheetFolder}/{student.MarksheetFilePath}";
-                            objStudent.MarksheetFile = student.MarksheetFile;
+                            objStudent.FileName = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{Constants.FinalDiplomaFolder}/{student.FileName}";
+                            objStudent.Dis_FileName = student.Dis_FileName;
                             // add
                             ListData.Add(objStudent);
                         }
                         else
                         {
-                            CommonFuncationHelper.WriteTextLog($"1.2. dosenot file exists in else : {student.RollNo}", logfilename);
+                            CommonFuncationHelper.WriteTextLog($"1.2. dosenot file exists in else : {student.StudentName}", logfilename);
 
-                            // set for student model
-                            var studentModel = new StudentResultSearchModel
+                             //create folder
+                            if (!System.IO.Directory.Exists(folderPath))
                             {
-                                DOB = student.DOB,
-                                EndTermID = student.EndTermID,
-                                RollNo = student.RollNo,
-                                SemesterID = student.SemesterID,
-                                ResultType = student.ResultTypeID,
-                                EffectiveEndTermID = student.EffectiveEndTermID
-                            };
-
-                            // get mark sheet data for each student
-                            DataSet data = new DataSet();
-                            if (student.ResultTypeID == (int)EnumResultType.MainResult)
-                            {
-                                data = await _unitOfWork.MarksheetDownloadRepository.GetStudentResult_public(studentModel);
-                            }
-                            else if (student.ResultTypeID == (int)EnumResultType.RevaluationResult)
-                            {
-                                data = await _unitOfWork.MarksheetDownloadRepository.GetStudentResultReval_public(studentModel);
-                            }
-                            else if (student.ResultTypeID == (int)EnumResultType.RwhResult ||
-                                student.ResultTypeID == (int)EnumResultType.RwhRevalEffected)
-                            {
-                                data = await _unitOfWork.MarksheetDownloadRepository.GetStudentResultRWH_public(studentModel);
-                            }
-                            else if (student.ResultTypeID == (int)EnumResultType.Ufm)
-                            {
-                                throw new Exception("Invalid Request!");
-                            }
-                            else
-                            {
-                                throw new Exception("Invalid Request!");
+                                Directory.CreateDirectory(folderPath);
                             }
 
+                            string timestamp_str = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                            var fileName = $"StudentDiplomaCertificate_{student.StudentName}_{timestamp_str}.pdf";
+                            string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{Constants.FinalDiplomaFolder}/{Session}/{fileName}";
 
-                            if (data?.Tables?.Count == 3 && data.Tables[0].Rows.Count > 0)
+                            // get html
+                            var sb = await _printHtmlFile.GetHtmlOfDiplomaCertificate(student);
+                            var _html = sb.ToString();
+
+                            // remove last blank page
+                            string endTag = "<div class='page-break'></div></body></html>";
+                            if (_html.EndsWith(endTag, StringComparison.OrdinalIgnoreCase))
                             {
-                                CommonFuncationHelper.WriteTextLog($"1.3. all data found: {student.RollNo}", logfilename);
+                                _html = _html.Substring(0, _html.Length - endTag.Length)
+                                             + "</body></html>";
+                            }
 
-                                //create folder
-                                if (!System.IO.Directory.Exists(folderPath))
+                            var pdfBytes = await _pdfService.GenerateAsync(_html,
+                                new PdfOptions
                                 {
-                                    Directory.CreateDirectory(folderPath);
-                                }
+                                    Format = "A4",
+                                    MarginTop = "10mm",
+                                    MarginBottom = "0mm",
+                                    MarginLeft = "10mm",
+                                    MarginRight = "10mm",
+                                    PrintBackground = true
+                                });
 
-                                string timestamp_str = DateTime.Now.ToString("yyyyMMddHHmmssfff");
-                                var fileName = $"StudentDiplomaCertificate_{student.RollNo}_{timestamp_str}.pdf";
-                                string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{Constants.MarksheetFolder}/{Session}/{fileName}";
+                            await System.IO.File.WriteAllBytesAsync(filepath, pdfBytes);
 
-                                //string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/StudentMarksheet.rdlc";
+                            CommonFuncationHelper.WriteTextLog($"1.4. save file in folder: {student.StudentName}", logfilename);
 
+                            // create an object for new record
+                            FinalDiplomaCertificateSaveDataModel objFinalDiploma = new FinalDiplomaCertificateSaveDataModel();
 
-                                //// rdlc generate
-                                //System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                            objFinalDiploma.FinalDiploma = student.FinalDiplomaID ?? 0;// pk
 
-                                //LocalReport localReport = new LocalReport(rdlcpath);
-                                //localReport.AddDataSource("StudentDetailsForMarksheet", data.Tables[0]);
-                                //localReport.AddDataSource("StudentMarksheetSubjectDetails", data.Tables[1]);
-                                //localReport.AddDataSource("ResultDetails", data.Tables[2]);
-                                //var reportResult = localReport.Execute(RenderType.Pdf);
+                            objFinalDiploma.Enrollment = Convert.ToString(student.EnrollmentNo) ?? string.Empty;
+                            objFinalDiploma.InstituteId = Convert.ToInt32(student.InstituteID);
+                            //objFinalDiploma.SrDiploma = Convert.ToInt32(student.SrDiploma);
+                            objFinalDiploma.SRNO = Convert.ToString(student.SRNO);
+                            objFinalDiploma.PublishDate = Convert.ToString(student.PublishDate);
+                            objFinalDiploma.IsLocked = Convert.ToByte(student.IsLocked);
+                            objFinalDiploma.DiplomaPrintingDate = Convert.ToString(student.DiplomaPrintingDate);
+                            objFinalDiploma.IsRwhResult = Convert.ToByte(student.IsRWHResult);
+                            objFinalDiploma.RwhResultId = Convert.ToInt32(student.RWHResultID);
+                            objFinalDiploma.IsReval = Convert.ToByte(student.IsReval);
+                            objFinalDiploma.IsRevisedIssueDate = Convert.ToByte(student.IsRevisedIssueDate);
+                            objFinalDiploma.ResultId = Convert.ToInt32(student.ExamResultID);
+                            objFinalDiploma.RevisedId = Convert.ToInt32(student.RevisedId);
+                            objFinalDiploma.IsBlock = Convert.ToByte(student.IsBlock);
+                            objFinalDiploma.StudentId = Convert.ToInt32(student.StudentID);
+                            objFinalDiploma.IsDiploma = Convert.ToByte(student.IsDiploma);
+                            objFinalDiploma.IsDuplicate = Convert.ToByte(student.IsDuplicate);
+                            objFinalDiploma.DuplicateDiplomaId = Convert.ToInt32(student.DuplicateDiplomaId);
+                            objFinalDiploma.RequestId = Convert.ToInt32(student.RequestId);
+                            objFinalDiploma.IsIssued = Convert.ToByte(student.IsIssued);
+                            objFinalDiploma.ResultTypeID = Convert.ToInt32(student.ResultTypeID);
+                            objFinalDiploma.EndTermID = Convert.ToInt32(student.EndTermID);
+                            objFinalDiploma.EffectiveEndTermID = Convert.ToInt32(student.EffectiveEndTermID);
+                            objFinalDiploma.IsRevised = Convert.ToBoolean(student.IsRevised);
+                            objFinalDiploma.SemesterID = Convert.ToInt32(student.SemesterID);
+                            objFinalDiploma.IPAddress = CommonFuncationHelper.GetIpAddress();
+                            objFinalDiploma.ModifyBy = Convert.ToInt32(student.ModifyBy);
 
-                                //save in folder
-                                //System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
-
-                                // get html
-                                var sb = await _printHtmlFile.GetHtmlOfDiplomaCertificate(data);
-                                var _html = sb.ToString();
-
-                                // remove last blank page
-                                string endTag = "<div class='page-break'></div></body></html>";
-                                if (_html.EndsWith(endTag, StringComparison.OrdinalIgnoreCase))
-                                {
-                                    _html = _html.Substring(0, _html.Length - endTag.Length)
-                                                 + "</body></html>";
-                                }
-
-                                var pdfBytes = await _pdfService.GenerateAsync(_html,
-                                    new PdfOptions
-                                    {
-                                        Format = "A4",
-                                        MarginTop = "10mm",
-                                        MarginBottom = "0mm",
-                                        MarginLeft = "10mm",
-                                        MarginRight = "10mm",
-                                        PrintBackground = true
-                                    });
-
-                                await System.IO.File.WriteAllBytesAsync(filepath, pdfBytes);
-
-                                CommonFuncationHelper.WriteTextLog($"1.4. save file in folder: {student.RollNo}", logfilename);
-
-                                // create an object for new record
-                                MarksheetSaveDataModel objMarksheet = new MarksheetSaveDataModel();
-                                // table 1 for marksheet
-                                DataRow studentData = data.Tables[0].Rows[0];
-
-                                objMarksheet.MarkSheetID = student.MarksheetID ?? 0;// pk
-
-                                objMarksheet.StudentName = studentData["StudentName"].ToString();
-                                objMarksheet.FatherName = studentData["FatherName"].ToString();
-                                objMarksheet.MotherName = studentData["MotherName"].ToString();
-                                objMarksheet.MotherName = studentData["MotherName"].ToString();
-                                objMarksheet.Gender = studentData["Gender"].ToString();
-                                objMarksheet.EnrollmentNo = studentData["EnrollmentNo"].ToString();
-                                objMarksheet.RollNo = studentData["RollNo"].ToString();
-                                objMarksheet.DOB = studentData["DOB"].ToString();
-                                objMarksheet.InstituteName = studentData["InstituteName"].ToString();
-                                objMarksheet.StreamName = studentData["StreamName"].ToString();
-                                objMarksheet.StreamCode = studentData["StreamCode"].ToString();
-                                objMarksheet.EndTerm = studentData["EndTermName"].ToString();
-                                objMarksheet.Session = studentData["Session"].ToString();
-                                objMarksheet.ResultDate = studentData["ResultDate"].ToString();
-                                objMarksheet.SrNo = student.SRNO;
-
-                                objMarksheet.CourseType = (int)studentData["CourseType"];
-                                objMarksheet.StudentID = (int)studentData["StudentID"];
-                                objMarksheet.StudentExamID = (int)studentData["StudentExamID"];
-                                objMarksheet.SemesterID = (int)studentData["SemesterID"];
-                                objMarksheet.InstituteID = (int)studentData["InstituteID"];
-                                objMarksheet.StreamId = (int)studentData["StreamId"];
-                                objMarksheet.Result = (int)studentData["Result"];
-                                objMarksheet.CreatedBy = (int)student.ModifyBy;
-                                objMarksheet.ModifyBy = (int)student.ModifyBy;
-                                objMarksheet.Type = (int)student.StudentTypeID;
-
-                                objMarksheet.IsUFM = (int)studentData["IsUFM"];
-                                objMarksheet.IsRWH = (int)studentData["IsRWH"];
-                                objMarksheet.IsReval = (int)studentData["IsReval"];
-                                objMarksheet.IsBridge = (int)studentData["IsBridge"];
-                                objMarksheet.IsRWHResult = (int)studentData["IsRWHResult"];
-                                objMarksheet.IsLiteral = (int)studentData["IsLiteral"];
-                                objMarksheet.EndTermID = (int)studentData["EndTermID"];
-                                objMarksheet.ResultTypeId = (int)studentData["ResultTypeId"];
-                                objMarksheet.IssueDate = studentData["IssueDate"].ToString();
-                                objMarksheet.MarksheetYear = Convert.ToInt32(studentData["MarksheetYear"]);
-                                objMarksheet.Year = Convert.ToInt32(studentData["Year"]);
-                                objMarksheet.EffectiveEndTermID = Convert.ToInt32(student.EffectiveEndTermID);
-
-                                objMarksheet.MarksheetFile = fileName;
-                                objMarksheet.MarksheetFilePath = $"{Session}/{fileName}";
+                            objFinalDiploma.Dis_FileName = fileName;
+                            objFinalDiploma.FileName = $"{Session}/{fileName}";
 
 
-                                // table 2 for subjects
-                                if (data.Tables[1].Rows.Count > 0)
-                                {
-                                    CommonFuncationHelper.WriteTextLog($"1.5. subject data: {student.RollNo}", logfilename);
-                                    foreach (DataRow row in data.Tables[1].Rows)
-                                    {
-                                        // log
-                                        CommonFuncationHelper.WriteTextLog($"1.6. add subject dedails in loop: {student.RollNo}, {row.Field<string>("SubjectCode") ?? string.Empty}", logfilename);
+                            // save
+                            await _unitOfWork.MarksheetDownloadRepository.AddUpdateFinalDiplomaCertificate(objFinalDiploma);
+                            await _unitOfWork.SaveChangesAsync();
 
-                                        MarksheetSubjectDataModel marksheetSub = new MarksheetSubjectDataModel
-                                        {
-                                            StudentName = row.Field<string>("StudentName") ?? string.Empty,
-                                            StudentID = row.Field<int>("StudentID"),
-                                            SubjectCode = row.Field<string>("SubjectCode") ?? string.Empty,
-                                            SubjectName = row.Field<string>("SubjectName") ?? string.Empty,
-                                            SubjectCredits = row.Field<string>("SubjectCredits"),
-                                            EarnedCredits = row.Field<string>("EarnedCredits"),
-                                            Grade = row.Field<string>("Grade") ?? string.Empty,
-                                            Remarks = row.Field<string>("Remarks") ?? string.Empty,
-                                            IsStudentCenteredActivity = row.Field<bool>("IsStudentCenteredActivity"),
-                                            IsExCurrent = row.Field<int>("IsExCurrent")
-                                        };
-
-                                        // Add the newly mapped object to your list
-                                        objMarksheet.SubjectDetails.Add(marksheetSub);
-                                    }
-                                }
-
-                                // table 3 for results (cgpa, sgpa etc...)
-                                if (data.Tables[2].Rows.Count > 0)
-                                {
-                                    // log
-                                    CommonFuncationHelper.WriteTextLog($"1.7. result data: {student.RollNo}", logfilename);
-
-                                    DataRow row = data.Tables[2].Rows[0];
+                            CommonFuncationHelper.WriteTextLog($"1.8. save student done : {student.StudentName}", logfilename);
 
 
-                                    MarksheetResultDataModel marksheetResult = new MarksheetResultDataModel();
-                                    // --- Flags ---
-                                    marksheetResult.IsReval = (bool)row["IsReval"];
-                                    marksheetResult.IsLiteral = (bool)row["IsLiteral"];
-                                    marksheetResult.ResultTypeId = Convert.ToInt32(row["ResultTypeId"]);
+                            // for merge
+                            objStudent.StudentID = student.StudentID;
+                            objStudent.RollNo = student.RollNo;
+                            objStudent.EnrollmentNo = student.EnrollmentNo;
+                            objStudent.FileName = filepath;
+                            objStudent.Dis_FileName = fileName;
+                            // add
+                            ListData.Add(objStudent);
 
-                                    // --- Semester 1 ---
-                                    marksheetResult.SubjectCreditsSem1 = row["SubjectCreditsSem1"].ToString();
-                                    marksheetResult.EarnedCreditsSem1 = row["EarnedCreditsSem1"].ToString();
-                                    marksheetResult.CGPASem1 = row["CGPASem1"].ToString();
-                                    marksheetResult.SGPASem1 = row["SGPASem1"].ToString();
-
-                                    // --- Semester 2 ---
-                                    marksheetResult.SubjectCreditsSem2 = row["SubjectCreditsSem2"].ToString();
-                                    marksheetResult.EarnedCreditsSem2 = row["EarnedCreditsSem2"].ToString();
-                                    marksheetResult.CGPASem2 = row["CGPASem2"].ToString();
-                                    marksheetResult.SGPASem2 = row["SGPASem2"].ToString();
-
-                                    // --- Semester 3 ---
-                                    marksheetResult.SubjectCreditsSem3 = row["SubjectCreditsSem3"].ToString();
-                                    marksheetResult.EarnedCreditsSem3 = row["EarnedCreditsSem3"].ToString();
-                                    marksheetResult.CGPASem3 = row["CGPASem3"].ToString();
-                                    marksheetResult.SGPASem3 = row["SGPASem3"].ToString();
-
-                                    // --- Semester 4 ---
-                                    marksheetResult.SubjectCreditsSem4 = row["SubjectCreditsSem4"].ToString();
-                                    marksheetResult.EarnedCreditsSem4 = row["EarnedCreditsSem4"].ToString();
-                                    marksheetResult.CGPASem4 = row["CGPASem4"].ToString();
-                                    marksheetResult.SGPASem4 = row["SGPASem4"].ToString();
-
-                                    // --- Semester 5 ---
-                                    marksheetResult.SubjectCreditsSem5 = row["SubjectCreditsSem5"].ToString();
-                                    marksheetResult.EarnedCreditsSem5 = row["EarnedCreditsSem5"].ToString();
-                                    marksheetResult.CGPASem5 = row["CGPASem5"].ToString();
-                                    marksheetResult.SGPASem5 = row["SGPASem5"].ToString();
-
-                                    // --- Semester 6 ---
-                                    marksheetResult.SubjectCreditsSem6 = row["SubjectCreditsSem6"].ToString();
-                                    marksheetResult.EarnedCreditsSem6 = row["EarnedCreditsSem6"].ToString();
-                                    marksheetResult.CGPASem6 = row["CGPASem6"].ToString();
-                                    marksheetResult.SGPASem6 = row["SGPASem6"].ToString();
-
-                                    // --- Final Summaries & Results ---
-                                    marksheetResult.Percentage = row["Percentage"].ToString();
-                                    marksheetResult.Result = row["Result"].ToString();
-                                    marksheetResult.ResultDeclareDate = row.Table.Columns.Contains("ResultDeclareDate") ? row["ResultDeclareDate"].ToString() : string.Empty;
-                                    marksheetResult.DiplomaFinalResult = row["DiplomaFinalResult"].ToString();
-                                    marksheetResult.Division = row["Division"].ToString();
-                                    marksheetResult.TotalSubjectCredits = row["TotalSubjectCredits"].ToString();
-                                    marksheetResult.TotalEarnedCredits = row["TotalEarnedCredits"].ToString();
-
-                                    // set in main model
-                                    objMarksheet.ResultDetails = marksheetResult;
-                                }
-
-                                await _unitOfWork.MarksheetDownloadRepository.AddUpdateMarksheet(objMarksheet);
-                                await _unitOfWork.SaveChangesAsync();
-
-                                CommonFuncationHelper.WriteTextLog($"1.8. save student done : {student.RollNo}", logfilename);
-
-
-                                // for merge
-                                objStudent.StudentID = student.StudentID;
-                                objStudent.RollNo = student.RollNo;
-                                objStudent.MarksheetPath = filepath;
-                                objStudent.MarksheetFile = fileName;
-                                // add
-                                ListData.Add(objStudent);
-                            }
                         }
                     }
                     catch (Exception ex1)
@@ -21542,13 +21383,13 @@ Web Site : www.techedu.rajasthan.gov.in
                         await _unitOfWork.DisposeAsync();
 
                         // add in list
-                        notGenerateStudents.Add(new GenerateMarksheetModel
+                        notGenerateStudents.Add(new GenerateFinalDiplomaCertificateModel
                         {
                             StudentID = student.StudentID,
-                            RollNo = student.RollNo
+                            EnrollmentNo = student.EnrollmentNo
                         });
 
-                        CommonFuncationHelper.WriteTextLog($"2. loop error for student : {student.RollNo}", logfilename);
+                        CommonFuncationHelper.WriteTextLog($"2. loop error for student : {student.StudentName}", logfilename);
                         CommonFuncationHelper.WriteTextLog($"2.1. loop error : {ex1.Message}", logfilename);
                     }
 
@@ -21560,7 +21401,7 @@ Web Site : www.techedu.rajasthan.gov.in
                 string timestamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
                 string outputFile = $"DiplomaCertificate_{timestamp}.pdf";
                 string outputPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{outputFile}";
-                List<string?> strSoureFiles = ListData.Select(s => s.MarksheetPath)?.ToList();
+                List<string?> strSoureFiles = ListData.Select(s => s.FileName)?.ToList();
 
                 // merge all files
                 var ismerged = await MergePdfFilesAsync(strSoureFiles, outputPath);
@@ -21572,7 +21413,7 @@ Web Site : www.techedu.rajasthan.gov.in
                     var msg = Constants.MSG_DATA_LOAD_SUCCESS;
                     if (notGenerateStudents?.Count > 0)
                     {
-                        msg = $"{Constants.MSG_FILE_DOWNLOAD_SUCCESS}, Except these students (Roll No.):<br/> {string.Join(", ", notGenerateStudents.Select(s => s.RollNo))}";
+                        msg = $"{Constants.MSG_FILE_DOWNLOAD_SUCCESS}, Except these students (Enrollment No.):<br/> {string.Join(", ", notGenerateStudents.Select(s => s.EnrollmentNo))}";
                     }
                     result.Message = msg;
                 }

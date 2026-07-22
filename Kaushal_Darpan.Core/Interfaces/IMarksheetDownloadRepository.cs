@@ -25,5 +25,7 @@ namespace Kaushal_Darpan.Core.Interfaces
 
 
         Task<DataTable> GetStudentsDiplomaCertificate(DiplomaCertificateDownloadSearchModel filterModel);
+
+        Task<int> AddUpdateFinalDiplomaCertificate(FinalDiplomaCertificateSaveDataModel request);
     }
 }
