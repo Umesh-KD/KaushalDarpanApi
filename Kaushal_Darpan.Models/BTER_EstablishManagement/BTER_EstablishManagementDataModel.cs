@@ -192,8 +192,23 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? Eng_NonEng { get; set; }
         public List<BterStaffSubjectListModel>? bterStaffSubjectListModel { get; set; }
         public List<BTER_EM_AddServiceHistoryDataModel>? BterServiceHistoryListModel { get; set; }
- 
+
+        public string? QualificationAcquiringDate { get; set; }
+        public string? AcquiringQualificationCertificate { get; set; }
+        public string? Dis_AcquiringQualificationCertificate { get; set; }
+        public string? CompetentAuthorityOrder { get; set; }
+        public string? Dis_CompetentAuthorityOrder { get; set; }
+        public string? ProbationCompletionDate { get; set; }
+        public string? DateofJoiningADHOC { get; set; }
+        public bool? IsProbationCompleted { get; set; }
+        public bool? IsServingADHOC { get; set; }
+        public int? StateID { get; set; }
+        public int? DistrictID { get; set; }
+        public string? Pincode { get; set; }
+        public string? Address { get; set; }
+
     }
+
     public class BTER_EM_AddServiceHistoryDataModel
     {
         public int ServiceHistoryID { get; set; }

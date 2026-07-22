@@ -377,6 +377,21 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DateOfRetirement", request.DateOfRetirement ?? "");  // Add missing DateOfRetirement
                         command.Parameters.AddWithValue("@StaffSubjectListModel", JsonConvert.SerializeObject(request.bterStaffSubjectListModel));
                         command.Parameters.AddWithValue("@ServiceHistoryListModel", JsonConvert.SerializeObject(request.BterServiceHistoryListModel));
+
+                        command.Parameters.AddWithValue("@QualificationAcquiringDate", request.QualificationAcquiringDate);
+                        command.Parameters.AddWithValue("@AcquiringQualificationCertificate", request.AcquiringQualificationCertificate);
+                        command.Parameters.AddWithValue("@Dis_AcquiringQualificationCertificate", request.Dis_AcquiringQualificationCertificate);
+                        command.Parameters.AddWithValue("@CompetentAuthorityOrder", request.CompetentAuthorityOrder);
+                        command.Parameters.AddWithValue("@Dis_CompetentAuthorityOrder", request.Dis_CompetentAuthorityOrder);
+                        command.Parameters.AddWithValue("@IsServingADHOC", request.IsServingADHOC);
+                        command.Parameters.AddWithValue("@DateofJoiningADHOC", request.DateofJoiningADHOC);
+                        command.Parameters.AddWithValue("@IsProbationCompleted", request.IsProbationCompleted);
+                        command.Parameters.AddWithValue("@ProbationCompletionDate", request.ProbationCompletionDate);
+                        command.Parameters.AddWithValue("@Address", request.Address);
+                        command.Parameters.AddWithValue("@Pincode", request.Pincode);
+                        command.Parameters.AddWithValue("@StateID", request.StateID);
+                        command.Parameters.AddWithValue("@DistrictID", request.DistrictID);
+
                         _sqlQuery = command.GetSqlExecutableQuery();
                         result = await command.ExecuteNonQueryAsync();
 
