@@ -70,7 +70,9 @@ namespace Kaushal_Darpan.Models.TheoryMarks
         public string? StrKey { get; set; }
         public int? isUFM { get; set; }
         public int? IsReval { get; set; } = 0;
-        public int? Ispresent { get; set; } = 0;
+        public int? Ispresent { get; set; } = -1;
+        public int? MarkObtained { get; set; } = -1;
+        public int? ExaminerStatus { get; set; } = -1;
     }
 
     public class StudentFailTheoryReportModel

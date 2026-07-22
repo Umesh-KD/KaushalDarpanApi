@@ -191,8 +191,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@SubjectType", body.SubjectType);
                         command.Parameters.AddWithValue("@SubjectName", body.SubjectName);
                         command.Parameters.AddWithValue("@Ispresent", body.Ispresent);
+                        command.Parameters.AddWithValue("@MarkObtained", body.MarkObtained);
+                        command.Parameters.AddWithValue("@ExaminerStatus", body.ExaminerStatus);
                         //command.Parameters.AddWithValue("@IsConfirmed", body.IsConfirmed);
-
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
                     }

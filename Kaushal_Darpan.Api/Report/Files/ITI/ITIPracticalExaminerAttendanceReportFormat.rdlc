@@ -263,7 +263,7 @@
                 </Style>
               </TextRun>
               <TextRun>
-                <Value>=First(Fields!StudentCount.Value, "ExaminerHeaderDetails")</Value>
+                <Value>=First(Fields!MobileNo.Value, "ExaminerHeaderDetails")</Value>
                 <Style>
                   <FontWeight>Bold</FontWeight>
                 </Style>

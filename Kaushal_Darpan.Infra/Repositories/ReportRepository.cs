@@ -5814,7 +5814,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                         {
                             command.CommandText = "usp_Get_PracticalStudentPhotoReport";
                         }
-
                         command.Parameters.AddWithValue("@CenterID", model.CenterID);
                         command.Parameters.AddWithValue("@SubjectCode", model.SubjectCode);
                         command.Parameters.AddWithValue("@SemesterID", model.SemesterID);

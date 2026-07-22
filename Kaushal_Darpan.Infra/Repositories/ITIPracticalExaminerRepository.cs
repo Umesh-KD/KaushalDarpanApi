@@ -573,12 +573,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_Get_AssignedCentersAndTimeTable_ForExaminer";
-                            
+                        command.CommandText = "USP_Get_AssignedCentersAndTimeTable_ForExaminer";                            
                         command.Parameters.AddWithValue("@UserID", model.UserID);
                         command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-
                         _sqlQuery = command.GetSqlExecutableQuery(); // Optional: for logging
 
                         dataTable = await command.FillAsync_DataTable();
