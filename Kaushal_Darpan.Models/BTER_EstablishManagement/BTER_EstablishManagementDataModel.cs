@@ -174,6 +174,8 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public string? DepartmentJoiningDate { get; set; }
         public string? DateOfRetirement { get; set; }
         public string? MobileNumber { get; set; }
+        public string? WhatsAppNumber { get; set; }
+        public string? Mailpersonal { get; set; }
         public string? SSOID { get; set; }
         public string? EmployeeID { get; set; }
         public string? CurrentDesignationID { get; set; }
@@ -564,6 +566,10 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? RoleID { get; set; }
         public int? BudgetHeadID { get; set; }
         public int? BranchID { get; set; }
+        public int? Eng_NonEng { get; set; }
+        public int? EndTermId { get; set; }
+        public int? DepartmentID { get; set; }
+        public int? ManagementTypeID { get; set; }
         public string? OrderNo { get; set; }
     }
 }

@@ -361,6 +361,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@StaffID", request.StaffID);
                         command.Parameters.AddWithValue("@ServiceBookBranchID", request.ServiceBookBranchID);
                         command.Parameters.AddWithValue("@Remark", request.Remark);
+                        command.Parameters.AddWithValue("@WhatsAppNumber", request.WhatsAppNumber);
+                        command.Parameters.AddWithValue("@Mailpersonal", request.Mailpersonal);
 
                         // Add missing parameters from SQL
                         command.Parameters.AddWithValue("@Name", request.Name ?? "");  
@@ -2362,6 +2364,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@OrderNo", body.OrderNo);
                         command.Parameters.AddWithValue("@BudgetHeadID", body.BudgetHeadID);
                         command.Parameters.AddWithValue("@BranchID", body.BranchID);
+
+                        command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
+                        command.Parameters.AddWithValue("@EndTermId", body.EndTermId);
+                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                        command.Parameters.AddWithValue("@ManagementTypeID", body.ManagementTypeID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
