@@ -2435,6 +2435,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
                     command.Parameters.AddWithValue("@ProfileStatus", body.ProfileStatus);
                     command.Parameters.AddWithValue("@act", body.act);
+                    command.Parameters.AddWithValue("@IsServingADHOC", body.IsServingADHOC);
+                    command.Parameters.AddWithValue("@IsProbationCompleted", body.IsProbationCompleted);
+
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
                 }

@@ -66,6 +66,8 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? InstituteID { get; set; }
         public int? ProfileStatus { get; set; }
         public string? act{ get; set; }
+        public int? IsProbationCompleted { get; set; }
+        public int? IsServingADHOC { get; set; }
     }
 
     public class BTER_EM_GetPersonalDetailByUserID
