@@ -10870,10 +10870,6 @@ namespace Kaushal_Darpan.Api.Controllers
                     localReport.AddDataSource("ExaminerHeaderDetails", data.Tables[0]);
                     localReport.AddDataSource("ExaminerStudentList", data.Tables[1]);
 
-
-
-
-
                     var reportResult = localReport.Execute(RenderType.Pdf);
 
                     //check file exists
