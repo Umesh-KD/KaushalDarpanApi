@@ -128,15 +128,22 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        if (filterModel.Eng_NonEng==1)
-                        {
-                            command.CommandText = "USP_ITI_NcvtGetCenterWisePracticalExaminer";
-                        }
-                        else
-                        {
-                            command.CommandText = "USP_ITI_GetCenterWisePracticalExaminer";
-                        }
-                    
+                        //if(filterModel.Action== "_getCenterexaminerData")
+                        //{
+                        //    command.CommandText = "USP_ITI_GetPracticalExaminerData";
+                        //}
+                        //else
+                        //{
+                            if (filterModel.Eng_NonEng == 1)
+                            {
+                                command.CommandText = "USP_ITI_NcvtGetCenterWisePracticalExaminer";
+                            }
+                            else
+                            {
+                                command.CommandText = "USP_ITI_GetCenterWisePracticalExaminer";
+                            }
+
+                        //}
                         command.Parameters.AddWithValue("@EndTermID", filterModel.EndTermID);
                         command.Parameters.AddWithValue("@FinancialYearID", filterModel.FinancialYearID);
                         //command.Parameters.AddWithValue("@Action", '');
