@@ -70,7 +70,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("GetRevalation")]
         public async Task<ApiResult<DataTable>> GetAllRevalation([FromBody] StudentDetailsByRollNoModel body)
         {
-            ActionName = "GetExaminerData()";
+            ActionName = "GetAllRevalation([FromBody] StudentDetailsByRollNoModel body)";
             var result = new ApiResult<DataTable>();
             try
             {
@@ -78,7 +78,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.State = EnumStatus.Success;
                 if (result.Data.Rows.Count == 0)
                 {
-                    result.State = EnumStatus.Success;
+                    result.State = EnumStatus.Warning;
                     result.Message = "No record found.!";
                     return result;
                 }
