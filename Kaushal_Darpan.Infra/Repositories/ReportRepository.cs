@@ -10062,7 +10062,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                 using (var command = await _dbContext.CreateCommandAsync())
                 {
                     command.CommandType = CommandType.StoredProcedure;
-                    command.CommandText = "USP_Diploma_RWH_Report";
+                    //command.CommandText = "USP_Diploma_RWH_Report";
+                    command.CommandText = "USP_StudentEligibleForDiploma_Report";
 
                     command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                     command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
@@ -10076,6 +10077,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
+                  
                 }
                 return dataTable;
             }
@@ -10102,7 +10104,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                 using (var command = await _dbContext.CreateCommandAsync())
                 {
                     command.CommandType = CommandType.StoredProcedure;
-                    command.CommandText = "USP_Diploma_RWH_Report";
+                    //command.CommandText = "USP_Diploma_RWH_Report";
+                    command.CommandText = "USP_StudentEligibleForDiploma_Report";
 
                     command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                     command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
