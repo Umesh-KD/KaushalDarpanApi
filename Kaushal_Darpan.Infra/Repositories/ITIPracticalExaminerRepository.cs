@@ -142,7 +142,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                             {
                                 command.CommandText = "USP_ITI_GetCenterWisePracticalExaminer";
                             }
-
                         //}
                         command.Parameters.AddWithValue("@EndTermID", filterModel.EndTermID);
                         command.Parameters.AddWithValue("@FinancialYearID", filterModel.FinancialYearID);
@@ -357,6 +356,54 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<int> UpdatePracticalExaminerReport(ITIPracticalExaminerSearchFilter request)
+        {
+            _actionName = "UpdatePracticalExaminerReport(ITIPracticalExaminerSearchFilter request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandText = "USP_UpdatePracticalExaminerReport";
+                        command.CommandType = CommandType.StoredProcedure;
+                        // Add parameters with appropriate null handling
+                        command.Parameters.AddWithValue("@CenterID", request.CenterID);
+                        command.Parameters.AddWithValue("@ExaminerID", request.ExaminerID);
+                        command.Parameters.AddWithValue("@EndTermID", request.EndTermID);
+                        command.Parameters.AddWithValue("@FinancialYearID", request.FinancialYearID);
+                        command.Parameters.AddWithValue("@UserID", request.UserID);
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                        command.Parameters.AddWithValue("@TimeTableID", request.TimeTableID);
+                        command.Parameters.AddWithValue("@SSOID", request.SSOID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", request.Eng_NonEng);
+                        command.Parameters.AddWithValue("@StreamID", request.StreamID);
+                        command.Parameters.AddWithValue("@OtherDoc", request.OtherDoc);
+                        command.Parameters.Add("@retval_ID", SqlDbType.Int);// out
+                        command.Parameters["@retval_ID"].Direction = ParameterDirection.Output;// out
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+
+                        result = Convert.ToInt32(command.Parameters["@retval_ID"].Value);// out
+                    }
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
 
         public async Task<DataTable> Getstaffpractical(ItiPracticalExaminerDDLDataModel body)
         {

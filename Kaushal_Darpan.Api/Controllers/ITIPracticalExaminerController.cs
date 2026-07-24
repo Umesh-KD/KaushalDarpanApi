@@ -191,6 +191,55 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+        [HttpPost("UpdatePracticalExaminerReport")]
+        public async Task<ApiResult<bool>> UpdatePracticalExaminerReport([FromBody] ITIPracticalExaminerSearchFilter request)
+        {
+            ActionName = "UpdatePracticalExaminerReport([FromBody] ITIPracticalExaminerSearchFilter request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+
+                    var isSave = await _unitOfWork.ITIPracticalExaminerRepository.UpdatePracticalExaminerReport(request);
+                    await _unitOfWork.SaveChangesAsync();
+
+                    if (isSave == -2)
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
+                    }
+                    else if (isSave > 0)
+                    {
+                        result.Data = true;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_UPDATE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+
+                    // Log the error
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
 
 
         [HttpPost("Getstaffpractical")]

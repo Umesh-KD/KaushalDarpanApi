@@ -36,6 +36,9 @@ namespace Kaushal_Darpan.Models.ITIPracticalExaminer
         public int StreamID { get; set; }
         public int InstituteID {get; set;}
         public int DistrictID {get; set;}
+        public int?  ExaminerID { get; set;}
+        public int? TimeTableID { get; set;}
+        public string? OtherDoc { get; set;}
     }
 
     public class PracticalExaminerSearchModel
