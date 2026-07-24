@@ -72,29 +72,26 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<DataTable> GetAllRevalation(StudentDetailsByRollNoModel body)
         {
-            _actionName = "GetTeacherForExaminer()";
+            _actionName = "GetAllRevalation(StudentDetailsByRollNoModel body)";
             try
             {
-                return await Task.Run(async () =>
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_GetPaymentRevaluationDetails";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetPaymentRevaluationDetails";
 
-                        command.Parameters.AddWithValue("@StudentID", body.StudentID);
-                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
-                        command.Parameters.AddWithValue("@StudentExamID", body.StudentExamID);
-                        command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
-                        command.Parameters.AddWithValue("@CourseType", body.CourseTypeID);
-                        command.Parameters.AddWithValue("@IsKiosk", body.IsKiosk);
+                    command.Parameters.AddWithValue("@StudentID", body.StudentID);
+                    command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                    command.Parameters.AddWithValue("@StudentExamID", body.StudentExamID);
+                    command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                    command.Parameters.AddWithValue("@CourseType", body.CourseTypeID);
+                    command.Parameters.AddWithValue("@IsKiosk", body.IsKiosk);
 
-                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-                    return dataTable;
-                });
+                    _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
             }
             catch (Exception ex)
             {
