@@ -75,7 +75,6 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 result.Data = await Task.Run(() => _unitOfWork.RevaluationRepository.GetAllRevalation(body));
-                result.State = EnumStatus.Success;
                 if (result.Data.Rows.Count == 0)
                 {
                     result.State = EnumStatus.Warning;
@@ -88,7 +87,9 @@ namespace Kaushal_Darpan.Api.Controllers
             catch (System.Exception ex)
             {
                 await _unitOfWork.DisposeAsync();
+
                 result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
                 result.ErrorMessage = ex.Message;
                 // write error log
                 var nex = new NewException
