@@ -5947,6 +5947,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                         command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
                         command.Parameters.AddWithValue("@UserID", model.UserID);
+                        command.Parameters.AddWithValue("@StreamID", model.StreamID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         ds = await command.FillAsync();
                     }
