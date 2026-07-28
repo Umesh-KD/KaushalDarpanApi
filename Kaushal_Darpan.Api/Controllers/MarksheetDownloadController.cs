@@ -223,8 +223,15 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.Message = Constants.MSG_INVALID_REQUEST;
                     return result;
                 }
-                // check data found or not
-                if (result.Data.Tables.Count < 3 || result.Data.Tables[0].Rows.Count == 0)
+
+                //validate
+                if (result.Data.Tables.Count == 1 && result.Data.Tables[0].Rows.Count > 0) // exclude rwh student in mainresulttype
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Convert.ToString(result.Data.Tables[0].Rows[0]["Msg"]);
+                    return result;
+                }
+                else if (result.Data.Tables.Count < 3 || result.Data.Tables[0].Rows.Count == 0) // check data found or not
                 {
                     result.State = EnumStatus.Warning;
                     result.Message = Constants.MSG_DATA_NOT_FOUND;

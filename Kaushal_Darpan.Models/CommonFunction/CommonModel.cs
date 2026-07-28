@@ -226,4 +226,18 @@ namespace Kaushal_Darpan.Models.CommonModel
         public int MarksheetType { get; set; } = 0;
     }
 
+    public class StudentDiplomaandRWHReportModel
+    {
+        public int DepartmentID { get; set; }
+        public int Eng_NonEng { get; set; }
+        public int EndTermID { get; set; }
+        public int SemesterID { get; set; }
+        public int SchemeID { get; set; }
+        public int? InstituteID { get; set; }
+        public int? IsBridge { get; set; }
+        public string? EnrollmentNo { get; set; }
+    }
+
+
+
 }

@@ -1123,9 +1123,278 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
+        //    [HttpPost("TeacherForExaminerReportDewnloadPdf")]
+        //    public async Task<IActionResult> TeacherForExaminerReportDewnloadPdf(
+        //[FromBody] ITITeacherForExaminerSearchModel body)
+        //    {
+        //        try
+        //        {
+        //            var streams_data =
+        //                await _unitOfWork.ItiExaminerRepository.TeacherForExaminerReportDewnloadPdf(body);
+        //            var dataList =
+        //                CommonFuncationHelper.ConvertDataTable<List<ITITeacherForExaminerSearchModel>>(streams_data);
+        //            var groupedData = dataList
+        //                .GroupBy(x => new { x.SubjectCode, x.StreamID, x.SemesterID,x.CenterCode })
+        //                .ToList();
+        //            var sb = new StringBuilder();
+        //            // ================= HTML HEADER =================
+        //            sb.Append(@"
+        //            <!DOCTYPE html>
+        //            <html lang='en'>
+        //            <head>
+        //                <meta charset='UTF-8'>
+        //                <title>Teacher Examiner Report</title>
+        //                <style>
+        //                    body {
+        //                        font-family: Arial, Helvetica, sans-serif;
+        //                        font-size: 12px;
+        //                        margin: 20px;
+        //                    }
+        //                    table {
+        //                        width: 100%;
+        //                        border-collapse: collapse;
+        //                        margin-top: 10px;
+        //                    }
+        //                    table, th, td {
+        //                        border: 1px solid #000;
+        //                    }
+        //                    th, td {
+        //                        padding: 5px;
+        //                        text-align: center;
+        //                    }
+        //                    th {
+        //                        font-weight: bold;
+        //                    }
+        //                    .text-left {
+        //                        text-align: left;
+        //                    }
+        //                    .line {
+        //                        border-bottom: 1px solid #000;
+        //                        display: inline-block;
+        //                        width: 200px;
+        //                    }
+
+        //             .footer-table {{
+        //                    width: 100%;
+        //                    border-collapse: collapse;
+        //                    font-size: 10px;
+        //                }}
+        //                .footer-table td {{
+        //                    border: 1px solid #000;
+        //                    padding: 6px;
+        //                    vertical-align: top;
+        //                }}
+        //                .line {{
+        //                    display: inline-block;
+        //                    border-bottom: 1px solid #000;
+        //                    width: 150px;
+        //                }}
+
+
+        //                    .page-break {
+        //                        --page-break-after: always;
+        //                        --border-bottom: 1px dashed #000;
+        //                    }
+
+        //              .table-wrapper {
+        //                    width: 100%;
+
+        //                }
+
+        //                .half-table {
+        //                    width: 50%;
+        //                    display: inline-block;
+        //                    vertical-align: top;
+        //                    font-size: 12px;
+        //                    box-sizing: border-box;
+        //                    padding-right: 10px;
+        //                }
+        //            .page-col {
+        //                    width: 50%;
+        //                    display: inline-block;
+        //                    vertical-align: top;
+        //                    font-size: 12px;
+        //                    box-sizing: border-box;
+        //                    padding: 10px;
+        //                }
+        //            .page-row {
+        //                    width: 100%;
+        //                    font-size: 0; /* remove inline-block gap */
+        //                }
+
+
+        //                </style>
+        //            </head>
+        //            <body>
+        //            ");
+
+        //            // ================= BODY =================
+        //            //<td style=""border:none; text-align:left;"">
+        //            //    Examiner Code: <b>{header.ExaminerCode}</b>
+        //            //</td>
+        //            int groupIndex = 0;
+        //            int totalGroups = groupedData.Count;
+
+        //            foreach (var gitem in groupedData)
+        //            {
+        //                var header = gitem.First();
+
+        //               sb.Append($@"<div   style=""border:1px solid #ddd; padding:35px; margin-bottom:25px;"">
+        //                <div {(groupIndex < totalGroups - 1 ? "class='page-break'" : "")}>
+
+        //                <table width=""100%"" style=""border:none; margin-bottom:10px;"">
+        //                    <tr>
+        //                        <td style=""border:none; text-align:left;"">
+        //                            <b>{header.ExamName}</b>
+        //                        </td>
+        //                        <td style=""border:none; text-align:right;"">
+        //                            Center Code: <b>{header.CenterCode}</b>
+        //                        </td>
+        //                    </tr>
+
+        //                    <tr>
+        //                        <td style=""border:none; text-align:left;"" colspan=""2"">
+        //                            Subject: <b>{header.SubjectName}</b>
+        //                        </td> 
+        //                    </tr>
+
+        //                    <tr>
+        //                        <td style=""border:none; text-align:left;"">
+        //                            Trade: <b>{header.StreamName}</b>
+        //                        </td>
+        //                        <td style=""border:none; text-align:right;"">
+        //                            Maximum Marks: <b>{header.MaxMarks}</b>
+        //                        </td>
+        //                    </tr>
+        //                </table>
+
+
+        //                <table>
+        //                    <thead>
+        //                        <tr>
+        //                            <th>S.No.</th>
+        //                            <th>Roll No</th>
+        //                            <th>Marks (In Words)</th>
+        //                            <th>Marks (In Fig.)</th>
+        //                        </tr>
+        //                    </thead>
+        //                    <tbody>
+        //            ");
+
+        //                                int sno = 1;
+
+        //                                foreach (var item in gitem)
+        //                                {
+        //                                    sb.Append($@"
+        //                        <tr>
+        //                            <td>{sno++}</td>
+        //                            <td>{item.RollNo}</td>
+        //                            <td>{item.ObtainedMarks_inWords}</td>
+        //                            <td>{item.ObtainedMarks}</td>
+        //                        </tr>");
+        //                                }
+
+        //                        //        for (int i = sno; i <= 30; i++)
+        //                        //        {
+        //                        //            sb.Append($@"
+        //                        //<tr>
+        //                        //    <td>{i}</td>
+        //                        //    <td></td>
+        //                        //    <td></td>
+        //                        //    <td></td>
+        //                        //</tr>");
+        //                        //        }
+
+        //                                sb.Append($@"
+        //                    </tbody>
+        //                </table>
+
+        //                <br/><br/>
+
+        //                <table width='100%' style='border:none'>
+        //                    <tr>
+        //                        <td class='text-left' style='border:none'>
+        //                            Name: <b>{header.ExaminerName}</b>
+        //                        </td>
+        //                        <td class='text-left' style='border:none'>
+        //                            Date: <span class='line'></span>
+        //                        </td>
+        //                    </tr>
+        //                    <tr>
+        //                        <td class='text-left' style='border:none'>
+        //                            Post: <span class='line'></span>
+        //                        </td>
+        //                        <td class='text-left' style='border:none'>
+        //                            Signature: <span class='line'></span>
+        //                        </td>
+        //                    </tr>
+        //                    <tr>
+        //                        <td class='text-left' style='border:none'>
+        //                            Mobile No: <b>{header.MobileNo}</b>
+        //                        </td>
+        //                        <td style='border:none'></td>
+        //                    </tr>
+        //                </table>
+
+
+        //            </div></div></div>
+        //            ");
+
+        //                groupIndex++;
+        //            }
+
+        //            // ================= HTML FOOTER =================
+        //            sb.Append(@"
+        //            </body>
+        //            </html>
+        //            ");
+
+        //            // ================= PDF SETTINGS =================
+        //            var doc = new HtmlToPdfDocument
+        //            {
+        //                GlobalSettings =
+        //        {
+        //            PaperSize = PaperKind.A4,
+        //            Orientation = Orientation.Portrait
+        //        },
+        //                Objects =
+        //        {
+        //            new ObjectSettings
+        //            {
+        //                HtmlContent = sb.ToString(),
+        //                WebSettings = { DefaultEncoding = "utf-8" },
+        //                FooterSettings = new FooterSettings
+        //                {
+        //                    FontName = "Arial",
+        //                    FontSize = 9,
+        //                    Left = "Printed on: [date]",
+        //                    Right = "Page [page] of [toPage]",
+        //                    Line = true
+        //                },
+        //            }
+        //        }
+        //            };
+
+        //            byte[] pdfBytes = _converter.Convert(doc);
+
+        //            return File(
+        //                pdfBytes,
+        //                "application/pdf",
+        //                "Teacher_For_Examiner_Report.pdf"
+        //            );
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            return StatusCode(500, ex.Message);
+        //        }
+        //    }
+
+
+
+        #region upated TeacherForExaminerReportDewnloadPdf
         [HttpPost("TeacherForExaminerReportDewnloadPdf")]
         public async Task<IActionResult> TeacherForExaminerReportDewnloadPdf(
-    [FromBody] ITITeacherForExaminerSearchModel body)
+      [FromBody] ITITeacherForExaminerSearchModel body)
         {
             try
             {
@@ -1134,99 +1403,83 @@ namespace Kaushal_Darpan.Api.Controllers
                 var dataList =
                     CommonFuncationHelper.ConvertDataTable<List<ITITeacherForExaminerSearchModel>>(streams_data);
                 var groupedData = dataList
-                    .GroupBy(x => new { x.SubjectCode, x.StreamID, x.SemesterID,x.CenterCode })
+                    .GroupBy(x => new { x.SubjectCode, x.StreamID, x.SemesterID, x.CenterCode })
                     .ToList();
+
+                const int rowsPerPage = 20; // only matters for very large groups now
+
                 var sb = new StringBuilder();
+
                 // ================= HTML HEADER =================
                 sb.Append(@"
-<!DOCTYPE html>
-<html lang='en'>
-<head>
-    <meta charset='UTF-8'>
-    <title>Teacher Examiner Report</title>
-    <style>
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            font-size: 12px;
-            margin: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-        table, th, td {
-            border: 1px solid #000;
-        }
-        th, td {
-            padding: 5px;
-            text-align: center;
-        }
-        th {
-            font-weight: bold;
-        }
-        .text-left {
-            text-align: left;
-        }
-        .line {
-            border-bottom: 1px solid #000;
-            display: inline-block;
-            width: 200px;
-        }
-
- .footer-table {{
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 10px;
-    }}
-    .footer-table td {{
-        border: 1px solid #000;
-        padding: 6px;
-        vertical-align: top;
-    }}
-    .line {{
-        display: inline-block;
-        border-bottom: 1px solid #000;
-        width: 150px;
-    }}
-
-
-        .page-break {
-            --page-break-after: always;
---border-bottom: 1px dashed #000;
-        }
-
-  .table-wrapper {
-        width: 100%;
-      
-    }
-
-    .half-table {
-        width: 50%;
-        display: inline-block;
-        vertical-align: top;
-        font-size: 12px;
-        box-sizing: border-box;
-        padding-right: 10px;
-    }
-.page-col {
-        width: 50%;
-        display: inline-block;
-        vertical-align: top;
-        font-size: 12px;
-        box-sizing: border-box;
-        padding: 10px;
-    }
-.page-row {
-        width: 100%;
-        font-size: 0; /* remove inline-block gap */
-    }
-
-
-    </style>
-</head>
-<body>
-");
+        <!DOCTYPE html>
+        <html lang='en'>
+        <head>
+            <meta charset='UTF-8'>
+            <title>Teacher Examiner Report</title>
+            <style>
+                body {
+                    font-family: Arial, Helvetica, sans-serif;
+                    font-size: 12px;
+                    margin: 20px;
+                }
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-top: 10px;
+                    page-break-inside: auto;
+                }
+                table, th, td {
+                    border: 1px solid #000;
+                }
+                th, td {
+                    padding: 5px;
+                    text-align: center;
+                }
+                th {
+                    font-weight: bold;
+                }
+                thead {
+                    display: table-header-group;
+                }
+                tbody {
+                    display: table-row-group;
+                }
+                tr {
+                    page-break-inside: avoid;
+                    page-break-after: auto;
+                }
+                .text-left {
+                    text-align: left;
+                }
+                .line {
+                    border-bottom: 1px solid #000;
+                    display: inline-block;
+                    width: 200px;
+                }
+                .footer-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    font-size: 10px;
+                }
+                .footer-table td {
+                    border: 1px solid #000;
+                    padding: 6px;
+                    vertical-align: top;
+                }
+                .page-break {
+                    page-break-after: always;
+                }
+                .group-block {
+                    border: 1px solid #ddd;
+                    padding: 35px;
+                    margin-bottom: 25px;
+                    page-break-inside: avoid;
+                }
+            </style>
+        </head>
+        <body>
+        ");
 
                 // ================= BODY =================
                 int groupIndex = 0;
@@ -1235,122 +1488,129 @@ namespace Kaushal_Darpan.Api.Controllers
                 foreach (var gitem in groupedData)
                 {
                     var header = gitem.First();
+                    var rows = gitem.ToList();
 
-                   sb.Append($@"<div   style=""border:1px solid #ddd; padding:35px; margin-bottom:25px;"">
-<div {(groupIndex < totalGroups - 1 ? "class='page-break'" : "")}>
+                    var rowChunks = rows
+                        .Select((item, idx) => new { item, idx })
+                        .GroupBy(x => x.idx / rowsPerPage)
+                        .Select(g => g.Select(x => x.item).ToList())
+                        .ToList();
 
-
-<table width=""100%"" style=""border:none; margin-bottom:10px;"">
-    <tr>
-        <td style=""border:none; text-align:left;"">
-            <b>{header.ExamName}</b>
-        </td>
-        <td style=""border:none; text-align:right;"">
-            Center Code: <b>{header.CenterCode}</b>
-        </td>
-    </tr>
-
-    <tr>
-        <td style=""border:none; text-align:left;"">
-            Examiner Code: <b>{header.ExaminerCode}</b>
-        </td>
-        <td style=""border:none; text-align:right;"">
-            Subject: <b>{header.SubjectName}</b>
-        </td>
-    </tr>
-
-    <tr>
-        <td style=""border:none; text-align:left;"">
-            Trade: <b>{header.StreamName}</b>
-        </td>
-        <td style=""border:none; text-align:right;"">
-            Maximum Marks: <b>{header.MaxMarks}</b>
-        </td>
-    </tr>
-</table>
-
-
-
-
-    <table>
-        <thead>
-            <tr>
-                <th>S.No.</th>
-                <th>Roll No</th>
-                <th>Marks (In Words)</th>
-                <th>Marks (In Fig.)</th>
-            </tr>
-        </thead>
-        <tbody>
-");
-
-                    int sno = 1;
-
-                    foreach (var item in gitem)
+                    for (int chunkIndex = 0; chunkIndex < rowChunks.Count; chunkIndex++)
                     {
+                        var chunkRows = rowChunks[chunkIndex];
+                        bool isLastChunkOfGroup = chunkIndex == rowChunks.Count - 1;
+
+                        sb.Append(@"<div class='group-block'>");
+
                         sb.Append($@"
-            <tr>
-                <td>{sno++}</td>
-                <td>{item.RollNo}</td>
-                <td>{item.ObtainedMarks_inWords}</td>
-                <td>{item.ObtainedMarks}</td>
-            </tr>");
+                <table width=""100%"" style=""border:none; margin-bottom:10px;"">
+                    <tr>
+                        <td style=""border:none; text-align:left;"">
+                            <b>{header.ExamName}</b>
+                        </td>
+                        <td style=""border:none; text-align:right;"">
+                            Center Code: <b>{header.CenterCode}</b>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style=""border:none; text-align:left;"">
+                            Examiner Code: <b>{header.ExaminerCode}</b>
+                        </td>
+                        <td style=""border:none; text-align:right;"">
+                            Subject: <b>{header.SubjectName}</b>
+                        </td>                        
+                    </tr>
+
+                    <tr>
+                        <td style=""border:none; text-align:left;"">
+                            Trade: <b>{header.StreamName}</b>
+                        </td>
+                        <td style=""border:none; text-align:right;"">
+                            Maximum Marks: <b>{header.MaxMarks}</b>
+                        </td>
+                    </tr>
+                </table>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>S.No.</th>
+                            <th>Roll No</th>
+                            <th>Marks (In Words)</th>
+                            <th>Marks (In Fig.)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                ");
+
+                        int sno = chunkIndex * rowsPerPage + 1;
+                        foreach (var item in chunkRows)
+                        {
+                            sb.Append($@"
+                    <tr>
+                        <td>{sno++}</td>
+                        <td>{item.RollNo}</td>
+                        <td>{item.ObtainedMarks_inWords}</td>
+                        <td>{item.ObtainedMarks}</td>
+                    </tr>");
+                        }
+
+                        sb.Append(@"
+                    </tbody>
+                </table>
+                ");
+
+                        if (isLastChunkOfGroup)
+                        {
+                            sb.Append($@"
+                    <br/><br/>
+
+                    <table width='100%' style='border:none'>
+                        <tr>
+                            <td class='text-left' style='border:none'>
+                                Name: <b>{header.ExaminerName}</b>
+                            </td>
+                            <td class='text-left' style='border:none'>
+                                Date: <span class='line'></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class='text-left' style='border:none'>
+                                Post: <span class='line'></span>
+                            </td>
+                            <td class='text-left' style='border:none'>
+                                Signature: <span class='line'></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class='text-left' style='border:none'>
+                                Mobile No: <b>{header.MobileNo}</b>
+                            </td>
+                            <td style='border:none'></td>
+                        </tr>
+                    </table>
+                    ");
+                        }
+
+                        sb.Append(@"</div>");
+
+                        // Force a break ONLY if this group itself continues into another chunk
+                        if (!isLastChunkOfGroup)
+                        {
+                            sb.Append(@"<div class='page-break'></div>");
+                        }
                     }
-
-            //        for (int i = sno; i <= 30; i++)
-            //        {
-            //            sb.Append($@"
-            //<tr>
-            //    <td>{i}</td>
-            //    <td></td>
-            //    <td></td>
-            //    <td></td>
-            //</tr>");
-            //        }
-
-                    sb.Append($@"
-        </tbody>
-    </table>
-
-    <br/><br/>
-
-    <table width='100%' style='border:none'>
-        <tr>
-            <td class='text-left' style='border:none'>
-                Name: <b>{header.ExaminerName}</b>
-            </td>
-            <td class='text-left' style='border:none'>
-                Date: <span class='line'></span>
-            </td>
-        </tr>
-        <tr>
-            <td class='text-left' style='border:none'>
-                Post: <span class='line'></span>
-            </td>
-            <td class='text-left' style='border:none'>
-                Signature: <span class='line'></span>
-            </td>
-        </tr>
-        <tr>
-            <td class='text-left' style='border:none'>
-                Mobile No: <b>{header.MobileNo}</b>
-            </td>
-            <td style='border:none'></td>
-        </tr>
-    </table>
-
-
-</div></div></div>
-");
 
                     groupIndex++;
                 }
 
                 // ================= HTML FOOTER =================
                 sb.Append(@"
-</body>
-</html>
-");
+        </body>
+        </html>
+        ");
 
                 // ================= PDF SETTINGS =================
                 var doc = new HtmlToPdfDocument
@@ -1370,7 +1630,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     {
                         FontName = "Arial",
                         FontSize = 9,
-                        Left = "Printed on: [date]",
+                        Left = "Printed on: " + DateTime.Now.ToString("dd-MM-yyyy"),
                         Right = "Page [page] of [toPage]",
                         Line = true
                     },
@@ -1391,8 +1651,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
-
-
+        #endregion
 
 
 

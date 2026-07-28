@@ -93,6 +93,7 @@ namespace Kaushal_Darpan.Core.Helper
         public const string EsignedPdfFolder = "/EsignedPdf";
         public const string JoiningRelivingLetterBTER = "Report/BTER";
         public const string MarksheetFolder = "Marksheet";
+        public const string FinalDiplomaFolder = "FinalDiploma";
 
         //ITI FOLDERS
         public const string RDLCFolderITI = "Report/Files/ITI";
