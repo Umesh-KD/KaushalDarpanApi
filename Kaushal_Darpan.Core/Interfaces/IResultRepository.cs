@@ -11,5 +11,7 @@ namespace Kaushal_Darpan.Core.Interfaces
     public interface IResultRepository
     {
         Task<DataTable> GetStudentResult(StudentResultSearchModal model);
+        Task<DataTable> GetGeneratedResultDetails(StudentResultSearchModal model);
+        Task<DataTable> Publish_Unpublish_BTER_Result(Publish_Unpublish_BTER_ResultDataModel model);
     }
 }
