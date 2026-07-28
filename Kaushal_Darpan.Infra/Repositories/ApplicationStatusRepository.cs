@@ -7,6 +7,7 @@ using Kaushal_Darpan.Models.CampusPostMaster;
 using Kaushal_Darpan.Models.CreateTpoMaster;
 using Kaushal_Darpan.Models.DocumentDetails;
 using Kaushal_Darpan.Models.ITIApplication;
+using Kaushal_Darpan.Models.RoleMaster;
 using Kaushal_Darpan.Models.Student;
 using Kaushal_Darpan.Models.StudentMaster;
 using Kaushal_Darpan.Models.studentve;
@@ -341,6 +342,46 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<bool> unlockadmissionform(int ID)
+        {
+
+            int result = 0;
+            _actionName = "unlockadmissionform(HiringRoleMasterModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_unlockadmissionform";
+
+
+                        command.Parameters.AddWithValue("@ID",ID);
+
+                        result = await command.ExecuteNonQueryAsync();
+
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
 
     }
 }

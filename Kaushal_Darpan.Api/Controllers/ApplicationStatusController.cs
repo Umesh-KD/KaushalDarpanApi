@@ -8,6 +8,7 @@ using Kaushal_Darpan.Models.ApplicationStatus;
 using Kaushal_Darpan.Models.CompanyMaster;
 using Kaushal_Darpan.Models.CreateTpoMaster;
 using Kaushal_Darpan.Models.DocumentDetails;
+using Kaushal_Darpan.Models.RoleMaster;
 using Kaushal_Darpan.Models.Student;
 using Kaushal_Darpan.Models.studentve;
 using Microsoft.AspNetCore.Http;
@@ -285,6 +286,46 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
+        [HttpPost("unlockadmissionform/{PK_ID}")]
+        public async Task<ApiResult<bool>> unlockadmissionform(int PK_ID)
+        {
+            ActionName = "DeleteDataByID(int PK_ID, int ModifyBy)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+                  
+                    result.Data = await _unitOfWork.ApplicationStatusRepository.unlockadmissionform(PK_ID);
+                    await _unitOfWork.SaveChangesAsync();
 
+                    if (result.Data)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = "Unlock Succesfully.!";
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = "There was an error deleting data.!";
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
     }
 }
