@@ -68,8 +68,8 @@ namespace Kaushal_Darpan.Models.ItiExaminer
         public int UserID { get; set; }
         public int InstituteID { get; set; }
         public int TradeType { get; set; }
-        public int RollFrom { get; set; }
-        public int RollTo { get; set; }
+        public Int64 RollFrom { get; set; }
+        public Int64 RollTo { get; set; }
         public int SubjectType { get; set; }
         public int StudentCount { get; set; }
         public int ExaminerID { get; set; }
