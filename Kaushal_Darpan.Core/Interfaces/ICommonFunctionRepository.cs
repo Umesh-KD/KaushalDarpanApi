@@ -313,8 +313,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetSPs();
         Task<DataTable> GetTableColumn(string Table);
         Task<DataTable> GetTableRecordCount(string Table);
-        Task<string> TruncateTableRow(string table);
-        Task<string> AddTableRows(DataTable Table);
+        Task<string> TruncateTableRow(string table, bool isAppendDemoName);
+        Task<string> AddTableRows(DataTable Table, bool isAppendDemoName);
         Task<DataTable> GetTableRows(string Table, string PageNumber, string PageSize);
         Task<EmitraServiceAndFeeModel> GetEmitraServiceAndFeeData(EmitraServiceAndFeeRequestModel model);
         Task<long> UpdateEmitraCollegePaymentStatus(EmitraCollegeTransactionsModel model);
