@@ -4227,7 +4227,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     {
                         DownloadnRollNoModel ModInsert = RollListDetails.FirstOrDefault() ?? new DownloadnRollNoModel();
                         ModInsert.TotalStudent = RollListDetails.Sum(f => f.Totalstudent);
-                        
+
 
                         foreach (var StudentExamID in RollListDetails)
                         {
@@ -4281,55 +4281,55 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     }
 
-                        //#region "Save Multiple PDF PAGES"    // old Code 
-                        //string outputFile = $"MergePDFRollList_{Model.FirstOrDefault()?.InstituteID}.pdf";
-                        //string outputPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{outputFile}";
-                        //if (await MergePdfFilesAsync(ListRoleListPath, outputPath))
-                        //{
-                        //    //delete files
-                        //    await DeleteFiles(ListRoleListPath);
-                        //    result.Data = outputFile;
-                        //    result.State = EnumStatus.Success;
-                        //    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
-                        //}
-                        //else
-                        //{
-                        //    result.State = EnumStatus.Error;
-                        //    result.ErrorMessage = "Something went wrong";
-                        //}
-                        //#endregion
+                    //#region "Save Multiple PDF PAGES"    // old Code 
+                    //string outputFile = $"MergePDFRollList_{Model.FirstOrDefault()?.InstituteID}.pdf";
+                    //string outputPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{outputFile}";
+                    //if (await MergePdfFilesAsync(ListRoleListPath, outputPath))
+                    //{
+                    //    //delete files
+                    //    await DeleteFiles(ListRoleListPath);
+                    //    result.Data = outputFile;
+                    //    result.State = EnumStatus.Success;
+                    //    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    //}
+                    //else
+                    //{
+                    //    result.State = EnumStatus.Error;
+                    //    result.ErrorMessage = "Something went wrong";
+                    //}
+                    //#endregion
 
 
 
-                        #region "Save Multiple PDF PAGES"
-                        string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
-                        string guid = Guid.NewGuid().ToString().ToUpper();
-                        string outputFile = $"{guid}_{timestamp}.pdf";
-                        string outputPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{outputFile}";
-                        if (await MergePdfFilesAsync(ListRoleListPath, outputPath))
+                    #region "Save Multiple PDF PAGES"
+                    string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+                    string guid = Guid.NewGuid().ToString().ToUpper();
+                    string outputFile = $"{guid}_{timestamp}.pdf";
+                    string outputPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{outputFile}";
+                    if (await MergePdfFilesAsync(ListRoleListPath, outputPath))
+                    {
+                        try
                         {
-                            try
-                            {
-                                //delete files
-                                // await DeleteFiles(ListRoleListPath);
-                            }
-                            catch (Exception exd)
-                            {
-                            }
-                            result.Data = outputFile;
-                            result.State = EnumStatus.Success;
-                            result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
-                           
-                            //var isSave = await _unitOfWork.ReportRepository.ITISaveRollNumbePDFData(ModInsert);
+                            //delete files
+                            // await DeleteFiles(ListRoleListPath);
                         }
-                        else
+                        catch (Exception exd)
                         {
-                            result.State = EnumStatus.Error;
-                            result.ErrorMessage = "Something went wrong";
                         }
-                        #endregion
+                        result.Data = outputFile;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
 
-                    
+                        //var isSave = await _unitOfWork.ReportRepository.ITISaveRollNumbePDFData(ModInsert);
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = "Something went wrong";
+                    }
+                    #endregion
+
+
 
 
                 }
@@ -10870,10 +10870,6 @@ namespace Kaushal_Darpan.Api.Controllers
                     localReport.AddDataSource("ExaminerHeaderDetails", data.Tables[0]);
                     localReport.AddDataSource("ExaminerStudentList", data.Tables[1]);
 
-
-
-
-
                     var reportResult = localReport.Execute(RenderType.Pdf);
 
                     //check file exists
@@ -13644,74 +13640,421 @@ namespace Kaushal_Darpan.Api.Controllers
         }
         #endregion
 
-        #region Apprenticeship  registratuion Passout Report
         [HttpPost("ApprenticeshipPassoutReport")]
-        public async Task<ApiResult<string>> ApprenticeshipPassoutReport(ApprenticeshipRegistrationSearchModal model)
+        public async Task<IActionResult> ApprenticeshipPassoutReport(ApprenticeshipRegistrationSearchModal model)
         {
-            ActionName = "ApprenticeshipPassoutReport()";
-            return await Task.Run(async () =>
+            try
             {
-                var result = new ApiResult<string>();
-                try
+                DataSet ds = await Task.Run(() => _unitOfWork.ReportRepository.ApprenticeshipPassoutReport(model));
+
+                if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+                    return BadRequest("No record found.");
+
+                DataTable dt = ds.Tables[0];
+
+                StringBuilder sb = new StringBuilder();
+
+                sb.Append(@"
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='UTF-8'>
+
+<style>
+@page{
+    size:A4 landscape;
+    margin:12mm;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+body{
+    font-family:'Nirmala UI','Mangal','Segoe UI',Arial,sans-serif;
+    font-size:12px;
+    color:#000;
+}
+
+.formNo{
+    font-size:18px;
+    font-weight:bold;
+    text-align:right;
+    border:none !important;
+}
+
+.subTitle{
+    font-size:18px;
+    font-weight:bold;
+    text-align:center;
+    padding:8px;
+}
+.title{
+    font-size:24px;
+    font-weight:bold;
+    text-align:left;
+    border:none !important;
+    padding-bottom:6px;
+}
+.report-title{
+    font-family:""Segoe UI"",Arial,sans-serif;
+    text-align:center;
+    font-size:26px;
+    font-weight:700;
+    margin-bottom:4px;
+}
+
+.report-subtitle{
+    font-family:""Nirmala UI"",""Mangal"",sans-serif;
+    text-align:center;
+    font-size:18px;
+    font-weight:700;
+    margin-bottom:15px;
+}
+
+
+
+
+table,th,td{
+    border:1px solid #000;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    table-layout:fixed;
+}
+
+thead{
+    display:table-header-group;
+}
+
+tfoot{
+    display:table-footer-group;
+}
+
+tr{
+    page-break-inside:avoid;
+}
+
+th,td{
+    border:1px solid #000;
+}
+
+th{
+    background:#f2f2f2;
+    font-weight:bold;
+    text-align:center;
+    vertical-align:middle;
+    padding:6px 4px;
+    font-size:11px;
+    line-height:18px;
+}
+
+td{
+    padding:5px;
+    vertical-align:top;
+    font-size:10px;
+    word-wrap:break-word;
+}
+
+.numberRow th{
+    font-size:12px;
+    padding:3px;
+}
+
+.left{
+    text-align:left;
+}
+
+.center{
+    text-align:center;
+}
+
+.small{
+    font-size:9px;
+}
+
+.col1{width:4%;}
+.col2{width:15%;}
+.col3{width:8%;}
+.col4{width:8%;}
+.col5{width:13%;}
+.col6{width:9%;}
+.col7{width:9%;}
+.col8{width:14%;}
+.col9{width:6%;}
+.col10{width:7%;}
+.col11{width:9%;}
+
+</style>
+
+</head>
+
+<body>
+
+<div class=""container"">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th colspan=""10"" class=""title""
+style=""border:none !important;
+text-align:left;
+font-size:24px;
+padding-bottom:8px;"">
+
+Apprenticeship Registration (ITI Pass Out)
+
+</th>
+
+<th class=""formNo""
+style=""border:none !important;
+text-align:right;
+font-size:18px;"">
+
+(प्रपत्र-ट)
+
+</th>
+
+</tr>
+
+<tr>
+
+<th colspan=""11""
+style=""
+font-size:18px;
+font-weight:bold;
+text-align:center;
+padding:10px;
+border:1px solid #000;"">
+
+आईटीआई पासआउट के पंजीकरण की सूची
+
+</th>
+
+</tr>
+
+<tr>
+
+<th class=""col1"">
+S.No.
+</th>
+
+<th class=""col2"">
+पंजीकरण करने वाले<br/>
+संस्थान का नाम
+</th>
+
+<th class=""col3"">
+पोर्टल पर पंजीकरण<br/>
+करने की तिथि
+</th>
+
+<th class=""col4"">
+पंजीकरण संख्या
+</th>
+
+<th class=""col5"">
+नाम / पिता का नाम
+</th>
+
+<th class=""col6"">
+आधार नम्बर
+</th>
+
+<th class=""col7"">
+व्यवसाय का नाम
+</th>
+
+<th class=""col8"">
+संस्थान, जहाँ से<br/>
+आईटीआई उत्तीर्ण की है
+</th>
+
+<th class=""col9"">
+आईटीआई उत्तीर्ण<br/>
+करने का वर्ष
+</th>
+
+<th class=""col10"">
+NCVT / SCVT
+</th>
+
+<th class=""col11"">
+विशेष विवरण
+</th>
+
+</tr>
+
+<tr class=""numberRow"">
+
+<th>1</th>
+
+<th>2</th>
+
+<th>3</th>
+
+<th>4</th>
+
+<th>5</th>
+
+<th>6</th>
+
+<th>7</th>
+
+<th>8</th>
+
+<th>9</th>
+
+<th>10</th>
+
+<th>11</th>
+
+</tr>
+
+</thead>
+
+<tbody>");
+
+                int sr = 1;
+
+                foreach (DataRow row in dt.Rows)
                 {
-                    var data = await _unitOfWork.ReportRepository.ApprenticeshipPassoutReport(model);
-                    if (data != null)
+                    string regDate = "";
+
+                    if (row["RegDate"] != DBNull.Value)
+                        regDate = Convert.ToDateTime(row["RegDate"]).ToString("dd-MM-yyyy");
+
+                    sb.Append($@"
+
+<tr>
+
+<td class='center'>
+{sr}
+</td>
+
+<td>
+{row["Name"]}
+</td>
+
+<td class='center'>
+{regDate}
+</td>
+
+<td class='center'>
+{row["RegCount"]}
+</td>
+
+<td>
+<b>{row["StudentName"]}</b><br/>
+Father : {row["FatherName"]}
+</td>
+
+<td class='center'>
+{row["Aadhar"]}
+</td>
+
+<td>
+{row["TradeName"]}
+</td>
+
+<td>
+{row["PassItiName"]}
+</td>
+
+<td class='center'>
+{row["PassYear"]}
+</td>
+
+<td class='center'>
+{row["TradeSchemeName"]}
+</td>
+
+<td>
+{row["Remarks"]}
+</td>
+
+</tr>
+
+");
+
+                    sr++;
+                }
+
+                sb.Append(@"
+
+</tbody>
+
+</table>
+
+</body>
+
+</html>");
+
+                var pdf = new HtmlToPdfDocument
+                {
+                    GlobalSettings = new GlobalSettings
                     {
-                        var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
-                        //report
-                        //var fileName = $"AllotmentFeeReceipt_{EnrollmentNo}.pdf";
-                        var fileName = $"ApprenticeshipPassoutReport.pdf";
-                        string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
-                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderITI}/ApprenticeshipPassoutReport.rdlc";
-                        //
-                        var qrcode = CommonFuncationHelper.GenerateQrCode("this is devit");
-                        //
-                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-                        LocalReport localReport = new LocalReport(rdlcpath);
-                        localReport.AddDataSource("ApprenticeshipReport", data.Tables[0]);
-                        var reportResult = localReport.Execute(RenderType.Pdf);
+                        ColorMode = ColorMode.Color,
+                        Orientation = Orientation.Landscape,
+                        PaperSize = PaperKind.A4,
+                        DPI = 300,
+                        DocumentTitle = "Apprenticeship Passout Report",
 
-
-                        //check file exists
-                        if (!System.IO.Directory.Exists(folderPath))
+                        Margins = new MarginSettings
                         {
-                            Directory.CreateDirectory(folderPath);
+                            Top = 12,
+                            Bottom = 12,
+                            Left = 8,
+                            Right = 8
                         }
-                        //save
+                    },
 
-
-                        System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
-                        //end report
-
-                        result.Data = fileName;
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.Message = Constants.MSG_DATA_NOT_FOUND;
-                    }
-                }
-                catch (Exception ex)
+                    Objects =
+            {
+                new ObjectSettings
                 {
-                    await _unitOfWork.DisposeAsync();
-                    // Write error log
-                    var nex = new NewException
+                    HtmlContent = sb.ToString(),
+
+                    PagesCount = true,
+
+                    WebSettings =
                     {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
-                    //
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
+                        DefaultEncoding = "utf-8",
+                        LoadImages = true,
+                        PrintMediaType = true
+                    },
+
+                    FooterSettings =
+                    {
+                        FontName = "Arial",
+                        FontSize = 8,
+                        Left = "Printed On : [date]",
+                        Right = "Page [page] of [toPage]",
+                        Line = true,
+                        Spacing = 3
+                    }
                 }
-                return result;
-            });
+            }
+                };
+
+                byte[] pdfBytes = _converter.Convert(pdf);
+
+                return File(
+                    pdfBytes,
+                    "application/pdf",
+                    "ApprenticeshipPassoutReport.pdf");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
-        #endregion
 
         #region Quarterly Progress Report
         [HttpPost("QuarterlyProgressReport")]
@@ -13784,70 +14127,431 @@ namespace Kaushal_Darpan.Api.Controllers
 
         #region Apprenticeship  registratuion List Report
         [HttpPost("ApprenticeshipReport")]
-        public async Task<ApiResult<string>> ApprenticeshipReport(ApprenticeshipRegistrationSearchModal model)
+        public async Task<IActionResult> ApprenticeshipReport(ApprenticeshipRegistrationSearchModal model)
         {
-            ActionName = "ApprenticeshipReport()";
-            return await Task.Run(async () =>
+            try
             {
-                var result = new ApiResult<string>();
-                try
+                DataSet ds = await Task.Run(() => _unitOfWork.ReportRepository.ApprenticeshipReport(model));
+
+                if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+                    return BadRequest("No record found.");
+
+                DataTable dt = ds.Tables[0];
+
+                StringBuilder sb = new StringBuilder();
+
+                sb.Append(@"
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset='UTF-8'>
+
+<style>
+
+@page{
+    size:A4 landscape;
+    margin:12mm;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Nirmala UI','Mangal','Segoe UI',Arial,sans-serif;
+    font-size:12px;
+    color:#000;
+    line-height:1.35;
+}
+
+.container{
+    width:100%;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    table-layout:fixed;
+}
+
+thead{
+    display:table-header-group;
+}
+
+tfoot{
+    display:table-footer-group;
+}
+
+tr{
+    page-break-inside:avoid;
+}
+
+th,td{
+    border:1px solid #000;
+}
+
+th{
+    background:#f2f2f2;
+    text-align:center;
+    vertical-align:middle;
+    padding:6px 4px;
+    font-size:11px;
+    font-weight:bold;
+    line-height:17px;
+}
+
+td{
+    padding:5px;
+    font-size:10px;
+    vertical-align:top;
+    word-break:break-word;
+}
+
+.title{
+    border:none !important;
+    text-align:left;
+    font-size:24px;
+    font-weight:bold;
+    padding-bottom:8px;
+}
+
+.formNo{
+    border:none !important;
+    text-align:right;
+    font-size:18px;
+    font-weight:bold;
+}
+
+.subTitle{
+    font-size:18px;
+    font-weight:bold;
+    text-align:center;
+    padding:10px;
+}
+
+.numberRow th{
+    padding:3px;
+    font-size:11px;
+}
+
+.left{
+    text-align:left;
+}
+
+.center{
+    text-align:center;
+}
+
+.small{
+    font-size:9px;
+}
+
+/* Column Width */
+
+.col1{width:4%;}
+.col2{width:8%;}
+.col3{width:16%;}
+.col4{width:8%;}
+.col5{width:10%;}
+.col6{width:8%;}
+.col7{width:12%;}
+.col8{width:12%;}
+.col9{width:8%;}
+.col10{width:8%;}
+.col11{width:8%;}
+.col12{width:6%;}
+
+</style>
+
+</head>
+
+<body>
+
+<div class='container'>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th colspan=""10"" class=""title"">
+
+Apprenticeship Registration Report
+
+</th>
+
+<th class='formNo'>
+
+(प्रपत्र-ट)
+
+</th>
+
+</tr>
+
+<tr>
+
+<th colspan=""11"" class=""subTitle"">
+
+शिक्षुओं के पोर्टल पंजीकरण की प्रगति रिपोर्ट
+
+</th>
+
+</tr>
+"); sb.Append(@"
+
+<tr>
+
+<th rowspan='2' class='col1'>
+Sr.<br/>No.
+</th>
+
+<th rowspan='2' class='col2'>
+आवृत्ति
+</th>
+
+<th rowspan='2' class='col3'>
+संस्थान का नाम
+</th>
+
+<th rowspan='2' class='col4'>
+पोर्टल पर<br/>
+पंजीकरण करने<br/>
+की तिथि
+</th>
+
+<th rowspan='2' class='col5'>
+व्यवसाय का नाम
+</th>
+
+<th rowspan='2' class='col6'>
+व्यवसाय मे कुल<br/>
+प्रशिक्षणार्थियों<br/>
+की संख्या
+</th>
+
+<th colspan='2' class='col7'>
+पोर्टल पर पंजीकृत किये शिक्षुओं का नाम व पंजीकरण संख्या
+</th>
+
+<th rowspan='2' class='col10'>
+दस्तावेज़
+</th>
+
+<th rowspan='2' class='col11'>
+विविध विवरण
+</th>
+
+<th rowspan='2' class='col12'>
+कार्रवाई
+</th>
+
+</tr>
+
+<tr>
+
+<th style='width:16%;'>
+नाम
+</th>
+
+<th style='width:12%;'>
+पंजीकरण संख्या
+</th>
+
+</tr>
+
+<tr class='numberRow'>
+
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>10</th>
+
+
+</tr>
+
+</thead>
+
+<tbody>
+
+"); int sr = 1;
+
+                foreach (DataRow row in dt.Rows)
                 {
-                    var data = await _unitOfWork.ReportRepository.ApprenticeshipReport(model);
-                    if (data != null)
+                    string regDate = "";
+                    string apprenticeNames = "";
+                    string registrationNos = "";
+                    string document = "";
+
+                    if (row["Dateofregistration"] != DBNull.Value)
                     {
-                        var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
-                        //report
-                        //var fileName = $"AllotmentFeeReceipt_{EnrollmentNo}.pdf";
-                        var fileName = $"ApprenticeshipReport.pdf";
-                        string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
-                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderITI}/ApprenticeshipReport.rdlc";
-                        //
-                        var qrcode = CommonFuncationHelper.GenerateQrCode("this is devit");
-                        //
-                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-                        LocalReport localReport = new LocalReport(rdlcpath);
-                        localReport.AddDataSource("ApprenticeshipListReport", data.Tables[0]);
-                        var reportResult = localReport.Execute(RenderType.Pdf);
+                        regDate = Convert.ToDateTime(row["Dateofregistration"])
+                            .ToString("dd-MM-yyyy");
+                    }
+
+                    if (row["Nameofapprentices"] != DBNull.Value)
+                    {
+                        apprenticeNames = row["Nameofapprentices"]
+                            .ToString()
+                            .Replace("|", "<br/>")
+                            .Replace(",", "<br/>");
+                    }
+
+                    if (row["Numberofapprentices"] != DBNull.Value)
+                    {
+                        registrationNos = row["Numberofapprentices"]
+                            .ToString()
+                            .Replace("|", "<br/>")
+                            .Replace(",", "<br/>");
+                    }
 
 
-                        //check file exists
-                        if (!System.IO.Directory.Exists(folderPath))
+
+                    sb.Append($@"
+
+<tr>
+
+<td class='center'>
+{sr}
+</td>
+
+<td class='center'>
+{row["TypeName"]}
+</td>
+
+<td class='left'>
+{row["Nameofinstitute"]}
+</td>
+
+<td class='center'>
+{regDate}
+</td>
+
+<td class='left'>
+{row["BusinessName"]}
+</td>
+
+<td class='center'>
+{row["NumberofTrainees"]}
+</td>
+
+<td class='left'>
+{apprenticeNames}
+</td>
+
+<td class='left'>
+{registrationNos}
+</td>
+
+
+<td class='left'>
+{row["Remarks"]}
+</td>
+
+<td class='center'>
+-
+</td>
+
+</tr>
+
+");
+
+                    sr++;
+                }// Close HTML
+                sb.Append(@"
+
+</tbody>
+
+</table>
+
+</div>
+
+</body>
+
+</html>
+
+");
+
+                // Generate PDF
+                var pdf = new HtmlToPdfDocument
+                {
+                    GlobalSettings = new GlobalSettings
+                    {
+                        ColorMode = ColorMode.Color,
+                        Orientation = Orientation.Landscape,
+                        PaperSize = PaperKind.A4,
+                        DPI = 300,
+                        DocumentTitle = "Apprenticeship Registration Report",
+
+                        Margins = new MarginSettings
                         {
-                            Directory.CreateDirectory(folderPath);
+                            Top = 12,
+                            Bottom = 12,
+                            Left = 8,
+                            Right = 8
                         }
-                        //save
+                    },
 
+                    Objects =
+    {
+        new ObjectSettings
+        {
+            HtmlContent = sb.ToString(),
 
-                        System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
-                        //end report
+            PagesCount = true,
 
-                        result.Data = fileName;
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.Message = Constants.MSG_DATA_NOT_FOUND;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    await _unitOfWork.DisposeAsync();
-                    // Write error log
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
-                    //
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
-                }
-                return result;
-            });
+            WebSettings =
+            {
+                DefaultEncoding = "utf-8",
+                LoadImages = true,
+                PrintMediaType = true
+            },
+
+            HeaderSettings =
+            {
+                FontName = "Arial",
+                FontSize = 8,
+                Line = false,
+                Spacing = 3
+            },
+
+            FooterSettings =
+            {
+                FontName = "Arial",
+                FontSize = 8,
+                Left = "Printed On : [date]",
+                Center = "",
+                Right = "Page [page] of [toPage]",
+                Line = true,
+                Spacing = 3
+            }
+        }
+    }
+                };
+
+                byte[] pdfBytes = _converter.Convert(pdf);
+
+                // Return PDF directly
+                return File(
+                    pdfBytes,
+                    "application/pdf",
+                    "ApprenticeshipReport.pdf");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
         #endregion
 
@@ -17673,6 +18377,80 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
+
+        [HttpPost("GetStudentEligibleForDiplomaReport")]
+        public async Task<ApiResult<DataTable>> GetStudentEligibleForDiplomaReport(StudentDiplomaandRWHReportModel model)
+        {
+            ActionName = "GetStudentEligibleForDiplomaReport()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ReportRepository.GetStudentEligibleForDiplomaReport(model));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+        [HttpPost("GetRWHResultEligibleReport")]
+        public async Task<ApiResult<DataTable>> GetRWHResultEligibleReport(StudentDiplomaandRWHReportModel model)
+        {
+            ActionName = "GetRWHResultEligibleReport()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ReportRepository.GetRWHResultEligibleReport(model));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+
         [HttpPost("GetMarksheetCorrectionHistoryReport")]
         public async Task<ApiResult<DataTable>> GetMarksheetCorrectionHistoryReport(MarksheetCorrectionHistoryModel model)
         {
@@ -19872,7 +20650,10 @@ namespace Kaushal_Darpan.Api.Controllers
 body{{
     font-family:'Mangal','Nirmala UI','Arial Unicode MS',sans-serif;
     font-size:14px;
-    color:#000;
+    color:#000000;
+    font-weight:600;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
     margin:30px;
 }}
 
@@ -19883,6 +20664,8 @@ table{{
 
 td{{
     vertical-align:top;
+    color:#000000;
+    font-weight:600;
 }}
 
 .center{{ text-align:center; }}
@@ -19892,14 +20675,20 @@ td{{
 
 .list td{{
     padding:4px 0;
+    font-weight:600;
 }}
 
 .footer td{{
     padding-top:40px;
+    font-weight:600;
 }}
 .page-break{{
     page-break-before:always;
     break-before:page;
+}}
+
+b{{
+    font-weight:800;
 }}
 </style>
 
@@ -19920,8 +20709,7 @@ td{{
 
 <td width='80%' class='center'>
 <b>राजस्थान सरकार</b><br/>
-प्राविधिक शिक्षा मण्डल, राजस्थान, जोधपुर<br/>
-W-6 Residency Road, Jodhpur<br/>
+प्राविधिक शिक्षा मण्डल, राजस्थान, जोधपुर W-6 Residency Road, Jodhpur<br/>
 Phone : (0291)-2430440,2636572
 </td>
 
@@ -19948,11 +20736,11 @@ Web Site : www.techedu.rajasthan.gov.in
 <tr>
 
 <td width='50%'>
-क्रमांक : एफ (6/14) / परीक्षा /{endTermName}/
+क्रमांक : एफ (6/14) / गोप/प्रशिम  /{endTermName}/
 </td>
 
 <td width='50%' class='right'>
-दिनांक :- {SemesterName}-{endTermName}
+दिनांक :- {SemesterName},{endTermName}
 </td>
 
 </tr>
@@ -19981,7 +20769,7 @@ Web Site : www.techedu.rajasthan.gov.in
 </td>
 <td>
 <b>
- {SemesterNameHindi} के ग्रेटर संकलित सेशनल अंकों में 85% से अधिक एवं 45% से कम प्राप्तांक वाले विद्यार्थियों का रिकॉर्ड प्रस्तुत करने हेतु।
+ {SemesterNameHindi}  संकलित सेशनल अंकों में प्रदत्त 85% से अधिक एवं 45% से कम प्राप्तांक वाले विद्यार्थियों का रिकॉर्ड प्रस्तुत करने हेतु।
 </b>
 </td>
 </tr>
@@ -19992,7 +20780,7 @@ Web Site : www.techedu.rajasthan.gov.in
 <table>
 <tr>
 <td style='text-align:justify; line-height:24px;'>
-विषयान्तर्गत, आपके द्वारा प्रेषित {SemesterNameHindi} ग्रेटर {endTermName} के सेशनल अंकों में 85% से अधिक एवं 45% से कम प्राप्तांक वाले विद्यार्थियों के सेशनल रिकॉर्ड की संस्था स्तर पर पुनः जाँच कर लें। संस्था ऑनलाइन दर्ज अंकों से संतुष्ट होने पर निम्नानुसार रिकॉर्ड प्रस्तुत करें, जिससे प्राप्तांकों का प्रमाणीकरण किया जा सके।
+विषयान्तर्गत, आपके द्वारा प्रेषित {SemesterNameHindi}, {endTermName} के सेशनल अंकों में 85% से अधिक एवं 45% से कम प्राप्तांक वाले विद्यार्थियों के सेशनल रिकॉर्ड की संस्था स्तर पर पुनः जाँच कर लें। संस्था ऑनलाइन दर्ज अंकों से संतुष्ट होने पर निम्नानुसार रिकॉर्ड प्रस्तुत करें, जिससे प्राप्तांकों का प्रमाणीकरण किया जा सके। यथा
 </td>
 </tr>
 </table>
@@ -20008,11 +20796,11 @@ Web Site : www.techedu.rajasthan.gov.in
 
 <tr>
 <td>3. Online कक्षा टेस्ट की उत्तर पुस्तिका</td>
-<td>4. Online प्रैक्टिकल पावती</td>
+<td>4. Online प्रैक्टिकल पत्रावली</td>
 </tr>
 
 <tr>
-<td>5. Online स्टूडेंट डेटाबेस</td>
+<td>5. Online  सब्जेक्ट ब्रेकअप</td>
 <td>6. उपरोक्त के अलावा अन्य कोई प्रमाण हो</td>
 </tr>
 
@@ -20106,7 +20894,7 @@ Web Site : www.techedu.rajasthan.gov.in
 
 रिकॉर्ड प्रस्तुत करने वाले प्रतिनिधि को रिकॉर्ड के संबंध में पूर्ण जानकारी होनी चाहिए, जिससे जाँच के दौरान पूछे गए प्रश्नों का संतोषजनक उत्तर एवं आवश्यक स्पष्टीकरण प्रस्तुत किया जा सके।
 
-निर्धारित तिथि तक उक्त रिकॉर्ड संस्था के प्रतिनिधि के माध्यम से अनिवार्य रूप से भिजवाया जाए, अन्यथा आपकी संस्था का परिणाम रोक दिया जाएगा, जिसकी सम्पूर्ण जिम्मेदारी संस्था की होगी।
+निर्धारित तिथि तक उक्त रिकॉर्ड संस्था के प्रतिनिधि के माध्यम से अनिवार्य रूप से भिजवाया जाए, अन्यथा आपकी संस्था का परिणाम रोक दिया जाएगा, जिसकी सम्पूर्ण जिम्मेदारी आपकी की होगी।
 
 </td>
 
@@ -20212,7 +21000,7 @@ Web Site : www.techedu.rajasthan.gov.in
                     result.Message = Constants.MSG_DATA_NOT_FOUND;
                     return result;
                 }
-                
+
                 // Generate HTML
                 var sb = await _printHtmlFile.GetToppersReport_Html(data, 0, ActionType);
                 string html = sb.ToString();
@@ -20297,7 +21085,7 @@ Web Site : www.techedu.rajasthan.gov.in
         {
             ActionName = "GetProvesionalMeritList(ToppersModel model)";
             var result = new ApiResult<string>();
-            string ActionType = "";
+
             try
             {
                 // Get report data
@@ -20315,7 +21103,7 @@ Web Site : www.techedu.rajasthan.gov.in
                 }
 
                 // Generate HTML
-                var sb = await _printHtmlFile.GetProvesionalMeritList_Html(data, 0, ActionType);
+                var sb = await _printHtmlFile.GetProvesionalMeritList_Html(data, 0, model.Action);
                 string html = sb.ToString();
 
                 // Remove last page break if present
@@ -20389,6 +21177,482 @@ Web Site : www.techedu.rajasthan.gov.in
         }
 
         #endregion
+        #region GetCheck_Merit_List
+        [HttpPost("GetCheck_Merit_List")]
+        public async Task<ApiResult<DataTable>> GetCheck_Merit_List(GetProvesionalMeritModel model)
+        {
+            ActionName = "GetCheck_Merit_List(ToppersModel model)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ReportRepository.GetCheck_Merit_List(model));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
 
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                var newException = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex
+                };
+                await CreateErrorLog(newException, _unitOfWork);
+
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
+        }
+        #endregion
+
+        #region ApprenticeshipFresherReports
+
+        [HttpPost("ApprenticeshipFresherReports")]
+        public async Task<ApiResult<string>> ApprenticeshipFresherReports(ApprenticeshipRegistrationSearchModal model)
+        {
+            ActionName = "ApprenticeshipFresherReports(ApprenticeshipRegistrationSearchModal model)";
+            var result = new ApiResult<string>();
+            try
+            {
+                // Get report data
+                DataTable table = await Task.Run(() =>
+     _unitOfWork.ReportRepository.ApprenticeshipFresherReports(model));
+
+                DataSet data = new DataSet();
+                data.Tables.Add(table);
+
+                if (data == null || data.Tables.Count == 0)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    return result;
+                }
+
+                // Generate HTML
+                var sb = await _printHtmlFile.GetApprenticeshipFresherReports_Html(data, 0);
+                string html = sb.ToString();
+
+                // Remove last page break if present
+                string endTag = "<div class='page-break'></div></body></html>";
+                if (html.EndsWith(endTag, StringComparison.OrdinalIgnoreCase))
+                {
+                    html = html.Substring(0, html.Length - endTag.Length) + "</body></html>";
+                }
+
+                // Create PDF document
+                var document = new HtmlToPdfDocument
+                {
+                    GlobalSettings =
+            {
+                PaperSize = PaperKind.A4,
+                Orientation = Orientation.Landscape,
+                Margins = new MarginSettings
+                {
+                    Top = 10,
+                    Bottom = 10,
+                    Left = 5,
+                    Right = 5
+                }
+            },
+                    Objects =
+            {
+                new ObjectSettings
+                {
+                    HtmlContent = html,
+                   WebSettings =
+{
+    DefaultEncoding = "utf-8",
+    PrintMediaType = true,
+    LoadImages = true,
+    EnableIntelligentShrinking = false
+},
+                }
+            }
+                };
+
+                // Convert HTML to PDF
+                byte[] pdfBytes = await Task.Run(() => _converter.Convert(document));
+
+                result.Data = Convert.ToBase64String(pdfBytes);
+                result.State = EnumStatus.Success;
+                result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+
+                var newException = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex
+                };
+
+                await CreateErrorLog(newException, _unitOfWork);
+
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return result;
+        }
+
+        #endregion
+
+
+        #region Bulk Student Diploma Certificate
+        [HttpPost("StudentDiplomaCertificateDownloadChunk")]
+        public async Task<ApiResult<string>> StudentDiplomaCertificateDownloadChunk([FromBody] List<DiplomaCertificateDownloadSearchModel> Model)
+        {
+            ActionName = "StudentDiplomaCertificateDownloadChunk([FromBody] List<DiplomaCertificateDownloadSearchModel> Model)";
+
+            var result = new ApiResult<string>();
+            var logfilename = "_DiplomaCertificateDownload";
+            var Session = string.Empty;
+            try
+            {
+                Session = Model[0].SessionName;
+                var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{Constants.FinalDiplomaFolder}/{Session}";
+
+                // store students that have filename success for merge file for shwoing marksheet
+                List<GenerateFinalDiplomaCertificateModel> ListData = new List<GenerateFinalDiplomaCertificateModel>();
+                // store students that dont have filename failed any resion
+                List<GenerateFinalDiplomaCertificateModel> notGenerateStudents = new List<GenerateFinalDiplomaCertificateModel>();
+
+                int i = 1;
+                // passed students list in chunks
+                foreach (var student in Model)
+                {
+                    CommonFuncationHelper.WriteTextLog($"--------------------- main loop start: {i} ------------------------", logfilename);
+                    try
+                    {
+                        CommonFuncationHelper.WriteTextLog($"1. model student loop : {student.StudentName}", logfilename);
+                        GenerateFinalDiplomaCertificateModel objStudent = new GenerateFinalDiplomaCertificateModel();
+                        // already have saved file
+                        if (student.Dis_FileName != "")
+                        {
+                            CommonFuncationHelper.WriteTextLog($"1.1. already file exists in if : {student.StudentName}", logfilename);
+                            // for merge
+                            objStudent.StudentID = student.StudentID;
+                            objStudent.RollNo = student.RollNo;
+                            objStudent.FileName = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{Constants.FinalDiplomaFolder}/{student.FileName}";
+                            objStudent.Dis_FileName = student.Dis_FileName;
+                            // add
+                            ListData.Add(objStudent);
+                        }
+                        else
+                        {
+                            CommonFuncationHelper.WriteTextLog($"1.2. dosenot file exists in else : {student.StudentName}", logfilename);
+
+                             //create folder
+                            if (!System.IO.Directory.Exists(folderPath))
+                            {
+                                Directory.CreateDirectory(folderPath);
+                            }
+
+                            string timestamp_str = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                            var fileName = $"StudentDiplomaCertificate_{student.StudentName}_{timestamp_str}.pdf";
+                            string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{Constants.FinalDiplomaFolder}/{Session}/{fileName}";
+
+                            // get html
+                            var sb = await _printHtmlFile.GetHtmlOfDiplomaCertificate(student);
+                            var _html = sb.ToString();
+
+                            // remove last blank page
+                            string endTag = "<div class='page-break'></div></body></html>";
+                            if (_html.EndsWith(endTag, StringComparison.OrdinalIgnoreCase))
+                            {
+                                _html = _html.Substring(0, _html.Length - endTag.Length)
+                                             + "</body></html>";
+                            }
+
+                            var pdfBytes = await _pdfService.GenerateAsync(_html,
+                                new PdfOptions
+                                {
+                                    Format = "A4",
+                                    MarginTop = "10mm",
+                                    MarginBottom = "0mm",
+                                    MarginLeft = "10mm",
+                                    MarginRight = "10mm",
+                                    PrintBackground = true
+                                });
+
+                            await System.IO.File.WriteAllBytesAsync(filepath, pdfBytes);
+
+                            CommonFuncationHelper.WriteTextLog($"1.4. save file in folder: {student.StudentName}", logfilename);
+
+                            // create an object for new record
+                            FinalDiplomaCertificateSaveDataModel objFinalDiploma = new FinalDiplomaCertificateSaveDataModel();
+
+                            objFinalDiploma.FinalDiploma = student.FinalDiplomaID ?? 0;// pk
+
+                            objFinalDiploma.Enrollment = Convert.ToString(student.EnrollmentNo) ?? string.Empty;
+                            objFinalDiploma.InstituteId = Convert.ToInt32(student.InstituteID);
+                            //objFinalDiploma.SrDiploma = Convert.ToInt32(student.SrDiploma);
+                            objFinalDiploma.SRNO = Convert.ToString(student.SRNO);
+                            objFinalDiploma.PublishDate = Convert.ToString(student.PublishDate);
+                            objFinalDiploma.IsLocked = Convert.ToByte(student.IsLocked);
+                            objFinalDiploma.DiplomaPrintingDate = Convert.ToString(student.DiplomaPrintingDate);
+                            objFinalDiploma.IsRwhResult = Convert.ToByte(student.IsRWHResult);
+                            objFinalDiploma.RwhResultId = Convert.ToInt32(student.RWHResultID);
+                            objFinalDiploma.IsReval = Convert.ToByte(student.IsReval);
+                            objFinalDiploma.IsRevisedIssueDate = Convert.ToByte(student.IsRevisedIssueDate);
+                            objFinalDiploma.ResultId = Convert.ToInt32(student.ExamResultID);
+                            objFinalDiploma.RevisedId = Convert.ToInt32(student.RevisedId);
+                            objFinalDiploma.IsBlock = Convert.ToByte(student.IsBlock);
+                            objFinalDiploma.StudentId = Convert.ToInt32(student.StudentID);
+                            objFinalDiploma.IsDiploma = Convert.ToByte(student.IsDiploma);
+                            objFinalDiploma.IsDuplicate = Convert.ToByte(student.IsDuplicate);
+                            objFinalDiploma.DuplicateDiplomaId = Convert.ToInt32(student.DuplicateDiplomaId);
+                            objFinalDiploma.RequestId = Convert.ToInt32(student.RequestId);
+                            objFinalDiploma.IsIssued = Convert.ToByte(student.IsIssued);
+                            objFinalDiploma.ResultTypeID = Convert.ToInt32(student.ResultTypeID);
+                            objFinalDiploma.EndTermID = Convert.ToInt32(student.EndTermID);
+                            objFinalDiploma.EffectiveEndTermID = Convert.ToInt32(student.EffectiveEndTermID);
+                            objFinalDiploma.IsRevised = Convert.ToBoolean(student.IsRevised);
+                            objFinalDiploma.SemesterID = Convert.ToInt32(student.SemesterID);
+                            objFinalDiploma.IPAddress = CommonFuncationHelper.GetIpAddress();
+                            objFinalDiploma.ModifyBy = Convert.ToInt32(student.ModifyBy);
+
+                            objFinalDiploma.Dis_FileName = fileName;
+                            objFinalDiploma.FileName = $"{Session}/{fileName}";
+
+
+                            // save
+                            await _unitOfWork.MarksheetDownloadRepository.AddUpdateFinalDiplomaCertificate(objFinalDiploma);
+                            await _unitOfWork.SaveChangesAsync();
+
+                            CommonFuncationHelper.WriteTextLog($"1.8. save student done : {student.StudentName}", logfilename);
+
+
+                            // for merge
+                            objStudent.StudentID = student.StudentID;
+                            objStudent.RollNo = student.RollNo;
+                            objStudent.EnrollmentNo = student.EnrollmentNo;
+                            objStudent.FileName = filepath;
+                            objStudent.Dis_FileName = fileName;
+                            // add
+                            ListData.Add(objStudent);
+
+                        }
+                    }
+                    catch (Exception ex1)
+                    {
+                        await _unitOfWork.DisposeAsync();
+
+                        // add in list
+                        notGenerateStudents.Add(new GenerateFinalDiplomaCertificateModel
+                        {
+                            StudentID = student.StudentID,
+                            EnrollmentNo = student.EnrollmentNo
+                        });
+
+                        CommonFuncationHelper.WriteTextLog($"2. loop error for student : {student.StudentName}", logfilename);
+                        CommonFuncationHelper.WriteTextLog($"2.1. loop error : {ex1.Message}", logfilename);
+                    }
+
+                    CommonFuncationHelper.WriteTextLog($"--------------------- main loop end: {i} ------------------------", logfilename);
+                    i++;
+                }// end student loop
+
+                #region "Save Multiple PDF PAGES"
+                string timestamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                string outputFile = $"DiplomaCertificate_{timestamp}.pdf";
+                string outputPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{outputFile}";
+                List<string?> strSoureFiles = ListData.Select(s => s.FileName)?.ToList();
+
+                // merge all files
+                var ismerged = await MergePdfFilesAsync(strSoureFiles, outputPath);
+                CommonFuncationHelper.WriteTextLog($"3. merge done with file count : {strSoureFiles?.Count == 0} and flage : {ismerged}", logfilename);
+                if (ismerged)
+                {
+                    result.Data = outputFile;
+                    result.State = EnumStatus.Success;
+                    var msg = Constants.MSG_DATA_LOAD_SUCCESS;
+                    if (notGenerateStudents?.Count > 0)
+                    {
+                        msg = $"{Constants.MSG_FILE_DOWNLOAD_SUCCESS}, Except these students (Enrollment No.):<br/> {string.Join(", ", notGenerateStudents.Select(s => s.EnrollmentNo))}";
+                    }
+                    result.Message = msg;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    var msg = Constants.MSG_ERROR_IN_MERGING_FILES;
+                    if (strSoureFiles == null || strSoureFiles?.Count == 0)
+                    {
+                        msg = Constants.MSG_FILE_NOT_FOUND;
+                    }
+                    result.Message = msg;
+                }
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                CommonFuncationHelper.WriteTextLog($"4. main error : {ex.Message}", logfilename);
+
+                await _unitOfWork.DisposeAsync();
+
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+                // Write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+
+            }
+            return result;
+        }
+        #endregion
+
+
+        #region GetGuestHouseSlip
+
+        [HttpPost("GetGuestHouseSlip")]
+        public async Task<ApiResult<string>> GetGuestHouseSlip(GeustHouseSlipModule model)
+        {
+            ActionName = "GetGuestHouseSlip(GeustHouseSlipModule model)";
+            var result = new ApiResult<string>();
+            try
+            {
+                DataTable table = await Task.Run(() =>
+     _unitOfWork.ReportRepository.GetGuestHouseSlip(model));
+                DataSet data = new DataSet();
+                data.Tables.Add(table);
+                if (data == null || data.Tables.Count == 0)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    return result;
+                }
+                // Generate HTML
+                var sb = await _printHtmlFile.GetGuestHouseSlip_Html(data, 0);
+                string html = sb.ToString();
+                // Remove last page break if present
+                string endTag = "<div class='page-break'></div></body></html>";
+                if (html.EndsWith(endTag, StringComparison.OrdinalIgnoreCase))
+                {
+                    html = html.Substring(0, html.Length - endTag.Length) + "</body></html>";
+                }
+                // Create PDF document
+                var document = new HtmlToPdfDocument
+                {
+                    GlobalSettings =
+            {
+                PaperSize = PaperKind.A4,
+                Orientation = Orientation.Landscape,
+                Margins = new MarginSettings
+                {
+                    Top = 10,
+                    Bottom = 10,
+                    Left = 5,
+                    Right = 5
+                }
+            },
+                    Objects =
+            {
+                new ObjectSettings
+                {
+                    HtmlContent = html,
+                    WebSettings =
+                    {
+                        DefaultEncoding = "utf-8"
+                    },
+                    FooterSettings = new FooterSettings
+                    {
+                        FontName = "Arial",
+                        FontSize = 7,
+                        Center = "Page [page] of [toPage]",
+                        Line = true
+                    }
+                }
+            }
+                };
+
+                // Convert HTML to PDF
+                byte[] pdfBytes = await Task.Run(() => _converter.Convert(document));
+
+                result.Data = Convert.ToBase64String(pdfBytes);
+                result.State = EnumStatus.Success;
+                result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+
+                var newException = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex
+                };
+
+                await CreateErrorLog(newException, _unitOfWork);
+
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return result;
+        }
+
+        #endregion
+
+
+        #region GetITI_FinalReport
+        [HttpPost("GetITI_FinalReport")]
+        public async Task<ApiResult<DataTable>> GetITI_FinalReport(ITI_FinalReportModule model)
+        {
+            ActionName = "GetITI_FinalReport(ITI_FinalReportModule model)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ReportRepository.GetITI_FinalReport(model));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+        #endregion
     }
+
 }

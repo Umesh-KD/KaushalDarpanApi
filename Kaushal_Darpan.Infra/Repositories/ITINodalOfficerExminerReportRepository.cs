@@ -502,7 +502,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
 
 
-
                         command.Parameters.Add("@retval_ID", SqlDbType.Int);
                         command.Parameters["@retval_ID"].Direction = ParameterDirection.Output;
                         _sqlQuery = command.GetSqlExecutableQuery();

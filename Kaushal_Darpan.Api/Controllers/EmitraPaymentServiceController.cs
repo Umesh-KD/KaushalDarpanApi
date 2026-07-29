@@ -11,6 +11,7 @@ using Kaushal_Darpan.Core.Entities;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Models.EmitraPayment;
+using Kaushal_Darpan.Models.RevaluationDataModel;
 using Kaushal_Darpan.Models.RPPPayment;
 using Kaushal_Darpan.Models.Student;
 using Microsoft.AspNetCore.Http;
@@ -3928,8 +3929,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         objStudentFeesTransactionItems.StreamName = Dr["StreamName"].ToString();
                         objStudentFeesTransactionItems.Semester = Dr["Semester"].ToString();
                         objStudentFeesTransactionItems.EndTermName = Dr["EndTermName"].ToString();
-                        objStudentFeesTransactionItems.TranSemesterID = int.Parse(Dr["SemesterID"].ToString());
-                        objStudentFeesTransactionItems.TransactionApplicationID = int.Parse(Dr["StudentSemesterID"].ToString());
+
                         if (Dr["TransctionStatus"]?.ToString()?.Contains("Sucess") != true)
                         {
                             FinalAmount = FinalAmount + decimal.Parse(Dr["FeeAmount"].ToString());
@@ -3963,7 +3963,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         Random rnd = new Random();
                         objEmitra.PRN = "KD" + rnd.Next(100000, 999999) + rnd.Next(100000, 999999);
                         objEmitra.KioskID = "WhatsApp";
-                        objEmitra.ExamStudentStatus = emitraRequestDetailsModel.ExamStudentStatus;
+
                         var result2 = await _unitOfWork.CommonFunctionRepository.CreateEmitraTransationWhatsapp(objEmitra);
                         await _unitOfWork.SaveChangesAsync();
 
@@ -4060,10 +4060,182 @@ namespace Kaushal_Darpan.Api.Controllers
             return response;
 
         }
+
+
+
         #endregion
 
+        #region BTER_REVEL_WhatsApp
+        [HttpPost("GetStudentRevalSemesterData_Whatsapp")]
+        public async Task<ApiResult<DataTable>> GetStudentRevalSemesterData_Whatsapp(StudentSearchModelForWhatsAPP body)
+        {
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                RevaluationDataModel Obj = new RevaluationDataModel();
+
+                Obj.EnrollmentNo = body.ApplicationNo;
+                Obj.DOB = body.DOB;
+                Obj.MobilelNo = body.MobileNumber;
+                
+                result.Data = await Task.Run(() => _unitOfWork.RevaluationRepository.GetDetailsWhatsApp(Obj));
+
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.State = EnumStatus.Success;
+                    result.Message = "Data load successfully .!";
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    result.Message = "No record found.!";
+                }
+
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+
+            return result;
+        }
+
+        [HttpPost("GetRevalationSubjectList")]
+        public async Task<ApiResult<DataTable>> GetRevalationSubjectList([FromBody] StudentDetailsByRollNoModel_WhatsApp body)
+        {
+            ActionName = "GetExaminerData()";
+            var result = new ApiResult<DataTable>();
+            StudentDetailsByRollNoModel obj = new StudentDetailsByRollNoModel();
+            try
+            {
+                obj.CourseTypeID = body.CourseTypeID;
+                obj.StudentID = body.StudentID;
+                obj.EndTermID=body.EndTermID;
+                obj.SemesterID=body.SemesterID;
+                obj.StudentExamID=body.StudentExamID;
+
+                result.Data = await Task.Run(() => _unitOfWork.RevaluationRepository.GetAllRevalationWhatsApp(obj));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        [HttpPost("RevalFeePayment_StudentWhatsApp")]
+        public async Task<ApiResult<dynamic>> RevalFeePayment_StudentWhatsApp(EmitraRequestDetailsModelWhatsApp Model)
+        {
+            ActionName = "RevalFeePayment_Student(EmitraRequestDetailsModel Model)";
+            var result = new ApiResult<dynamic>();
+            var requestDetailsModel = new ApiResult<EmitraRequestDetailsModel>();
+            try
+            {
+                // getting service ID;
+
+                if (Model.StudentFeesTransactionItems.Count > 0)
+                {
+                    decimal Tamount = 0;
+
+                    FeeAmountModel_WhatsApp amountReq = new FeeAmountModel_WhatsApp();
+                    amountReq.StudentID = Model.StudentID;
+                    amountReq.SemesterID = Model.SemesterID;
+                    amountReq.StudentExamID = Model.ApplicationIdEnc;
+                    var amountResult = await _unitOfWork.RevaluationRepository.GetFeeAmountRevalSubject(amountReq);
+
+                    foreach (var item in Model.StudentFeesTransactionItems)
+                    {
+                        item.ItemAmount = (int)amountResult.Amount;
+                        Tamount = (decimal)(Tamount + item.ItemAmount);
+                    }
+
+                    EmitraTransactionsModel objEmitra = new EmitraTransactionsModel();
+                    objEmitra.key = "_InsertDetails";
+                    objEmitra.ApplicationIdEnc = Model.ApplicationIdEnc;
+                    objEmitra.Amount = Tamount; //exam fees                
+                    objEmitra.StudentID = Model.StudentID;
+                    objEmitra.SemesterID = Model.SemesterID;
+                    objEmitra.ExamStudentStatus = 162;
+                    objEmitra.StudentFeesTransactionItems = Model.StudentFeesTransactionItems;
+                    objEmitra.SSOID = "#WhatsApp";
+                    objEmitra.IsEmitra = false;
+                    objEmitra.DepartmentID = 1;
+                    objEmitra.ServiceID = Model.ServiceID;
+                    
+                    objEmitra.FeeFor = "RevalFee";
+
+                    //
+                    
+                    Random rnd = new Random();
+                    objEmitra.PRN = "KD" + rnd.Next(100000, 999999) + rnd.Next(100000, 999999);
+                    objEmitra.RequestString = JsonConvert.SerializeObject(objEmitra);
+
+                    //
+                    var result2 = await _unitOfWork.CommonFunctionRepository.CreateEmitraTransation(objEmitra);
+                    await _unitOfWork.SaveChangesAsync();
+
+                    if (result2.TransactionId > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                        result.Data = new { PRN = objEmitra.PRN, ServiceID = Model.ServiceID, Amount = objEmitra.Amount, DepartmentID = objEmitra.DepartmentID };
+                    }
+                }
+                else
+                {
+
+                }
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+
+            return result;
+        }
 
 
+        #endregion
 
 
         #region emitra payment by student whatsapp ITI
@@ -4076,43 +4248,63 @@ namespace Kaushal_Darpan.Api.Controllers
 
             var data = await _unitOfWork.CommonFunctionRepository.GetStudentDeatilsByActionITI(body);
 
+
+
+
+
+
+
+
+
+
             var requestDetailsModel = new ApiResult<dynamic>();
             EmitraRequestDetailsModel Model = new EmitraRequestDetailsModel();
-            if (data == null)
+            if (data == null || data.Rows.Count == 0)
             {
                 return new ApiResult<dynamic>
                 {
                     State = EnumStatus.Error,
                     ErrorMessage = "Student details not found."
 
+
                 };
 
             }
             else
             {
+
                 Model.ServiceID = data.Rows[0]["ServiceID"].ToString();
                 Model.ExamStudentStatus = Convert.ToInt32(data.Rows[0]["ExamStudentStatus"]);
                 Model.DepartmentID = 2;
                 Model.StudentID = Convert.ToInt32(data.Rows[0]["StudentID"]);
                 Model.SemesterID = Convert.ToInt32(data.Rows[0]["SemesterID"]);
                 Model.Amount = Convert.ToInt32(data.Rows[0]["FeeAmount"]);
+
                 Model.ID = Convert.ToInt32(data.Rows[0]["ID"]);
+
                 Model.StudentFeesTransactionItems = new List<StudentFeesTransactionItems>();
-                
+
                 foreach (DataRow row in data.Rows)
                 {
                     Model.StudentFeesTransactionItems.Add(new StudentFeesTransactionItems
                     {
-                        TransactionApplicationID = Convert.ToInt32(row["StudentID"]),
+                        TransactionApplicationID = Convert.ToInt32(row["StudentExamID"]),
                         Status = Convert.ToInt32(row["ExamStudentStatus"]),
                         TranSemesterID = Convert.ToInt32(row["SemesterID"]),
                         ItemAmount = Convert.ToInt32(row["FeeAmount"])
                     });
                 }
+
+
+
+
+
             }
+
 
             try
             {
+
                 var EmitraServiceDetail = await _unitOfWork.CommonFunctionRepository.GetEmitraServiceDetails(Model);
 
                 if (EmitraServiceDetail == null)
@@ -4134,41 +4326,56 @@ namespace Kaushal_Darpan.Api.Controllers
                     objStudentFeesTransactionItems.EnrollmentNo = Dr["EnrollmentNo"].ToString();
                     objStudentFeesTransactionItems.StudentName = Dr["StudentName"].ToString();
                     objStudentFeesTransactionItems.FatherName = Dr["FatherName"].ToString();
+
                     objStudentFeesTransactionItems.MobileNo = Dr["MobileNo"].ToString();
                     objStudentFeesTransactionItems.Email = Dr["Email"].ToString();
                     objStudentFeesTransactionItems.StreamName = Dr["StreamName"].ToString();
                     objStudentFeesTransactionItems.Semester = Dr["Semester"].ToString();
                     objStudentFeesTransactionItems.EndTermName = Dr["EndTermName"].ToString();
+
+                    //if (Dr["TransctionStatus"]?.ToString()?.Contains("Sucess") != true)
+                    //{
+                    //    FinalAmount = FinalAmount + decimal.Parse(Dr["FeeAmount"].ToString());
+                    //    LstStudentFeesTransaction.Add(objStudentFeesTransactionItems);
+                    //}
                     LstStudentFeesTransaction.Add(objStudentFeesTransactionItems);
                 }
 
                 EmitraTransactionsModel objEmitra = new EmitraTransactionsModel();
-
                 objEmitra.key = "_InsertDetails";
                 objEmitra.ApplicationIdEnc = Model.ApplicationIdEnc;
+                objEmitra.ServiceID = Model.ServiceID;
                 objEmitra.Amount = Model.Amount + Model.FormCommision;
                 objEmitra.StudentID = Model.StudentID;
                 objEmitra.SemesterID = Model.SemesterID;
                 objEmitra.ExamStudentStatus = Model.ExamStudentStatus;
                 objEmitra.StudentFeesTransactionItems = Model.StudentFeesTransactionItems;
-                objEmitra.SSOID = "#WhatsApp";
-                objEmitra.IsEmitra = false;
+                objEmitra.SSOID = Model.SsoID;
+                objEmitra.IsEmitra = Model.IsKiosk;
                 objEmitra.DepartmentID = Model.DepartmentID;
                 objEmitra.UniqueServiceID = Model.ID;
                 objEmitra.FeeFor = Model.FeeFor;
                 objEmitra.RevalRequestID = Model.RevalRequestID;
                 objEmitra.StudentFeesTransactionItemsWhatsApp = LstStudentFeesTransaction;
-                objEmitra.ServiceID = Model.ServiceID;
-                objEmitra.DepartmentID = 2;
+
 
                 Random rnd = new Random();
                 objEmitra.PRN = "KD" + rnd.Next(100000, 999999) + rnd.Next(100000, 999999);
 
                 objEmitra.RequestString = JsonConvert.SerializeObject(objEmitra);
 
+
                 var result = await _unitOfWork.CommonFunctionRepository.CreateEmitraTransationITI(objEmitra);
 
-                await _unitOfWork.SaveChangesAsync();                
+                await _unitOfWork.SaveChangesAsync();
+                //if ()
+                //{
+
+
+                //    requestDetailsModel.Data = Model;
+                //    requestDetailsModel.State = EnumStatus.Success;
+                //    requestDetailsModel.Message = "successfully .!";
+                //}
 
                 if (result.TransactionId > 0)
                 {
@@ -4199,6 +4406,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
             return requestDetailsModel;
         }
+
 
 
         [HttpPost("EnrollmentExaminationFeePaymentWhatsappResponse_ITI")] //IActionResult

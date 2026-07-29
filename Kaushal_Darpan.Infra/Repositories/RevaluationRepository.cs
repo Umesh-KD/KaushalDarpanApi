@@ -5,6 +5,7 @@ using Kaushal_Darpan.Models.Examiners;
 using Kaushal_Darpan.Models.HrMaster;
 using Kaushal_Darpan.Models.MarksheetDownloadModel;
 using Kaushal_Darpan.Models.RevaluationDataModel;
+using Kaushal_Darpan.Models.RPPPayment;
 using Kaushal_Darpan.Models.SetExamAttendanceMaster;
 using Kaushal_Darpan.Models.UserMaster;
 using System;
@@ -32,28 +33,25 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<DataTable> GetDetails(RevaluationDataModel body)
         {
-            _actionName = "GetTeacherForExaminer()";
+            _actionName = "GetDetails(RevaluationDataModel body)";
             try
             {
-                return await Task.Run(async () =>
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_GetStudentDetailsByRollNo";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetStudentDetailsByRollNo";
 
-                        command.Parameters.AddWithValue("@RollNo", body.RollNo);
-                        command.Parameters.AddWithValue("@DOB", body.DOB);
-                        command.Parameters.AddWithValue("@EnrollmentNo", body.EnrollmentNo);
-                        command.Parameters.AddWithValue("@StudentID", body.StudentID);
-                        command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                    command.Parameters.AddWithValue("@RollNo", body.RollNo);
+                    command.Parameters.AddWithValue("@DOB", body.DOB);
+                    command.Parameters.AddWithValue("@EnrollmentNo", body.EnrollmentNo);
+                    command.Parameters.AddWithValue("@StudentID", body.StudentID);
+                    command.Parameters.AddWithValue("@RoleID", body.RoleID);
 
-                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-                    return dataTable;
-                });
+                    _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
             }
             catch (Exception ex)
             {
@@ -71,29 +69,26 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<DataTable> GetAllRevalation(StudentDetailsByRollNoModel body)
         {
-            _actionName = "GetTeacherForExaminer()";
+            _actionName = "GetAllRevalation(StudentDetailsByRollNoModel body)";
             try
             {
-                return await Task.Run(async () =>
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_GetPaymentRevaluationDetails";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetPaymentRevaluationDetails";
 
-                        command.Parameters.AddWithValue("@StudentID", body.StudentID);
-                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
-                        command.Parameters.AddWithValue("@StudentExamID", body.StudentExamID);
-                        command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
-                        command.Parameters.AddWithValue("@CourseType", body.CourseTypeID);
-                        command.Parameters.AddWithValue("@IsKiosk", body.IsKiosk);
+                    command.Parameters.AddWithValue("@StudentID", body.StudentID);
+                    command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                    command.Parameters.AddWithValue("@StudentExamID", body.StudentExamID);
+                    command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                    command.Parameters.AddWithValue("@CourseType", body.CourseTypeID);
+                    command.Parameters.AddWithValue("@IsKiosk", body.IsKiosk);
 
-                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-                    return dataTable;
-                });
+                    _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
             }
             catch (Exception ex)
             {
@@ -152,5 +147,121 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+        public async Task<FeeAmountResponseModelWhatsApp> GetFeeAmountRevalSubject(FeeAmountModel_WhatsApp body)
+        {
+            _actionName = "GetFeeAmountRevalSubject(FeeAmountModel_WhatsApp body)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetFeeAmountRevalSubject";
+
+                    command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                    command.Parameters.AddWithValue("@StudentExamID", body.StudentExamID);
+                    command.Parameters.AddWithValue("@StudentID", body.StudentID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                var data = new FeeAmountResponseModelWhatsApp();
+                data = CommonFuncationHelper.ConvertDataTable<FeeAmountResponseModelWhatsApp>(dataTable);
+                return data;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<DataTable> GetDetailsWhatsApp(RevaluationDataModel body)
+        {
+            _actionName = "GetTeacherForExaminer()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetStudentDetailsByRollNo";
+
+                        command.Parameters.AddWithValue("@RollNo", body.RollNo);
+                        command.Parameters.AddWithValue("@DOB", body.DOB);
+                        command.Parameters.AddWithValue("@EnrollmentNo", body.EnrollmentNo);
+                        command.Parameters.AddWithValue("@StudentID", body.StudentID);
+                        command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                        command.Parameters.AddWithValue("@IsForWhatsApp", 1);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<DataTable> GetAllRevalationWhatsApp(StudentDetailsByRollNoModel body)
+        {
+            _actionName = "GetTeacherForExaminer()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetPaymentRevaluationDetails";
+
+                        command.Parameters.AddWithValue("@StudentID", body.StudentID);
+                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                        command.Parameters.AddWithValue("@StudentExamID", body.StudentExamID);
+                        command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                        command.Parameters.AddWithValue("@CourseType", body.CourseTypeID);
+                        command.Parameters.AddWithValue("@IsKiosk", body.IsKiosk);
+                        command.Parameters.AddWithValue("@IsForWhatsApp", 1);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Kaushal_Darpan.Models.CommonModel;
+using Kaushal_Darpan.Models.MarksheetDownloadModel;
 using Kaushal_Darpan.Models.TheoryMarks;
 using System.Data;
 using System.Text;
@@ -23,5 +24,11 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
         
         Task<StringBuilder> GetToppersReport_Html(DataSet dataSet, int ResultType, string ActionType);
         Task<StringBuilder> GetProvesionalMeritList_Html(DataSet dataSet, int ResultType, string ActionType);
+        Task<StringBuilder> GetApprenticeshipFresherReports_Html(DataSet dataSet, int ResultType);
+
+
+        Task<StringBuilder> GetHtmlOfDiplomaCertificate(DiplomaCertificateDownloadSearchModel data);
+
+        Task<StringBuilder> GetGuestHouseSlip_Html(DataSet dataSet, int ResultType);
     }
 }

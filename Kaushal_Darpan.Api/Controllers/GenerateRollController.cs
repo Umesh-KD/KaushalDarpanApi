@@ -576,7 +576,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-        #region Center wise list
+        #region Center Wise Roll List
         [HttpPost("GetCenterAdmit_RollListPdf_New")]
         public async Task<ApiResult<DataTable>> GetCenterAdmit_RollListPdf_New(GenerateRollSearchModel model)
         {

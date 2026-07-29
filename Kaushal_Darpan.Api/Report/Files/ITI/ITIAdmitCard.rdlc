@@ -1041,7 +1041,7 @@
                 <Style />
               </Paragraph>
             </Paragraphs>
-            <Top>1.63147cm</Top>
+            <Top>1.61225cm</Top>
             <Left>16.35756cm</Left>
             <Height>4.47335cm</Height>
             <Width>3.45506cm</Width>
@@ -2691,9 +2691,9 @@
             <Value>=First(Fields!StudentImg.Value, "ITIStudentAdmitCard")</Value>
             <MIMEType>image/png</MIMEType>
             <Sizing>FitProportional</Sizing>
-            <Top>15.7473cm</Top>
-            <Left>16.65868cm</Left>
-            <Height>3.6387cm</Height>
+            <Top>15.65253cm</Top>
+            <Left>16.5624cm</Left>
+            <Height>3.54297cm</Height>
             <Width>3.08066cm</Width>
             <ZIndex>49</ZIndex>
             <Style>
@@ -2735,7 +2735,7 @@
             </Paragraphs>
             <rd:DefaultName>Textbox2</rd:DefaultName>
             <Top>18.03257cm</Top>
-            <Left>16.75496cm</Left>
+            <Left>16.6234cm</Left>
             <Height>0.6cm</Height>
             <Width>2.98438cm</Width>
             <ZIndex>50</ZIndex>

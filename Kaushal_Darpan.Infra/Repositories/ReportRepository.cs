@@ -5814,7 +5814,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                         {
                             command.CommandText = "usp_Get_PracticalStudentPhotoReport";
                         }
-
                         command.Parameters.AddWithValue("@CenterID", model.CenterID);
                         command.Parameters.AddWithValue("@SubjectCode", model.SubjectCode);
                         command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
@@ -5948,6 +5947,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                         command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
                         command.Parameters.AddWithValue("@UserID", model.UserID);
+                        command.Parameters.AddWithValue("@StreamID", model.StreamID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         ds = await command.FillAsync();
                     }
@@ -8092,10 +8092,12 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@PKID", model.PKID);
                         command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
                         command.Parameters.AddWithValue("@UserID", model.UserID);
-                        command.Parameters.AddWithValue("@TypeID", model.TypeID);
-                        command.Parameters.AddWithValue("@ZoneID", model.ZoneID);
+                        //command.Parameters.AddWithValue("@TypeID", model.TypeID);
+                        //command.Parameters.AddWithValue("@ZoneID", model.ZoneID);
                         command.Parameters.AddWithValue("@DistrictID", model.DistrictID);
                         command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                        command.Parameters.AddWithValue("@TradeID", model.TradeID);
+                        command.Parameters.AddWithValue("@PassYear", model.PassYear);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         ds = await command.FillAsync();
 
@@ -10051,6 +10053,87 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+
+        public async Task<DataTable> GetStudentEligibleForDiplomaReport(StudentDiplomaandRWHReportModel model)
+        {
+            _actionName = "GetStudentEligibleForDiplomaReport(StudentAllMarksReportModel model)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    //command.CommandText = "USP_Diploma_RWH_Report";
+                    command.CommandText = "USP_StudentEligibleForDiploma_Report";
+
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                    command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
+                    command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                    command.Parameters.AddWithValue("@IsBridge", model.IsBridge);
+                    command.Parameters.AddWithValue("@EnrollmentNo", model.EnrollmentNo);
+                    command.Parameters.AddWithValue("@Action", "_getStudentEligibleForDiplomaReport");
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                  
+                }
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<DataTable> GetRWHResultEligibleReport(StudentDiplomaandRWHReportModel model)
+        {
+            _actionName = "GetRWHResultEligibleReport(StudentAllMarksReportModel model)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    //command.CommandText = "USP_Diploma_RWH_Report";
+                    command.CommandText = "USP_StudentEligibleForDiploma_Report";
+
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                    command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
+                    command.Parameters.AddWithValue("@Action", "_getRWHResultEligibleReport");
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
         public async Task<DataTable> GetMarksheetCorrectionHistoryReport(MarksheetCorrectionHistoryModel model)
         {
             _actionName = "GetMarksheetCorrectionHistoryReport(MarksheetCorrectionHistoryModel model)";
@@ -10780,5 +10863,160 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         #endregion
 
+        #region "GetCheck_Merit_List"
+        public async Task<DataTable> GetCheck_Merit_List(GetProvesionalMeritModel model)
+        {
+            _actionName = "GetCheck_Merit_List(GetProvesionalMeritModel model)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "usp_GetFinalResultMeritEligibleStudents";
+                    command.Parameters.AddWithValue("@EndTermId", model.EndTermId);
+                    command.Parameters.AddWithValue("@CourseType", model.CourseType);
+                    command.Parameters.AddWithValue("@BranchID", model.BranchID);
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        #endregion
+
+
+        #region Apprenticeship  registratuion Fresher Reports
+        public async Task<DataTable> ApprenticeshipFresherReports(ApprenticeshipRegistrationSearchModal model)
+        {
+            _actionName = "ApprenticeshipFresherReports()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    var dt = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ItiFresherRegDetail";
+                        command.Parameters.AddWithValue("@Action", "GetPassingReportData");
+                        command.Parameters.AddWithValue("@EndTermId", model.EndTermID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@CreateBy", model.Createdby);
+                        command.Parameters.AddWithValue("@PKID", model.PKID);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@UserID", model.UserID);
+                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dt = await command.FillAsync_DataTable();
+
+                    }
+                    return dt;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+        #endregion
+
+
+        #region "GetGuestHouseSlip"
+        public async Task<DataTable> GetGuestHouseSlip(GeustHouseSlipModule model)
+        {
+            _actionName = "GetGuestHouseSlip(GeustHouseSlipModule model)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetGuestHouseSlip";
+                    command.Parameters.AddWithValue("@GuestHouseID", model.GuestHouseID);
+                    command.Parameters.AddWithValue("@UserID", model.UserID);
+                    command.Parameters.AddWithValue("@StaffID", model.StaffID);
+                    command.Parameters.AddWithValue("@Action", model.Action);
+                    command.Parameters.AddWithValue("@GuestReqID", model.GuestReqID);
+                    
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        #endregion
+
+        #region "GetITI_FinalReport"
+        public async Task<DataTable> GetITI_FinalReport(ITI_FinalReportModule model)
+        {
+            _actionName = "GetITI_FinalReport(ITI_FinalReportModule model)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetITI_FinalReport";
+                    command.Parameters.AddWithValue("@CollegeID", model.CollegeID);
+                    command.Parameters.AddWithValue("@UserID", model.UserID);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@FinancialYearID", model.FinancialYearID);
+                    command.Parameters.AddWithValue("@Action", model.Action);
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        #endregion
     }
 }

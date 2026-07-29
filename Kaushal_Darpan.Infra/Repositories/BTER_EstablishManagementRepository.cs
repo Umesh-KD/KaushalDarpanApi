@@ -361,6 +361,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@StaffID", request.StaffID);
                         command.Parameters.AddWithValue("@ServiceBookBranchID", request.ServiceBookBranchID);
                         command.Parameters.AddWithValue("@Remark", request.Remark);
+                        command.Parameters.AddWithValue("@WhatsAppNumber", request.WhatsAppNumber);
+                        command.Parameters.AddWithValue("@Mailpersonal", request.Mailpersonal);
 
                         // Add missing parameters from SQL
                         command.Parameters.AddWithValue("@Name", request.Name ?? "");  
@@ -375,6 +377,21 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DateOfRetirement", request.DateOfRetirement ?? "");  // Add missing DateOfRetirement
                         command.Parameters.AddWithValue("@StaffSubjectListModel", JsonConvert.SerializeObject(request.bterStaffSubjectListModel));
                         command.Parameters.AddWithValue("@ServiceHistoryListModel", JsonConvert.SerializeObject(request.BterServiceHistoryListModel));
+
+                        command.Parameters.AddWithValue("@QualificationAcquiringDate", request.QualificationAcquiringDate);
+                        command.Parameters.AddWithValue("@AcquiringQualificationCertificate", request.AcquiringQualificationCertificate);
+                        command.Parameters.AddWithValue("@Dis_AcquiringQualificationCertificate", request.Dis_AcquiringQualificationCertificate);
+                        command.Parameters.AddWithValue("@CompetentAuthorityOrder", request.CompetentAuthorityOrder);
+                        command.Parameters.AddWithValue("@Dis_CompetentAuthorityOrder", request.Dis_CompetentAuthorityOrder);
+                        command.Parameters.AddWithValue("@IsServingADHOC", request.IsServingADHOC);
+                        command.Parameters.AddWithValue("@DateofJoiningADHOC", request.DateofJoiningADHOC);
+                        command.Parameters.AddWithValue("@IsProbationCompleted", request.IsProbationCompleted);
+                        command.Parameters.AddWithValue("@ProbationCompletionDate", request.ProbationCompletionDate);
+                        command.Parameters.AddWithValue("@Address", request.Address);
+                        command.Parameters.AddWithValue("@Pincode", request.Pincode);
+                        command.Parameters.AddWithValue("@StateID", request.StateID);
+                        command.Parameters.AddWithValue("@DistrictID", request.DistrictID);
+
                         _sqlQuery = command.GetSqlExecutableQuery();
                         result = await command.ExecuteNonQueryAsync();
 
@@ -2363,6 +2380,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@BudgetHeadID", body.BudgetHeadID);
                         command.Parameters.AddWithValue("@BranchID", body.BranchID);
 
+                        command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
+                        command.Parameters.AddWithValue("@EndTermId", body.EndTermId);
+                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                        command.Parameters.AddWithValue("@ManagementTypeID", body.ManagementTypeID);
+
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -2413,6 +2435,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
                     command.Parameters.AddWithValue("@ProfileStatus", body.ProfileStatus);
                     command.Parameters.AddWithValue("@act", body.act);
+                    command.Parameters.AddWithValue("@IsServingADHOC", body.IsServingADHOC);
+                    command.Parameters.AddWithValue("@IsProbationCompleted", body.IsProbationCompleted);
+
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
                 }

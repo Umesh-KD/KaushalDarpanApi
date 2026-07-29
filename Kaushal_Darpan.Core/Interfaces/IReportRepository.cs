@@ -318,6 +318,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataSet> downloadResultAppearedPassedStatisticsReport(ResultAppearedPassedStatisticsReportModel model);
         Task<DataTable> GetExamWiseStreamPapersreport(ExamWiseStreamPapersReportModel model);
         Task<DataTable> GetStudentAllMarksReport(StudentAllMarksReportModel model);
+        Task<DataTable> GetStudentEligibleForDiplomaReport(StudentDiplomaandRWHReportModel model);
+        Task<DataTable> GetRWHResultEligibleReport(StudentDiplomaandRWHReportModel model);
         Task<DataSet> GetStudentRevalFeePaymentReceipt(string TransactionId, int StudentExamID);
         Task<DataSet> GetDiplomaCertificate(DiplomaCertificateModel model);
         Task<DataSet> GetUFMLetter(UFMLetterModel model);
@@ -340,6 +342,10 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<DataTable> GetToppersReport(ToppersModel model);
         Task<DataTable> GetProvesionalMeritList(GetProvesionalMeritModel model);
+        Task<DataTable> GetCheck_Merit_List(GetProvesionalMeritModel model);
 
+        Task<DataTable> ApprenticeshipFresherReports(ApprenticeshipRegistrationSearchModal model);
+        Task<DataTable> GetGuestHouseSlip(GeustHouseSlipModule model);
+        Task<DataTable> GetITI_FinalReport(ITI_FinalReportModule model);
     }
 }

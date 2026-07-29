@@ -327,7 +327,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     int result = 0;
 
-                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                       
                         command.CommandType = CommandType.StoredProcedure;

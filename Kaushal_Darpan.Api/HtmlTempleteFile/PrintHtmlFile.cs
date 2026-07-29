@@ -1,6 +1,8 @@
 ﻿
+using AngleSharp.Html;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Models.CommonModel;
+using Kaushal_Darpan.Models.MarksheetDownloadModel;
 using Kaushal_Darpan.Models.TheoryMarks;
 using System.Data;
 using System.Text;
@@ -2480,12 +2482,13 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                     }
                     else
                     {
+                        var ExCurrentStatus = Convert.ToInt32(dr["IsExCurrent"]) == 1 ? "<span style='color: blue;'> *</span>" : "";
                         sb.Append($@"
                             <tr>                            
                                 <td style='text-align:center;'>{dr["SubjectCode"]}</td>                            
                                 <td style='text-align:left;padding-left:8px;word-wrap:break-word;'>{dr["SubjectName"]}</td>
                                 <td style='text-align:center;'>{dr["SubjectCredits"]}</td>
-                                <td style='text-align:center;'>{dr["EarnedCredits"]}</td>
+                                <td style='text-align:center;'>{dr["EarnedCredits"]}{ExCurrentStatus}</td>
                                 <td style='text-align:center;'>{dr["Grade"]}</td>
                                 <td style='text-align:center;'>{dr["Remarks"]}</td>                           
                             </tr>");
@@ -2923,7 +2926,7 @@ thead th{
 
                 // set sign of registrar                
                 string reg_signFilepath = $"{ConfigurationHelper.StaticFileRootPath}{dr_studet["RegistrarSignFile"]}";
-                byte[] reg_signbytes = System.IO.File.ReadAllBytes(CommonFuncationHelper.IsFileExisitsOrDefault(reg_signFilepath));                
+                byte[] reg_signbytes = System.IO.File.ReadAllBytes(CommonFuncationHelper.IsFileExisitsOrDefault(reg_signFilepath));
                 string reg_signbase64 = Convert.ToBase64String(reg_signbytes);
                 string reg_signext = Path.GetExtension(reg_signFilepath).ToLower();
                 string reg_signmime = reg_signext switch
@@ -2988,75 +2991,75 @@ thead th{
 
                 sb.AppendLine("            <tr>");
 
-                sb.AppendLine("                <td style=\"font-size:11px;padding-bottom:15px; width: 22%;\">");
+                sb.AppendLine("                <td style=\"font-size:11px;padding-bottom:15px; width: 21%;\">");
                 sb.AppendLine("                    &nbsp;");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:12px;padding-bottom:15px; width: 28%;\">");
+                sb.AppendLine("                <td style=\"font-size:12px;padding-bottom:15px; width: 41.5%;\">");
                 sb.AppendLine($"                    {dr_studet["StudentName"]}");
                 sb.AppendLine("                </td>");
 
-                sb.AppendLine("                <td style=\"font-size:11px; width: 29%;padding-bottom:15px;\">");
+                sb.AppendLine("                <td style=\"font-size:11px;padding-bottom:15px; width: 16.7%;\">");
                 sb.AppendLine("                    &nbsp;");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:12px;text-align:left; width: 21%;padding-bottom:15px;\">");
+                sb.AppendLine("                <td style=\"font-size:12px;text-align:left;padding-bottom:15px; width: 20.8%;\">");
                 sb.AppendLine($"                    {dr_studet["EnrollmentNo"]}");
                 sb.AppendLine("                </td>");
 
                 sb.AppendLine("            </tr>");
 
                 sb.AppendLine("            <tr>");
-                sb.AppendLine("                <td style=\"font-size:11px;padding:13px 0 ; width: 22%;\">");
+                sb.AppendLine("                <td style=\"font-size:11px;padding:13px 0 ;\">");
                 sb.AppendLine("                    &nbsp;");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:12px;padding:13px 0 ; width: 28%;\">");
+                sb.AppendLine("                <td style=\"font-size:12px;padding:13px 0 ;\">");
                 sb.AppendLine($"                    {dr_studet["FatherName"]}");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:11px; width: 29%;\">");
+                sb.AppendLine("                <td style=\"font-size:11px;\">");
                 sb.AppendLine("                    &nbsp;");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:12px;text-align:left; width: 21%;\">");
+                sb.AppendLine("                <td style=\"font-size:12px;text-align:left;\">");
                 sb.AppendLine($"                    {dr_studet["RollNo"]}");
                 sb.AppendLine("                </td>");
 
                 sb.AppendLine("            </tr>");
 
                 sb.AppendLine("            <tr>");
-                sb.AppendLine("                <td style=\"font-size:11px;padding:13px 0 ; width: 22%;\">");
+                sb.AppendLine("                <td style=\"font-size:11px;padding:13px 0 ;\">");
                 sb.AppendLine("                    &nbsp;");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:12px;padding:13px 0 ; width: 28%;\">");
+                sb.AppendLine("                <td style=\"font-size:12px;padding:13px 0 ;\">");
                 sb.AppendLine($"                    {dr_studet["MotherName"]}");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:11px; width: 29%;\">");
+                sb.AppendLine("                <td style=\"font-size:11px;\">");
                 sb.AppendLine("                    &nbsp;");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:12px;text-align:left; width: 21%;\">");
+                sb.AppendLine("                <td style=\"font-size:12px;text-align:left;\">");
                 sb.AppendLine($"                    {dr_studet["Branch"]}");
                 sb.AppendLine("                </td>");
 
                 sb.AppendLine("            </tr>");
 
                 sb.AppendLine("            <tr>");
-                sb.AppendLine("                <td style=\"font-size:11px;padding:13px 0 ; width: 23%;\">");
+                sb.AppendLine("                <td style=\"font-size:11px;padding:13px 0 ;\">");
                 sb.AppendLine("                    &nbsp;");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:12px;padding:13px 0 ; width: 27%;\">");
+                sb.AppendLine("                <td style=\"font-size:10px;padding:13px 0 ;\">");
                 sb.AppendLine($"                    {dr_studet["StreamName"]}");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:11px; width: 28%;\">");
+                sb.AppendLine("                <td style=\"font-size:11px;\">");
                 sb.AppendLine("                    &nbsp;");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:11px;text-align:left; width: 22%;\">");
+                sb.AppendLine("                <td style=\"font-size:11px;text-align:left;\">");
                 sb.AppendLine($"                    {dr_studet["YearSemester"]}");
                 sb.AppendLine("                </td>");
 
                 sb.AppendLine("            </tr>");
 
                 sb.AppendLine("            <tr>");
-                sb.AppendLine("                <td style=\"font-size:11px;padding:13px 0; width: 23%;\">");
+                sb.AppendLine("                <td style=\"font-size:11px;padding:13px 0;\">");
                 sb.AppendLine("                    &nbsp;");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td colspan=\"3\" style=\"font-size:12px;padding:13px 0 ; width: 77%;\">");
+                sb.AppendLine("                <td colspan=\"3\" style=\"font-size:12px;padding:13px 0 ;\">");
                 sb.AppendLine($"                    {dr_studet["InstituteName"]}");
                 sb.AppendLine("                </td>");
                 sb.AppendLine("                ");
@@ -3470,7 +3473,7 @@ body{
 table{
     width:100%;
     border-collapse:collapse;
-    border-spacing:0;
+    border-spacing:0;text-align:left;
 }
 
 thead{
@@ -3488,6 +3491,7 @@ tr{
 td,th{
     page-break-inside:avoid;
     vertical-align:middle;
+text
 }
 
 .header{
@@ -3496,7 +3500,7 @@ td,th{
 }
 
 .header td{
-    text-align:center;
+    text-align:left;
     padding:2px;
 }
 
@@ -3520,7 +3524,7 @@ td,th{
     padding:5px;
     font-weight:bold;
     border-top:1px solid #000;
-    border-bottom:1px solid #000;
+    border-bottom:1px solid #000;text-align:left;
 }
 
 .left{
@@ -3537,12 +3541,12 @@ td,th{
 
 .result thead th{
     font-weight:bold;
-    text-align:center;
+    text-align:left;
     padding:6px 4px;
 }
 
 .result tbody td{
-    padding:5px 4px;
+    padding:5px 4px;text-align:left;
 }
 
 .result tr{
@@ -3588,13 +3592,13 @@ td,th{
 <table class='header'>
 
 <tr>
-    <td class='govt'>
+    <td class='govt' style='text-align:center !important;'>
         GOVERNMENT OF RAJASTHAN
     </td>
 </tr>
 
 <tr>
-    <td class='title'>
+    <td class='title' style='text-align:center !important;'>
         BOARD OF TECHNICAL EDUCATION, RAJASTHAN,<br>
         JODHPUR
     </td>
@@ -3632,7 +3636,7 @@ Session : " + session + @"
 
 <th >CIC</th>
 
-<th colspan='6' class='pass'>
+<th colspan='6' class='pass' style='text-align:center !important;'>
 ---------------- PASSED ----------------
 </th>
 
@@ -3671,7 +3675,7 @@ Session : " + session + @"
 <tbody>
 
 ");
-                   
+
                     //==============================
                     // PART 5 : Student Loop
                     //==============================
@@ -3682,7 +3686,7 @@ Session : " + session + @"
 
                         sb.Append($@"
 
-<tr>
+<tr style='border-bottom:1px solid grey;'>
 
 <td>{sno}</td>
 
@@ -3800,12 +3804,24 @@ Session : " + session + @"
                                      .GroupBy(x => x["Stream/Branch"].ToString())
                                      .ToList();
 
-                const int PageSize = 30;
+                const int PageSize = 8;
 
-               
+
                 string session = dt.Columns.Contains("SessionYear")
                                     ? Convert.ToString(dt.Rows[0]["SessionYear"])
                                     : "";
+
+                int IsFootercontent = 0;
+
+                if (ActionType == "ProvesionalMeritList")
+                {
+                    IsFootercontent = 1;
+                }
+                if (ActionType == "FinalMeritList")
+                {
+                    IsFootercontent = 2;
+                }
+
 
                 for (int b = 0; b < branchGroups.Count; b++)
                 {
@@ -3993,6 +4009,11 @@ PROVISIONAL MERIT LIST for the Session {session}
 
 </tr>
 
+<tr class=""program"">
+      <th style=""width:250px;"">Program: {program}</th>
+    <th colspan=""4""></th>
+</tr>
+
 </thead>
 
 <tbody>
@@ -4002,7 +4023,7 @@ PROVISIONAL MERIT LIST for the Session {session}
                     //==============================
                     // PART 5 : Student Loop
                     //==============================
-                    
+
                     for (int i = 0; i < branch.Count; i++)
                     {
                         DataRow dr = branch[i];
@@ -4030,14 +4051,73 @@ PROVISIONAL MERIT LIST for the Session {session}
 ");
 
                         sno++;
-                       
+
                         //==============================
                         // PART 6 : Page Break
                         //==============================
 
+                        //==============================
+                        // PART 6 : Page Break
+                        //==============================
                         if ((i + 1) % PageSize == 0 && i != branch.Count - 1)
                         {
-                            // Repeat complete Header
+                            sb.Append($@"
+
+        </tbody>
+    </table>
+
+    <div class='footer'>
+        <div class='eligible'>
+            <strong>Eligible for Merit: {totalRows}</strong>
+        </div>
+    </div>
+
+</div>
+
+<div style='page-break-before:always;'></div>
+
+<div class='container'>
+
+<div class='header'>
+
+<div class='gov'>
+GOVERNMENT OF RAJASTHAN
+</div>
+
+<div class='title'>
+BOARD OF TECHNICAL EDUCATION,
+RAJASTHAN, JODHPUR
+</div>
+
+<div class='sub'>
+PROVISIONAL MERIT LIST for the Session {session}
+</div>
+
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+    <th class='col-sno'>Roll No</th>
+    <th class='col-enroll'>Enrollment No</th>
+    <th>Student Name / Father Name / Institute</th>
+    <th class='col-per'>Percentage</th>
+    <th class='col-per'>Merit</th>
+</tr>
+
+<tr class=""program"">
+      <th style=""width:250px;"">Program: {program}</th>
+    <th colspan=""4""></th>
+</tr>
+
+
+</thead>
+
+<tbody>
+
+");
                         }
                         //==============================
                         // PART 7 : End Student Loop
@@ -4069,13 +4149,19 @@ PROVISIONAL MERIT LIST for the Session {session}
 
 </table>
 
-    <div class=""footer"">
+<div class='footer'>
 
     <div class='eligible'>
         <strong>Eligible for Merit: {totalRows}</strong>
     </div>
 
-    <div class=""note"">
+");
+
+                if (IsFootercontent == 1)
+                {
+                    sb.Append(@"
+
+    <div class='note'>
         Any objection regarding the provisional merit should be sent to the Board
         directly so as to reach the Board office latest by
         ................................
@@ -4084,12 +4170,16 @@ PROVISIONAL MERIT LIST for the Session {session}
         list will be the final merit list.
     </div>
 
-    <div class=""signature"">
+");
+                }
+
+                sb.Append(@"
+
+    <div class='signature'>
         REGISTRAR
     </div>
 
 </div>
-
 
 </div>
 
@@ -4113,6 +4203,696 @@ PROVISIONAL MERIT LIST for the Session {session}
             }
 
 
+        }
+        #endregion
+
+        #region GetApprenticeshipFresherReports_Html
+        public async Task<StringBuilder> GetApprenticeshipFresherReports_Html(DataSet ds, int ResultType)
+        {
+            StringBuilder sb = new StringBuilder();
+            try
+            {
+                if (ds == null || ds.Tables.Count == 0)
+                    return sb;
+                DataTable dt = ds.Tables[0];
+                if (dt == null || dt.Rows.Count == 0)
+                    return sb;
+                int totalRows = dt.Rows.Count;
+                sb.Append(@"
+
+<!DOCTYPE html>
+
+<html lang='en'>
+
+<head>
+
+<meta charset='UTF-8'>
+
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+
+<title>Apprenticeship Registration Report</title>
+
+<style>
+
+@page{
+    size:A4 landscape;
+    margin:15mm;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family: 'Segoe UI', 'Noto Sans Devanagari', 'Arial Unicode MS',
+                 'Nirmala UI', 'Mangal', sans-serif;
+    font-size:13px;
+    color:#111;
+    line-height:1.45;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+
+.container{
+
+    width:100%;
+
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    table-layout:fixed;
+}
+
+thead{
+
+    display:table-header-group;
+
+}
+
+tfoot{
+
+    display:table-footer-group;
+
+}
+
+tr{
+
+    page-break-inside:avoid;
+
+}
+
+th{
+    border:1px solid #000;
+    padding:8px;
+    font-size:13px;
+    font-weight:700;
+    background:#f2f2f2;
+    vertical-align:middle;
+}
+
+td{
+    border:1px solid #000;
+    padding:7px;
+    font-size:12px;
+    vertical-align:middle;
+    word-break:break-word;
+}
+
+.title{
+
+    font-size:24px;
+
+    font-weight:bold;
+
+    text-align:left;
+
+    border:none !important;
+
+    padding-bottom:10px;
+
+}
+
+.title{
+    font-size:24px;
+    font-weight:700;
+    text-align:left;
+}
+
+.hindiTitle{
+    font-size:20px;
+    font-weight:700;
+    text-align:center;
+}
+
+.formNo{
+    font-size:18px;
+    font-weight:700;
+    text-align:right;
+}
+
+
+.numberRow{
+
+    font-weight:bold;
+
+}
+
+.left{
+    text-align:left;
+}
+
+.center{
+    text-align:center;
+}
+
+.right{
+    text-align:right;
+}
+
+.page-break{
+
+    page-break-before:always;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class='container'>
+
+");
+                sb.Append(@"
+
+<table>
+
+<thead>
+
+<tr>
+
+<th colspan='9' class='title' style='border:none;text-align:left;font-size:22px;'>
+Apprenticeship Registration (School/College student)
+</th>
+
+<th class='formNo' style='border:none;text-align:right;font-size:18px;'>
+(प्रपत्र-य)
+</th>
+
+</tr>
+
+<tr>
+
+<th colspan='10'
+style='font-size:18px;
+font-weight:bold;
+text-align:center;
+padding:10px;
+border:1px solid #000;'>
+
+अन्य संस्थानों / विद्यालयों के युवाओं का फ्रेशर के रूप में पंजीकरण की सूची
+
+</th>
+
+</tr>
+
+<tr>
+
+<th style='width:16%;'>
+पंजीकरण करने वाले संस्थान का नाम
+</th>
+
+<th style='width:9%;'>
+पोर्टल पर पंजीकरण<br/>
+करने की तिथि
+</th>
+
+<th style='width:8%;'>
+पंजीकरण संख्या
+</th>
+
+<th style='width:16%;'>
+पिता का नाम
+</th>
+
+<th style='width:10%;'>
+आधार नम्बर
+</th>
+
+<th style='width:9%;'>
+जन्म तिथि
+</th>
+
+<th style='width:14%;'>
+पता
+</th>
+
+<th style='width:8%;'>
+शैक्षिक योग्यता
+</th>
+
+<th style='width:10%;'>
+वर्तमान में क्या कर रहे हैं
+</th>
+
+<th style='width:10%;'>
+विशेष विवरण
+</th>
+
+</tr>
+
+<tr class='numberRow'>
+
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>10</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+");
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    string regDate = "";
+                    string dob = "";
+                    if (dr["RegDate"] != DBNull.Value)
+                    {
+                        regDate = Convert.ToDateTime(dr["RegDate"]).ToString("dd/MM/yyyy");
+                    }
+                    if (dr["DOB"] != DBNull.Value)
+                    {
+                        dob = Convert.ToDateTime(dr["DOB"]).ToString("dd/MM/yyyy");
+                    }
+                    sb.Append($@"
+
+<tr>
+
+<td class='left'>
+{dr["Name"]}
+</td>
+
+<td>
+{regDate}
+</td>
+
+<td>
+{dr["RegCount"]}
+</td>
+
+<td class='left'>
+
+{dr["FatherName"]}
+</td>
+
+<td>
+{dr["AadharNo"]}
+</td>
+
+<td>
+{dob}
+</td>
+
+<td class='left'>
+{dr["Address"]}
+</td>
+
+<td>
+{dr["EducationalQualification"]}
+</td>
+
+<td>
+{dr["CurrentOccupation"]}
+</td>
+
+<td class='left'>
+{dr["Remarks"]}
+</td>
+
+</tr>
+
+");
+                }
+                sb.Append(@"
+
+</tbody>
+
+</table>
+
+</div>
+
+</body>
+
+</html>
+
+");
+                return sb;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error generating Apprenticeship Fresher Report.", ex);
+            }
+        }
+        #endregion
+
+
+        #region Final Diploma Certificate
+        public async Task<StringBuilder> GetHtmlOfDiplomaCertificate(DiplomaCertificateDownloadSearchModel data)
+        {
+            try
+            {
+                // set sign of registrar                
+                string reg_signFilepath = $"{ConfigurationHelper.StaticFileRootPath}{data.RegistrarSignFile}";
+                byte[] reg_signbytes = System.IO.File.ReadAllBytes(CommonFuncationHelper.IsFileExisitsOrDefault(reg_signFilepath));
+                string reg_signbase64 = Convert.ToBase64String(reg_signbytes);
+                string reg_signext = Path.GetExtension(reg_signFilepath).ToLower();
+                string reg_signmime = reg_signext switch
+                {
+                    ".png" => "image/png",
+                    ".jpg" => "image/jpeg",
+                    ".jpeg" => "image/jpeg",
+                    ".gif" => "image/gif",
+                    _ => "image/png"
+                };
+
+                // set html
+                StringBuilder sb = new StringBuilder();
+
+                sb.AppendLine("<!DOCTYPE html>");
+                sb.AppendLine("<html lang=\"en\">");
+                sb.AppendLine("<head>");
+                sb.AppendLine("<meta charset=\"UTF-8\">");
+                sb.AppendLine("<title>Diploma Certificate</title>");
+                sb.AppendLine("<style>");
+                sb.AppendLine("body {");
+                sb.AppendLine("  font-family: Arial, Helvetica, sans-serif;");
+                sb.AppendLine("  background: #f2f2f2;");
+                sb.AppendLine("  margin: 0;");
+                sb.AppendLine("  padding: 40px 0;");
+                sb.AppendLine("}");
+                sb.AppendLine(".certificate {");
+                sb.AppendLine("  max-width: 850px;");
+                sb.AppendLine("  min-height: 1100px;");
+                sb.AppendLine("  margin: 0 auto;");
+                sb.AppendLine("  background: #fff;");
+                sb.AppendLine("  padding: 60px 70px;");
+                sb.AppendLine("  box-sizing: border-box;");
+                sb.AppendLine("  position: relative;");
+                sb.AppendLine("  box-shadow: 0 0 8px rgba(0,0,0,0.15);");
+                sb.AppendLine("}");
+                sb.AppendLine(".header-row {");
+                sb.AppendLine("  display: flex;");
+                sb.AppendLine("  justify-content: space-between;");
+                sb.AppendLine("  font-weight: bold;");
+                sb.AppendLine("  font-size: 14px;");
+                sb.AppendLine("}");
+                sb.AppendLine(".body-content {");
+                sb.AppendLine("  margin-top: 260px;");
+                sb.AppendLine("  text-align: center;");
+                sb.AppendLine("}");
+                sb.AppendLine(".name {");
+                sb.AppendLine("  font-weight: bold;");
+                sb.AppendLine("  font-size: 16px;");
+                sb.AppendLine("  margin-bottom: 8px;");
+                sb.AppendLine("}");
+                sb.AppendLine(".parent {");
+                sb.AppendLine("  font-weight: bold;");
+                sb.AppendLine("  font-size: 16px;");
+                sb.AppendLine("  margin-bottom: 30px;");
+                sb.AppendLine("}");
+                sb.AppendLine(".diploma-title {");
+                sb.AppendLine("  font-weight: bold;");
+                sb.AppendLine("  font-size: 16px;");
+                sb.AppendLine("  margin-bottom: 40px;");
+                sb.AppendLine("  text-align: left;");
+                sb.AppendLine("  margin-left: 60px;");
+                sb.AppendLine("}");
+                sb.AppendLine(".session-row {");
+                sb.AppendLine("  display: flex;");
+                sb.AppendLine("  justify-content: space-between;");
+                sb.AppendLine("  font-weight: bold;");
+                sb.AppendLine("  font-size: 15px;");
+                sb.AppendLine("  margin: 0 60px 60px 60px;");
+                sb.AppendLine("  text-align: left;");
+                sb.AppendLine("}");
+                sb.AppendLine(".division {");
+                sb.AppendLine("  font-weight: bold;");
+                sb.AppendLine("  font-size: 15px;");
+                sb.AppendLine("  margin-bottom: 10px;");
+                sb.AppendLine("}");
+                sb.AppendLine(".completion-date {");
+                sb.AppendLine("  font-weight: bold;");
+                sb.AppendLine("  font-size: 15px;");
+                sb.AppendLine("  margin-bottom: 40px;");
+                sb.AppendLine("  text-align: left;");
+                sb.AppendLine("  margin-left: 40px;");
+                sb.AppendLine("}");
+                sb.AppendLine(".signature {");
+                sb.AppendLine("  font-family: cursive;");
+                sb.AppendLine("  font-size: 34px;");
+                sb.AppendLine("  text-align: left;");
+                sb.AppendLine("  margin-left: 220px;");
+                sb.AppendLine("  margin-bottom: 30px;");
+                sb.AppendLine("  transform: rotate(-8deg);");
+                sb.AppendLine("}");
+                sb.AppendLine(".sign-date {");
+                sb.AppendLine("  font-weight: bold;");
+                sb.AppendLine("  font-size: 15px;");
+                sb.AppendLine("  text-align: left;");
+                sb.AppendLine("  margin-left: 100px;");
+                sb.AppendLine("}");
+                sb.AppendLine("</style>");
+                sb.AppendLine("</head>");
+                sb.AppendLine("<body>");
+
+                sb.AppendLine("<div class=\"certificate\">");
+
+                sb.AppendLine("  <div class=\"header-row\">");
+                sb.AppendLine($"      <span>{data.SRNO}</span>");
+                sb.AppendLine($"      <span>{data.EnrollmentNo}</span>");
+                sb.AppendLine("  </div>");
+
+                sb.AppendLine("  <div class=\"body-content\">");
+                sb.AppendLine($"      <div class=\"name\">{data.StudentName}</div>");
+                sb.AppendLine($"      <div class=\"parent\">{data.FatherName}</div>");
+
+                sb.AppendLine($"      <div class=\"diploma-title\">{data.StreamName}</div>");
+
+                sb.AppendLine("      <div class=\"session-row\">");
+                sb.AppendLine($"          <span>{data.FinalDiplomaTermName}</span>");
+                sb.AppendLine($"          <span style=\"margin-right:180px;\">{data.Division}</span>");
+                sb.AppendLine("      </div>");
+
+                sb.AppendLine($"      <div class=\"division\" style=\"margin-left:60px; text-align:left;\">{data.CourseDuration}</div>");
+                sb.AppendLine($"      <div class=\"completion-date\" style=\"margin-left:60px; text-align:left;\">{data.ResultDate}</div>");
+
+                // signature 
+                sb.AppendLine($"      <div class=\"signature\"><img src=\"data:{reg_signmime};base64,{reg_signbase64}\" style=\"width:80px;\"/></div>");
+
+                sb.AppendLine($"      <div class=\"sign-date\">{data.DiplomaPrintingDate}</div>");
+                sb.AppendLine("  </div>");
+
+                sb.AppendLine("</div>");
+
+                sb.AppendLine("</body>");
+                sb.AppendLine("</html>");
+
+
+                return sb;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        #endregion
+
+
+        #region GetGuestHouseSlip_Html
+        public async Task<StringBuilder> GetGuestHouseSlip_Html(DataSet ds, int ResultType)
+        {
+            StringBuilder sb = new StringBuilder();
+            try
+            {
+                if (ds == null || ds.Tables.Count == 0)
+                    return sb;
+
+                DataTable dt = ds.Tables[0];
+
+                if (dt == null || dt.Rows.Count == 0)
+                    return sb;
+
+                DataRow row = dt.Rows[0];
+
+                string name = row["Name"] != DBNull.Value ? row["Name"].ToString() : "";
+                string bookNo = row["BookNo"] != DBNull.Value ? row["BookNo"].ToString() : "";
+                string receiptNo = row["ReceiptNo"] != DBNull.Value ? row["ReceiptNo"].ToString() : "";
+                string date = "";
+                if (dt.Columns.Contains("Date") && row["Date"] != DBNull.Value)
+                {
+                    // Handles both DateTime values and pre-formatted strings like '15-07-2026'
+                    DateTime parsedDate;
+                    if (DateTime.TryParse(row["Date"].ToString(), out parsedDate))
+                        date = parsedDate.ToString("dd-MM-yyyy");
+                    else
+                        date = row["Date"].ToString();
+                }
+                string address = row["Address"] != DBNull.Value ? row["Address"].ToString() : "";
+                string roomFee = row["RoomFee"] != DBNull.Value ? row["RoomFee"].ToString() : "";
+                string stayDays = row["StayDays"] != DBNull.Value ? row["StayDays"].ToString() : "";
+                string totalAmount = row["TotalAmount"] != DBNull.Value ? row["TotalAmount"].ToString() : "";
+                string amountInWords = row["AmountInWords"] != DBNull.Value ? row["AmountInWords"].ToString() : "";
+                string remark = row["Remark"] != DBNull.Value ? row["Remark"].ToString() : "";
+
+                sb.Append(@"
+
+<!DOCTYPE html>
+<html lang='hi'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>रोकड़ पत्र</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 10mm;
+        }
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0;
+            font-family: 'Mangal', Arial, sans-serif;
+            background: #f5f5f5;
+        }
+        .receipt-page {
+            width: 100%;
+            max-width: 190mm;
+            margin: 0 auto;
+            background: #f6e3b4;
+            border: 1px solid #999;
+            padding: 10mm;
+            color: #000;
+            page-break-inside: avoid;
+        }
+    </style>
+</head>
+<body>
+
+    <div class='receipt-page'>
+
+        <!-- Header -->
+        <div style=""text-align:center; line-height:1.6;"">
+            <div style=""font-size:22px; font-weight:bold;"">रोकड़ - पत्र</div>
+            <div style=""font-size:20px;"">राजस्थान सरकार</div>
+            <div style=""font-size:18px;"">
+                कार्यालय संयुक्त निदेशक, प्राविधिक शिक्षा,<br>
+                शिक्षक प्रशिक्षण एवं अधिगम संसाधन विकास केंद्र, जोधपुर
+            </div>
+        </div>
+");
+
+                sb.Append($@"
+        <!-- Top Details -->
+        <div style=""display:flex; justify-content:space-between; margin-top:15px; font-size:14px;"">
+            <div>पुस्तक सं. <b>{bookNo}</b></div>
+            <div>रसीद सं. <b>{receiptNo}</b></div>
+        </div>
+
+        <div style=""display:flex; justify-content:end; margin-bottom:3px; font-size:14px;"">
+            <div>दिनांक : <b>{date}</b></div>
+        </div>
+
+        <div style=""display:flex; justify-content:space-between; margin-top:7px; font-size:14px;"">
+            <div style=""width: 40px;"">नाम : </div>
+            <div style=""width: calc(100% - 45px);border-bottom:1px dotted #000; padding:0 10px;""><span>{name}</span></div>
+        </div>
+
+        <div style=""display:flex; justify-content:space-between; margin-top:7px; font-size:14px;"">
+            <div style=""width: 40px;"">पता : </div>
+            <div style=""width: calc(100% - 45px);border-bottom:1px dotted #000; padding:0 10px;""><span>{address}</span></div>
+        </div>
+
+        <!-- Table -->
+        <table style=""width:100%; border-collapse:collapse; margin-top:15px; font-size:14px;"" border='1'>
+            <tr>
+                <th style=""padding:8px;"">क्र. सं.</th>
+                <th style=""padding:8px;"">विवरण</th>
+                <th style=""padding:8px;"">दर</th>
+                <th style=""padding:8px;"">दिनों / पुस्तकों की संख्या</th>
+                <th style=""padding:8px;"">कुल राशि रुपये</th>
+            </tr>
+
+            <tr style=""height:50px;"">
+                <td style=""text-align:center;"">1</td>
+                <td>अतिथि गृह सुविधा</td>
+                <td style=""text-align:center;"">{roomFee}</td>
+                <td style=""text-align:center;"">{stayDays}</td>
+                <td style=""text-align:center;"">{totalAmount}</td>
+            </tr>
+
+            <tr style=""height:50px;"">
+                <td style=""text-align:center;"">2</td>
+                <td>प्रशिक्षण शुल्क</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+
+            <tr style=""height:50px;"">
+                <td style=""text-align:center;"">3</td>
+                <td>लेब मैनुअल</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+
+            <tr style=""height:50px;"">
+                <td style=""text-align:center;"">4</td>
+                <td>अन्य</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+
+            <tr style=""height:100px;"">
+                <td colspan='4' style=""padding:10px; vertical-align:bottom;"">
+                    (अक्षर रु. : <b>{amountInWords}</b>)
+                </td>
+                <td style=""text-align:center; font-weight:bold; vertical-align:bottom;"">
+                    योग : {totalAmount}
+                </td>
+            </tr>
+        </table>
+");
+
+                if (!string.IsNullOrWhiteSpace(remark))
+                {
+                    sb.Append($@"
+        <!-- Remark -->
+        <div style=""margin-top:10px; font-size:14px;"">
+            टिप्पणी : <b>{remark}</b>
+        </div>
+");
+                }
+
+                sb.Append(@"
+        <!-- Footer -->
+        <div style=""display:flex; justify-content:space-between; margin-top:30px; font-size:14px;"">
+            <div>रा.मु.प्र. 101-2015-16,20 बुक</div>
+            <div style=""text-align:center;"">
+                हस्ताक्षर
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
+");
+
+                return sb;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error generating Guest House Cash Slip Report.", ex);
+            }
         }
         #endregion
     }

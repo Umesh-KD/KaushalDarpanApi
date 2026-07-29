@@ -223,8 +223,15 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.Message = Constants.MSG_INVALID_REQUEST;
                     return result;
                 }
-                // check data found or not
-                if (result.Data.Tables.Count < 3 || result.Data.Tables[0].Rows.Count == 0)
+
+                //validate
+                if (result.Data.Tables.Count == 1 && result.Data.Tables[0].Rows.Count > 0) // exclude rwh student in mainresulttype
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Convert.ToString(result.Data.Tables[0].Rows[0]["Msg"]);
+                    return result;
+                }
+                else if (result.Data.Tables.Count < 3 || result.Data.Tables[0].Rows.Count == 0) // check data found or not
                 {
                     result.State = EnumStatus.Warning;
                     result.Message = Constants.MSG_DATA_NOT_FOUND;
@@ -412,6 +419,41 @@ namespace Kaushal_Darpan.Api.Controllers
         }
         #endregion
 
+
+        [HttpPost("GetStudentsDiplomaCertificate")]
+        public async Task<ApiResult<DataTable>> GetStudentsDiplomaCertificate([FromBody] DiplomaCertificateDownloadSearchModel body)
+        {
+            ActionName = "GetStudentsDiplomaCertificate([FromBody] DiplomaCertificateDownloadSearchModel body)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await _unitOfWork.MarksheetDownloadRepository.GetStudentsDiplomaCertificate(body);
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
 
     }
 }

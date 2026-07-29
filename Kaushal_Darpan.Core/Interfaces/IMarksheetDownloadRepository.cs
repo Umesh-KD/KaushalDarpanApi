@@ -22,5 +22,10 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> UpdateMarksheetFile(List<StudentDownloadInfo> request);
         Task<DataSet> GetStudentResultReval_public(StudentResultSearchModel model);
         Task<int> AddUpdateMarksheet(MarksheetSaveDataModel request);
+
+
+        Task<DataTable> GetStudentsDiplomaCertificate(DiplomaCertificateDownloadSearchModel filterModel);
+
+        Task<int> AddUpdateFinalDiplomaCertificate(FinalDiplomaCertificateSaveDataModel request);
     }
 }

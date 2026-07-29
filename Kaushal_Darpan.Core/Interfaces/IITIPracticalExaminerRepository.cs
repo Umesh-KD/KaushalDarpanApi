@@ -25,6 +25,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetParcticalStudentCenterWise(ITIPracticalExaminerSearchFilter productDetails);
         Task<DataTable> ParcticalExaminerDashboard(ITIPracticalExaminerSearchFilter filterModel);
         Task<int> AssignPracticalExaminer(PracticalExaminerDetailsModel model);
+        Task<int> UpdatePracticalExaminerReport(ITIPracticalExaminerSearchFilter model);
         Task<DataTable> Getstaffpractical(ItiPracticalExaminerDDLDataModel body);
         Task<DataTable> GetUndertakingExaminerDetailsByIdAsync(int id);
 

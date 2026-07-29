@@ -35,6 +35,7 @@
         public int? FianancialYearID { get; set; }
         public int? DocumentID { get; set; }
         public int? EffectiveEndTermID { get; set; }
+        public int? SchemeID { get; set; }
 
     }
 
@@ -214,5 +215,106 @@
         public string Division { get; set; } = string.Empty;
         public string TotalSubjectCredits { get; set; } = string.Empty;
         public string TotalEarnedCredits { get; set; } = string.Empty;
+    }
+
+
+    public class DiplomaCertificateDownloadSearchModel : RequestBaseModel
+    {
+        public int? ModifyBy { get; set; } = 0;
+        public int? SemesterID { get; set; } = 0;
+        public int? FinalDiplomaID { get; set; } = 0;
+        public int? InstituteID { get; set; } = 0;
+        public string? IsRevised { get; set; } = string.Empty;
+        public int? IsBridge { get; set; } = 0;
+        public int? ResultTypeID { get; set; } = 0;
+        public string? RollNo { get; set; } = string.Empty;
+        public int? StudentID { get; set; } = 0;
+        public int? Eng_NonEngID { get; set; } = 0;
+        public int? ExamTypeID { get; set; } = 0;
+        public int? RWHResultID { get; set; } = 0;
+        public int? AcademicYearID { get; set; } = 0;
+        public string? IPAddress { get; set; } = string.Empty;
+        public string? SessionName { get; set; } = string.Empty;
+        public string? Dis_FileName { get; set; } = string.Empty; // name
+        public string? FileName { get; set; } = string.Empty; // with file path
+        public string? DOB { get; set; } = string.Empty;
+        public string? SRNO { get; set; } = string.Empty;
+
+        public bool? IsReval { get; set; } = false;
+        public bool? IsRWHResult { get; set; } = false;
+        public bool? IsLateral { get; set; } = false;
+        public int? ReqId { get; set; } = 0;
+        public int? StudentTypeID { get; set; } = 0;
+
+        public int? RequestEndTerm { get; set; } = 0;
+
+        public int? FianancialYearID { get; set; } = 0;
+        public int? DocumentID { get; set; } = 0;
+        public int? EffectiveEndTermID { get; set; } = 0;
+        public string? EnrollmentNo { get; set; } = string.Empty;
+        public string? StudentName { get; set; } = string.Empty;
+        public string? ResultDate { get; set; } = string.Empty;
+        public string? PublishDate { get; set; } = string.Empty;
+        public bool? IsLocked { get; set; } = false;
+        public string? DiplomaPrintingDate { get; set; }=string.Empty;
+        public string? IsRevisedIssueDate { get; set; } = string.Empty;
+        public int? ExamResultID { get; set; } = 0;
+        public int? RevisedId { get; set; } = 0;
+        public int? IsBlock { get; set; } = 0;
+        public int? IsDiploma { get; set; } = 0;
+        public bool? IsDuplicate { get; set; } = false;
+        public int? DuplicateDiplomaId { get; set; } = 0;
+        public int? RequestId { get; set; } = 0;
+        public bool? IsIssued { get; set; } = false;
+        public string? RegistrarSignFile { get; set; } = string.Empty;
+        public string? FatherName { get; set; } = string.Empty;
+        public string? StreamName { get; set; } = string.Empty;
+        public string? FinalDiplomaTermName { get; set; } = string.Empty;
+        public string? Division { get; set; } = string.Empty;
+        public string? CourseDuration { get; set; } = string.Empty;
+    }
+
+    public class GenerateFinalDiplomaCertificateModel : RequestBaseModel
+    {
+        public string? FileName { get; set; } // with file path
+        public string? Dis_FileName { get; set; } // file name
+        public int? StudentID { get; set; }
+        public int? SemesterID { get; set; }
+        public string? RollNo { get; set; }
+        public int? ResulTypeID { get; set; }
+        public string? EnrollmentNo { get; set; }
+    }
+
+    public class FinalDiplomaCertificateSaveDataModel : ResponseBaseModel
+    {
+        public int FinalDiploma { get; set; } // id
+        public string SrNo { get; set; } = string.Empty;
+        public string Enrollment { get; set; } = string.Empty;
+        public int InstituteId { get; set; }
+        public int SrDiploma { get; set; }
+        public string ResultDate { get; set; } = string.Empty;
+        public string PublishDate { get; set; } = string.Empty;
+        public byte IsLocked { get; set; }
+        public string DiplomaPrintingDate { get; set; } = string.Empty;
+        public byte IsRwhResult { get; set; }
+        public int RwhResultId { get; set; }
+        public byte IsReval { get; set; }
+        public byte IsRevisedIssueDate { get; set; }
+        public int ResultId { get; set; }
+        public int RevisedId { get; set; }
+        public byte IsBlock { get; set; }
+        public int StudentId { get; set; }
+        public byte IsDiploma { get; set; }
+        public byte IsDuplicate { get; set; }
+        public int DuplicateDiplomaId { get; set; }
+        public int RequestId { get; set; }
+        public byte IsIssued { get; set; }
+        public int ResultTypeID { get; set; }
+        public int EffectiveEndTermID { get; set; }
+        public bool IsRevised { get; set; }
+        public string FileName { get; set; } = string.Empty; // with file path
+        public string Dis_FileName { get; set; } = string.Empty; // file name
+        public int SemesterID { get; set; }
+        public string? SRNO { get; set; }
     }
 }

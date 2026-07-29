@@ -19,5 +19,21 @@ namespace Kaushal_Darpan.Models.Results
         public string? IPAddress { get; set; }
         public string? ResultType { get; set; }
         public int? SchemeID { get; set; }
+        public int? ResultTypeID { get; set; }
+    }
+
+    public class Publish_Unpublish_BTER_ResultDataModel
+    {
+        public int DepartmentID { get; set; }
+        public int ModifyBy { get; set; }
+        public int EndTermID { get; set; }
+        public int Eng_NonEng { get; set; }
+        public int RoleID { get; set; }
+        public int UserID { get; set; }
+        public int SemesterID { get; set; }
+        public string? IPAddress { get; set; }
+        public string? ResultType { get; set; }
+        public int? SchemeID { get; set; }
+        public int? ResultTypeID { get; set; }
     }
 }
