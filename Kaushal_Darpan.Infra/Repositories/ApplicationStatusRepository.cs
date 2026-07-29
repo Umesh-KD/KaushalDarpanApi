@@ -342,9 +342,8 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<bool> unlockadmissionform(int ID)
+        public async Task<bool> unlockadmissionform(int ID,string SSOID)
         {
-
             int result = 0;
             _actionName = "unlockadmissionform(HiringRoleMasterModel request)";
             return await Task.Run(async () =>
@@ -357,9 +356,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_unlockadmissionform";
 
-
                         command.Parameters.AddWithValue("@ID",ID);
-
+                        command.Parameters.AddWithValue("@SSOID", SSOID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
                         result = await command.ExecuteNonQueryAsync();
 
                     }
