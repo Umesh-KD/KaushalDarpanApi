@@ -61,5 +61,11 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<bool> SaveStaff_GuestHouseIDs(StaffGuestHouseSearchModel body);
         Task<DataTable> Bter_EM_GetCommonDropdownData(EM_CommonDropdownDataModel body);
         Task<DataTable> GetEstablishmentReportData(BTER_EM_GetStaffListDataModel body);
+        Task<int> SaveStaffQualificationData(StaffQualificationDataModel request);
+        Task<DataTable> GetStaffQualificationData(StaffQualificationDataModel body);
+        Task<bool> DeleteStaffQualification_ByID(StaffQualificationDataModel request);
+        Task<int> SaveStaffCareerAdvancementData(StaffCareerAdvancementDataModel request);
+        Task<DataTable> GetStaffCareerAdvancementSchemeData(StaffCareerAdvancementDataModel body);
+        Task<bool> DeleteStaffCareerAdvancementScheme_ByID(StaffCareerAdvancementDataModel request);
     }
 }

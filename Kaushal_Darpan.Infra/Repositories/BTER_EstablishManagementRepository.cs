@@ -2457,5 +2457,262 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+        public async Task<int> SaveStaffQualificationData(StaffQualificationDataModel request)
+        {
+            _actionName = "SaveStaffQualificationData(StaffQualificationDataModel request)";
+            try
+            {
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
+                {
+                    // Set the stored procedure name and type
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_BTER_EM_StaffQualification_IU";
+                    command.Parameters.AddWithValue("@StaffID", request.StaffID);
+                    command.Parameters.AddWithValue("@UserID", request.UserID);
+                    command.Parameters.AddWithValue("@StaffQualificationID", request.StaffQualificationID);
+                    command.Parameters.AddWithValue("@IsQualificationObtainedDuringService", request.IsQualificationObtainedDuringService);
+                    command.Parameters.AddWithValue("@QualificationAcquredDate", request.QualificationAcquredDate);
+                    command.Parameters.AddWithValue("@ObtainedDivision", request.ObtainedDivision);
+                    command.Parameters.AddWithValue("@Specialization", request.Specialization);
+                    command.Parameters.AddWithValue("@AcquiringQualificationCertificate", request.AcquiringQualificationCertificate);
+                    command.Parameters.AddWithValue("@Dis_AcquiringQualificationCertificate", request.Dis_AcquiringQualificationCertificate);
+                    command.Parameters.AddWithValue("@CompetentAuthorityOrder", request.CompetentAuthorityOrder);
+                    command.Parameters.AddWithValue("@Dis_CompetentAuthorityOrder", request.Dis_CompetentAuthorityOrder);
+
+                    command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+                    command.Parameters.Add("@Return", SqlDbType.Int);
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output;
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    // Execute the command
+                    result = await command.ExecuteNonQueryAsync();
+                    result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<DataTable> GetStaffQualificationData(StaffQualificationDataModel body)
+        {
+            _actionName = "GetStaffQualificationData(StaffQualificationDataModel body)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    //command.CommandText = "USP_BTER_EM_GetStaffList";
+                    command.CommandText = "USP_BTER_EM_StaffQualification_Get";
+                    command.Parameters.AddWithValue("@Action", body.Action);
+                    command.Parameters.AddWithValue("@StaffID", body.StaffID);
+                    command.Parameters.AddWithValue("@UserID", body.UserID);
+                    command.Parameters.AddWithValue("@StaffQualificationID", body.StaffQualificationID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<bool> DeleteStaffQualification_ByID(StaffQualificationDataModel request)
+        {
+            _actionName = "DeleteStaffQualification_ByID(StaffQualificationDataModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_BTER_EM_StaffQualification_Get";
+                        command.Parameters.AddWithValue("@Action", "deleteStaffQualification_byID");
+
+                        command.Parameters.AddWithValue("@StaffID", request.StaffID);
+                        command.Parameters.AddWithValue("@UserID", request.UserID);
+                        command.Parameters.AddWithValue("@StaffQualificationID", request.StaffQualificationID);
+
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        // Execute the command
+                        result = await command.ExecuteNonQueryAsync();
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<int> SaveStaffCareerAdvancementData(StaffCareerAdvancementDataModel request)
+        {
+            _actionName = "SaveStaffCareerAdvancementData(StaffCareerAdvancementDataModel request)";
+            try
+            {
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
+                {
+                    // Set the stored procedure name and type
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_BTER_EM_StaffCareerAdvancement_IU";
+                    command.Parameters.AddWithValue("@StaffID", request.StaffID);
+                    command.Parameters.AddWithValue("@UserID", request.UserID);
+                    command.Parameters.AddWithValue("@StaffCASID", request.StaffCASID);
+                    command.Parameters.AddWithValue("@PayLevelTypeID", request.PayLevelTypeID);
+                    command.Parameters.AddWithValue("@PayLevelID", request.PayLevelID);
+                    command.Parameters.AddWithValue("@DateOfImplementation", request.DateOfImplementation);
+                    command.Parameters.AddWithValue("@OrderNo", request.OrderNo);
+                    command.Parameters.AddWithValue("@OrderDate", request.OrderDate);
+
+                    command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+                    command.Parameters.Add("@Return", SqlDbType.Int);
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output;
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    // Execute the command
+                    result = await command.ExecuteNonQueryAsync();
+                    result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<DataTable> GetStaffCareerAdvancementSchemeData(StaffCareerAdvancementDataModel body)
+        {
+            _actionName = "GetStaffCareerAdvancementSchemeData(StaffCareerAdvancementDataModel body)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    //command.CommandText = "USP_BTER_EM_GetStaffList";
+                    command.CommandText = "USP_BTER_EM_StaffCareerAdvancementScheme_Get";
+                    command.Parameters.AddWithValue("@Action", body.Action);
+                    command.Parameters.AddWithValue("@StaffID", body.StaffID);
+                    command.Parameters.AddWithValue("@UserID", body.UserID);
+                    command.Parameters.AddWithValue("@StaffCASID", body.StaffCASID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<bool> DeleteStaffCareerAdvancementScheme_ByID(StaffCareerAdvancementDataModel request)
+        {
+            _actionName = "DeleteStaffCareerAdvancementScheme_ByID(StaffCareerAdvancementDataModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_BTER_EM_StaffCareerAdvancementScheme_Get";
+                        command.Parameters.AddWithValue("@Action", "delete_byID");
+
+                        command.Parameters.AddWithValue("@StaffID", request.StaffID);
+                        command.Parameters.AddWithValue("@UserID", request.UserID);
+                        command.Parameters.AddWithValue("@StaffCASID", request.StaffCASID);
+
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        // Execute the command
+                        result = await command.ExecuteNonQueryAsync();
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
     }
 }

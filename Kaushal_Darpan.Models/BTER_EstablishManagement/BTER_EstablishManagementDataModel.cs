@@ -297,12 +297,22 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int RoleID { get; set; }
         public int DepartmentID { get; set; }
 
+        public string? Address { get; set; }
+        public string? State { get; set; }
+        public string? District { get; set; }
+        public string? Pincode { get; set; }
+        public string? IsServingADHOC_str { get; set; }
+        public string? IsProbationCompleted_str { get; set; }
+        public bool? IsProbationCompleted { get; set; }
+        public string? ProbationCompletionDate { get; set; }
+        public string? WhatsAppNumber { get; set; }
+        public string? Email { get; set; }
+
         // Service History
         public List<BTER_EM_AddServiceHistoryDataModel> ServiceHistoryList { get; set; }
             = new List<BTER_EM_AddServiceHistoryDataModel>();
 
         public List<StaffTrainingDetailDataModel>? TrainingDetailsList { get; set; }
-
     }
 
     public class BTER_EM_DocumentServiceHistoryDataModel
@@ -588,5 +598,34 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? DepartmentID { get; set; }
         public int? ManagementTypeID { get; set; }
         public string? OrderNo { get; set; }
+    }
+
+    public class StaffQualificationDataModel
+    {
+        public int StaffID { get; set; } = 0;
+        public int UserID { get; set; } = 0;
+        public int StaffQualificationID { get; set; } = 0;
+        public string IsQualificationObtainedDuringService { get; set; } = string.Empty;
+        public string QualificationAcquredDate { get; set; } = string.Empty;
+        public string ObtainedDivision { get; set; } = string.Empty;
+        public string Specialization { get; set; } = string.Empty;
+        public string AcquiringQualificationCertificate { get; set; } = string.Empty;
+        public string Dis_AcquiringQualificationCertificate { get; set; } = string.Empty;
+        public string CompetentAuthorityOrder { get; set; } = string.Empty;
+        public string Dis_CompetentAuthorityOrder { get; set; } = string.Empty;
+        public string Action { get; set; } = string.Empty;
+    }
+
+    public class StaffCareerAdvancementDataModel
+    {
+        public int StaffID { get; set; } = 0;
+        public int UserID { get; set; } = 0;
+        public int StaffCASID { get; set; } = 0;
+        public int PayLevelTypeID { get; set; } = 0;
+        public int PayLevelID { get; set;} = 0;
+        public string DateOfImplementation { get; set; } = string.Empty;
+        public string OrderNo { get; set; } = string.Empty;
+        public string OrderDate { get; set; } = string.Empty;
+        public string Action { get; set; } = string.Empty;
     }
 }
