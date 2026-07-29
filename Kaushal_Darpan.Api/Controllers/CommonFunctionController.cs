@@ -489,7 +489,7 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
         [HttpGet("InstituteMaster/{DepartmentID}/{Eng_NonEng}/{EndTermId}/{ManagementTypeID?}")]
-        public async Task<ApiResult<DataTable>> InstituteMaster(int DepartmentID, int Eng_NonEng, int EndTermId,int ManagementTypeID=0)
+        public async Task<ApiResult<DataTable>> InstituteMaster(int DepartmentID, int Eng_NonEng, int EndTermId, int ManagementTypeID = 0)
         {
             return await Task.Run(async () =>
             {
@@ -3228,7 +3228,7 @@ namespace Kaushal_Darpan.Api.Controllers
         //    });
         //}
         [HttpGet("GetExamName/{Eng_NonEng}")]
-        public async Task<ApiResult<DataTable>> GetExamName(int Eng_NonEng=0)
+        public async Task<ApiResult<DataTable>> GetExamName(int Eng_NonEng = 0)
         {
             return await Task.Run(async () =>
             {
@@ -4657,13 +4657,13 @@ namespace Kaushal_Darpan.Api.Controllers
                     //var FileName = "";
                     //if (model.Flag=="IsForStudentconsent")
                     //{
-                        var FileName = $"{model.FileName}_{System.DateTime.Now:MMMddyyyyhhmmssffffff}{Path.GetExtension(OrgfileName)}";
+                    var FileName = $"{model.FileName}_{System.DateTime.Now:MMMddyyyyhhmmssffffff}{Path.GetExtension(OrgfileName)}";
                     //}
                     //else
                     //{
                     //     FileName = $"{model.FileName}_{System.DateTime.Now:MMMddyyyyhhmmssffffff}{Path.GetExtension(OrgfileName)}";
                     //}
-                    
+
                     var finalPathSave = Path.Combine(uploadFolder, FileName);
 
                     //model
@@ -8192,14 +8192,15 @@ namespace Kaushal_Darpan.Api.Controllers
         public async Task<ApiResult<string>> AddTableRecords(string Table)
         {
 
-
-            await _unitOfWork.CommonFunctionRepository.TruncateTableRow(Table);
+            bool isAppendDemoName = false;// set true if you want to append _Demo in table name(ex. xyz_Demo) otherwise false
+            await _unitOfWork.CommonFunctionRepository.TruncateTableRow(Table, isAppendDemoName);// local
             bool isAll = false;
             int PageNumber = 1;
             int PageSize = 2000;
+
             while (!isAll)
             {
-                var data = SelectTableInsertScript(Table, PageNumber, PageSize);
+                var data = SelectTableInsertScript(Table, PageNumber, PageSize);// live
 
 
                 if (data == null || data.Rows.Count == 0)
@@ -8209,7 +8210,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 else
                 {
                     data.TableName = Table;
-                    await _unitOfWork.CommonFunctionRepository.AddTableRows(data);
+                    await _unitOfWork.CommonFunctionRepository.AddTableRows(data, isAppendDemoName);// local
                     //InsertRow(chk.Text, data);
                     ++PageNumber;
                 }
@@ -9706,7 +9707,7 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
-       
+
         [HttpGet("GetStudentAttandanceDayDDL/{StaffID}/{SubjectID}/{StreamID}/{SectionID}")]
         public async Task<ApiResult<DataTable>> GetStudentAttandanceDayDDL(int StaffID, int SubjectID, int StreamID, int SectionID)
         {
@@ -11058,7 +11059,7 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
         [HttpPost("GetUserManualByRoleId")]
-        public async Task<ApiResult<DataTable>> GetUserManualByRoleId([FromBody] UserManualRequestModel model) 
+        public async Task<ApiResult<DataTable>> GetUserManualByRoleId([FromBody] UserManualRequestModel model)
         {
             ActionName = "GetUserManualByRoleId()";
 
@@ -11067,7 +11068,7 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 result.Data = await Task.Run(() =>
-                    _unitOfWork.CommonFunctionRepository.GetUserManualByRoleId(model.RoleId, model.CreatedBy,model.Action));
+                    _unitOfWork.CommonFunctionRepository.GetUserManualByRoleId(model.RoleId, model.CreatedBy, model.Action));
 
                 if (result.Data.Rows.Count == 0)
                 {
@@ -11099,9 +11100,9 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
-        
+
         [HttpPost("GetAllOrderCategory")]
-        public async Task<ApiResult<DataTable>> GetAllOrderCategory( [FromBody] OrderCategoryMasterModel request)
+        public async Task<ApiResult<DataTable>> GetAllOrderCategory([FromBody] OrderCategoryMasterModel request)
         {
             var result = new ApiResult<DataTable>();
 
@@ -11132,13 +11133,13 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
         [HttpPost("SaveOrderCategory")]
-        public async Task<ApiResult<bool>> SaveOrderCategory( [FromBody] OrderCategoryMasterModel request)
+        public async Task<ApiResult<bool>> SaveOrderCategory([FromBody] OrderCategoryMasterModel request)
         {
             var result = new ApiResult<bool>();
 
             try
             {
-                result.Data = await _unitOfWork.CommonFunctionRepository .SaveOrderCategory(request);
+                result.Data = await _unitOfWork.CommonFunctionRepository.SaveOrderCategory(request);
 
                 await _unitOfWork.SaveChangesAsync();
 
@@ -11466,7 +11467,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
         #region dynamic Excel - operation 
         [HttpGet("ExcelOperationCommon/{MasterCode}/{DepartmentID}/{RoleID?}/{CourseTypeID?}")]
-        public async Task<ApiResult<DataTable>> ExcelOperationCommon(string MasterCode, int DepartmentID,int RoleID=0, int CourseTypeID = 0)
+        public async Task<ApiResult<DataTable>> ExcelOperationCommon(string MasterCode, int DepartmentID, int RoleID = 0, int CourseTypeID = 0)
 
         {
             return await Task.Run(async () =>
@@ -11474,7 +11475,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 var result = new ApiResult<DataTable>();
                 try
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.ExcelOperationCommon(MasterCode, DepartmentID,RoleID, CourseTypeID);
+                    var data = await _unitOfWork.CommonFunctionRepository.ExcelOperationCommon(MasterCode, DepartmentID, RoleID, CourseTypeID);
                     if (data.Rows.Count > 0)
                     {
                         result.Data = data;

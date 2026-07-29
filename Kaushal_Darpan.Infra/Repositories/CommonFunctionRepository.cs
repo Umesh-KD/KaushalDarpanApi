@@ -437,7 +437,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<DataTable> InstituteMaster(int DepartmentID, int Eng_NonEng, int EndTermId,int ManagementTypeID=0)
+        public async Task<DataTable> InstituteMaster(int DepartmentID, int Eng_NonEng, int EndTermId, int ManagementTypeID = 0)
 
         {
             _actionName = "InstituteMaster()";
@@ -4754,7 +4754,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         //}
 
         public async Task<bool> UpdateEmitraPaymentStatusWhatsApp(DResponseWhatsAppModel request)
-        {            
+        {
             return await Task.Run(async () =>
             {
                 _actionName = "UpdateEmitraPaymentStatus(EmitraResponseParametersModel request)";
@@ -9509,65 +9509,64 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<string> AddTableRows(DataTable Table)
+        public async Task<string> AddTableRows(DataTable Table, bool isAppendDemoName)
         {
-            return await Task.Run(async () =>
+            try
             {
-                try
+
+                string tablename = isAppendDemoName ? Table.TableName + "_Demo" : Table.TableName;
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
+                    command.CommandType = CommandType.Text;
+                    var columns = Table.Columns.Cast<DataColumn>()
+                             .Select(x => x.ColumnName)
+                             .ToArray();
+
+                    var columns1 = Table.Columns.Cast<DataColumn>()
+                   .Select(x => "[" + x.ColumnName + "]")
+                   .ToArray();
+
+                    int index = 1;
+                    string sqlQuery = "";
+                    foreach (DataRow data in Table.Rows)
                     {
-                        command.CommandType = CommandType.Text;
-                        var columns = Table.Columns.Cast<DataColumn>()
-                                 .Select(x => x.ColumnName)
-                                 .ToArray();
+                        sqlQuery += " INSERT INTO [dbo].[" + tablename + "](" + string.Join(",", columns1) + ")values( ";
 
-                        var columns1 = Table.Columns.Cast<DataColumn>()
-                       .Select(x => "[" + x.ColumnName + "]")
-                       .ToArray();
-
-                        int index = 1;
-                        string sqlQuery = "";
-                        foreach (DataRow data in Table.Rows)
+                        string rowValues = "";
+                        foreach (var col in columns)
                         {
-                            sqlQuery += " INSERT INTO [dbo].[" + Table.TableName + "](" + string.Join(",", columns1) + ")values( ";
-
-                            string rowValues = "";
-                            foreach (var col in columns)
-                            {
-                                rowValues += (rowValues != "" ? "," : "") + "" + (string.IsNullOrEmpty(data[col].ToString()) ? "NULL" : "N'" + checkDate(data[col].ToString().Replace("'", "")) + "'") + "";
-                            }
-
-                            sqlQuery += rowValues + ")";
-                            //sqlQuery += rowValues.Replace("'", "");
-                            ++index;
+                            rowValues += (rowValues != "" ? "," : "") + "" + (string.IsNullOrEmpty(data[col].ToString()) ? "NULL" : "N'" + checkDate(data[col].ToString().Replace("'", "")) + "'") + "";
                         }
 
-                        await SetIdentityOffOn(Table.TableName, "ON");
-
-                        command.CommandText = sqlQuery;
-                        command.ExecuteNonQuery();
-
-                        await SetIdentityOffOn(Table.TableName, "OFF");
-
+                        sqlQuery += rowValues + ")";
+                        //sqlQuery += rowValues.Replace("'", "");
+                        ++index;
                     }
-                    return "Success";
+
+                    await SetIdentityOffOn(tablename, "ON");
+
+                    command.CommandText = sqlQuery;
+                    command.ExecuteNonQuery();
+
+                    await SetIdentityOffOn(tablename, "OFF");
+
                 }
-                catch (Exception ex)
+                return "Success";
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    //throw new Exception(errordetails, ex);
-                    return "Success";
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                //throw new Exception(errordetails, ex);
+                return "Success";
+            }
         }
 
 
@@ -9597,9 +9596,10 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
-        public async Task<string> TruncateTableRow(string table)
+        public async Task<string> TruncateTableRow(string table, bool isAppendDemoName)
         {
-
+            // set duplicate table
+            table = isAppendDemoName ? table + "_Demo" : table;
             string sqlQuery = "SELECT * INTO " + table + "_" + DateTime.Now.ToString("ddMMyyyyhhss") + " FROM " + table + " TRUNCATE TABLE " + table + "";
             using (var command = await _dbContext.CreateCommandAsync())
             {
@@ -12127,7 +12127,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         #endregion
 
         #region  Finacial year ID wise Endterm
-        public async Task<List<EndTermFinYearModel>> GetFinYearWiseEndterm( int FinancialYearID)
+        public async Task<List<EndTermFinYearModel>> GetFinYearWiseEndterm(int FinancialYearID)
         {
             _actionName = "GetFinYearWiseEndterm()";
             try
@@ -12716,7 +12716,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@SubjectID", SubjectID);
                     command.Parameters.AddWithValue("@StreamID", StreamID);
                     command.Parameters.AddWithValue("@SectionID", SectionID);
-                   // command.Parameters.AddWithValue("@DayID", DayID);
+                    // command.Parameters.AddWithValue("@DayID", DayID);
 
                     _sqlQuery = command.GetSqlExecutableQuery(); // Get SQL query string for logging/debugging
                     var dataTable = await command.FillAsync_DataTable();
@@ -12927,7 +12927,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<DataTable> GetUserManualByRoleId(int roleId , int CreatedBy, string Action)
+        public async Task<DataTable> GetUserManualByRoleId(int roleId, int CreatedBy, string Action)
         {
             _actionName = "GetUserManualByRoleId()";
 
@@ -13044,7 +13044,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                     command.Parameters.AddWithValue("@OrderCategoryID", request.OrderCategoryID);
                     command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
-                   
+
                     _sqlQuery = command.GetSqlExecutableQuery();
                     result = await command.ExecuteNonQueryAsync();
                 }
@@ -13306,7 +13306,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
         #region  Excel -operation common
-        public async Task<DataTable> ExcelOperationCommon(string MasterCode = "", int DepartmentID = 0,int RoleID=0, int CourseTypeID = 0)
+        public async Task<DataTable> ExcelOperationCommon(string MasterCode = "", int DepartmentID = 0, int RoleID = 0, int CourseTypeID = 0)
         {
             _actionName = "ExcelOperationCommon(string MasterCode, int DepartmentID = 0, int CourseTypeID = 0)";
             return await Task.Run(async () =>
@@ -13363,7 +13363,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                     command.Parameters.AddWithValue("@ApplicationIdEnc", Model.ApplicationIdEnc);
                     command.Parameters.AddWithValue("@ApplicationNo", Model.ApplicationNo);
-                    command.Parameters.AddWithValue("@KioskID","#WhatsApp");
+                    command.Parameters.AddWithValue("@KioskID", "#WhatsApp");
                     command.Parameters.AddWithValue("@ReceiptNo", Model.ReceiptNo);
                     command.Parameters.AddWithValue("@TokenNo", Model.TokenNo);
                     command.Parameters.AddWithValue("@RequestStatus", Model.RequestStatus);
@@ -13422,5 +13422,5 @@ namespace Kaushal_Darpan.Infra.Repositories
 
     }
 
-} 
+}
 
