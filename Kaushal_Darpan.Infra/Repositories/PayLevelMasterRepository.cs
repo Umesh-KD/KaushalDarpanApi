@@ -35,7 +35,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     // Set the stored procedure name and type
                     command.CommandType = CommandType.StoredProcedure;
-                    command.CommandText = "USP_BTER_EM_StaffCareerAdvancement_IU";
+                    command.CommandText = "USP_PayLevelMaster_IU";
                     command.Parameters.AddWithValue("@PayLevelID", request.PayLevelID);
                     command.Parameters.AddWithValue("@PayLevel", request.PayLevel);
                     command.Parameters.AddWithValue("@UserID", request.UserID);
@@ -77,9 +77,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.CommandType = CommandType.StoredProcedure;
 
                     //command.CommandText = "USP_BTER_EM_GetStaffList";
-                    command.CommandText = "USP_BTER_EM_StaffCareerAdvancementScheme_Get";
+                    command.CommandText = "USP_PayLevelMaster_GetData";
                     command.Parameters.AddWithValue("@Action", body.Action);
                     command.Parameters.AddWithValue("@UserID", body.UserID);
+                    command.Parameters.AddWithValue("@PayLevelID", body.PayLevelID);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
@@ -112,7 +113,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_BTER_EM_StaffCareerAdvancementScheme_Get";
+                        command.CommandText = "USP_PayLevelMaster_GetData";
                         command.Parameters.AddWithValue("@Action", "delete_byID");
 
                         command.Parameters.AddWithValue("@PayLevelID", request.PayLevelID);
