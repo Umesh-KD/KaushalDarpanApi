@@ -2472,6 +2472,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@StaffID", request.StaffID);
                     command.Parameters.AddWithValue("@UserID", request.UserID);
                     command.Parameters.AddWithValue("@StaffQualificationID", request.StaffQualificationID);
+                    command.Parameters.AddWithValue("@QualificationID", request.QualificationID);
                     command.Parameters.AddWithValue("@IsQualificationObtainedDuringService", request.IsQualificationObtainedDuringService);
                     command.Parameters.AddWithValue("@QualificationAcquredDate", request.QualificationAcquredDate);
                     command.Parameters.AddWithValue("@ObtainedDivision", request.ObtainedDivision);
@@ -2607,6 +2608,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@DateOfImplementation", request.DateOfImplementation);
                     command.Parameters.AddWithValue("@OrderNo", request.OrderNo);
                     command.Parameters.AddWithValue("@OrderDate", request.OrderDate);
+                    command.Parameters.AddWithValue("@CASDocument", request.CASDocument);
+                    command.Parameters.AddWithValue("@Dis_CASDocument", request.Dis_CASDocument);
 
                     command.Parameters.AddWithValue("@IPAddress", _IPAddress);
 

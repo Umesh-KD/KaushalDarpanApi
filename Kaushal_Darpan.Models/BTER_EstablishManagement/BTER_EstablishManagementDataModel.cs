@@ -605,6 +605,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int StaffID { get; set; } = 0;
         public int UserID { get; set; } = 0;
         public int StaffQualificationID { get; set; } = 0;
+        public int QualificationID { get; set; } = 0;
         public string IsQualificationObtainedDuringService { get; set; } = string.Empty;
         public string QualificationAcquredDate { get; set; } = string.Empty;
         public string ObtainedDivision { get; set; } = string.Empty;
@@ -627,5 +628,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public string OrderNo { get; set; } = string.Empty;
         public string OrderDate { get; set; } = string.Empty;
         public string Action { get; set; } = string.Empty;
+        public string CASDocument { get; set; } = string.Empty;
+        public string Dis_CASDocument { get; set; } = string.Empty;
     }
 }
