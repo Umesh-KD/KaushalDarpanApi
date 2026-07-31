@@ -304,7 +304,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         IPostMasterRepository PostMasterRepository { get; }
 
         IAPIforStatePortalRepository APIforStatePortalRepository { get; }
-
+        IPayLevelMasterRepository PayLevelMasterRepository { get; }
 
     }
 }

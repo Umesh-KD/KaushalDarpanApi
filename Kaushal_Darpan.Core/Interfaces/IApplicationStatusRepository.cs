@@ -20,6 +20,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> AddQualificationDetails(StudentSearchModel filterModel);
         Task<List<DocumentDetailsModel>> GetByID(int ApplicationID);
         Task<int> SaveRevertData(List<DocumentDetailsModel> productDetails);
-        Task<bool> unlockadmissionform(int ID);
+        Task<bool> unlockadmissionform(int ID,string SSOID);
     }
 }

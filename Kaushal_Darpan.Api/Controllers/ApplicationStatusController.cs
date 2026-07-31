@@ -286,8 +286,8 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
-        [HttpPost("unlockadmissionform/{PK_ID}")]
-        public async Task<ApiResult<bool>> unlockadmissionform(int PK_ID)
+        [HttpPost("unlockadmissionform/{PK_ID}/{SSOID}")]
+        public async Task<ApiResult<bool>> unlockadmissionform(int PK_ID,string SSOID)
         {
             ActionName = "DeleteDataByID(int PK_ID, int ModifyBy)";
             return await Task.Run(async () =>
@@ -296,7 +296,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                   
-                    result.Data = await _unitOfWork.ApplicationStatusRepository.unlockadmissionform(PK_ID);
+                    result.Data = await _unitOfWork.ApplicationStatusRepository.unlockadmissionform(PK_ID,SSOID);
                     await _unitOfWork.SaveChangesAsync();
 
                     if (result.Data)

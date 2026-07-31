@@ -2265,6 +2265,17 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
         }
+
+        private IPayLevelMasterRepository _PayLevelMasterRepository;
+        public IPayLevelMasterRepository PayLevelMasterRepository
+        {
+            get
+            {
+                return _PayLevelMasterRepository ??= new PayLevelMasterRepository(_dbContext);
+            }
+
+
+        }
         #endregion
 
 

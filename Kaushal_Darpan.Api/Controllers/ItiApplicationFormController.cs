@@ -186,48 +186,47 @@ namespace Kaushal_Darpan.Api.Controllers
         public async Task<ApiResult<bool>> SaveQualificationDetailsData([FromBody] List<QualificationDetailsDataModel> request)
         {
             ActionName = "SaveQualificationDetailsData([FromBody] List<QualificationDetailsDataModel> request)";
-            return await Task.Run(async () =>
-            {
-                var result = new ApiResult<bool>();
-                try
-                {
-                    var isSave = await _unitOfWork.ItiApplicationFormRepository.SaveQualificationDetailsData(request);
-                    await _unitOfWork.SaveChangesAsync();
 
-                    if (isSave == -1)
-                    {
-                        result.Data = true;
-                        result.State = EnumStatus.Warning;
-                        result.Message = Constants.MSG_NO_DATA_SAVE;
-                    }
-                    else if (isSave > 0)
-                    {
-                        result.Data = true;
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_SAVE_SUCCESS;
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Error;
-                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
-                    }
-                }
-                catch (System.Exception ex)
+            var result = new ApiResult<bool>();
+            try
+            {
+                var isSave = await _unitOfWork.ItiApplicationFormRepository.SaveQualificationDetailsData(request);
+                await _unitOfWork.SaveChangesAsync();
+
+                if (isSave == -1)
                 {
-                    await _unitOfWork.DisposeAsync();
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
-                    // write error log
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
+                    result.Data = true;
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_NO_DATA_SAVE;
                 }
-                return result;
-            });
+                else if (isSave > 0)
+                {
+                    result.Data = true;
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_SAVE_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+
         }
 
         [HttpPost("SaveDocumentDetailsData")]
@@ -900,7 +899,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     var isSave = await _unitOfWork.ItiApplicationFormRepository.ITI_DirectAdmissionApply(request);
-                   
+
 
                     if (isSave == 2)
                     {
@@ -953,48 +952,47 @@ namespace Kaushal_Darpan.Api.Controllers
         public async Task<ApiResult<bool>> SaveEditQualificationDetailsData([FromBody] List<QualificationDetailsDataModel> request)
         {
             ActionName = "SaveQualificationDetailsData([FromBody] List<QualificationDetailsDataModel> request)";
-            return await Task.Run(async () =>
-            {
-                var result = new ApiResult<bool>();
-                try
-                {
-                    var isSave = await _unitOfWork.ItiApplicationFormRepository.SaveEditQualificationDetailsData(request);
-                    await _unitOfWork.SaveChangesAsync();
 
-                    if (isSave == -1)
-                    {
-                        result.Data = true;
-                        result.State = EnumStatus.Warning;
-                        result.Message = Constants.MSG_NO_DATA_SAVE;
-                    }
-                    else if (isSave > 0)
-                    {
-                        result.Data = true;
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_SAVE_SUCCESS;
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Error;
-                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
-                    }
-                }
-                catch (System.Exception ex)
+            var result = new ApiResult<bool>();
+            try
+            {
+                var isSave = await _unitOfWork.ItiApplicationFormRepository.SaveEditQualificationDetailsData(request);
+                await _unitOfWork.SaveChangesAsync();
+
+                if (isSave == -1)
                 {
-                    await _unitOfWork.DisposeAsync();
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
-                    // write error log
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
+                    result.Data = true;
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_NO_DATA_SAVE;
                 }
-                return result;
-            });
+                else if (isSave > 0)
+                {
+                    result.Data = true;
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_SAVE_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+
         }
 
 
