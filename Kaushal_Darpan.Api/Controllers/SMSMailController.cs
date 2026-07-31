@@ -346,7 +346,7 @@ namespace Kaushal_Darpan.Api.Controllers
             {
                 //
                 string MessageBody = "";
-                string TempletID = "1107175393865180250";
+                string TempletID = "1007962669398471135";
                 string MobileNo = "7737348604";
                 string AID = "0";
 
