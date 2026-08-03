@@ -460,7 +460,7 @@ app.UseAuthorization();
 
 app.MapControllers().RequireCors("corepolicy"); ;
 
-app.MapHub<SignalRHub>("/SignalRHub")
+app.MapHub<SignalRHub>("/api/api/SignalRHub")
    .RequireCors("signalrpolicy"); // signal-r
 
 app.Run();
