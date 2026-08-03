@@ -2068,6 +2068,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 sb.AppendLine("font-weight:bold;");
                 sb.AppendLine("margin-left:auto;");       // Keep block on left side
                 sb.AppendLine("margin-right:0;");
+                sb.AppendLine("line-height:1.7;");   // Reduce line spacing
                 sb.AppendLine("}");
 
                 sb.AppendLine(".copy-section {");
@@ -2089,7 +2090,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 sb.AppendLine("<td class='hindi' style='text-align:left;font-weight:bold;'>");
                 sb.AppendLine("क्रमांकः एफ(12) प्राशिम/गोप./2026/");
                 sb.AppendLine("</td>");
-                sb.AppendLine("<td class='hindi' style='text-align:right;padding-right:40px;font-weight:bold;'>");
+                sb.AppendLine("<td class='hindi' style='text-align:right;padding-right:65px;font-weight:bold;'>");
                 sb.AppendLine($"दिनांकः");
                 sb.AppendLine("</td>");
                 sb.AppendLine("</tr>");
@@ -2158,16 +2159,34 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
             </div>");
 
                 // Signature
+                //sb.AppendLine("<div class='signature'>");
+                //sb.AppendLine("(रघुनाथ सिंह)<br/>");
+                //sb.AppendLine("संयुक्त निदेशक (गोपनीय)<br/><br/>");
+                //sb.AppendLine("दिनांक:");
+                //sb.AppendLine("</div>");
+
+                // Signature
                 sb.AppendLine("<div class='signature'>");
-                sb.AppendLine("(रघुनाथ सिंह)<br/><br/>");
-                sb.AppendLine("संयुक्त निदेशक (गोपनीय)<br/><br/>");
-                sb.AppendLine("दिनांक:");
+                sb.AppendLine("(रघुनाथ सिंह)<br/>");
+                sb.AppendLine("संयुक्त निदेशक (गोपनीय)");
                 sb.AppendLine("</div>");
+
+                // Bottom Kramank & Dinank
+                sb.AppendLine("<table style='width:100%; margin-top:30px;'>");
+                sb.AppendLine("<tr>");
+                sb.AppendLine("<td style='text-align:left; font-weight:bold;'>");
+                sb.AppendLine("क्रमांक : एफ6(12)प्राशिम/गोप./2026/");
+                sb.AppendLine("</td>");
+                sb.AppendLine("<td style='text-align:right;padding-right:65px;font-weight:bold;'>");
+                sb.AppendLine($"दिनांक :");
+                sb.AppendLine("</td>");
+                sb.AppendLine("</tr>");
+                sb.AppendLine("</table>");
 
                 // Copy Section
                 sb.AppendLine("<div class='copy-section'>");
                 //sb.AppendLine("<br/><br/>");
-                sb.AppendLine("<b>क्रमांक : एफ6(12)प्रशिम/गोप./2026/ </b><br/>");
+                //sb.AppendLine("<b>क्रमांक : एफ6(12)प्रशिम/गोप./2026/ </b><br/>");
                 sb.AppendLine("<b>प्रतिलिपिः</b><br/>");
                 sb.AppendLine("01. निदेशक एवं अध्यक्ष, प्रा.शि.मं. जोधपुर<br/>");
                 sb.AppendLine("02. संयुक्त निदेशक (रजिस्ट्रार), प्रा.शि.मं. जोधपुर<br/>");
@@ -2276,11 +2295,18 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
             sb.AppendLine($"<td>{totalCat2Ex}</td>");
             sb.AppendLine("</tr>");
             sb.AppendLine("</table>");
+
+            sb.AppendLine("<br/>");
+            sb.AppendLine("<p style='font-size:15px;'>");
+            sb.AppendLine("<strong>Note:</strong> Enrollment Cancel due to UFM.");
+            sb.AppendLine("</p>");
+
             sb.AppendLine("</body>");
             sb.AppendLine("</html>");
 
             return sb;
         }
+        
         #endregion
 
         #region Student Marksheet public
