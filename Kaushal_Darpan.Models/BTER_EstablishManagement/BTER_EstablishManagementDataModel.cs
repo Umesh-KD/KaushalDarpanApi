@@ -228,6 +228,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public string ToDate { get; set; }
 
         public int DesignationID { get; set; }
+        public int ServiceBranchID { get; set; }
         public int QualificationID { get; set; }
         public string? DesignationName { get; set; }
 
@@ -255,7 +256,10 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public bool IsPromotion { get; set; }
 
         public int ToDesignationIDPromotion { get; set; }
+        public int ToBranchIDPromotion { get; set; }
         public string? ToDesignationName { get; set; }
+        public string? ServiceBranchName { get; set; }
+        public string? ToBranchNamePromotion { get; set; }
 
         public string? DateOfpromotion { get; set; }
 
