@@ -9078,7 +9078,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("UFMCategoryReportPdf_BTER")]
         public async Task<ApiResult<string>> UFMCategoryReportPdf_BTER(UFMCategoryUpdateModel filterModel)
         {
-            ActionName = "TheorymarksReportPdf_BTER(TheorySearchModel filterModel)";
+            ActionName = "UFMCategoryReportPdf_BTER(UFMCategoryUpdateModel filterModel)";
             var result = new ApiResult<string>();
             try
             {

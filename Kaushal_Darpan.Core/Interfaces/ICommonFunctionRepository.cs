@@ -439,5 +439,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         #endregion
 
         Task<bool> UpdateEmitraPaymentStatusWhatsApp(DResponseWhatsAppModel request);
+        Task<SignalRDashboardModel> GetDashboardCountSignalR();
+        Task<bool> SaveDashboardCountSignalR();
     }
 }
