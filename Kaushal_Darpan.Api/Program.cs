@@ -120,8 +120,7 @@ builder.Services.AddCors(options =>
     // Existing policy for APIs
     options.AddPolicy("corepolicy", policy =>
     {
-        policy
-            .AllowAnyOrigin()
+        policy.AllowAnyOrigin()
             .AllowAnyHeader()
             .AllowAnyMethod()
             .WithExposedHeaders("X-AuthToken", "no-loader", "Content-Disposition");
@@ -130,8 +129,7 @@ builder.Services.AddCors(options =>
     // SignalR policy
     options.AddPolicy("signalrpolicy", policy =>
     {
-        policy
-            .WithOrigins("http://localhost:4200")
+        policy.WithOrigins("http://localhost:4200", "https://testkdhte.rajasthan.gov.in", "https://kdhte.rajasthan.gov.in")
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials();
@@ -462,7 +460,7 @@ app.UseAuthorization();
 
 app.MapControllers().RequireCors("corepolicy"); ;
 
-app.MapHub<SignalRHub>("/SignalRHub")
+app.MapHub<SignalRHub>("/api/api/SignalRHub")
    .RequireCors("signalrpolicy"); // signal-r
 
 app.Run();
