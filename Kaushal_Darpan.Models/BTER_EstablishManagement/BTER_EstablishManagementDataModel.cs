@@ -68,6 +68,12 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public string? act{ get; set; }
         public int? IsProbationCompleted { get; set; }
         public int? IsServingADHOC { get; set; }
+        public int? DesignationID { get; set; }
+        public int? QualificationID { get; set; }
+        public int? PayLevelID { get; set; }
+        public int? QualificationIDaf { get; set; }
+        public int? QualificationIDbe { get; set; }
+        public string? DateOfImplementation { get; set; }
     }
 
     public class BTER_EM_GetPersonalDetailByUserID

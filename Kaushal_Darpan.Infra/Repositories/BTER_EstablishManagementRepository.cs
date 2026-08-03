@@ -1800,7 +1800,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@RoleID", model.RoleID);
                         command.Parameters.AddWithValue("@BranchID", model.BranchID);
                         //command.Parameters.AddWithValue("@StaffTypeID", model.StaffTypeID);
-
+                        command.Parameters.AddWithValue("@SSOID", model.SSOID);
+                        command.Parameters.AddWithValue("@UserID", model.UserID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -2437,6 +2438,12 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@act", body.act);
                     command.Parameters.AddWithValue("@IsServingADHOC", body.IsServingADHOC);
                     command.Parameters.AddWithValue("@IsProbationCompleted", body.IsProbationCompleted);
+                    command.Parameters.AddWithValue("@BranchID", body.BranchID);
+                    command.Parameters.AddWithValue("@DesignationID", body.DesignationID);
+                    command.Parameters.AddWithValue("@PayLevelID", body.PayLevelID);
+                    command.Parameters.AddWithValue("@DateOfImplementation", body.DateOfImplementation);
+                    command.Parameters.AddWithValue("@QualificationIDbe", body.QualificationIDbe);
+                    command.Parameters.AddWithValue("@QualificationIDaf", body.QualificationIDaf);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();

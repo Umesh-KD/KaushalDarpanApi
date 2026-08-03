@@ -772,6 +772,8 @@
         public int? BranchID { get; set; }
         public int? BugetHeadTypeID { get; set; }
         public int? RoleID { get; set; }
+        public int? UserID { get; set; }
+        public string SSOID { get; set; }
     }
 
 
