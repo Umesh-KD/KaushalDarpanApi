@@ -318,7 +318,9 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                                 }
                                 break;// print one then rest exclude from creation
                             }
-                            else if (colval?.ToLower()?.StartsWith("regul. sub.") == true)
+                            else if (colval?.StartsWith("Regul. Sub.", StringComparison.OrdinalIgnoreCase) == true ||
+                                colval?.StartsWith("Fail. Sub.", StringComparison.OrdinalIgnoreCase) == true ||
+                                colval?.StartsWith("RWH(Previous Semester Not Cleared)", StringComparison.OrdinalIgnoreCase) == true)
                             {
                                 sb.AppendLine($"<td colspan=\"4\" style=\"text-align:left;\"> {dr[dc.ColumnName]} </td>");
                                 // skip next 3 columns,
