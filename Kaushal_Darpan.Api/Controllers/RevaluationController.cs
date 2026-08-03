@@ -34,7 +34,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("GetDetails")]
         public async Task<ApiResult<DataTable>> GetDetails([FromBody] RevaluationDataModel body)
         {
-            ActionName = "GetTeacherForExaminer()";
+            ActionName = "GetDetails([FromBody] RevaluationDataModel body)";
             var result = new ApiResult<DataTable>();
             try
             {

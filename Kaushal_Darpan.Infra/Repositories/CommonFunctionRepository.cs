@@ -13420,6 +13420,82 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
+        #region SignalR
+        public async Task<SignalRDashboardModel> GetDashboardCountSignalR()
+        {
+            _actionName = "GetDashboardCountSignalR()";
+            try
+            {
+                SignalRDashboardModel data = new SignalRDashboardModel();
+                DataTable dt = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())// true to control transaction
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetDashboardCountForSignalR";
+
+                    command.Parameters.AddWithValue("@action", "_getDashboardCountForSignalR");
+
+                    _sqlQuery = command.GetSqlExecutableQuery();// sql query for log
+                    dt = await command.FillAsync_DataTable();
+
+                    data = CommonFuncationHelper.ConvertDataTable<SignalRDashboardModel>(dt);
+                }
+                return data;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+
+        }
+
+        public async Task<bool> SaveDashboardCountSignalR()
+        {
+            _actionName = "SaveDashboardCountSignalR()";
+
+            try
+            {
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetDashboardCountForSignalR";
+
+                    command.Parameters.AddWithValue("@action", "_saveDashboardCountForSignalR");
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
+                }
+
+                if (result > 0)
+                {
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+        #endregion
     }
 
 }
