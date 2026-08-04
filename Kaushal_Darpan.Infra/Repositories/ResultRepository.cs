@@ -142,6 +142,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@ResultTypeID", model.ResultTypeID);
                     command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
                     command.Parameters.AddWithValue("@ResultDeclarationDate", model.ResultDeclarationDate);
+                    command.Parameters.AddWithValue("@ResultPublishDate", model.ResultPublishDate);
 
                     command.Parameters.AddWithValue("@IPAddress", _IPAddress);
 
