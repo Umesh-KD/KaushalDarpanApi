@@ -2267,6 +2267,10 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
             int totalCat1Ex = 0;
             int totalCat2Regular = 0;
             int totalCat2Ex = 0;
+            //string totalCat5RollNos = "";
+
+            List<string> totalCat5RollNos = new List<string>();
+
             foreach (DataRow row in dt.Rows)
             {
                 sb.AppendLine("<tr>");
@@ -2286,6 +2290,21 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 totalCat1Ex += Convert.ToInt32(row["Cat1Ex"]);
                 totalCat2Regular += Convert.ToInt32(row["Cat2Regular"]);
                 totalCat2Ex += Convert.ToInt32(row["Cat2Ex"]);
+
+                //if (!string.IsNullOrWhiteSpace(row["Cat5RollNos"]?.ToString()))
+                //{
+                //    if (!string.IsNullOrEmpty(totalCat5RollNos))
+                //        totalCat5RollNos += ",";
+
+                //    totalCat5RollNos += row["Cat5RollNos"].ToString();
+                //}
+                var rollNos = row["Cat5RollNos"]?.ToString();
+
+                if (!string.IsNullOrWhiteSpace(rollNos))
+                {
+                    totalCat5RollNos.Add(rollNos);
+                }
+
             }
             sb.AppendLine("<tr style='font-weight:bold'>");
             sb.AppendLine("<td colspan='3'>Total</td>");
@@ -2298,10 +2317,35 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
             sb.AppendLine("</tr>");
             sb.AppendLine("</table>");
 
-            sb.AppendLine("<br/>");
-            sb.AppendLine("<p style='font-size:15px;'>");
-            sb.AppendLine("<strong>Note:</strong> Enrollment Cancel due to UFM.");
-            sb.AppendLine("</p>");
+            // Show note only if Cat5RollNos contains data
+            if (totalCat5RollNos.Any())
+            {
+                string rollNos = string.Join(",", totalCat5RollNos);
+
+                sb.AppendLine("<br/>");
+                sb.AppendLine("<p style='font-size:15px; margin:0;'>");
+                sb.AppendLine("<strong>Note:</strong> Enrollment Cancel due to UFM.");
+                sb.AppendLine("</p>");
+
+                sb.AppendLine($@"
+                    <div style='
+                        font-size:14px;
+                        margin-right:10px;
+                        margin-top:10px;
+                        line-height:1.5;
+                        word-break:break-all;
+                        overflow-wrap:anywhere;
+                        white-space:normal;
+                        width:100%;'>
+                        Roll No(s) : {rollNos}
+                    </div>");
+            }
+
+
+            //sb.AppendLine("<br/>");
+            //sb.AppendLine("<p style='font-size:15px;'>");
+            //sb.AppendLine("<strong>Note:</strong> Enrollment Cancel due to UFM.");
+            //sb.AppendLine("</p>");
 
             sb.AppendLine("</body>");
             sb.AppendLine("</html>");
