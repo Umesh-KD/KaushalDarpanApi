@@ -624,6 +624,8 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public string Dis_AcquiringQualificationCertificate { get; set; } = string.Empty;
         public string CompetentAuthorityOrder { get; set; } = string.Empty;
         public string Dis_CompetentAuthorityOrder { get; set; } = string.Empty;
+        public string PreQualificationCertificate { get; set; } = string.Empty;
+        public string Dis_PreQualificationCertificate { get; set; } = string.Empty;
         public string Action { get; set; } = string.Empty;
     }
 
