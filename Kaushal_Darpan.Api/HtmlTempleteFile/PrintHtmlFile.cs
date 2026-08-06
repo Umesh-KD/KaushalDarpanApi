@@ -318,7 +318,9 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                                 }
                                 break;// print one then rest exclude from creation
                             }
-                            else if (colval?.ToLower()?.StartsWith("regul. sub.") == true)
+                            else if (colval?.StartsWith("Regul. Sub.", StringComparison.OrdinalIgnoreCase) == true ||
+                                colval?.StartsWith("Fail. Sub.", StringComparison.OrdinalIgnoreCase) == true ||
+                                colval?.StartsWith("RWH(Previous Semester Not Cleared)", StringComparison.OrdinalIgnoreCase) == true)
                             {
                                 sb.AppendLine($"<td colspan=\"4\" style=\"text-align:left;\"> {dr[dc.ColumnName]} </td>");
                                 // skip next 3 columns,
@@ -2068,6 +2070,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 sb.AppendLine("font-weight:bold;");
                 sb.AppendLine("margin-left:auto;");       // Keep block on left side
                 sb.AppendLine("margin-right:0;");
+                sb.AppendLine("line-height:1.7;");   // Reduce line spacing
                 sb.AppendLine("}");
 
                 sb.AppendLine(".copy-section {");
@@ -2089,7 +2092,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 sb.AppendLine("<td class='hindi' style='text-align:left;font-weight:bold;'>");
                 sb.AppendLine("क्रमांकः एफ(12) प्राशिम/गोप./2026/");
                 sb.AppendLine("</td>");
-                sb.AppendLine("<td class='hindi' style='text-align:right;padding-right:40px;font-weight:bold;'>");
+                sb.AppendLine("<td class='hindi' style='text-align:right;padding-right:65px;font-weight:bold;'>");
                 sb.AppendLine($"दिनांकः");
                 sb.AppendLine("</td>");
                 sb.AppendLine("</tr>");
@@ -2158,16 +2161,34 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
             </div>");
 
                 // Signature
+                //sb.AppendLine("<div class='signature'>");
+                //sb.AppendLine("(रघुनाथ सिंह)<br/>");
+                //sb.AppendLine("संयुक्त निदेशक (गोपनीय)<br/><br/>");
+                //sb.AppendLine("दिनांक:");
+                //sb.AppendLine("</div>");
+
+                // Signature
                 sb.AppendLine("<div class='signature'>");
-                sb.AppendLine("(रघुनाथ सिंह)<br/><br/>");
-                sb.AppendLine("संयुक्त निदेशक (गोपनीय)<br/><br/>");
-                sb.AppendLine("दिनांक:");
+                sb.AppendLine("(रघुनाथ सिंह)<br/>");
+                sb.AppendLine("संयुक्त निदेशक (गोपनीय)");
                 sb.AppendLine("</div>");
+
+                // Bottom Kramank & Dinank
+                sb.AppendLine("<table style='width:100%; margin-top:30px;'>");
+                sb.AppendLine("<tr>");
+                sb.AppendLine("<td style='text-align:left; font-weight:bold;'>");
+                sb.AppendLine("क्रमांक : एफ6(12)प्राशिम/गोप./2026/");
+                sb.AppendLine("</td>");
+                sb.AppendLine("<td style='text-align:right;padding-right:65px;font-weight:bold;'>");
+                sb.AppendLine($"दिनांक :");
+                sb.AppendLine("</td>");
+                sb.AppendLine("</tr>");
+                sb.AppendLine("</table>");
 
                 // Copy Section
                 sb.AppendLine("<div class='copy-section'>");
                 //sb.AppendLine("<br/><br/>");
-                sb.AppendLine("<b>क्रमांक : एफ6(12)प्रशिम/गोप./2026/ </b><br/>");
+                //sb.AppendLine("<b>क्रमांक : एफ6(12)प्रशिम/गोप./2026/ </b><br/>");
                 sb.AppendLine("<b>प्रतिलिपिः</b><br/>");
                 sb.AppendLine("01. निदेशक एवं अध्यक्ष, प्रा.शि.मं. जोधपुर<br/>");
                 sb.AppendLine("02. संयुक्त निदेशक (रजिस्ट्रार), प्रा.शि.मं. जोधपुर<br/>");
@@ -2246,6 +2267,10 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
             int totalCat1Ex = 0;
             int totalCat2Regular = 0;
             int totalCat2Ex = 0;
+            //string totalCat5RollNos = "";
+
+            List<string> totalCat5RollNos = new List<string>();
+
             foreach (DataRow row in dt.Rows)
             {
                 sb.AppendLine("<tr>");
@@ -2265,6 +2290,21 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 totalCat1Ex += Convert.ToInt32(row["Cat1Ex"]);
                 totalCat2Regular += Convert.ToInt32(row["Cat2Regular"]);
                 totalCat2Ex += Convert.ToInt32(row["Cat2Ex"]);
+
+                //if (!string.IsNullOrWhiteSpace(row["Cat5RollNos"]?.ToString()))
+                //{
+                //    if (!string.IsNullOrEmpty(totalCat5RollNos))
+                //        totalCat5RollNos += ",";
+
+                //    totalCat5RollNos += row["Cat5RollNos"].ToString();
+                //}
+                var rollNos = row["Cat5RollNos"]?.ToString();
+
+                if (!string.IsNullOrWhiteSpace(rollNos))
+                {
+                    totalCat5RollNos.Add(rollNos);
+                }
+
             }
             sb.AppendLine("<tr style='font-weight:bold'>");
             sb.AppendLine("<td colspan='3'>Total</td>");
@@ -2276,11 +2316,43 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
             sb.AppendLine($"<td>{totalCat2Ex}</td>");
             sb.AppendLine("</tr>");
             sb.AppendLine("</table>");
+
+            // Show note only if Cat5RollNos contains data
+            if (totalCat5RollNos.Any())
+            {
+                string rollNos = string.Join(",", totalCat5RollNos);
+
+                sb.AppendLine("<br/>");
+                sb.AppendLine("<p style='font-size:15px; margin:0;'>");
+                sb.AppendLine("<strong>Note:</strong> Enrollment Cancel due to UFM.");
+                sb.AppendLine("</p>");
+
+                sb.AppendLine($@"
+                    <div style='
+                        font-size:14px;
+                        margin-right:10px;
+                        margin-top:10px;
+                        line-height:1.5;
+                        word-break:break-all;
+                        overflow-wrap:anywhere;
+                        white-space:normal;
+                        width:100%;'>
+                        Roll No(s) : {rollNos}
+                    </div>");
+            }
+
+
+            //sb.AppendLine("<br/>");
+            //sb.AppendLine("<p style='font-size:15px;'>");
+            //sb.AppendLine("<strong>Note:</strong> Enrollment Cancel due to UFM.");
+            //sb.AppendLine("</p>");
+
             sb.AppendLine("</body>");
             sb.AppendLine("</html>");
 
             return sb;
         }
+        
         #endregion
 
         #region Student Marksheet public

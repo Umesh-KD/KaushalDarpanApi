@@ -68,6 +68,12 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public string? act{ get; set; }
         public int? IsProbationCompleted { get; set; }
         public int? IsServingADHOC { get; set; }
+        public int? DesignationID { get; set; }
+        public int? QualificationID { get; set; }
+        public int? PayLevelID { get; set; }
+        public int? QualificationIDaf { get; set; }
+        public int? QualificationIDbe { get; set; }
+        public string? DateOfImplementation { get; set; }
     }
 
     public class BTER_EM_GetPersonalDetailByUserID
@@ -228,6 +234,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public string ToDate { get; set; }
 
         public int DesignationID { get; set; }
+        public int ServiceBranchID { get; set; }
         public int QualificationID { get; set; }
         public string? DesignationName { get; set; }
 
@@ -255,7 +262,10 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public bool IsPromotion { get; set; }
 
         public int ToDesignationIDPromotion { get; set; }
+        public int ToBranchIDPromotion { get; set; }
         public string? ToDesignationName { get; set; }
+        public string? ServiceBranchName { get; set; }
+        public string? ToBranchNamePromotion { get; set; }
 
         public string? DateOfpromotion { get; set; }
 
@@ -614,6 +624,8 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public string Dis_AcquiringQualificationCertificate { get; set; } = string.Empty;
         public string CompetentAuthorityOrder { get; set; } = string.Empty;
         public string Dis_CompetentAuthorityOrder { get; set; } = string.Empty;
+        public string PreQualificationCertificate { get; set; } = string.Empty;
+        public string Dis_PreQualificationCertificate { get; set; } = string.Empty;
         public string Action { get; set; } = string.Empty;
     }
 
