@@ -553,6 +553,7 @@ namespace Kaushal_Darpan.Api.Controllers
                                 await _unitOfWork.CommonFunctionRepository.UpdateEmitraPaymentStatus(RESPONSEPARAMS);
                                 await _unitOfWork.SaveChangesAsync();
                             }
+
                             else
                             {
                                 result.State = EnumStatus.Error;
@@ -3180,6 +3181,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 var vIsFailed = CommonFuncationHelper.EmitraDecrypt(IsFailed);
                 if (EmitraResponseData != null)
                 {
+                    EmitraResponseData.TransactionNo = EmitraResponseData.TRANSACTIONID;
                     EmitraResponseData.ApplicationIdEnc = CommonFuncationHelper.EmitraDecrypt(ApplicationIdEnc);
                     EmitraResponseData.TRANSACTIONID = CommonFuncationHelper.EmitraDecrypt(UniquerequestId);
                     await _unitOfWork.CommonFunctionRepository.UpdateEmitraPaymentStatus(EmitraResponseData);

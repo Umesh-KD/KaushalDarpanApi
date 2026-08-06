@@ -135,11 +135,17 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.CommandText = "USP_Publish_Unpublish_BTER_Result";
 
                     command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-                    //command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                     command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
                     command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
-                    command.Parameters.AddWithValue("@ModifyBy", model.UserID);
+                    command.Parameters.AddWithValue("@ModifyBy", model.ModifyBy);
+                    command.Parameters.AddWithValue("@Key", model.Key);
+                    command.Parameters.AddWithValue("@ResultTypeID", model.ResultTypeID);
+                    command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
+                    command.Parameters.AddWithValue("@ResultDeclarationDate", model.ResultDeclarationDate);
+                    command.Parameters.AddWithValue("@ResultPublishDate", model.ResultPublishDate);
+
                     command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
                 }
@@ -158,5 +164,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
     }
 }

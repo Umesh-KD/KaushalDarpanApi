@@ -37,6 +37,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@DesignationID", request.DesignationID);
                     command.Parameters.AddWithValue("@DesignationNameEnglish", request.DesignationNameEnglish);
                     command.Parameters.AddWithValue("@StaffTypeID", request.StaffTypeID);
+                    command.Parameters.AddWithValue("@Gaz_NonGaz", request.Gaz_NonGaz);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
@@ -115,6 +116,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@DesignationNameShort", request.DesignationNameShort ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@IsActive", request.IsActive);
                     command.Parameters.AddWithValue("@StaffTypeID", request.StaffTypeID);
+                    command.Parameters.AddWithValue("@Gaz_NonGaz", request.Gaz_NonGaz);
 
                     // Use a default value or ensure CreatedBy is not null
                     var createdBy = request.CreatedBy ?? 0; // Replace 0 with an appropriate default value

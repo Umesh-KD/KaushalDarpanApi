@@ -8,8 +8,10 @@ using Kaushal_Darpan.Models.ApplicationMessageModel;
 using Kaushal_Darpan.Models.SMSConfigurationSetting;
 using Kaushal_Darpan.Models.Student;
 using Microsoft.AspNetCore.Mvc;
+using Org.BouncyCastle.Asn1.IsisMtt.X509;
 using System.Data;
 using static Kaushal_Darpan.Api.Controllers.IndustryInstitutePartnershipMasterController;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 namespace Kaushal_Darpan.Api.Controllers
@@ -345,8 +347,9 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 //
-                string MessageBody = "";
-                string TempletID = "1107175393865180250";
+                string MessageBody = "Final Provisional merit list of Academic Year 2026-27 ITI Admission is published.Please check your merit at kdhte.rajasthan.gov.in/itipublicinfo -DTE,Jodhpur";
+                //string MessageBody = "Final Provisional merit list of Iti Admission is published.Please check your merit at kdhte.rajasthan.gov.in -DTE,Jodhpur"
+                string TempletID = "1007590954352487470";
                 string MobileNo = "7737348604";
                 string AID = "0";
 
@@ -355,8 +358,8 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
                     AID = item["AID"].ToString();
                     MessageBody = item["SMSText"].ToString();
-                    //TempletID = item["TemplateID"].ToString();
-                    MobileNo = item["MobileNo"].ToString();
+                   TempletID = item["TemplateID"].ToString();
+                   MobileNo = item["MobileNo"].ToString();
                     try
                     {
                         string Response = await CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, MobileNo, MessageBody, TempletID);

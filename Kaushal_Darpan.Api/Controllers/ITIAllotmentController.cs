@@ -426,7 +426,9 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
                     var data = await _unitOfWork.ReportRepository.GetAllotmentReceipt(AllotmentId);
 
-                    if (data != null)
+                    if (data != null &&
+                        data.Tables.Count > 0 &&
+                        data.Tables[0].Rows.Count > 0)
                     {
 
 

@@ -17,6 +17,7 @@
         public string? IPAddress { get; set; }
         public bool? IsActive { get; set; }
         public int? StaffTypeID { get; set; }
+        public int? Gaz_NonGaz { get; set; }
     }
 
     public class DesignationMasterSearchModel
@@ -24,6 +25,7 @@
         public int DesignationID { get; set; }
         public int StaffTypeID { get; set; }
         public int UserID { get; set; }
+        public int Gaz_NonGaz { get; set; }
         public string? DesignationNameEnglish { get; set;}
         public bool? IsActive { get; set;}
     }
