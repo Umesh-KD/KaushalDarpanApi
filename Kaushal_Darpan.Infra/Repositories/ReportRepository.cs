@@ -8531,7 +8531,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@TradeTypeID", model.TradeTypeID);
                         command.Parameters.AddWithValue("@TradeId", model.TradeId);
                         command.Parameters.AddWithValue("@CollegeId", model.CollegeId);
-                        command.Parameters.AddWithValue("@StatusID", model.StatusID);
+                        command.Parameters.AddWithValue("@StatusID", model.ReportingStatus);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
 
