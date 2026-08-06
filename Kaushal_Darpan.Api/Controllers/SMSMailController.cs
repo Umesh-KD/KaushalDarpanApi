@@ -359,7 +359,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     AID = item["AID"].ToString();
                     MessageBody = item["SMSText"].ToString();
                    TempletID = item["TemplateID"].ToString();
-                    MobileNo = item["MobileNo"].ToString();
+                   MobileNo = item["MobileNo"].ToString();
                     try
                     {
                         string Response = await CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, MobileNo, MessageBody, TempletID);
