@@ -738,10 +738,21 @@ namespace Kaushal_Darpan.Infra.Repositories
                                 {
                                     data.EmitraTransactionsModelList = dataSet.Tables[5];
                                 }
+                                if(dataSet.Tables[6].Rows.Count > 0)
+                                {
+                                    try
+                                    {
+                                        data.EmitraTransactionsDataModelList = dataSet.Tables[6];
+                                    }
+                                    catch (Exception ex) { }
                             }
-                            //data.QualificationViewDetails = CommonFuncationHelper.ConvertDataTable<List<ItiQualificationViewDetails>>(dataSet.Tables[1]);
-                            //data.OptionsViewData = CommonFuncationHelper.ConvertDataTable<List<ItiOptionsviewData>>(dataSet.Tables[2]);
+
                         }
+
+
+                        //data.QualificationViewDetails = CommonFuncationHelper.ConvertDataTable<List<ItiQualificationViewDetails>>(dataSet.Tables[1]);
+                        //data.OptionsViewData = CommonFuncationHelper.ConvertDataTable<List<ItiOptionsviewData>>(dataSet.Tables[2]);
+                    }
                     }
                     return data;
            
