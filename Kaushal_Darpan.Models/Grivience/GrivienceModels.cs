@@ -70,4 +70,14 @@ namespace Kaushal_Darpan.Models.CompanyMaster
          
     }
 
+    public class GrievanceCommonDropdownDataModel
+    {
+        public string? Action { get; set; }
+        public int? DepartmentID { get; set; }
+        public int? Eng_NonEng { get; set; }
+        public int? UserID { get; set; }
+        public int? RoleID { get; set; }
+        public int? CategoryID { get; set; }
+    }
+
 }
