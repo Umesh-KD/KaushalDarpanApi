@@ -106,28 +106,33 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<bool> ITIUpwardMomentUpdate(UpwardMoment model)
         {
             _actionName = "ITIUpwardMomentUpdate(UpwardMoment model)";
+
             try
             {
-                int result = 0;
+                int retval = 0;
+
                 using (var command = await _dbContext.CreateCommandAsync(true))
                 {
-                    command.CommandType = CommandType.Text;
-                    command.CommandText = "USP_ITI_GetApplicationStatus";
-
-                    // Add parameters to the stored procedure from the model
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_UpdateStudentSeatAllotmentUpward";
 
                     command.Parameters.AddWithValue("@IsUpward", model.IsUpward);
                     command.Parameters.AddWithValue("@ModifyBy", model.UserID);
                     command.Parameters.AddWithValue("@AllotmentId", model.AllotmentId);
-                   
+
+                    var retValParameter = command.Parameters.Add("@Retval", SqlDbType.Int);
+                    retValParameter.Direction = ParameterDirection.Output;
 
                     _sqlQuery = command.GetSqlExecutableQuery();
-                    result = await command.ExecuteNonQueryAsync();
+
+                    await command.ExecuteNonQueryAsync();
+
+                    retval = Convert.ToInt32(
+                        command.Parameters["@Retval"].Value
+                    );
                 }
-                if (result > 0)
-                    return true;
-                else
-                    return false;
+
+                return retval > 0;
             }
             catch (Exception ex)
             {
@@ -138,7 +143,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                     ActionName = _actionName,
                     SqlExecutableQuery = _sqlQuery
                 };
+
                 var errorDetails = CommonFuncationHelper.MakeError(errorDesc);
+
                 throw new Exception(errorDetails, ex);
             }
         }
