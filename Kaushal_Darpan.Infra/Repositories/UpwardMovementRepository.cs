@@ -3,6 +3,7 @@ using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.ApplicationStatus;
 using Kaushal_Darpan.Models.CommonFunction;
+using Kaushal_Darpan.Models.ITIAllotment;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -111,7 +112,14 @@ namespace Kaushal_Darpan.Infra.Repositories
                 using (var command = await _dbContext.CreateCommandAsync(true))
                 {
                     command.CommandType = CommandType.Text;
-                    command.CommandText = $" update ITI_StudentSeatAllotment set IsUpword='{model.IsUpward}', ModifyBy='{model.UserID} ',ModifyDate=GETDATE(), IPAddress='{_IPAddress}'Where AllotmentId={model.AllotmentId}";
+                    command.CommandText = "USP_ITI_GetApplicationStatus";
+
+                    // Add parameters to the stored procedure from the model
+
+                    command.Parameters.AddWithValue("@IsUpward", model.IsUpward);
+                    command.Parameters.AddWithValue("@ModifyBy", model.UserID);
+                    command.Parameters.AddWithValue("@AllotmentId", model.AllotmentId);
+                   
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     result = await command.ExecuteNonQueryAsync();
