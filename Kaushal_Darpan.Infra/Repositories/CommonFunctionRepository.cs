@@ -7323,43 +7323,40 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<List<CommonDDLModel>> GetSubjectForCitizenSugg(int selectedOption)
         {
-            _actionName = "ITIPlacementCompanyMaster()";
-            return await Task.Run(async () =>
+            _actionName = "GetSubjectForCitizenSugg(int selectedOption)";
+            try
             {
-                try
+                List<CommonDDLModel> studentMaster = new List<CommonDDLModel>();
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    List<CommonDDLModel> studentMaster = new List<CommonDDLModel>();
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_DDL_CommonMaster";
-                        command.Parameters.AddWithValue("@selectedOption", selectedOption);
-                        command.Parameters.AddWithValue("@action", "GetSubjectForCitizenSugg");
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_DDL_CommonMaster";
+                    command.Parameters.AddWithValue("@selectedOption", selectedOption);
+                    command.Parameters.AddWithValue("@action", "GetSubjectForCitizenSugg");
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dataTable = await command.FillAsync_DataTable();
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
 
-                    }
-                    if (dataTable.Rows.Count > 0)
-                    {
-                        studentMaster = CommonFuncationHelper.ConvertDataTable<List<CommonDDLModel>>(dataTable);
-                    }
-                    return studentMaster;
                 }
-                catch (Exception ex)
+                if (dataTable.Rows.Count > 0)
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
+                    studentMaster = CommonFuncationHelper.ConvertDataTable<List<CommonDDLModel>>(dataTable);
                 }
-            });
+                return studentMaster;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         public async Task<DataTable> GetManageHostelWardenRole(string SSOID, int RoleID)

@@ -495,6 +495,7 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
+        // verify examination and reval fee 
         [HttpPost("GetTransactionStatus")]
         public async Task<ApiResult<EmitraResponseParametersModel>> GetTransactionStatus(RPPTransactionStatusDataModel Model)
         {

@@ -200,8 +200,14 @@ namespace Kaushal_Darpan.Infra.Repositories
                     int result = 0;
                     using (var command = await _dbContext.CreateCommandAsync(true))
                     {
-                        command.CommandType = CommandType.Text;
-                        command.CommandText = $" update [M_Grivience] set ActiveStatus=0,DeleteStatus=1,ModifyBy='{request.ModifyBy} ',ModifyDate=GETDATE()'Where ID={request.GrivienceID}";
+                        // Set the stored procedure name and type
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_M_GrivienceUI";
+                        command.Parameters.AddWithValue("@Action", "DeleteDataByID");
+
+                        command.Parameters.AddWithValue("@GrivienceID", request.GrivienceID);
+                        command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         result = await command.ExecuteNonQueryAsync();

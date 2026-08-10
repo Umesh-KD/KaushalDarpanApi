@@ -112,7 +112,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("GetEmitraFeesTransactionHistory")]
         public async Task<ApiResult<DataTable>> GetEmitraFeesTransactionHistory([FromBody] EmitraFeesTransactionSearchModel body)
         {
-            ActionName = "GetStudentFeesTransactionHistoryRpt()";
+            ActionName = "GetEmitraFeesTransactionHistory([FromBody] EmitraFeesTransactionSearchModel body)";
             var result = new ApiResult<DataTable>();
             try
             {
