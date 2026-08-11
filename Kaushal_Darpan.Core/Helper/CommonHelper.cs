@@ -94,6 +94,7 @@ namespace Kaushal_Darpan.Core.Helper
         public const string JoiningRelivingLetterBTER = "Report/BTER";
         public const string MarksheetFolder = "Marksheet";
         public const string FinalDiplomaFolder = "FinalDiploma";
+        public const string ProvisionalDiplomaFolder = "ProvisionalDiploma";
 
         //ITI FOLDERS
         public const string RDLCFolderITI = "Report/Files/ITI";

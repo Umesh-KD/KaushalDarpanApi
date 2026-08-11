@@ -455,5 +455,85 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
+
+
+
+        #region  Provisional diploma certificate download  bulk  : DS
+
+        [HttpPost("GetStudentsProvisionalDiplomaCertificate")]
+        public async Task<ApiResult<DataTable>> GetStudentsProvisionalDiplomaCertificate([FromBody] DiplomaCertificateDownloadSearchModel body)
+        {
+            ActionName = "GetStudentsProvisionalDiplomaCertificate([FromBody] DiplomaCertificateDownloadSearchModel body)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await _unitOfWork.MarksheetDownloadRepository.GetStudentsProvisionalDiplomaCertificate(body);
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        #endregion
+
+        #region  Migration diploma certificate download  bulk   : DS
+
+        [HttpPost("GetStudentsMigrationDiplomaCertificate")]
+        public async Task<ApiResult<DataTable>> GetStudentsMigrationDiplomaCertificate([FromBody] DiplomaCertificateDownloadSearchModel body)
+        {
+            ActionName = "GetStudentsMigrationDiplomaCertificate([FromBody] DiplomaCertificateDownloadSearchModel body)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await _unitOfWork.MarksheetDownloadRepository.GetStudentsMigrationDiplomaCertificate(body);
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        #endregion
     }
 }

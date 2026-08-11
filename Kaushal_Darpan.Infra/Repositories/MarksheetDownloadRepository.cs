@@ -659,5 +659,270 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+
+        #region Provisional Diploma Certificate download
+
+        public async Task<DataTable> GetStudentsProvisionalDiplomaCertificate(DiplomaCertificateDownloadSearchModel body)
+        {
+            _actionName = "GetStudentsProvisionalDiplomaCertificate(DiplomaCertificateDownloadSearchModel body)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_StudentListForDiplomaCertificate";
+                    command.CommandTimeout = 0;
+
+                    if (body.ResultTypeID == (int)EnumResultType.MainResult) // main and reval
+                    {
+                        command.Parameters.AddWithValue("@action", "_getStuListForFinalDiploma");
+                    }
+                    else if (body.ResultTypeID == (int)EnumResultType.RwhResult ||
+                                body.ResultTypeID == (int)EnumResultType.RwhRevalEffected)
+                    {
+                        command.Parameters.AddWithValue("@action", "_getRWHStuListForFinalDiploma");
+                    }
+                    else if (body.ResultTypeID == (int)EnumResultType.Ufm)
+                    {
+                        throw new Exception("Invalid request!");
+                    }
+                    else
+                    {
+                        throw new Exception("Invalid request!");
+                    }
+
+                    command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                    command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+                    command.Parameters.AddWithValue("@IsBridge", body.IsBridge);
+                    command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                    command.Parameters.AddWithValue("@ResultTypeID", body.ResultTypeID);
+                    command.Parameters.AddWithValue("@RollNo", body.RollNo);
+                    command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEngID);
+                    command.Parameters.AddWithValue("@IsRevised", body.IsRevised);
+                    command.Parameters.AddWithValue("@SchemeID", body.SchemeID);
+                    command.Parameters.AddWithValue("@EnrollmentNo", body.EnrollmentNo);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<int> AddUpdateProvisionalDiplomaCertificate(FinalDiplomaCertificateSaveDataModel request)
+        {
+            _actionName = "AddUpdateProvisionalDiplomaCertificate(FinalDiplomaCertificateSaveDataModel request)";
+            try
+            {
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_SaveStudentProvisionalDiplomaCertificateData";
+                    command.CommandTimeout = 0;
+
+                    command.Parameters.AddWithValue("@action", "_SaveStudentProvisionalDiplomaCertificateData");
+
+                    command.Parameters.AddWithValue("@FinalDiploma", request.FinalDiploma); // id
+                    command.Parameters.AddWithValue("@enrollment", request.Enrollment);
+                    command.Parameters.AddWithValue("@institute_id", request.InstituteId);
+                    command.Parameters.AddWithValue("@sr_diploma", request.SrNo); // FD srno.
+                    command.Parameters.AddWithValue("@result_date", request.ResultDate); // publish date
+                    command.Parameters.AddWithValue("@is_locked", request.IsLocked);
+                    command.Parameters.AddWithValue("@diploma_printing_date", request.DiplomaPrintingDate); // printing date
+                    command.Parameters.AddWithValue("@is_rwh_result", request.IsRwhResult);
+                    command.Parameters.AddWithValue("@rwh_result_id", request.RwhResultId);
+                    command.Parameters.AddWithValue("@is_reval", request.IsReval);
+                    command.Parameters.AddWithValue("@is_revised_issue_date", request.IsRevisedIssueDate);
+                    command.Parameters.AddWithValue("@result_id", request.ResultId);// examresultid
+                    command.Parameters.AddWithValue("@revised_id", request.RevisedId);
+                    command.Parameters.AddWithValue("@is_block", request.IsBlock); //
+                    command.Parameters.AddWithValue("@student_id", request.StudentId);
+                    command.Parameters.AddWithValue("@modifed", request.ModifyBy);
+                    command.Parameters.AddWithValue("@is_diploma", request.IsDiploma);
+                    command.Parameters.AddWithValue("@is_duplicate", request.IsDuplicate);
+                    command.Parameters.AddWithValue("@duplicate_diploma_id", request.DuplicateDiplomaId);
+                    command.Parameters.AddWithValue("@request_id", request.RequestId);
+                    command.Parameters.AddWithValue("@is_issued", request.IsIssued);
+                    command.Parameters.AddWithValue("@ResultTypeID", request.ResultTypeID);
+                    command.Parameters.AddWithValue("@EndTermID", request.EndTermID); // current end term id and rwh
+                    command.Parameters.AddWithValue("@EffectiveEndTermID", request.EffectiveEndTermID); // current end term id
+                    command.Parameters.AddWithValue("@IsRevised", request.IsRevised);
+                    command.Parameters.AddWithValue("@FileName", request.FileName); // with file path
+                    command.Parameters.AddWithValue("@Dis_FileName", request.Dis_FileName); // only file name
+                    command.Parameters.AddWithValue("@SemesterID", request.SemesterID);
+                    command.Parameters.AddWithValue("@IpAddress", request.IPAddress);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
+        #endregion
+
+
+        #region Migration Diploma Certificate download
+
+        public async Task<DataTable> GetStudentsMigrationDiplomaCertificate(DiplomaCertificateDownloadSearchModel body)
+        {
+            _actionName = "GetStudentsMigrationDiplomaCertificate(DiplomaCertificateDownloadSearchModel body)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_StudentListForDiplomaCertificate";
+                    command.CommandTimeout = 0;
+
+                    if (body.ResultTypeID == (int)EnumResultType.MainResult) // main and reval
+                    {
+                        command.Parameters.AddWithValue("@action", "_getStuListForFinalDiploma");
+                    }
+                    else if (body.ResultTypeID == (int)EnumResultType.RwhResult ||
+                                body.ResultTypeID == (int)EnumResultType.RwhRevalEffected)
+                    {
+                        command.Parameters.AddWithValue("@action", "_getRWHStuListForFinalDiploma");
+                    }
+                    else if (body.ResultTypeID == (int)EnumResultType.Ufm)
+                    {
+                        throw new Exception("Invalid request!");
+                    }
+                    else
+                    {
+                        throw new Exception("Invalid request!");
+                    }
+
+                    command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                    command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+                    command.Parameters.AddWithValue("@IsBridge", body.IsBridge);
+                    command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                    command.Parameters.AddWithValue("@ResultTypeID", body.ResultTypeID);
+                    command.Parameters.AddWithValue("@RollNo", body.RollNo);
+                    command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEngID);
+                    command.Parameters.AddWithValue("@IsRevised", body.IsRevised);
+                    command.Parameters.AddWithValue("@SchemeID", body.SchemeID);
+                    command.Parameters.AddWithValue("@EnrollmentNo", body.EnrollmentNo);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<int> AddUpdateMigrationCertificate(FinalDiplomaCertificateSaveDataModel request)
+        {
+            _actionName = "AddUpdateMigrationCertificate(FinalDiplomaCertificateSaveDataModel request)";
+            try
+            {
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_SaveStudentFinalDiplomaCertificateData";
+                    command.CommandTimeout = 0;
+
+                    command.Parameters.AddWithValue("@action", "_SaveStudentFinalDiplomaCertificateData");
+
+                    command.Parameters.AddWithValue("@FinalDiploma", request.FinalDiploma); // id
+                    command.Parameters.AddWithValue("@enrollment", request.Enrollment);
+                    command.Parameters.AddWithValue("@institute_id", request.InstituteId);
+                    command.Parameters.AddWithValue("@sr_diploma", request.SrNo); // FD srno.
+                    command.Parameters.AddWithValue("@result_date", request.ResultDate); // publish date
+                    command.Parameters.AddWithValue("@is_locked", request.IsLocked);
+                    command.Parameters.AddWithValue("@diploma_printing_date", request.DiplomaPrintingDate); // printing date
+                    command.Parameters.AddWithValue("@is_rwh_result", request.IsRwhResult);
+                    command.Parameters.AddWithValue("@rwh_result_id", request.RwhResultId);
+                    command.Parameters.AddWithValue("@is_reval", request.IsReval);
+                    command.Parameters.AddWithValue("@is_revised_issue_date", request.IsRevisedIssueDate);
+                    command.Parameters.AddWithValue("@result_id", request.ResultId);// examresultid
+                    command.Parameters.AddWithValue("@revised_id", request.RevisedId);
+                    command.Parameters.AddWithValue("@is_block", request.IsBlock); //
+                    command.Parameters.AddWithValue("@student_id", request.StudentId);
+                    command.Parameters.AddWithValue("@modifed", request.ModifyBy);
+                    command.Parameters.AddWithValue("@is_diploma", request.IsDiploma);
+                    command.Parameters.AddWithValue("@is_duplicate", request.IsDuplicate);
+                    command.Parameters.AddWithValue("@duplicate_diploma_id", request.DuplicateDiplomaId);
+                    command.Parameters.AddWithValue("@request_id", request.RequestId);
+                    command.Parameters.AddWithValue("@is_issued", request.IsIssued);
+                    command.Parameters.AddWithValue("@ResultTypeID", request.ResultTypeID);
+                    command.Parameters.AddWithValue("@EndTermID", request.EndTermID); // current end term id and rwh
+                    command.Parameters.AddWithValue("@EffectiveEndTermID", request.EffectiveEndTermID); // current end term id
+                    command.Parameters.AddWithValue("@IsRevised", request.IsRevised);
+                    command.Parameters.AddWithValue("@FileName", request.FileName); // with file path
+                    command.Parameters.AddWithValue("@Dis_FileName", request.Dis_FileName); // only file name
+                    command.Parameters.AddWithValue("@SemesterID", request.SemesterID);
+                    command.Parameters.AddWithValue("@IpAddress", request.IPAddress);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
+        #endregion
+
+
+
     }
 }

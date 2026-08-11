@@ -21525,6 +21525,430 @@ Web Site : www.techedu.rajasthan.gov.in
         #endregion
 
 
+
+        #region Bulk Student Provisional Certificate
+        [HttpPost("StudentProvisionalDiplomaCertificateDownloadChunk")]
+        public async Task<ApiResult<string>> StudentProvisionalDiplomaCertificateDownloadChunk([FromBody] List<ProvisionalDiplomaCertificateDownloadSearchModel> Model)
+        {
+            ActionName = "StudentProvisionalDiplomaCertificateDownloadChunk([FromBody] List<DiplomaCertificateDownloadSearchModel> Model)";
+
+            var result = new ApiResult<string>();
+            var logfilename = "_DiplomaCertificateDownload";
+            var Session = string.Empty;
+            try
+            {
+                Session = Model[0].SessionName;
+                var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{Constants.ProvisionalDiplomaFolder}/{Session}";
+
+                // store students that have filename success for merge file for shwoing marksheet
+                List<GenerateFinalDiplomaCertificateModel> ListData = new List<GenerateFinalDiplomaCertificateModel>();
+                // store students that dont have filename failed any resion
+                List<GenerateFinalDiplomaCertificateModel> notGenerateStudents = new List<GenerateFinalDiplomaCertificateModel>();
+
+                int i = 1;
+                // passed students list in chunks
+                foreach (var student in Model)
+                {
+                    CommonFuncationHelper.WriteTextLog($"--------------------- main loop start: {i} ------------------------", logfilename);
+                    try
+                    {
+                        CommonFuncationHelper.WriteTextLog($"1. model student loop : {student.StudentName}", logfilename);
+                        GenerateFinalDiplomaCertificateModel objStudent = new GenerateFinalDiplomaCertificateModel();
+                        // already have saved file
+                        if (student.Dis_FileName != "")
+                        {
+                            CommonFuncationHelper.WriteTextLog($"1.1. already file exists in if : {student.StudentName}", logfilename);
+                            // for merge
+                            objStudent.StudentID = student.StudentID;
+                            objStudent.RollNo = student.RollNo;
+                            objStudent.FileName = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{Constants.ProvisionalDiplomaFolder}/{student.FileName}";
+                            objStudent.Dis_FileName = student.Dis_FileName;
+                            // add
+                            ListData.Add(objStudent);
+                        }
+                        else
+                        {
+                            CommonFuncationHelper.WriteTextLog($"1.2. dosenot file exists in else : {student.StudentName}", logfilename);
+
+                            //create folder
+                            if (!System.IO.Directory.Exists(folderPath))
+                            {
+                                Directory.CreateDirectory(folderPath);
+                            }
+
+                            string timestamp_str = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                            var fileName = $"StudentProvisionalCertificate_{student.StudentName}_{timestamp_str}.pdf";
+                            string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{Constants.ProvisionalDiplomaFolder}/{Session}/{fileName}";
+
+                            // get html
+                            var sb = await _printHtmlFile.GetHtmlOfProvisionalCertificate(student);
+                            var _html = sb.ToString();
+
+                            // remove last blank page
+                            string endTag = "<div class='page-break'></div></body></html>";
+                            if (_html.EndsWith(endTag, StringComparison.OrdinalIgnoreCase))
+                            {
+                                _html = _html.Substring(0, _html.Length - endTag.Length)
+                                             + "</body></html>";
+                            }
+
+                            var pdfBytes = await _pdfService.GenerateAsync(_html,
+                                new PdfOptions
+                                {
+                                    Format = "A4",
+                                    MarginTop = "10mm",
+                                    MarginBottom = "0mm",
+                                    MarginLeft = "10mm",
+                                    MarginRight = "10mm",
+                                    PrintBackground = true
+                                });
+
+
+
+                            await System.IO.File.WriteAllBytesAsync(filepath, pdfBytes);
+
+                            CommonFuncationHelper.WriteTextLog($"1.4. save file in folder: {student.StudentName}", logfilename);
+
+                            // create an object for new record
+                            FinalDiplomaCertificateSaveDataModel objFinalDiploma = new FinalDiplomaCertificateSaveDataModel();
+
+                            objFinalDiploma.FinalDiploma = student.FinalDiplomaID ?? 0;// pk
+
+                            objFinalDiploma.Enrollment = Convert.ToString(student.EnrollmentNo) ?? string.Empty;
+                            objFinalDiploma.InstituteId = Convert.ToInt32(student.InstituteID);
+                            //objFinalDiploma.SrDiploma = Convert.ToInt32(student.SrDiploma);
+                            objFinalDiploma.SRNO = Convert.ToString(student.SRNO);
+                            objFinalDiploma.PublishDate = Convert.ToString(student.PublishDate);
+                            objFinalDiploma.IsLocked = Convert.ToByte(student.IsLocked);
+                            objFinalDiploma.DiplomaPrintingDate = Convert.ToString(student.DiplomaPrintingDate);
+                            objFinalDiploma.IsRwhResult = Convert.ToByte(student.IsRWHResult);
+                            objFinalDiploma.RwhResultId = Convert.ToInt32(student.RWHResultID);
+                            objFinalDiploma.IsReval = Convert.ToByte(student.IsReval);
+                            objFinalDiploma.IsRevisedIssueDate = Convert.ToByte(student.IsRevisedIssueDate);
+                            objFinalDiploma.ResultId = Convert.ToInt32(student.ExamResultID);
+                            objFinalDiploma.RevisedId = Convert.ToInt32(student.RevisedId);
+                            objFinalDiploma.IsBlock = Convert.ToByte(student.IsBlock);
+                            objFinalDiploma.StudentId = Convert.ToInt32(student.StudentID);
+                            objFinalDiploma.IsDiploma = Convert.ToByte(student.IsDiploma);
+                            objFinalDiploma.IsDuplicate = Convert.ToByte(student.IsDuplicate);
+                            objFinalDiploma.DuplicateDiplomaId = Convert.ToInt32(student.DuplicateDiplomaId);
+                            objFinalDiploma.RequestId = Convert.ToInt32(student.RequestId);
+                            objFinalDiploma.IsIssued = Convert.ToByte(student.IsIssued);
+                            objFinalDiploma.ResultTypeID = Convert.ToInt32(student.ResultTypeID);
+                            objFinalDiploma.EndTermID = Convert.ToInt32(student.EndTermID);
+                            objFinalDiploma.EffectiveEndTermID = Convert.ToInt32(student.EffectiveEndTermID);
+                            objFinalDiploma.IsRevised = Convert.ToBoolean(student.IsRevised);
+                            objFinalDiploma.SemesterID = Convert.ToInt32(student.SemesterID);
+                            objFinalDiploma.IPAddress = CommonFuncationHelper.GetIpAddress();
+                            objFinalDiploma.ModifyBy = Convert.ToInt32(student.ModifyBy);
+
+                            objFinalDiploma.Dis_FileName = fileName;
+                            objFinalDiploma.FileName = $"{Session}/{fileName}";
+
+
+                            // save
+                            await _unitOfWork.MarksheetDownloadRepository.AddUpdateProvisionalDiplomaCertificate(objFinalDiploma);
+                            await _unitOfWork.SaveChangesAsync();
+
+                            CommonFuncationHelper.WriteTextLog($"1.8. save student done : {student.StudentName}", logfilename);
+
+
+                            // for merge
+                            objStudent.StudentID = student.StudentID;
+                            objStudent.RollNo = student.RollNo;
+                            objStudent.EnrollmentNo = student.EnrollmentNo;
+                            objStudent.FileName = filepath;
+                            objStudent.Dis_FileName = fileName;
+                            // add
+                            ListData.Add(objStudent);
+
+                        }
+                    }
+                    catch (Exception ex1)
+                    {
+                        await _unitOfWork.DisposeAsync();
+
+                        // add in list
+                        notGenerateStudents.Add(new GenerateFinalDiplomaCertificateModel
+                        {
+                            StudentID = student.StudentID,
+                            EnrollmentNo = student.EnrollmentNo
+                        });
+
+                        CommonFuncationHelper.WriteTextLog($"2. loop error for student : {student.StudentName}", logfilename);
+                        CommonFuncationHelper.WriteTextLog($"2.1. loop error : {ex1.Message}", logfilename);
+                    }
+
+                    CommonFuncationHelper.WriteTextLog($"--------------------- main loop end: {i} ------------------------", logfilename);
+                    i++;
+                }// end student loop
+
+                #region "Save Multiple PDF PAGES"
+                string timestamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                string outputFile = $"ProvisionalDiplomaCertificate_{timestamp}.pdf";
+                string outputPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{outputFile}";
+                List<string?> strSoureFiles = ListData.Select(s => s.FileName)?.ToList();
+
+                // merge all files
+                var ismerged = await MergePdfFilesAsync(strSoureFiles, outputPath);
+                CommonFuncationHelper.WriteTextLog($"3. merge done with file count : {strSoureFiles?.Count == 0} and flage : {ismerged}", logfilename);
+                if (ismerged)
+                {
+                    result.Data = outputFile;
+                    result.State = EnumStatus.Success;
+                    var msg = Constants.MSG_DATA_LOAD_SUCCESS;
+                    if (notGenerateStudents?.Count > 0)
+                    {
+                        msg = $"{Constants.MSG_FILE_DOWNLOAD_SUCCESS}, Except these students (Enrollment No.):<br/> {string.Join(", ", notGenerateStudents.Select(s => s.EnrollmentNo))}";
+                    }
+                    result.Message = msg;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    var msg = Constants.MSG_ERROR_IN_MERGING_FILES;
+                    if (strSoureFiles == null || strSoureFiles?.Count == 0)
+                    {
+                        msg = Constants.MSG_FILE_NOT_FOUND;
+                    }
+                    result.Message = msg;
+                }
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                CommonFuncationHelper.WriteTextLog($"4. main error : {ex.Message}", logfilename);
+
+                await _unitOfWork.DisposeAsync();
+
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+                // Write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+
+            }
+            return result;
+        }
+        #endregion
+
+
+        #region Bulk Student Migration Certificate
+        [HttpPost("StudentMigrationCertificateDownloadChunk")]
+        public async Task<ApiResult<string>> StudentMigrationCertificateDownloadChunk([FromBody] List<DiplomaCertificateDownloadSearchModel> Model)
+        {
+            ActionName = "StudentMigrationCertificateDownloadChunk([FromBody] List<DiplomaCertificateDownloadSearchModel> Model)";
+
+            var result = new ApiResult<string>();
+            var logfilename = "_DiplomaCertificateDownload";
+            var Session = string.Empty;
+            try
+            {
+                Session = Model[0].SessionName;
+                var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{Constants.FinalDiplomaFolder}/{Session}";
+
+                // store students that have filename success for merge file for shwoing marksheet
+                List<GenerateFinalDiplomaCertificateModel> ListData = new List<GenerateFinalDiplomaCertificateModel>();
+                // store students that dont have filename failed any resion
+                List<GenerateFinalDiplomaCertificateModel> notGenerateStudents = new List<GenerateFinalDiplomaCertificateModel>();
+
+                int i = 1;
+                // passed students list in chunks
+                foreach (var student in Model)
+                {
+                    CommonFuncationHelper.WriteTextLog($"--------------------- main loop start: {i} ------------------------", logfilename);
+                    try
+                    {
+                        CommonFuncationHelper.WriteTextLog($"1. model student loop : {student.StudentName}", logfilename);
+                        GenerateFinalDiplomaCertificateModel objStudent = new GenerateFinalDiplomaCertificateModel();
+                        // already have saved file
+                        if (student.Dis_FileName != "")
+                        {
+                            CommonFuncationHelper.WriteTextLog($"1.1. already file exists in if : {student.StudentName}", logfilename);
+                            // for merge
+                            objStudent.StudentID = student.StudentID;
+                            objStudent.RollNo = student.RollNo;
+                            objStudent.FileName = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{Constants.FinalDiplomaFolder}/{student.FileName}";
+                            objStudent.Dis_FileName = student.Dis_FileName;
+                            // add
+                            ListData.Add(objStudent);
+                        }
+                        else
+                        {
+                            CommonFuncationHelper.WriteTextLog($"1.2. dosenot file exists in else : {student.StudentName}", logfilename);
+
+                            //create folder
+                            if (!System.IO.Directory.Exists(folderPath))
+                            {
+                                Directory.CreateDirectory(folderPath);
+                            }
+
+                            string timestamp_str = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                            var fileName = $"StudentDiplomaCertificate_{student.StudentName}_{timestamp_str}.pdf";
+                            string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{Constants.FinalDiplomaFolder}/{Session}/{fileName}";
+
+                            // get html
+                            var sb = await _printHtmlFile.GetHtmlOfDiplomaCertificate(student);
+                            var _html = sb.ToString();
+
+                            // remove last blank page
+                            string endTag = "<div class='page-break'></div></body></html>";
+                            if (_html.EndsWith(endTag, StringComparison.OrdinalIgnoreCase))
+                            {
+                                _html = _html.Substring(0, _html.Length - endTag.Length)
+                                             + "</body></html>";
+                            }
+
+                            var pdfBytes = await _pdfService.GenerateAsync(_html,
+                                new PdfOptions
+                                {
+                                    Format = "A4",
+                                    MarginTop = "10mm",
+                                    MarginBottom = "0mm",
+                                    MarginLeft = "10mm",
+                                    MarginRight = "10mm",
+                                    PrintBackground = true
+                                });
+
+                            await System.IO.File.WriteAllBytesAsync(filepath, pdfBytes);
+
+                            CommonFuncationHelper.WriteTextLog($"1.4. save file in folder: {student.StudentName}", logfilename);
+
+                            // create an object for new record
+                            FinalDiplomaCertificateSaveDataModel objFinalDiploma = new FinalDiplomaCertificateSaveDataModel();
+
+                            objFinalDiploma.FinalDiploma = student.FinalDiplomaID ?? 0;// pk
+
+                            objFinalDiploma.Enrollment = Convert.ToString(student.EnrollmentNo) ?? string.Empty;
+                            objFinalDiploma.InstituteId = Convert.ToInt32(student.InstituteID);
+                            //objFinalDiploma.SrDiploma = Convert.ToInt32(student.SrDiploma);
+                            objFinalDiploma.SRNO = Convert.ToString(student.SRNO);
+                            objFinalDiploma.PublishDate = Convert.ToString(student.PublishDate);
+                            objFinalDiploma.IsLocked = Convert.ToByte(student.IsLocked);
+                            objFinalDiploma.DiplomaPrintingDate = Convert.ToString(student.DiplomaPrintingDate);
+                            objFinalDiploma.IsRwhResult = Convert.ToByte(student.IsRWHResult);
+                            objFinalDiploma.RwhResultId = Convert.ToInt32(student.RWHResultID);
+                            objFinalDiploma.IsReval = Convert.ToByte(student.IsReval);
+                            objFinalDiploma.IsRevisedIssueDate = Convert.ToByte(student.IsRevisedIssueDate);
+                            objFinalDiploma.ResultId = Convert.ToInt32(student.ExamResultID);
+                            objFinalDiploma.RevisedId = Convert.ToInt32(student.RevisedId);
+                            objFinalDiploma.IsBlock = Convert.ToByte(student.IsBlock);
+                            objFinalDiploma.StudentId = Convert.ToInt32(student.StudentID);
+                            objFinalDiploma.IsDiploma = Convert.ToByte(student.IsDiploma);
+                            objFinalDiploma.IsDuplicate = Convert.ToByte(student.IsDuplicate);
+                            objFinalDiploma.DuplicateDiplomaId = Convert.ToInt32(student.DuplicateDiplomaId);
+                            objFinalDiploma.RequestId = Convert.ToInt32(student.RequestId);
+                            objFinalDiploma.IsIssued = Convert.ToByte(student.IsIssued);
+                            objFinalDiploma.ResultTypeID = Convert.ToInt32(student.ResultTypeID);
+                            objFinalDiploma.EndTermID = Convert.ToInt32(student.EndTermID);
+                            objFinalDiploma.EffectiveEndTermID = Convert.ToInt32(student.EffectiveEndTermID);
+                            objFinalDiploma.IsRevised = Convert.ToBoolean(student.IsRevised);
+                            objFinalDiploma.SemesterID = Convert.ToInt32(student.SemesterID);
+                            objFinalDiploma.IPAddress = CommonFuncationHelper.GetIpAddress();
+                            objFinalDiploma.ModifyBy = Convert.ToInt32(student.ModifyBy);
+
+                            objFinalDiploma.Dis_FileName = fileName;
+                            objFinalDiploma.FileName = $"{Session}/{fileName}";
+
+
+                            // save
+                            await _unitOfWork.MarksheetDownloadRepository.AddUpdateFinalDiplomaCertificate(objFinalDiploma);
+                            await _unitOfWork.SaveChangesAsync();
+
+                            CommonFuncationHelper.WriteTextLog($"1.8. save student done : {student.StudentName}", logfilename);
+
+
+                            // for merge
+                            objStudent.StudentID = student.StudentID;
+                            objStudent.RollNo = student.RollNo;
+                            objStudent.EnrollmentNo = student.EnrollmentNo;
+                            objStudent.FileName = filepath;
+                            objStudent.Dis_FileName = fileName;
+                            // add
+                            ListData.Add(objStudent);
+
+                        }
+                    }
+                    catch (Exception ex1)
+                    {
+                        await _unitOfWork.DisposeAsync();
+
+                        // add in list
+                        notGenerateStudents.Add(new GenerateFinalDiplomaCertificateModel
+                        {
+                            StudentID = student.StudentID,
+                            EnrollmentNo = student.EnrollmentNo
+                        });
+
+                        CommonFuncationHelper.WriteTextLog($"2. loop error for student : {student.StudentName}", logfilename);
+                        CommonFuncationHelper.WriteTextLog($"2.1. loop error : {ex1.Message}", logfilename);
+                    }
+
+                    CommonFuncationHelper.WriteTextLog($"--------------------- main loop end: {i} ------------------------", logfilename);
+                    i++;
+                }// end student loop
+
+                #region "Save Multiple PDF PAGES"
+                string timestamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                string outputFile = $"DiplomaCertificate_{timestamp}.pdf";
+                string outputPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{outputFile}";
+                List<string?> strSoureFiles = ListData.Select(s => s.FileName)?.ToList();
+
+                // merge all files
+                var ismerged = await MergePdfFilesAsync(strSoureFiles, outputPath);
+                CommonFuncationHelper.WriteTextLog($"3. merge done with file count : {strSoureFiles?.Count == 0} and flage : {ismerged}", logfilename);
+                if (ismerged)
+                {
+                    result.Data = outputFile;
+                    result.State = EnumStatus.Success;
+                    var msg = Constants.MSG_DATA_LOAD_SUCCESS;
+                    if (notGenerateStudents?.Count > 0)
+                    {
+                        msg = $"{Constants.MSG_FILE_DOWNLOAD_SUCCESS}, Except these students (Enrollment No.):<br/> {string.Join(", ", notGenerateStudents.Select(s => s.EnrollmentNo))}";
+                    }
+                    result.Message = msg;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    var msg = Constants.MSG_ERROR_IN_MERGING_FILES;
+                    if (strSoureFiles == null || strSoureFiles?.Count == 0)
+                    {
+                        msg = Constants.MSG_FILE_NOT_FOUND;
+                    }
+                    result.Message = msg;
+                }
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                CommonFuncationHelper.WriteTextLog($"4. main error : {ex.Message}", logfilename);
+
+                await _unitOfWork.DisposeAsync();
+
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+                // Write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+
+            }
+            return result;
+        }
+        #endregion
+
         #region GetGuestHouseSlip
 
         [HttpPost("GetGuestHouseSlip")]
