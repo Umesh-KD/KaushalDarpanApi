@@ -4979,5 +4979,535 @@ border:1px solid #000;'>
             }
         }
         #endregion
+
+        #region Certificate letter
+
+        public async Task<StringBuilder> GetTemporaryDiplomaCertificateHtml(DataSet ds)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            try
+            {
+                // =========================================================
+                // VALIDATION
+                // =========================================================
+
+                if (ds == null || ds.Tables.Count < 2)
+                    return sb;
+
+                DataTable dtHeader = ds.Tables[0];
+                DataTable dtData = ds.Tables[1];
+
+                if (dtHeader == null || dtHeader.Rows.Count == 0)
+                    return sb;
+
+                if (dtData == null || dtData.Rows.Count == 0)
+                    return sb;
+
+
+                // =========================================================
+                // HEADER DATA - TABLE 0
+                // =========================================================
+
+                DataRow header = dtHeader.Rows[0];
+
+                string registrationNo =
+                    header["RegistrationNo"]?.ToString()?.Trim() ?? "";
+
+                string reportDate =
+                    header["Date"]?.ToString()?.Trim() ?? "";
+
+                string instituteName =
+                    header["InstituteName"]?.ToString()?.Trim() ?? "";
+
+                string instituteCode =
+                    header["InstituteCode"]?.ToString()?.Trim() ?? "";
+
+                string sessionName =
+                    header["FinancialYearName"]?.ToString()?.Trim() ?? "";
+
+                string EndTermHindi =
+                    header["EndTermHindi"]?.ToString()?.Trim() ?? "";
+
+                string YearName =
+                    header["YearName"]?.ToString()?.Trim() ?? "";
+
+                string subject =
+                    header["Subject"]?.ToString()?.Trim()
+                    ?? "अस्थाई डिप्लोमा प्रमाण पत्र एवं प्रव्रजन प्रमाण पत्र भिजवाने बाबत ।";
+
+
+                // =========================================================
+                // PAGE CONFIGURATION
+                // =========================================================
+
+                // Page 1 has letter header, therefore fewer rows.
+                int firstPageRows = 29;
+
+                // Page 2 onwards contains only table.
+                int otherPageRows = 41;
+
+
+                // =========================================================
+                // TOTAL PAGE COUNT - DYNAMIC
+                // =========================================================
+
+                int totalRows = dtData.Rows.Count;
+
+                int pageCount;
+
+                if (totalRows <= firstPageRows)
+                {
+                    pageCount = 1;
+                }
+                else
+                {
+                    int remainingRows = totalRows - firstPageRows;
+
+                    pageCount =
+                        1 + (int)Math.Ceiling(
+                            (double)remainingRows / otherPageRows
+                        );
+                }
+
+
+                // =========================================================
+                // HTML
+                // =========================================================
+
+                sb.Append(@"
+<!DOCTYPE html>
+<html lang='hi'>
+
+<head>
+
+<meta charset='UTF-8'>
+
+<title>
+अस्थाई डिप्लोमा प्रमाण पत्र एवं प्रव्रजन प्रमाण पत्र
+</title>
+
+<style>
+
+@page {
+    size: A4;
+    margin: 10mm;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    color: #000;
+    font-family: Arial, 'Noto Sans Devanagari', sans-serif;
+    font-size: 18px;
+}
+
+.page {
+    width: 100%;
+    box-sizing: border-box;
+    page-break-after: always;
+}
+
+.page:last-child {
+    page-break-after: auto;
+}
+
+
+/* =========================================================
+   LETTER HEADER
+   ========================================================= */
+
+.header {
+    width: 100%;
+    text-align: center;
+}
+
+.reg {
+    text-align: right;
+    font-size: 18px;
+}
+
+.govt {
+    font-size: 18px;
+    margin-top: 5px;
+}
+
+.board {
+    font-size: 21px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+
+/* =========================================================
+   TOP INFORMATION
+   ========================================================= */
+
+.top-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 22px;
+}
+
+.top-table td {
+    border: none;
+    padding: 0;
+    vertical-align: top;
+}
+
+.left {
+    text-align: left;
+}
+
+.right {
+    text-align: right;
+}
+
+.principal {
+    font-size: 18px;
+}
+
+.college {
+    font-size: 18px;
+    margin-top: 8px;
+}
+
+.institute-code {
+    font-size: 21px;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+
+/* =========================================================
+   SUBJECT
+   ========================================================= */
+
+.subject {
+    text-align: left;
+    font-size: 18px;
+    margin-top: 25px;
+}
+
+.body-text {
+    text-align: left;
+    font-size: 18px;
+    margin-top: 10px;
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   STUDENT TABLE
+   ========================================================= */
+
+.student-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8px;
+    font-size: 16px;
+}
+
+.student-table th,
+.student-table td {
+    border: 1px solid #b5b5b5;
+    padding: 5px 6px;
+    vertical-align: middle;
+}
+
+.student-table th {
+    text-align: center;
+    font-weight: bold;
+}
+
+.student-table td {
+    text-align: left;
+}
+
+.center {
+    text-align: center !important;
+}
+
+.student-table tr {
+    page-break-inside: avoid;
+}
+
+
+/* This is useful if PDF engine itself breaks the table */
+.student-table thead {
+    display: table-header-group;
+}
+
+</style>
+
+</head>
+
+<body>
+");
+
+
+                // =========================================================
+                // SERIAL NUMBER
+                // =========================================================
+
+                int sno = 1;
+
+
+                // =========================================================
+                // LOOP THROUGH DYNAMIC PAGES
+                // =========================================================
+
+                for (int pageNo = 1; pageNo <= pageCount; pageNo++)
+                {
+                    int skip;
+                    int take;
+
+                    if (pageNo == 1)
+                    {
+                        // First page
+                        skip = 0;
+                        take = firstPageRows;
+                    }
+                    else
+                    {
+                        // Other pages
+                        skip =
+                            firstPageRows +
+                            ((pageNo - 2) * otherPageRows);
+
+                        take = otherPageRows;
+                    }
+
+
+                    var pageData = dtData
+                        .AsEnumerable()
+                        .Skip(skip)
+                        .Take(take)
+                        .ToList();
+
+
+                    // =====================================================
+                    // PAGE START
+                    // =====================================================
+
+                    sb.Append("<div class='page'>");
+
+
+                    // =====================================================
+                    // LETTER HEADER - ONLY FIRST PAGE
+                    // =====================================================
+
+                    if (pageNo == 1)
+                    {
+                        sb.Append($@"
+
+<div class='header'>
+
+    <div class='reg'>
+        रजि.
+    </div>
+
+    <div class='govt'>
+        राजस्थान सरकार
+    </div>
+
+    <div class='board'>
+        प्राविधिक शिक्षा मण्डल, राजस्थान, जोधपुर
+    </div>
+
+</div>
+
+
+<table class='top-table'>
+
+<tr>
+
+    <td class='left' style='width:60%;'>
+        क्रमांक :
+        {System.Net.WebUtility.HtmlEncode(registrationNo)}
+    </td>
+
+    <td class='right' style='width:40%;'>
+        दिनांक:
+        {System.Net.WebUtility.HtmlEncode(reportDate)}
+    </td>
+
+</tr>
+
+
+<tr>
+
+    <td class='left' style='padding-top:25px;'>
+        <div class='principle'>
+            PRINCIPLE
+        </div>
+        <div class='college'>
+            {System.Net.WebUtility.HtmlEncode(instituteName)}
+        </div>
+
+    </td>
+
+
+    <td class='right' style='padding-top:25px;'>
+
+        <div class='institute-code'>
+            संस्थान कोड-{System.Net.WebUtility.HtmlEncode(instituteCode)}
+        </div>
+
+    </td>
+
+</tr>
+
+</table>
+
+
+<div class='subject'>
+
+    विषय :
+    {System.Net.WebUtility.HtmlEncode(subject)}
+
+</div>
+
+
+<div class='body-text'>
+    महोदय,
+</div>
+
+
+<div class='body-text' style='padding-left:55px;'>
+
+    इस पत्र के साथ आपको
+    {System.Net.WebUtility.HtmlEncode(EndTermHindi)} सत्र {System.Net.WebUtility.HtmlEncode(sessionName)}
+    परीक्षा के अस्थाई डिप्लोमा प्रमाण पत्र एवं प्रव्रजन प्रमाण पत्र
+    निम्नानुसार भिजवाये जा रहे हैं :-
+
+</div>
+
+");
+                    }
+
+
+                    // =====================================================
+                    // TABLE
+                    // =====================================================
+
+                    sb.Append(@"
+<table class='student-table'>
+
+<thead>
+
+<tr>
+
+    <th rowspan='2' style='width:40px;'>
+        क्र.सं.
+    </th>
+
+    <th rowspan='2' style='width:150px;'>
+        नामांकन नंबर
+    </th>
+
+    <th rowspan='2' style='width:220px;'>
+        विद्यार्थी का नाम
+    </th>
+
+    <th rowspan='2' style='width:130px;'>
+        प्रव्रजन प्रमाण पत्र
+    </th>
+
+    <th style='width:130px;'>
+        अस्थाई डिप्लोमा </br>प्रमाण पत्र
+    </th>
+
+</tr>
+
+
+</thead>
+
+<tbody>
+");
+
+
+                    // =====================================================
+                    // TABLE DATA
+                    // =====================================================
+
+                    foreach (DataRow row in pageData)
+                    {
+                        string enrollmentNo =
+                            row["EnrollmentNo"]?.ToString()?.Trim() ?? "";
+
+                        string studentName =
+                            row["StudentName"]?.ToString()?.Trim() ?? "";
+
+                        string managementCertificateNo =
+                            row["ManagementCertificateNo"]?.ToString()?.Trim() ?? "";
+
+                        string temporaryDiplomaCertificateNo =
+                            row["TemporaryDiplomaCertificateNo"]?.ToString()?.Trim() ?? "";
+
+
+                        sb.Append($@"
+
+<tr>
+
+    <td class='center'>
+        {sno}
+    </td>
+
+    <td>
+        {System.Net.WebUtility.HtmlEncode(enrollmentNo)}
+    </td>
+
+    <td>
+        {System.Net.WebUtility.HtmlEncode(studentName)}
+    </td>
+
+    <td class='center'>
+        {System.Net.WebUtility.HtmlEncode(managementCertificateNo)}
+    </td>
+
+    <td class='center'>
+        {System.Net.WebUtility.HtmlEncode(temporaryDiplomaCertificateNo)}
+    </td>
+
+</tr>
+
+");
+
+                        sno++;
+                    }
+
+
+                    sb.Append(@"
+</tbody>
+
+</table>
+
+</div>
+");
+                }
+
+
+                // =========================================================
+                // HTML END
+                // =========================================================
+
+                sb.Append(@"
+</body>
+</html>
+");
+
+
+                return sb;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(
+                    "Error generating Temporary Diploma Certificate HTML.",
+                    ex
+                );
+            }
+        }
+        #endregion
     }
 }
