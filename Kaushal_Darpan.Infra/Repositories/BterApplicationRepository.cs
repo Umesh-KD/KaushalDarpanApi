@@ -1225,7 +1225,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_UpdateapplicationFees";
                         command.Parameters.AddWithValue("@ApplicationId", model.ApplicationId);
        
-
                         _sqlQuery = command.GetSqlExecutableQuery();
                         result = await command.ExecuteNonQueryAsync();
                     }

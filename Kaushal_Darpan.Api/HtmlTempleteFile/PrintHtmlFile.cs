@@ -4788,6 +4788,1411 @@ border:1px solid #000;'>
         #endregion
 
 
+
+        #region Provisional Diploma Certificate
+        //public async Task<StringBuilder> GetHtmlOfProvisionalCertificate(ProvisionalDiplomaCertificateDownloadSearchModel data)
+        //{
+        //    try
+        //    {
+        //        // set sign of registrar                
+        //        string reg_signFilepath = $"{ConfigurationHelper.StaticFileRootPath}{data.RegistrarSignFile}";
+        //        byte[] reg_signbytes = System.IO.File.ReadAllBytes(CommonFuncationHelper.IsFileExisitsOrDefault(reg_signFilepath));
+        //        string reg_signbase64 = Convert.ToBase64String(reg_signbytes);
+        //        string reg_signext = Path.GetExtension(reg_signFilepath).ToLower();
+        //        string reg_signmime = reg_signext switch
+        //        {
+        //            ".png" => "image/png",
+        //            ".jpg" => "image/jpeg",
+        //            ".jpeg" => "image/jpeg",
+        //            ".gif" => "image/gif",
+        //            _ => "image/png"
+        //        };
+
+        //        // set html
+        //        StringBuilder sb = new StringBuilder();
+
+        //        sb.AppendLine("<!DOCTYPE html>");
+        //        sb.AppendLine("<html lang=\"en\">");
+        //        sb.AppendLine("<head>");
+        //        sb.AppendLine("<meta charset=\"UTF-8\">");
+        //        sb.AppendLine("<title>Diploma Certificate</title>");
+        //        sb.AppendLine("<style>");
+        //        sb.AppendLine("body {");
+        //        sb.AppendLine("  font-family: Arial, Helvetica, sans-serif;");
+        //        sb.AppendLine("  background: #f2f2f2;");
+        //        sb.AppendLine("  margin: 0;");
+        //        sb.AppendLine("  padding: 40px 0;");
+        //        sb.AppendLine("}");
+        //        sb.AppendLine(".certificate {");
+        //        sb.AppendLine("  max-width: 850px;");
+        //        sb.AppendLine("  min-height: 1100px;");
+        //        sb.AppendLine("  margin: 0 auto;");
+        //        sb.AppendLine("  background: #fff;");
+        //        sb.AppendLine("  padding: 60px 70px;");
+        //        sb.AppendLine("  box-sizing: border-box;");
+        //        sb.AppendLine("  position: relative;");
+        //        sb.AppendLine("  box-shadow: 0 0 8px rgba(0,0,0,0.15);");
+        //        sb.AppendLine("}");
+        //        sb.AppendLine(".header-row {");
+        //        sb.AppendLine("  display: flex;");
+        //        sb.AppendLine("  justify-content: space-between;");
+        //        sb.AppendLine("  font-weight: bold;");
+        //        sb.AppendLine("  font-size: 14px;");
+        //        sb.AppendLine("}");
+        //        sb.AppendLine(".body-content {");
+        //        sb.AppendLine("  margin-top: 260px;");
+        //        sb.AppendLine("  text-align: center;");
+        //        sb.AppendLine("}");
+        //        sb.AppendLine(".name {");
+        //        sb.AppendLine("  font-weight: bold;");
+        //        sb.AppendLine("  font-size: 16px;");
+        //        sb.AppendLine("  margin-bottom: 8px;");
+        //        sb.AppendLine("}");
+        //        sb.AppendLine(".parent {");
+        //        sb.AppendLine("  font-weight: bold;");
+        //        sb.AppendLine("  font-size: 16px;");
+        //        sb.AppendLine("  margin-bottom: 30px;");
+        //        sb.AppendLine("}");
+        //        sb.AppendLine(".diploma-title {");
+        //        sb.AppendLine("  font-weight: bold;");
+        //        sb.AppendLine("  font-size: 16px;");
+        //        sb.AppendLine("  margin-bottom: 40px;");
+        //        sb.AppendLine("  text-align: left;");
+        //        sb.AppendLine("  margin-left: 60px;");
+        //        sb.AppendLine("}");
+        //        sb.AppendLine(".session-row {");
+        //        sb.AppendLine("  display: flex;");
+        //        sb.AppendLine("  justify-content: space-between;");
+        //        sb.AppendLine("  font-weight: bold;");
+        //        sb.AppendLine("  font-size: 15px;");
+        //        sb.AppendLine("  margin: 0 60px 60px 60px;");
+        //        sb.AppendLine("  text-align: left;");
+        //        sb.AppendLine("}");
+        //        sb.AppendLine(".division {");
+        //        sb.AppendLine("  font-weight: bold;");
+        //        sb.AppendLine("  font-size: 15px;");
+        //        sb.AppendLine("  margin-bottom: 10px;");
+        //        sb.AppendLine("}");
+        //        sb.AppendLine(".completion-date {");
+        //        sb.AppendLine("  font-weight: bold;");
+        //        sb.AppendLine("  font-size: 15px;");
+        //        sb.AppendLine("  margin-bottom: 40px;");
+        //        sb.AppendLine("  text-align: left;");
+        //        sb.AppendLine("  margin-left: 40px;");
+        //        sb.AppendLine("}");
+        //        sb.AppendLine(".signature {");
+        //        sb.AppendLine("  font-family: cursive;");
+        //        sb.AppendLine("  font-size: 34px;");
+        //        sb.AppendLine("  text-align: left;");
+        //        sb.AppendLine("  margin-left: 220px;");
+        //        sb.AppendLine("  margin-bottom: 30px;");
+        //        sb.AppendLine("  transform: rotate(-8deg);");
+        //        sb.AppendLine("}");
+        //        sb.AppendLine(".sign-date {");
+        //        sb.AppendLine("  font-weight: bold;");
+        //        sb.AppendLine("  font-size: 15px;");
+        //        sb.AppendLine("  text-align: left;");
+        //        sb.AppendLine("  margin-left: 100px;");
+        //        sb.AppendLine("}");
+        //        sb.AppendLine("</style>");
+        //        sb.AppendLine("</head>");
+        //        sb.AppendLine("<body>");
+
+        //        sb.AppendLine("<div class=\"certificate\">");
+
+        //        sb.AppendLine("  <div class=\"header-row\">");
+        //        sb.AppendLine($"      <span>{data.SRNO}</span>");
+        //        sb.AppendLine($"      <span>{data.EnrollmentNo}</span>");
+        //        sb.AppendLine("  </div>");
+
+        //        sb.AppendLine("  <div class=\"body-content\">");
+        //        sb.AppendLine($"      <div class=\"name\">{data.StudentName}</div>");
+        //        sb.AppendLine($"      <div class=\"parent\">{data.FatherName}</div>");
+
+        //        sb.AppendLine($"      <div class=\"diploma-title\">{data.StreamName}</div>");
+
+        //        sb.AppendLine("      <div class=\"session-row\">");
+        //        sb.AppendLine($"          <span>{data.FinalDiplomaTermName}</span>");
+        //        sb.AppendLine($"          <span style=\"margin-right:180px;\">{data.Division}</span>");
+        //        sb.AppendLine("      </div>");
+
+        //        sb.AppendLine($"      <div class=\"division\" style=\"margin-left:60px; text-align:left;\">{data.CourseDuration}</div>");
+        //        sb.AppendLine($"      <div class=\"completion-date\" style=\"margin-left:60px; text-align:left;\">{data.ResultDate}</div>");
+
+        //        // signature 
+        //        sb.AppendLine($"      <div class=\"signature\"><img src=\"data:{reg_signmime};base64,{reg_signbase64}\" style=\"width:80px;\"/></div>");
+
+        //        sb.AppendLine($"      <div class=\"sign-date\">{data.DiplomaPrintingDate}</div>");
+        //        sb.AppendLine("  </div>");
+
+        //        sb.AppendLine("</div>");
+
+        //        sb.AppendLine("</body>");
+        //        sb.AppendLine("</html>");
+
+
+        //        return sb;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+        //}
+        #endregion
+
+
+        //public async Task<StringBuilder> GetHtmlOfProvisionalCertificate(ProvisionalDiplomaCertificateDownloadSearchModel data)
+        //{
+        //    try
+        //    {
+        //        StringBuilder sb = new StringBuilder();
+
+        //        // =========================================================
+        //        // HTML START
+        //        // =========================================================
+
+        //        sb.AppendLine("<!DOCTYPE html>");
+        //        sb.AppendLine("<html lang=\"en\">");
+        //        sb.AppendLine("<head>");
+        //        sb.AppendLine("<meta charset=\"UTF-8\">");
+        //        sb.AppendLine("<title>Provisional Diploma Certificate</title>");
+
+        //        sb.AppendLine("<style>");
+        //        sb.AppendLine("body {");
+        //        sb.AppendLine("    margin: 0;");
+        //        sb.AppendLine("    padding: 0;");
+        //        sb.AppendLine("    font-family: Arial, sans-serif;");
+        //        sb.AppendLine("    background: #ffffff;");
+        //        sb.AppendLine("}");
+
+        //        sb.AppendLine("table {");
+        //        sb.AppendLine("    border-collapse: collapse;");
+        //        sb.AppendLine("}");
+
+        //        sb.AppendLine("</style>");
+
+        //        sb.AppendLine("</head>");
+        //        sb.AppendLine("<body>");
+
+        //        // =========================================================
+        //        // MAIN TABLE
+        //        // =========================================================
+
+        //        sb.AppendLine("<table style=\"width:100%; border:3px solid #000; border-collapse:collapse; font-family:Arial, sans-serif;\">");
+
+        //        // =========================================================
+        //        // S.NO
+        //        // =========================================================
+
+        //        sb.AppendLine("<tr style=\"text-align:right;\">");
+
+        //        sb.AppendLine("<td style=\"text-align:right; font-family:Arial, sans-serif; width:80%; padding-top:10px;\">");
+
+        //        sb.AppendLine("<span style=\"line-height:26px; font-size:18px;\">");
+        //        sb.AppendLine("क्रमांक :<br>");
+        //        sb.AppendLine("S. No. :");
+        //        sb.AppendLine("</span>");
+
+        //        sb.AppendLine("</td>");
+
+        //        sb.AppendLine("<td style=\"padding-right:30px;\">");
+
+        //        sb.AppendLine("<span style=\"line-height:26px; font-size:18px;\">");
+        //        sb.AppendLine($"{data.SRNO}");
+        //        sb.AppendLine("</span>");
+
+        //        sb.AppendLine("</td>");
+
+        //        sb.AppendLine("</tr>");
+
+        //        // =========================================================
+        //        // INNER CONTENT
+        //        // =========================================================
+
+        //        sb.AppendLine("<tr>");
+
+        //        sb.AppendLine("<td colspan=\"2\" style=\"padding-top:0;\">");
+
+        //        sb.AppendLine("<div style=\"width:95%; margin:auto; padding:0 30px 30px 30px;\">");
+
+        //        sb.AppendLine("<table style=\"width:100%; border-collapse:collapse; font-family:Arial, sans-serif;\">");
+
+        //        // =========================================================
+        //        // HEADER
+        //        // =========================================================
+
+        //        sb.AppendLine("<tr>");
+
+        //        sb.AppendLine("<td colspan=\"4\" style=\"text-align:center;\">");
+
+        //        sb.AppendLine("<span style=\"line-height:30px;\">राजस्थान सरकार</span><br>");
+
+        //        sb.AppendLine("<span style=\"line-height:30px; font-size:18px;\">");
+        //        sb.AppendLine("GOVERNMENT OF RAJASTHAN");
+        //        sb.AppendLine("</span><br>");
+
+        //        sb.AppendLine("<span style=\"line-height:35px;\">");
+        //        sb.AppendLine("प्राविधिक शिक्षा मण्डल, राजस्थान");
+        //        sb.AppendLine("</span><br>");
+
+        //        sb.AppendLine("<span style=\"line-height:30px; font-size:18px;\">");
+        //        sb.AppendLine("BOARD OF TECHNICAL EDUCATION, RAJASTHAN");
+        //        sb.AppendLine("</span>");
+
+        //        sb.AppendLine("</td>");
+
+        //        sb.AppendLine("</tr>");
+
+        //        // =========================================================
+        //        // LOGO
+        //        // =========================================================
+
+        //        sb.AppendLine("<tr style=\"text-align:center;\">");
+
+        //        sb.AppendLine("<td colspan=\"4\" style=\"text-align:center;\">");
+
+        //        sb.AppendLine("<br>");
+        //        sb.AppendLine("<br>");
+
+        //        string logoPath =
+        //            $"{ConfigurationHelper.StaticFileRootPath}/BTER-logo-black.jpg";
+
+        //        sb.AppendLine(
+        //            $"<img style=\"width:150px;\" src=\"{logoPath}\" alt=\"logo\" />");
+
+        //        sb.AppendLine("<br>");
+
+        //        sb.AppendLine("</td>");
+
+        //        sb.AppendLine("</tr>");
+
+        //        // =========================================================
+        //        // CERTIFICATE TITLE
+        //        // =========================================================
+
+        //        sb.AppendLine("<tr style=\"text-align:center;\">");
+
+        //        sb.AppendLine("<td colspan=\"4\" style=\"text-align:center;\">");
+
+        //        sb.AppendLine("<br>");
+
+        //        sb.AppendLine(
+        //            "<span style=\"line-height:30px; font-size:20px;\">अस्थाई डिप्लोमा प्रमाण पत्र</span><br>");
+
+        //        sb.AppendLine(
+        //            "<span style=\"line-height:30px; font-size:18px;\">Provisional Diploma Certificate</span>");
+
+        //        sb.AppendLine("</td>");
+
+        //        sb.AppendLine("</tr>");
+
+        //        // =========================================================
+        //        // SPACE
+        //        // =========================================================
+
+        //        sb.AppendLine("<tr>");
+        //        sb.AppendLine("<td colspan=\"4\" style=\"height:30px;\"></td>");
+        //        sb.AppendLine("</tr>");
+
+        //        // =========================================================
+        //        // STUDENT NAME
+        //        // =========================================================
+
+        //        sb.AppendLine("<tr>");
+
+        //        sb.AppendLine("<td style=\"width:40%;\">");
+
+        //        sb.AppendLine(
+        //            "<span style=\"line-height:35px; font-size:20px;\">यह प्रमाणित किया जाता है कि</span>");
+
+        //        sb.AppendLine("<br><br>");
+
+        //        sb.AppendLine(
+        //            "<span style=\"font-size:16px;\">This is to Certify that :</span>");
+
+        //        sb.AppendLine("</td>");
+
+        //        sb.AppendLine("<td colspan=\"3\">");
+
+        //        sb.AppendLine("<span style=\"line-height:25px; font-size:16px;\">");
+
+        //        sb.AppendLine($"{data.StudentName}<br>");
+
+        //        //sb.AppendLine($"{data.Relation} ");
+
+        //        sb.AppendLine($"{data.FatherName}");
+
+        //        sb.AppendLine("</span>");
+
+        //        sb.AppendLine("</td>");
+
+        //        sb.AppendLine("</tr>");
+
+        //        // =========================================================
+        //        // SPACE
+        //        // =========================================================
+
+        //        sb.AppendLine("<tr>");
+        //        sb.AppendLine("<td colspan=\"4\" style=\"height:30px;\"></td>");
+        //        sb.AppendLine("</tr>");
+
+        //        // =========================================================
+        //        // ENROLLMENT / ROLL NO
+        //        // =========================================================
+
+        //        sb.AppendLine("<tr>");
+
+        //        sb.AppendLine("<td style=\"width:40%;\">");
+
+        //        sb.AppendLine(
+        //            "<span style=\"line-height:35px; font-size:20px;\">नामांकन संख्या / एस.पी.एन</span>");
+
+        //        sb.AppendLine("<br><br>");
+
+        //        sb.AppendLine(
+        //            "<span style=\"font-size:16px;\">Enrollment No./S.P.N. :</span>");
+
+        //        sb.AppendLine("</td>");
+
+        //        sb.AppendLine("<td style=\"width:31%;\">");
+
+        //        sb.AppendLine(
+        //            $"<span style=\"line-height:25px; font-size:16px;\">{data.EnrollmentNo}</span>");
+
+        //        sb.AppendLine("</td>");
+
+        //        sb.AppendLine("<td>");
+
+        //        sb.AppendLine(
+        //            "<span style=\"line-height:35px; font-size:20px;\">रोल नं.</span>");
+
+        //        sb.AppendLine("<br><br>");
+
+        //        sb.AppendLine(
+        //            "<span style=\"font-size:16px;\">Roll No. :</span>");
+
+        //        sb.AppendLine("</td>");
+
+        //        sb.AppendLine("<td>");
+
+        //        sb.AppendLine(
+        //            $"<span style=\"line-height:25px; font-size:16px;\">{data.RollNo}</span>");
+
+        //        sb.AppendLine("</td>");
+
+        //        sb.AppendLine("</tr>");
+
+        //        // =========================================================
+        //        // SPACE
+        //        // =========================================================
+
+        //        sb.AppendLine("<tr>");
+        //        sb.AppendLine("<td colspan=\"2\" style=\"height:30px;\"></td>");
+        //        sb.AppendLine("</tr>");
+
+        //        // =========================================================
+        //        // DIPLOMA
+        //        // =========================================================
+
+        //        sb.AppendLine("<tr>");
+
+        //        sb.AppendLine("<td style=\"width:40%;\">");
+
+        //        sb.AppendLine(
+        //            "<span style=\"line-height:35px; font-size:20px;\">ने डिप्लोमा</span>");
+
+        //        sb.AppendLine("<br><br>");
+
+        //        sb.AppendLine(
+        //            "<span style=\"font-size:16px;\">has passed Diploma in :</span>");
+
+        //        sb.AppendLine("</td>");
+
+        //        sb.AppendLine("<td>");
+
+        //        sb.AppendLine(
+        //            $"<span style=\"line-height:25px; font-size:16px;\">{data.StreamName}</span>");
+
+        //        sb.AppendLine("</td>");
+
+        //        sb.AppendLine("<td colspan=\"2\">");
+
+        //        sb.AppendLine(
+        //            $"<span style=\"line-height:35px; font-size:16px;\">{data.FinalDiplomaTermName}<br>");
+
+        //        sb.AppendLine(
+        //            $"Session {data.SessionName}</span>");
+
+        //        sb.AppendLine("</td>");
+
+        //        sb.AppendLine("</tr>");
+
+        //        // =========================================================
+        //        // SPACE
+        //        // =========================================================
+
+        //        sb.AppendLine("<tr>");
+        //        sb.AppendLine("<td colspan=\"2\" style=\"height:30px;\"></td>");
+        //        sb.AppendLine("</tr>");
+
+        //        // =========================================================
+        //        // DIVISION
+        //        // =========================================================
+
+        //        sb.AppendLine("<tr>");
+
+        //        sb.AppendLine("<td style=\"width:40%;\">");
+
+        //        sb.AppendLine(
+        //            "<span style=\"line-height:35px; font-size:20px;\">की परीक्षा में</span>");
+
+        //        sb.AppendLine("<br><br>");
+
+        //        sb.AppendLine(
+        //            "<span style=\"font-size:16px;\">Examination with :</span>");
+
+        //        sb.AppendLine("</td>");
+
+        //        sb.AppendLine("<td>");
+
+        //        sb.AppendLine(
+        //            $"<span style=\"line-height:25px; font-size:16px;\">{data.Division}</span>");
+
+        //        sb.AppendLine("</td>");
+
+        //        sb.AppendLine("<td colspan=\"2\">");
+
+        //        sb.AppendLine(
+        //            "<span style=\"line-height:25px; font-size:20px;\">श्रेणी से उत्तीर्ण किया है।</span>");
+
+        //        sb.AppendLine("</td>");
+
+        //        sb.AppendLine("</tr>");
+
+        //        // =========================================================
+        //        // SPACE
+        //        // =========================================================
+
+        //        sb.AppendLine("<tr>");
+        //        sb.AppendLine("<td colspan=\"2\" style=\"height:30px;\"></td>");
+        //        sb.AppendLine("</tr>");
+
+        //        // =========================================================
+        //        // COURSE DURATION
+        //        // =========================================================
+
+        //        sb.AppendLine("<tr>");
+
+        //        sb.AppendLine("<td colspan=\"4\">");
+
+        //        sb.AppendLine(
+        //            $"<span style=\"line-height:35px; font-size:16px;\">Duration of the Course : {data.CourseDuration}</span>");
+
+        //        sb.AppendLine("</td>");
+
+        //        sb.AppendLine("</tr>");
+
+        //        // =========================================================
+        //        // SPACE
+        //        // =========================================================
+
+        //        sb.AppendLine("<tr>");
+        //        sb.AppendLine("<td colspan=\"2\" style=\"height:30px;\"></td>");
+        //        sb.AppendLine("</tr>");
+
+        //        // =========================================================
+        //        // LOCATION
+        //        // =========================================================
+
+        //        sb.AppendLine("<tr>");
+
+        //        sb.AppendLine("<td colspan=\"4\">");
+
+        //        sb.AppendLine(
+        //            "<span style=\"line-height:25px; font-size:20px;\">जोधपुर</span>");
+
+        //        sb.AppendLine("<br>");
+
+        //        sb.AppendLine(
+        //            "<span style=\"font-size:16px; line-height:25px;\">Jodhpur</span>");
+
+        //        sb.AppendLine("</td>");
+
+        //        sb.AppendLine("</tr>");
+
+        //        // =========================================================
+        //        // SPACE
+        //        // =========================================================
+
+        //        sb.AppendLine("<tr>");
+        //        sb.AppendLine("<td colspan=\"2\" style=\"height:30px;\"></td>");
+        //        sb.AppendLine("</tr>");
+
+        //        // =========================================================
+        //        // COMPLETION DATE
+        //        // =========================================================
+
+        //        sb.AppendLine("<tr>");
+
+        //        sb.AppendLine("<td colspan=\"4\">");
+
+        //        sb.AppendLine(
+        //            $"<span style=\"line-height:25px; font-size:16px;\">Diploma Completion Date : {data.ResultDate}</span>");
+
+        //        sb.AppendLine("</td>");
+
+        //        sb.AppendLine("</tr>");
+
+        //        // =========================================================
+        //        // SPACE
+        //        // =========================================================
+
+        //        sb.AppendLine("<tr>");
+        //        sb.AppendLine("<td colspan=\"2\" style=\"height:30px;\"></td>");
+        //        sb.AppendLine("</tr>");
+
+        //        // =========================================================
+        //        // DATE / REGISTRAR
+        //        // =========================================================
+
+        //        sb.AppendLine("<tr>");
+
+        //        sb.AppendLine("<td colspan=\"4\">");
+
+        //        sb.AppendLine("<table style=\"width:100%;\">");
+
+        //        sb.AppendLine("<tr>");
+
+        //        // Date
+        //        sb.AppendLine("<td style=\"width:12%;\">");
+
+        //        sb.AppendLine(
+        //            "<span style=\"line-height:35px; font-size:20px;\">दिनांक :</span>");
+
+        //        sb.AppendLine("<br><br>");
+
+        //        sb.AppendLine(
+        //            "<span style=\"font-size:16px;\">Date :</span>");
+
+        //        sb.AppendLine("</td>");
+
+        //        sb.AppendLine("<td colspan=\"2\">");
+
+        //        sb.AppendLine(
+        //            $"<span style=\"line-height:25px; font-size:16px;\">{data.DiplomaPrintingDate}</span>");
+
+        //        sb.AppendLine("</td>");
+
+        //        // Registrar
+        //        sb.AppendLine("<td align=\"right\">");
+
+        //        sb.AppendLine(
+        //            "<span style=\"line-height:35px; font-size:20px;\">रजिस्ट्रार</span>");
+
+        //        sb.AppendLine("<br><br>");
+
+        //        sb.AppendLine(
+        //            "<span style=\"font-size:16px;\">Registrar</span>");
+
+        //        sb.AppendLine("</td>");
+
+        //        sb.AppendLine("</tr>");
+
+        //        sb.AppendLine("</table>");
+
+        //        sb.AppendLine("</td>");
+
+        //        sb.AppendLine("</tr>");
+
+        //        // =========================================================
+        //        // CLOSE TABLE
+        //        // =========================================================
+
+        //        sb.AppendLine("</table>");
+        //        sb.AppendLine("</div>");
+        //        sb.AppendLine("</td>");
+        //        sb.AppendLine("</tr>");
+
+        //        sb.AppendLine("</table>");
+
+        //        // =========================================================
+        //        // HTML END
+        //        // =========================================================
+
+        //        sb.AppendLine("</body>");
+        //        sb.AppendLine("</html>");
+
+        //        return sb;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+        //}
+
+
+
+        public async Task<StringBuilder> GetHtmlOfProvisionalCertificate(
+    ProvisionalDiplomaCertificateDownloadSearchModel data)
+        {
+            try
+            {
+                StringBuilder sb = new StringBuilder();
+
+                sb.AppendLine("<!DOCTYPE html>");
+                sb.AppendLine("<html>");
+                sb.AppendLine("<head>");
+                sb.AppendLine("<meta charset='UTF-8'>");
+
+                sb.AppendLine("<style>");
+
+                // A4 exact size
+                sb.AppendLine("@page {");
+                sb.AppendLine("    size: A4;");
+                sb.AppendLine("    margin: 0;");
+                sb.AppendLine("}");
+
+                sb.AppendLine("* {");
+                sb.AppendLine("    box-sizing: border-box;");
+                sb.AppendLine("}");
+
+                sb.AppendLine("html, body {");
+                sb.AppendLine("    margin: 0;");
+                sb.AppendLine("    padding: 0;");
+                sb.AppendLine("    width: 210mm;");
+                sb.AppendLine("    height: 297mm;");
+                sb.AppendLine("    background: transparent;");
+                sb.AppendLine("}");
+
+                sb.AppendLine("body {");
+                sb.AppendLine("    position: relative;");
+                sb.AppendLine("    font-family: Arial, Helvetica, sans-serif;");
+                sb.AppendLine("}");
+
+                sb.AppendLine(".value {");
+                sb.AppendLine("    position: absolute;");
+                sb.AppendLine("    white-space: nowrap;");
+                sb.AppendLine("    font-size: 14px;");
+                sb.AppendLine("    line-height: 1;");
+                sb.AppendLine("}");
+
+                sb.AppendLine("</style>");
+                sb.AppendLine("</head>");
+
+                sb.AppendLine("<body>");
+
+                // =========================================================
+                // 1. S.NO
+                // =========================================================
+                //
+                // Original position:
+                // Top-right area
+                //
+                sb.AppendLine(
+                    $"<div class='value' style='left:174mm; top:11.5mm;'>"
+                    + $"{data.SRNO}"
+                    + "</div>");
+
+
+                // =========================================================
+                // 2. STUDENT NAME
+                // =========================================================
+                //
+                // Original:
+                // AASU SINGH
+                //
+                sb.AppendLine(
+                    $"<div class='value' style='left:89mm; top:69mm;'>"
+                    + $"{data.StudentName}"
+                    + "</div>");
+
+
+                // =========================================================
+                // 3. FATHER / MOTHER NAME
+                // =========================================================
+                //
+                // S/O SANG SINGH
+                //
+                sb.AppendLine(
+                    $"<div class='value' style='left:89mm; top:76mm;'>"
+                    + $"{data.FatherName}"
+                    + "</div>");
+
+
+                // =========================================================
+                // 4. ENROLLMENT NO
+                // =========================================================
+                //
+                // CE20220001/001
+                //
+                sb.AppendLine(
+                    $"<div class='value' style='left:87mm; top:103mm;'>"
+                    + $"{data.EnrollmentNo}"
+                    + "</div>");
+
+
+                // =========================================================
+                // 5. ROLL NO
+                // =========================================================
+                //
+                // 6500003
+                //
+                sb.AppendLine(
+                    $"<div class='value' style='left:168mm; top:103mm;'>"
+                    + $"{data.RollNo}"
+                    + "</div>");
+
+
+                // =========================================================
+                // 6. DIPLOMA NAME
+                // =========================================================
+                //
+                // DIPLOMA IN CIVIL ENGINEERING
+                //
+                sb.AppendLine(
+                    $"<div class='value' style='left:85mm; top:129mm;'>"
+                    + $"{data.StreamName}"
+                    + "</div>");
+
+
+                // =========================================================
+                // 7. DIPLOMA / EXAM DATE
+                // =========================================================
+                //
+                // May-2024
+                //
+                sb.AppendLine(
+                    $"<div class='value' style='left:48mm; top:149mm;'>"
+                    + $"{data.FinalDiplomaTermName}"
+                    + "</div>");
+
+
+                // =========================================================
+                // 8. SESSION
+                // =========================================================
+                //
+                // Session 2024
+                //
+                sb.AppendLine(
+                    $"<div class='value' style='left:48mm; top:156mm;'>"
+                    + $"Session {data.SessionName}"
+                    + "</div>");
+
+
+                // =========================================================
+                // 9. DIVISION
+                // =========================================================
+                //
+                // First (Honours)
+                //
+                sb.AppendLine(
+                    $"<div class='value' style='left:129mm; top:158mm;'>"
+                    + $"{data.Division}"
+                    + "</div>");
+
+
+                // =========================================================
+                // 10. COURSE DURATION
+                // =========================================================
+                //
+                // 3 Years
+                //
+                sb.AppendLine(
+                    $"<div class='value' style='left:91mm; top:175mm;'>"
+                    + $"{data.CourseDuration}"
+                    + "</div>");
+
+
+                // =========================================================
+                // 11. DIPLOMA COMPLETION DATE
+                // =========================================================
+                //
+                // 24-04-2025
+                //
+                sb.AppendLine(
+                    $"<div class='value' style='left:82mm; top:224mm;'>"
+                    + $"{data.ResultDate}"
+                    + "</div>");
+
+
+                // =========================================================
+                // 12. PRINTING DATE
+                // =========================================================
+                //
+                // 27-11-2025
+                //
+                sb.AppendLine(
+                     $"<div class='value' style='left:51mm; top:247mm;'>"
+                     + $"{data.DiplomaPrintingDate:dd-MM-yyyy}"
+                     + "</div>");
+
+
+                sb.AppendLine("</body>");
+                sb.AppendLine("</html>");
+
+                return sb;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+
+
+
+        //----------------------------attempt 3--------------------------------------------------------------------
+        //    public async Task<StringBuilder> GetHtmlOfProvisionalCertificate(
+        //ProvisionalDiplomaCertificateDownloadSearchModel data)
+        //    {
+        //        try
+        //        {
+        //            StringBuilder sb = new StringBuilder();
+
+        //            // =========================================================
+        //            // HTML START
+        //            // =========================================================
+
+        //            sb.AppendLine("<!DOCTYPE html>");
+        //            sb.AppendLine("<html lang='en'>");
+        //            sb.AppendLine("<head>");
+        //            sb.AppendLine("<meta charset='UTF-8'>");
+        //            sb.AppendLine("<title>Provisional Diploma Certificate</title>");
+
+        //            sb.AppendLine("<style>");
+
+        //            sb.AppendLine("@page {");
+        //            sb.AppendLine("    size: A4;");
+        //            sb.AppendLine("    margin: 0;");
+        //            sb.AppendLine("}");
+
+        //            sb.AppendLine("* {");
+        //            sb.AppendLine("    box-sizing: border-box;");
+        //            sb.AppendLine("}");
+
+        //            sb.AppendLine("html, body {");
+        //            sb.AppendLine("    margin: 0;");
+        //            sb.AppendLine("    padding: 0;");
+        //            sb.AppendLine("    width: 100%;");
+        //            sb.AppendLine("    height: 100%;");
+        //            sb.AppendLine("}");
+
+        //            sb.AppendLine("body {");
+        //            sb.AppendLine("    font-family: Arial, Helvetica, sans-serif;");
+        //            sb.AppendLine("    font-size: 14px;");
+        //            sb.AppendLine("}");
+
+        //            sb.AppendLine(".certificate {");
+        //            sb.AppendLine("    width: 100%;");
+        //            sb.AppendLine("    min-height: 297mm;");
+        //            sb.AppendLine("    padding: 8mm 10mm 8mm 10mm;");
+        //            sb.AppendLine("}");
+
+        //            sb.AppendLine(".main-table {");
+        //            sb.AppendLine("    width: 100%;");
+        //            sb.AppendLine("    border: 3px solid #000;");
+        //            sb.AppendLine("    border-collapse: collapse;");
+        //            sb.AppendLine("    table-layout: fixed;");
+        //            sb.AppendLine("}");
+
+        //            sb.AppendLine(".main-table td {");
+        //            sb.AppendLine("    border: none;");
+        //            sb.AppendLine("    vertical-align: middle;");
+        //            sb.AppendLine("}");
+
+        //            sb.AppendLine(".header {");
+        //            sb.AppendLine("    text-align: center;");
+        //            sb.AppendLine("    line-height: 1.35;");
+        //            sb.AppendLine("}");
+
+        //            sb.AppendLine(".hindi-title {");
+        //            sb.AppendLine("    font-size: 18px;");
+        //            sb.AppendLine("}");
+
+        //            sb.AppendLine(".english-title {");
+        //            sb.AppendLine("    font-size: 18px;");
+        //            sb.AppendLine("}");
+
+        //            sb.AppendLine(".certificate-title-hi {");
+        //            sb.AppendLine("    font-size: 19px;");
+        //            sb.AppendLine("}");
+
+        //            sb.AppendLine(".certificate-title-en {");
+        //            sb.AppendLine("    font-size: 17px;");
+        //            sb.AppendLine("}");
+
+        //            sb.AppendLine(".label-hi {");
+        //            sb.AppendLine("    font-size: 17px;");
+        //            sb.AppendLine("    line-height: 1.25;");
+        //            sb.AppendLine("}");
+
+        //            sb.AppendLine(".label-en {");
+        //            sb.AppendLine("    font-size: 14px;");
+        //            sb.AppendLine("    line-height: 1.25;");
+        //            sb.AppendLine("}");
+
+        //            sb.AppendLine(".value {");
+        //            sb.AppendLine("    font-size: 14px;");
+        //            sb.AppendLine("    line-height: 1.4;");
+        //            sb.AppendLine("}");
+
+        //            sb.AppendLine(".value-bold {");
+        //            sb.AppendLine("    font-size: 14px;");
+        //            sb.AppendLine("    font-weight: bold;");
+        //            sb.AppendLine("}");
+
+        //            sb.AppendLine(".space-row {");
+        //            sb.AppendLine("    height: 18px;");
+        //            sb.AppendLine("}");
+
+        //            sb.AppendLine(".small-space {");
+        //            sb.AppendLine("    height: 10px;");
+        //            sb.AppendLine("}");
+
+        //            sb.AppendLine(".right {");
+        //            sb.AppendLine("    text-align: right;");
+        //            sb.AppendLine("}");
+
+        //            sb.AppendLine(".center {");
+        //            sb.AppendLine("    text-align: center;");
+        //            sb.AppendLine("}");
+
+        //            sb.AppendLine("</style>");
+        //            sb.AppendLine("</head>");
+
+        //            sb.AppendLine("<body>");
+
+        //            // =========================================================
+        //            // CERTIFICATE
+        //            // =========================================================
+
+        //            sb.AppendLine("<div class='certificate'>");
+
+        //            sb.AppendLine("<table class='main-table'>");
+
+        //            // =========================================================
+        //            // S.NO
+        //            // =========================================================
+
+        //            sb.AppendLine("<tr>");
+        //            sb.AppendLine("<td colspan='3' style='height:38px;'></td>");
+
+        //            sb.AppendLine("<td style='width:20%; padding:8px 20px 0 0; vertical-align:top;'>");
+
+        //            sb.AppendLine("<table style='width:100%;'>");
+
+        //            sb.AppendLine("<tr>");
+        //            sb.AppendLine("<td style='font-size:16px; line-height:22px;'>क्रमांक :</td>");
+        //            sb.AppendLine("<td style='font-size:16px; line-height:22px; white-space:nowrap;'>");
+        //            sb.AppendLine($"{data.SRNO}");
+        //            sb.AppendLine("</td>");
+        //            sb.AppendLine("</tr>");
+
+        //            sb.AppendLine("<tr>");
+        //            sb.AppendLine("<td style='font-size:14px; line-height:22px;'>S. No. :</td>");
+        //            sb.AppendLine("<td></td>");
+        //            sb.AppendLine("</tr>");
+
+        //            sb.AppendLine("</table>");
+
+        //            sb.AppendLine("</td>");
+        //            sb.AppendLine("</tr>");
+
+        //            // =========================================================
+        //            // HEADER
+        //            // =========================================================
+
+        //            sb.AppendLine("<tr>");
+        //            sb.AppendLine("<td colspan='4' class='header'>");
+
+        //            sb.AppendLine("<div class='hindi-title'>राजस्थान सरकार</div>");
+
+        //            sb.AppendLine("<div class='english-title'>");
+        //            sb.AppendLine("GOVERNMENT OF RAJASTHAN");
+        //            sb.AppendLine("</div>");
+
+        //            sb.AppendLine("<div class='hindi-title'>");
+        //            sb.AppendLine("प्राविधिक शिक्षा मण्डल, राजस्थान");
+        //            sb.AppendLine("</div>");
+
+        //            sb.AppendLine("<div class='english-title'>");
+        //            sb.AppendLine("BOARD OF TECHNICAL EDUCATION, RAJASTHAN");
+        //            sb.AppendLine("</div>");
+
+        //            sb.AppendLine("</td>");
+        //            sb.AppendLine("</tr>");
+
+        //            // =========================================================
+        //            // LOGO
+        //            // =========================================================
+
+        //            sb.AppendLine("<tr>");
+        //            sb.AppendLine("<td colspan='4' class='center' style='padding-top:8px;'>");
+
+        //            string logoPath =
+        //                $"{ConfigurationHelper.StaticFileRootPath}/BTER-logo-black.jpg";
+
+        //            sb.AppendLine(
+        //                $"<img src='{logoPath}' " +
+        //                "style='width:105px; height:auto; display:inline-block;' " +
+        //                "alt='BTER Logo' />");
+
+        //            sb.AppendLine("</td>");
+        //            sb.AppendLine("</tr>");
+
+        //            // =========================================================
+        //            // CERTIFICATE TITLE
+        //            // =========================================================
+
+        //            sb.AppendLine("<tr>");
+        //            sb.AppendLine("<td colspan='4' class='center' style='padding-top:4px;'>");
+
+        //            sb.AppendLine(
+        //                "<div class='certificate-title-hi'>अस्थाई डिप्लोमा प्रमाण पत्र</div>");
+
+        //            sb.AppendLine(
+        //                "<div class='certificate-title-en'>Provisional Diploma Certificate</div>");
+
+        //            sb.AppendLine("</td>");
+        //            sb.AppendLine("</tr>");
+
+        //            // =========================================================
+        //            // SPACE
+        //            // =========================================================
+
+        //            sb.AppendLine("<tr>");
+        //            sb.AppendLine("<td colspan='4' class='space-row'></td>");
+        //            sb.AppendLine("</tr>");
+
+        //            // =========================================================
+        //            // STUDENT NAME
+        //            // =========================================================
+
+        //            sb.AppendLine("<tr>");
+
+        //            sb.AppendLine("<td style='width:31%; padding-left:20px;'>");
+
+        //            sb.AppendLine(
+        //                "<div class='label-hi'>यह प्रमाणित किया जाता है कि</div>");
+
+        //            sb.AppendLine("<br>");
+
+        //            sb.AppendLine(
+        //                "<div class='label-en'>This is to Certify that :</div>");
+
+        //            sb.AppendLine("</td>");
+
+        //            sb.AppendLine("<td colspan='3' style='width:69%; padding-left:10px;'>");
+
+        //            sb.AppendLine(
+        //                $"<div class='value'>{data.StudentName}</div>");
+
+        //            //sb.AppendLine(
+        //            //    $"<div class='value'>{data.Relation} {data.FatherName}</div>");
+
+        //            sb.AppendLine("</td>");
+
+        //            sb.AppendLine("</tr>");
+
+        //            // =========================================================
+        //            // SPACE
+        //            // =========================================================
+
+        //            sb.AppendLine("<tr>");
+        //            sb.AppendLine("<td colspan='4' class='space-row'></td>");
+        //            sb.AppendLine("</tr>");
+
+        //            // =========================================================
+        //            // ENROLLMENT + ROLL NO
+        //            // =========================================================
+
+        //            sb.AppendLine("<tr>");
+
+        //            // 1
+        //            sb.AppendLine("<td style='width:31%; padding-left:20px;'>");
+
+        //            sb.AppendLine(
+        //                "<div class='label-hi'>नामांकन संख्या / एस.पी.एन</div>");
+
+        //            sb.AppendLine("<br>");
+
+        //            sb.AppendLine(
+        //                "<div class='label-en'>Enrollment No./S.P.N. :</div>");
+
+        //            sb.AppendLine("</td>");
+
+        //            // 2
+        //            sb.AppendLine("<td style='width:32%; padding-left:10px;'>");
+
+        //            sb.AppendLine(
+        //                $"<div class='value'>{data.EnrollmentNo}</div>");
+
+        //            sb.AppendLine("</td>");
+
+        //            // 3
+        //            sb.AppendLine("<td style='width:16%;'>");
+
+        //            sb.AppendLine(
+        //                "<div class='label-hi'>रोल नं.</div>");
+
+        //            sb.AppendLine("<br>");
+
+        //            sb.AppendLine(
+        //                "<div class='label-en'>Roll No. :</div>");
+
+        //            sb.AppendLine("</td>");
+
+        //            // 4
+        //            sb.AppendLine("<td style='width:21%;'>");
+
+        //            sb.AppendLine(
+        //                $"<div class='value'>{data.RollNo}</div>");
+
+        //            sb.AppendLine("</td>");
+
+        //            sb.AppendLine("</tr>");
+
+        //            // =========================================================
+        //            // SPACE
+        //            // =========================================================
+
+        //            sb.AppendLine("<tr>");
+        //            sb.AppendLine("<td colspan='4' class='space-row'></td>");
+        //            sb.AppendLine("</tr>");
+
+        //            // =========================================================
+        //            // DIPLOMA + DATE
+        //            // =========================================================
+
+        //            sb.AppendLine("<tr>");
+
+        //            // Label
+        //            sb.AppendLine("<td style='width:31%; padding-left:20px;'>");
+
+        //            sb.AppendLine(
+        //                "<div class='label-hi'>ने डिप्लोमा</div>");
+
+        //            sb.AppendLine("<br>");
+
+        //            sb.AppendLine(
+        //                "<div class='label-en'>has passed Diploma in :</div>");
+
+        //            sb.AppendLine("</td>");
+
+        //            // Diploma
+        //            sb.AppendLine("<td style='width:35%; padding-left:10px;'>");
+
+        //            sb.AppendLine(
+        //                $"<div class='value'>{data.StreamName}</div>");
+
+        //            sb.AppendLine("</td>");
+
+        //            // Date/session
+        //            sb.AppendLine("<td colspan='2' style='width:34%; padding-left:10px;'>");
+
+        //            sb.AppendLine(
+        //                $"<div class='value'>{data.FinalDiplomaTermName}</div>");
+
+        //            sb.AppendLine(
+        //                $"<div class='value'>Session {data.SessionName}</div>");
+
+        //            sb.AppendLine("</td>");
+
+        //            sb.AppendLine("</tr>");
+
+        //            // =========================================================
+        //            // SPACE
+        //            // =========================================================
+
+        //            sb.AppendLine("<tr>");
+        //            sb.AppendLine("<td colspan='4' class='space-row'></td>");
+        //            sb.AppendLine("</tr>");
+
+        //            // =========================================================
+        //            // DIVISION
+        //            // =========================================================
+
+        //            sb.AppendLine("<tr>");
+
+        //            // Label
+        //            sb.AppendLine("<td style='width:31%; padding-left:20px;'>");
+
+        //            sb.AppendLine(
+        //                "<div class='label-hi'>की परीक्षा में</div>");
+
+        //            sb.AppendLine("<br>");
+
+        //            sb.AppendLine(
+        //                "<div class='label-en'>Examination with :</div>");
+
+        //            sb.AppendLine("</td>");
+
+        //            // Division
+        //            sb.AppendLine("<td style='width:27%; padding-left:10px;'>");
+
+        //            sb.AppendLine(
+        //                $"<div class='value'>{data.Division}</div>");
+
+        //            sb.AppendLine("</td>");
+
+        //            // Right Hindi
+        //            sb.AppendLine("<td colspan='2' style='width:42%; text-align:right; padding-right:15px;'>");
+
+        //            sb.AppendLine(
+        //                "<div class='label-hi'>श्रेणी से उत्तीर्ण किया है।</div>");
+
+        //            sb.AppendLine(
+        //                "<div class='label-en'>Division.</div>");
+
+        //            sb.AppendLine("</td>");
+
+        //            sb.AppendLine("</tr>");
+
+        //            // =========================================================
+        //            // SPACE
+        //            // =========================================================
+
+        //            sb.AppendLine("<tr>");
+        //            sb.AppendLine("<td colspan='4' class='space-row'></td>");
+        //            sb.AppendLine("</tr>");
+
+        //            // =========================================================
+        //            // COURSE DURATION
+        //            // =========================================================
+
+        //            sb.AppendLine("<tr>");
+
+        //            sb.AppendLine("<td colspan='4' style='padding-left:20px;'>");
+
+        //            sb.AppendLine(
+        //                $"<div class='value'>Duration of the Course : {data.CourseDuration}</div>");
+
+        //            sb.AppendLine("</td>");
+
+        //            sb.AppendLine("</tr>");
+
+        //            // =========================================================
+        //            // SPACE
+        //            // =========================================================
+
+        //            sb.AppendLine("<tr>");
+        //            sb.AppendLine("<td colspan='4' style='height:20px;'></td>");
+        //            sb.AppendLine("</tr>");
+
+        //            // =========================================================
+        //            // JODHPUR
+        //            // =========================================================
+
+        //            sb.AppendLine("<tr>");
+
+        //            sb.AppendLine("<td colspan='4' style='padding-left:20px;'>");
+
+        //            sb.AppendLine(
+        //                "<div class='label-hi'>जोधपुर</div>");
+
+        //            sb.AppendLine(
+        //                "<div class='label-en'>Jodhpur</div>");
+
+        //            sb.AppendLine("</td>");
+
+        //            sb.AppendLine("</tr>");
+
+        //            // =========================================================
+        //            // SPACE
+        //            // =========================================================
+
+        //            sb.AppendLine("<tr>");
+        //            sb.AppendLine("<td colspan='4' style='height:18px;'></td>");
+        //            sb.AppendLine("</tr>");
+
+        //            // =========================================================
+        //            // DIPLOMA COMPLETION DATE
+        //            // =========================================================
+
+        //            sb.AppendLine("<tr>");
+
+        //            sb.AppendLine("<td colspan='4' style='padding-left:20px;'>");
+
+        //            sb.AppendLine(
+        //                $"<div class='value'>Diploma Completion Date : {data.ResultDate}</div>");
+
+        //            sb.AppendLine("</td>");
+
+        //            sb.AppendLine("</tr>");
+
+        //            // =========================================================
+        //            // SPACE
+        //            // =========================================================
+
+        //            sb.AppendLine("<tr>");
+        //            sb.AppendLine("<td colspan='4' style='height:18px;'></td>");
+        //            sb.AppendLine("</tr>");
+
+        //            // =========================================================
+        //            // DATE + REGISTRAR
+        //            // =========================================================
+
+        //            sb.AppendLine("<tr>");
+
+        //            sb.AppendLine("<td colspan='4' style='padding:0 15px 15px 20px;'>");
+
+        //            sb.AppendLine("<table style='width:100%; border-collapse:collapse;'>");
+
+        //            sb.AppendLine("<tr>");
+
+        //            // Date
+        //            sb.AppendLine("<td style='width:60%; vertical-align:bottom;'>");
+
+        //            sb.AppendLine(
+        //                "<div class='label-hi'>दिनांक :</div>");
+
+        //            sb.AppendLine(
+        //                "<div class='label-en'>Date :</div>");
+
+        //            sb.AppendLine(
+        //                $"<div class='value'>{data.DiplomaPrintingDate}</div>");
+
+        //            sb.AppendLine("</td>");
+
+        //            // Registrar
+        //            sb.AppendLine("<td style='width:40%; text-align:right; vertical-align:bottom; padding-right:5px;'>");
+
+        //            sb.AppendLine(
+        //                "<div class='label-hi'>रजिस्ट्रार</div>");
+
+        //            sb.AppendLine(
+        //                "<div class='label-en'>Registrar</div>");
+
+        //            sb.AppendLine("</td>");
+
+        //            sb.AppendLine("</tr>");
+
+        //            sb.AppendLine("</table>");
+
+        //            sb.AppendLine("</td>");
+
+        //            sb.AppendLine("</tr>");
+
+        //            // =========================================================
+        //            // CLOSE
+        //            // =========================================================
+
+        //            sb.AppendLine("</table>");
+
+        //            sb.AppendLine("</div>");
+
+        //            sb.AppendLine("</body>");
+        //            sb.AppendLine("</html>");
+
+        //            return sb;
+        //        }
+        //        catch
+        //        {
+        //            throw;
+        //        }
+        //    }
+
+
         #region GetGuestHouseSlip_Html
         public async Task<StringBuilder> GetGuestHouseSlip_Html(DataSet ds, int ResultType)
         {
