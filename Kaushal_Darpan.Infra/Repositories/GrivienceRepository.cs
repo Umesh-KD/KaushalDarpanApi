@@ -29,7 +29,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 using (var command = await _dbContext.CreateCommandAsync())
                 {
                     command.CommandType = CommandType.StoredProcedure;
-                    command.CommandText = "USP_M_GrivienceUI";
+                    command.CommandText = "USP_Grivience_GetData";
                     command.Parameters.AddWithValue("@Action", "List");
                     command.Parameters.AddWithValue("@CreatedBy", body.CreatedBy);
                     command.Parameters.AddWithValue("@StatusID", body.StatusID);
@@ -67,7 +67,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 using (var command = await _dbContext.CreateCommandAsync())
                 {
                     command.CommandType = CommandType.StoredProcedure;
-                    command.CommandText = "USP_M_GrivienceUI";
+                    command.CommandText = "USP_Grivience_GetData";
                     command.Parameters.AddWithValue("@Action", "ResponseList");
                     command.Parameters.AddWithValue("@GrivienceID", body.GrivienceID);
                     _sqlQuery = command.GetSqlExecutableQuery();
@@ -122,6 +122,12 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@ActiveStatus", request.ActiveStatus);
                     command.Parameters.AddWithValue("@DeleteStatus", request.DeleteStatus);
                     command.Parameters.AddWithValue("@RoleID", request.RoleID);
+                    command.Parameters.AddWithValue("@FeeForID", request.FeeForID);
+                    command.Parameters.AddWithValue("@IssueTypeID", request.IssueTypeID);
+                    command.Parameters.AddWithValue("@IssueTypeName", request.IssueTypeName);
+                    command.Parameters.AddWithValue("@CategoryName", request.CategoryName);
+                    command.Parameters.AddWithValue("@UserID", request.UserID);
+                    command.Parameters.AddWithValue("@StudentID", request.StudentID);
 
                     //command.Parameters.Add("@Return", SqlDbType.Int); // out
                     //command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
@@ -191,7 +197,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     // Set the stored procedure name and type
                     command.CommandType = CommandType.StoredProcedure;
-                    command.CommandText = "USP_M_GrivienceUI";
+                    command.CommandText = "USP_Grivience_GetData";
                     command.Parameters.AddWithValue("@Action", "DeleteDataByID");
 
                     command.Parameters.AddWithValue("@GrivienceID", request.GrivienceID);
@@ -363,6 +369,46 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@UserID", body.UserID);
                     command.Parameters.AddWithValue("@RoleID", body.RoleID);
                     command.Parameters.AddWithValue("@CategoryID", body.CategoryID);
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<DataTable> GetGrievanceData(GrivienceSearchModel body)
+        {
+            _actionName = "GetGrievanceData(GrivienceSearchModel body)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_Grivience_GetData";
+                    command.Parameters.AddWithValue("@Action", body.Action);
+                    command.Parameters.AddWithValue("@CreatedBy", body.CreatedBy);
+                    command.Parameters.AddWithValue("@StatusID", body.StatusID);
+                    command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                    command.Parameters.AddWithValue("@CategoryID", body.CategoryID);
+                    command.Parameters.AddWithValue("@ModuleID", body.ModuleID);
+                    command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                    command.Parameters.AddWithValue("@StudentID", body.StudentID);
+                    command.Parameters.AddWithValue("@UserID", body.UserID);
+
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
                 }

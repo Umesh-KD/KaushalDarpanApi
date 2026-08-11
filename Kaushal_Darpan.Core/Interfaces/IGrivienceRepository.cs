@@ -14,7 +14,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> GrivienceResponseSaveData(GrivienceResponseDataModel model);
         Task<GrivienceResponseDataModel> GetGrivienceResponseById(int ID);
         Task<DataTable> GetGrievanceCommonDDL(GrievanceCommonDropdownDataModel body);
-
+        Task<DataTable> GetGrievanceData(GrivienceSearchModel body);
 
 
     }
