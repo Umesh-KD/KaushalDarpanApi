@@ -131,6 +131,7 @@ namespace Kaushal_Darpan.Models.CommonModel
         public int EndTermID { get; set; }
         public int InstituteID { get; set; }
         public int ExamTypeID { get; set; }
+        public int EffectiveFromEndTermId { get; set; }
 
     }
 
