@@ -2352,7 +2352,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
 
             return sb;
         }
-        
+
         #endregion
 
         #region Student Marksheet public
@@ -3021,20 +3021,23 @@ thead th{
                 sb.AppendLine("    <title>Marksheet</title>");
                 sb.AppendLine("</head>");
 
-
                 sb.AppendLine("<body style=\"margin:0;padding:0;background:#ffffff;font-family:Arial,Helvetica,sans-serif;\">");
                 sb.AppendLine(" <div style=\"display:flex;flex-direction:column;padding:10px 15px;box-sizing:border-box;width:100%;\">");
-
-                sb.AppendLine(" <!-- All your marksheet content -->");
-
                 sb.AppendLine("<div>");
-                sb.AppendLine("        <!-- Top Right -->");
 
-                sb.AppendLine("        <div style=\"text-align:right;font-size:16px; font-weight:bold; padding-right:0px;padding-top:5px;margin-top:20px;\">");
+
+                #region div set according to dep. printer (set margin-top in pixel also in footer that you set in minus here)
+                int css_margintopfordept = 25;
+                // div set according to dep. printer (set margin-top in pixel also in footer that you set in minus here)
+                sb.AppendLine($"<div style='margin-top:{css_margintopfordept}px;'>");
+                // srn
+                sb.AppendLine("        <div style=\"text-align:right;font-size:16px; font-weight:bold; padding-right:0px;padding-top:25px; height:20px;\">");
                 sb.AppendLine($"            {dr_studet["ODNumber"]}");
                 sb.AppendLine("        </div>");
+
+                // session
                 sb.AppendLine("<div style=\"height:71px; width:100%; float:left;\">");
-                sb.AppendLine("        <table style=\"width:100%;border-collapse:collapse;margin:25px 0;\">");
+                sb.AppendLine("        <table style=\"width:100%;border-collapse:collapse;margin:20px 0 25px 0;\">");
                 sb.AppendLine("            <tr>");
 
                 sb.AppendLine("                <td style=\"width:65%;vertical-align:top;\"></td>");
@@ -3058,6 +3061,8 @@ thead th{
                 sb.AppendLine("            </tr>");
                 sb.AppendLine("        </table>");
                 sb.AppendLine("</div>");
+
+                // name
                 sb.AppendLine("<div style=\"width:100%; height: 200px; float:left;\">");
                 sb.AppendLine("        <table style=\"width:100%;border-collapse:collapse;\">");
 
@@ -3140,8 +3145,12 @@ thead th{
 
                 sb.AppendLine("        </table>");
                 sb.AppendLine("</div>");
+                // div set according to dep. printer
+                sb.AppendLine("</div>");
+                #endregion
 
 
+                #region subjects
                 // subjects
                 sb.AppendLine("        <!-- Subject Table -->");
 
@@ -3228,7 +3237,6 @@ thead th{
                 sb.AppendLine("        </table>");
 
                 // results
-
                 sb.AppendLine("         <div style=\"text-align:center;font-size:12px;margin:10px 0;font-weight:bold;\">");
                 sb.AppendLine("            DETAILS UP TO THIS END TERM EXAMINATION RESULT");
                 sb.AppendLine("        </div>");
@@ -3416,22 +3424,26 @@ thead th{
                 sb.AppendLine("</div>");
 
                 sb.AppendLine("</div>");
+                #endregion
 
+
+                #region footer date and sign
                 // footer date and sign
-                sb.AppendLine("        <!-- footer Date -->          ");
-                sb.AppendLine("<div style=\"width:100%;float:left;\">");
-                sb.AppendLine("<div style=\"width:50%;float:left;\">");
-                sb.AppendLine($"<div style=\"margin-top:20px;font-size:15px;font-weight:bold;padding-left:170px;\">{(dr_studet["ResultDeclarationDate"] ?? dr_studet["ResultDeclareDate"])}</div>");
-                sb.AppendLine($"<div style=\"margin-top:28px;font-size:15px;font-weight:bold;padding-left:110px;\">{(dr_studet["ResultDeclarationDate"] ?? dr_studet["ResultDeclareDate"])}</div>");
+                sb.AppendLine($"<div style=\"width:95%; height:100px; margin-top:-5px;\">");
+
+                sb.AppendLine("<div style=\"width:50%;float:left;text-align:right;\">");
+                sb.AppendLine($"<div style=\"margin-top:20px;font-size:15px;font-weight:bold;padding-right:100px;\">{(dr_studet["ResultDeclarationDate"] ?? dr_studet["ResultDeclareDate"])}</div>");
+                sb.AppendLine($"<div style=\"margin-top:28px;font-size:15px;font-weight:bold;padding-right:160px;\">{(dr_studet["ResultDeclarationDate"] ?? dr_studet["ResultDeclareDate"])}</div>");
                 sb.AppendLine("</div>");
-                sb.AppendLine($"<div style=\"width:40%;float:left;margin-top:-10px; text-align:right;padding-right:50px;\"><img src=\"data:{reg_signmime};base64,{reg_signbase64}\" style=\"width:80px;margin-right:-20px;\" /></div>");
+                sb.AppendLine($"<div style=\"width:50%;text-align:center;float:right;margin-top:-10px; \">");
+                sb.AppendLine($"<img src=\"data:{reg_signmime};base64,{reg_signbase64}\" style=\"width:80px;margin-right:-200px;\" />");
                 sb.AppendLine("</div>");
 
+                sb.AppendLine("</div>");
+                #endregion
 
                 sb.AppendLine("    </div>");
-
                 sb.AppendLine("</body>");
-
                 sb.AppendLine("</html>");
 
                 return sb;

@@ -19867,7 +19867,7 @@ Sr.<br/>No.
                                     new PdfOptions
                                     {
                                         Format = "A4",
-                                        MarginTop = "10mm",
+                                        MarginTop = "0mm",
                                         MarginBottom = "0mm",
                                         MarginLeft = "10mm",
                                         MarginRight = "10mm",

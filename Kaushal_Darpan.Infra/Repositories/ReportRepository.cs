@@ -277,6 +277,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@SchemeID", body.SchemeID);
                     command.Parameters.AddWithValue("@EffectiveEndTermID", body.EffectiveFromEndTermId);
                     command.Parameters.AddWithValue("@RoleId", body.RoleID);
+                    command.Parameters.AddWithValue("@StreamID", body.StreamID);
 
                     _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                     dt = await command.FillAsync_DataTable();
