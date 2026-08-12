@@ -16078,12 +16078,15 @@ Sr.<br/>No.
                 sb.AppendLine("    <div style=\"width: 98%; margin: auto;\">");
 
 
+                List<int> lstStreamId = new List<int>() ;// for ConsolidatedDetails
+
                 DataTable heading_data = new DataTable();
                 // all streams loop 1 by 1
                 foreach (DataRow dr in streams_data.Rows)
                 {
                     // set streamid
                     body.StreamID = Convert.ToInt32(dr["StreamID"] ?? 0);
+                    lstStreamId.Add(body.StreamID);// for ConsolidatedDetails
 
                     // get main heading of report
                     heading_data = await Task.Run(() => _unitOfWork.ReportRepository.GetHeadingResultRptTabulation(body));
@@ -16132,7 +16135,7 @@ Sr.<br/>No.
 
 
                 // get consolidate summary of tabular details
-                var consolidate_data = await Task.Run(() => _unitOfWork.ReportRepository.GetConsolidatedDetailsResultRptTabulation(body));
+                var consolidate_data = await Task.Run(() => _unitOfWork.ReportRepository.GetConsolidatedDetailsResultRptTabulation(body, lstStreamId));
                 if (consolidate_data?.Rows.Count > 0)
                 {
                     //get html
@@ -21358,7 +21361,7 @@ Web Site : www.techedu.rajasthan.gov.in
                         {
                             CommonFuncationHelper.WriteTextLog($"1.2. dosenot file exists in else : {student.StudentName}", logfilename);
 
-                             //create folder
+                            //create folder
                             if (!System.IO.Directory.Exists(folderPath))
                             {
                                 Directory.CreateDirectory(folderPath);
