@@ -5157,7 +5157,7 @@ border:1px solid #000;'>
 
         #region Migration Certificate  bulk
 
-        public async Task<StringBuilder> GetHtmlOfMigrationCertificate(ProvisionalDiplomaCertificateDownloadSearchModel data)
+        public async Task<StringBuilder> GetHtmlOfMigrationCertificate(MigrationCertificateDownloadSearchModel data)
         {
             try
             {

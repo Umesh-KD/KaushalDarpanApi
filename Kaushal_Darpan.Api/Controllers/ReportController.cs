@@ -21744,9 +21744,9 @@ Web Site : www.techedu.rajasthan.gov.in
 
         #region Bulk Student Migration Certificate
         [HttpPost("StudentMigrationCertificateDownloadChunk")]
-        public async Task<ApiResult<string>> StudentMigrationCertificateDownloadChunk([FromBody] List<ProvisionalDiplomaCertificateDownloadSearchModel> Model)
+        public async Task<ApiResult<string>> StudentMigrationCertificateDownloadChunk([FromBody] List<MigrationCertificateDownloadSearchModel> Model)
         {
-            ActionName = "StudentMigrationCertificateDownloadChunk([FromBody] List<ProvisionalDiplomaCertificateDownloadSearchModel> Model)";
+            ActionName = "StudentMigrationCertificateDownloadChunk([FromBody] List<MigrationCertificateDownloadSearchModel> Model)";
 
             var result = new ApiResult<string>();
             var logfilename = "_MigrationCertificateDownload";
@@ -21824,9 +21824,9 @@ Web Site : www.techedu.rajasthan.gov.in
                             CommonFuncationHelper.WriteTextLog($"1.4. save file in folder: {student.StudentName}", logfilename);
 
                             // create an object for new record
-                            ProvisionalDiplomaCertificateSaveDataModel objMigrationDiploma = new ProvisionalDiplomaCertificateSaveDataModel();
+                            MigrationCertificateSaveDataModel objMigrationDiploma = new MigrationCertificateSaveDataModel();
 
-                            objMigrationDiploma.ProvisionalDiplomaID = student.ProvisionalDiplomaID ?? 0;// pk
+                            objMigrationDiploma.MigrationID = student.MigrationID ?? 0;// pk
 
                             objMigrationDiploma.Enrollment = Convert.ToString(student.EnrollmentNo) ?? string.Empty;
                             objMigrationDiploma.InstituteId = Convert.ToInt32(student.InstituteID);
