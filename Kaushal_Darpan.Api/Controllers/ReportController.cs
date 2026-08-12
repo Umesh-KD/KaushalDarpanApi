@@ -21530,10 +21530,10 @@ Web Site : www.techedu.rajasthan.gov.in
         [HttpPost("StudentProvisionalDiplomaCertificateDownloadChunk")]
         public async Task<ApiResult<string>> StudentProvisionalDiplomaCertificateDownloadChunk([FromBody] List<ProvisionalDiplomaCertificateDownloadSearchModel> Model)
         {
-            ActionName = "StudentProvisionalDiplomaCertificateDownloadChunk([FromBody] List<DiplomaCertificateDownloadSearchModel> Model)";
+            ActionName = "StudentProvisionalDiplomaCertificateDownloadChunk([FromBody] List<ProvisionalDiplomaCertificateDownloadSearchModel> Model)";
 
             var result = new ApiResult<string>();
-            var logfilename = "_DiplomaCertificateDownload";
+            var logfilename = "_ProvisionalCertificateDownload";
             var Session = string.Empty;
             try
             {
@@ -21610,44 +21610,44 @@ Web Site : www.techedu.rajasthan.gov.in
                             CommonFuncationHelper.WriteTextLog($"1.4. save file in folder: {student.StudentName}", logfilename);
 
                             // create an object for new record
-                            FinalDiplomaCertificateSaveDataModel objFinalDiploma = new FinalDiplomaCertificateSaveDataModel();
+                            ProvisionalDiplomaCertificateSaveDataModel objProvisionalDiploma = new ProvisionalDiplomaCertificateSaveDataModel();
 
-                            objFinalDiploma.FinalDiploma = student.FinalDiplomaID ?? 0;// pk
+                            objProvisionalDiploma.FinalDiploma = student.FinalDiplomaID ?? 0;// pk
 
-                            objFinalDiploma.Enrollment = Convert.ToString(student.EnrollmentNo) ?? string.Empty;
-                            objFinalDiploma.InstituteId = Convert.ToInt32(student.InstituteID);
-                            //objFinalDiploma.SrDiploma = Convert.ToInt32(student.SrDiploma);
-                            objFinalDiploma.SRNO = Convert.ToString(student.SRNO);
-                            objFinalDiploma.PublishDate = Convert.ToString(student.PublishDate);
-                            objFinalDiploma.IsLocked = Convert.ToByte(student.IsLocked);
-                            objFinalDiploma.DiplomaPrintingDate = Convert.ToString(student.DiplomaPrintingDate);
-                            objFinalDiploma.IsRwhResult = Convert.ToByte(student.IsRWHResult);
-                            objFinalDiploma.RwhResultId = Convert.ToInt32(student.RWHResultID);
-                            objFinalDiploma.IsReval = Convert.ToByte(student.IsReval);
-                            objFinalDiploma.IsRevisedIssueDate = Convert.ToByte(student.IsRevisedIssueDate);
-                            objFinalDiploma.ResultId = Convert.ToInt32(student.ExamResultID);
-                            objFinalDiploma.RevisedId = Convert.ToInt32(student.RevisedId);
-                            objFinalDiploma.IsBlock = Convert.ToByte(student.IsBlock);
-                            objFinalDiploma.StudentId = Convert.ToInt32(student.StudentID);
-                            objFinalDiploma.IsDiploma = Convert.ToByte(student.IsDiploma);
-                            objFinalDiploma.IsDuplicate = Convert.ToByte(student.IsDuplicate);
-                            objFinalDiploma.DuplicateDiplomaId = Convert.ToInt32(student.DuplicateDiplomaId);
-                            objFinalDiploma.RequestId = Convert.ToInt32(student.RequestId);
-                            objFinalDiploma.IsIssued = Convert.ToByte(student.IsIssued);
-                            objFinalDiploma.ResultTypeID = Convert.ToInt32(student.ResultTypeID);
-                            objFinalDiploma.EndTermID = Convert.ToInt32(student.EndTermID);
-                            objFinalDiploma.EffectiveEndTermID = Convert.ToInt32(student.EffectiveEndTermID);
-                            objFinalDiploma.IsRevised = Convert.ToBoolean(student.IsRevised);
-                            objFinalDiploma.SemesterID = Convert.ToInt32(student.SemesterID);
-                            objFinalDiploma.IPAddress = CommonFuncationHelper.GetIpAddress();
-                            objFinalDiploma.ModifyBy = Convert.ToInt32(student.ModifyBy);
+                            objProvisionalDiploma.Enrollment = Convert.ToString(student.EnrollmentNo) ?? string.Empty;
+                            objProvisionalDiploma.InstituteId = Convert.ToInt32(student.InstituteID);
+                            //objProvisionalDiploma.SrDiploma = Convert.ToInt32(student.SrDiploma);
+                            objProvisionalDiploma.SRNO = Convert.ToString(student.SRNO);
+                            objProvisionalDiploma.PublishDate = Convert.ToString(student.PublishDate);
+                            objProvisionalDiploma.IsLocked = Convert.ToByte(student.IsLocked);
+                            objProvisionalDiploma.DiplomaPrintingDate = Convert.ToString(student.DiplomaPrintingDate);
+                            objProvisionalDiploma.IsRwhResult = Convert.ToByte(student.IsRWHResult);
+                            objProvisionalDiploma.RwhResultId = Convert.ToInt32(student.RWHResultID);
+                            objProvisionalDiploma.IsReval = Convert.ToByte(student.IsReval);
+                            objProvisionalDiploma.IsRevisedIssueDate = Convert.ToByte(student.IsRevisedIssueDate);
+                            objProvisionalDiploma.ResultId = Convert.ToInt32(student.ExamResultID);
+                            objProvisionalDiploma.RevisedId = Convert.ToInt32(student.RevisedId);
+                            objProvisionalDiploma.IsBlock = Convert.ToByte(student.IsBlock);
+                            objProvisionalDiploma.StudentId = Convert.ToInt32(student.StudentID);
+                            objProvisionalDiploma.IsDiploma = Convert.ToByte(student.IsDiploma);
+                            objProvisionalDiploma.IsDuplicate = Convert.ToByte(student.IsDuplicate);
+                            objProvisionalDiploma.DuplicateDiplomaId = Convert.ToInt32(student.DuplicateDiplomaId);
+                            objProvisionalDiploma.RequestId = Convert.ToInt32(student.RequestId);
+                            objProvisionalDiploma.IsIssued = Convert.ToByte(student.IsIssued);
+                            objProvisionalDiploma.ResultTypeID = Convert.ToInt32(student.ResultTypeID);
+                            objProvisionalDiploma.EndTermID = Convert.ToInt32(student.EndTermID);
+                            objProvisionalDiploma.EffectiveEndTermID = Convert.ToInt32(student.EffectiveEndTermID);
+                            objProvisionalDiploma.IsRevised = Convert.ToBoolean(student.IsRevised);
+                            objProvisionalDiploma.SemesterID = Convert.ToInt32(student.SemesterID);
+                            objProvisionalDiploma.IPAddress = CommonFuncationHelper.GetIpAddress();
+                            objProvisionalDiploma.ModifyBy = Convert.ToInt32(student.ModifyBy);
 
-                            objFinalDiploma.Dis_FileName = fileName;
-                            objFinalDiploma.FileName = $"{Session}/{fileName}";
+                            objProvisionalDiploma.Dis_FileName = fileName;
+                            objProvisionalDiploma.FileName = $"{Session}/{fileName}";
 
 
                             // save
-                            await _unitOfWork.MarksheetDownloadRepository.AddUpdateProvisionalDiplomaCertificate(objFinalDiploma);
+                            await _unitOfWork.MarksheetDownloadRepository.AddUpdateProvisionalDiplomaCertificate(objProvisionalDiploma);
                             await _unitOfWork.SaveChangesAsync();
 
                             CommonFuncationHelper.WriteTextLog($"1.8. save student done : {student.StudentName}", logfilename);
@@ -21821,44 +21821,44 @@ Web Site : www.techedu.rajasthan.gov.in
                             CommonFuncationHelper.WriteTextLog($"1.4. save file in folder: {student.StudentName}", logfilename);
 
                             // create an object for new record
-                            FinalDiplomaCertificateSaveDataModel objFinalDiploma = new FinalDiplomaCertificateSaveDataModel();
+                            ProvisionalDiplomaCertificateSaveDataModel objMigrationDiploma = new ProvisionalDiplomaCertificateSaveDataModel();
 
-                            objFinalDiploma.FinalDiploma = student.FinalDiplomaID ?? 0;// pk
+                            objMigrationDiploma.FinalDiploma = student.FinalDiplomaID ?? 0;// pk
 
-                            objFinalDiploma.Enrollment = Convert.ToString(student.EnrollmentNo) ?? string.Empty;
-                            objFinalDiploma.InstituteId = Convert.ToInt32(student.InstituteID);
-                            //objFinalDiploma.SrDiploma = Convert.ToInt32(student.SrDiploma);
-                            objFinalDiploma.SRNO = Convert.ToString(student.SRNO);
-                            objFinalDiploma.PublishDate = Convert.ToString(student.PublishDate);
-                            objFinalDiploma.IsLocked = Convert.ToByte(student.IsLocked);
-                            objFinalDiploma.DiplomaPrintingDate = Convert.ToString(student.DiplomaPrintingDate);
-                            objFinalDiploma.IsRwhResult = Convert.ToByte(student.IsRWHResult);
-                            objFinalDiploma.RwhResultId = Convert.ToInt32(student.RWHResultID);
-                            objFinalDiploma.IsReval = Convert.ToByte(student.IsReval);
-                            objFinalDiploma.IsRevisedIssueDate = Convert.ToByte(student.IsRevisedIssueDate);
-                            objFinalDiploma.ResultId = Convert.ToInt32(student.ExamResultID);
-                            objFinalDiploma.RevisedId = Convert.ToInt32(student.RevisedId);
-                            objFinalDiploma.IsBlock = Convert.ToByte(student.IsBlock);
-                            objFinalDiploma.StudentId = Convert.ToInt32(student.StudentID);
-                            objFinalDiploma.IsDiploma = Convert.ToByte(student.IsDiploma);
-                            objFinalDiploma.IsDuplicate = Convert.ToByte(student.IsDuplicate);
-                            objFinalDiploma.DuplicateDiplomaId = Convert.ToInt32(student.DuplicateDiplomaId);
-                            objFinalDiploma.RequestId = Convert.ToInt32(student.RequestId);
-                            objFinalDiploma.IsIssued = Convert.ToByte(student.IsIssued);
-                            objFinalDiploma.ResultTypeID = Convert.ToInt32(student.ResultTypeID);
-                            objFinalDiploma.EndTermID = Convert.ToInt32(student.EndTermID);
-                            objFinalDiploma.EffectiveEndTermID = Convert.ToInt32(student.EffectiveEndTermID);
-                            objFinalDiploma.IsRevised = Convert.ToBoolean(student.IsRevised);
-                            objFinalDiploma.SemesterID = Convert.ToInt32(student.SemesterID);
-                            objFinalDiploma.IPAddress = CommonFuncationHelper.GetIpAddress();
-                            objFinalDiploma.ModifyBy = Convert.ToInt32(student.ModifyBy);
+                            objMigrationDiploma.Enrollment = Convert.ToString(student.EnrollmentNo) ?? string.Empty;
+                            objMigrationDiploma.InstituteId = Convert.ToInt32(student.InstituteID);
+                            //objMigrationDiploma.SrDiploma = Convert.ToInt32(student.SrDiploma);
+                            objMigrationDiploma.SRNO = Convert.ToString(student.SRNO);
+                            objMigrationDiploma.PublishDate = Convert.ToString(student.PublishDate);
+                            objMigrationDiploma.IsLocked = Convert.ToByte(student.IsLocked);
+                            objMigrationDiploma.DiplomaPrintingDate = Convert.ToString(student.DiplomaPrintingDate);
+                            objMigrationDiploma.IsRwhResult = Convert.ToByte(student.IsRWHResult);
+                            objMigrationDiploma.RwhResultId = Convert.ToInt32(student.RWHResultID);
+                            objMigrationDiploma.IsReval = Convert.ToByte(student.IsReval);
+                            objMigrationDiploma.IsRevisedIssueDate = Convert.ToByte(student.IsRevisedIssueDate);
+                            objMigrationDiploma.ResultId = Convert.ToInt32(student.ExamResultID);
+                            objMigrationDiploma.RevisedId = Convert.ToInt32(student.RevisedId);
+                            objMigrationDiploma.IsBlock = Convert.ToByte(student.IsBlock);
+                            objMigrationDiploma.StudentId = Convert.ToInt32(student.StudentID);
+                            objMigrationDiploma.IsDiploma = Convert.ToByte(student.IsDiploma);
+                            objMigrationDiploma.IsDuplicate = Convert.ToByte(student.IsDuplicate);
+                            objMigrationDiploma.DuplicateDiplomaId = Convert.ToInt32(student.DuplicateDiplomaId);
+                            objMigrationDiploma.RequestId = Convert.ToInt32(student.RequestId);
+                            objMigrationDiploma.IsIssued = Convert.ToByte(student.IsIssued);
+                            objMigrationDiploma.ResultTypeID = Convert.ToInt32(student.ResultTypeID);
+                            objMigrationDiploma.EndTermID = Convert.ToInt32(student.EndTermID);
+                            objMigrationDiploma.EffectiveEndTermID = Convert.ToInt32(student.EffectiveEndTermID);
+                            objMigrationDiploma.IsRevised = Convert.ToBoolean(student.IsRevised);
+                            objMigrationDiploma.SemesterID = Convert.ToInt32(student.SemesterID);
+                            objMigrationDiploma.IPAddress = CommonFuncationHelper.GetIpAddress();
+                            objMigrationDiploma.ModifyBy = Convert.ToInt32(student.ModifyBy);
 
-                            objFinalDiploma.Dis_FileName = fileName;
-                            objFinalDiploma.FileName = $"{Session}/{fileName}";
+                            objMigrationDiploma.Dis_FileName = fileName;
+                            objMigrationDiploma.FileName = $"{Session}/{fileName}";
 
 
                             // save
-                            await _unitOfWork.MarksheetDownloadRepository.AddUpdateFinalDiplomaCertificate(objFinalDiploma);
+                            await _unitOfWork.MarksheetDownloadRepository.AddUpdateMigrationCertificate(objMigrationDiploma);
                             await _unitOfWork.SaveChangesAsync();
 
                             CommonFuncationHelper.WriteTextLog($"1.8. save student done : {student.StudentName}", logfilename);
