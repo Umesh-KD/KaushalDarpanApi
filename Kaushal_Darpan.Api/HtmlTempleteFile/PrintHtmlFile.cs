@@ -5115,9 +5115,12 @@ border:1px solid #000;'>
                 //
                 // 24-04-2025
                 //
+
+                string resultDate = Convert.ToDateTime(data.ResultDate).ToString("dd-MM-yyyy");
+
                 sb.AppendLine(
                     $"<div class='value' style='left:82mm; top:224mm;'>"
-                    + $"{data.ResultDate}"
+                    + $"{resultDate}"
                     + "</div>");
 
 
@@ -5127,9 +5130,14 @@ border:1px solid #000;'>
                 //
                 // 27-11-2025
                 //
+
+                string printingDate = Convert
+                    .ToDateTime(data.DiplomaPrintingDate)
+                    .ToString("dd-MM-yyyy");
+
                 sb.AppendLine(
                      $"<div class='value' style='left:51mm; top:247mm;'>"
-                     + $"{data.DiplomaPrintingDate:dd-MM-yyyy}"
+                     + $"{printingDate}"
                      + "</div>");
 
 

@@ -21615,25 +21615,25 @@ Web Site : www.techedu.rajasthan.gov.in
                             // create an object for new record
                             ProvisionalDiplomaCertificateSaveDataModel objProvisionalDiploma = new ProvisionalDiplomaCertificateSaveDataModel();
 
-                            objProvisionalDiploma.FinalDiploma = student.FinalDiplomaID ?? 0;// pk
+                            objProvisionalDiploma.ProvisionalDiplomaID = student.ProvisionalDiplomaID ?? 0;// pk
 
                             objProvisionalDiploma.Enrollment = Convert.ToString(student.EnrollmentNo) ?? string.Empty;
                             objProvisionalDiploma.InstituteId = Convert.ToInt32(student.InstituteID);
                             //objProvisionalDiploma.SrDiploma = Convert.ToInt32(student.SrDiploma);
                             objProvisionalDiploma.SRNO = Convert.ToString(student.SRNO);
                             objProvisionalDiploma.PublishDate = Convert.ToString(student.PublishDate);
-                            objProvisionalDiploma.IsLocked = Convert.ToByte(student.IsLocked);
+                            //objProvisionalDiploma.IsLocked = Convert.ToByte(student.IsLocked);
                             objProvisionalDiploma.DiplomaPrintingDate = Convert.ToString(student.DiplomaPrintingDate);
-                            objProvisionalDiploma.IsRwhResult = Convert.ToByte(student.IsRWHResult);
-                            objProvisionalDiploma.RwhResultId = Convert.ToInt32(student.RWHResultID);
+                            //objProvisionalDiploma.IsRwhResult = Convert.ToByte(student.IsRWHResult);
+                            //objProvisionalDiploma.RwhResultId = Convert.ToInt32(student.RWHResultID);
                             objProvisionalDiploma.IsReval = Convert.ToByte(student.IsReval);
                             objProvisionalDiploma.IsRevisedIssueDate = Convert.ToByte(student.IsRevisedIssueDate);
                             objProvisionalDiploma.ResultId = Convert.ToInt32(student.ExamResultID);
                             objProvisionalDiploma.RevisedId = Convert.ToInt32(student.RevisedId);
-                            objProvisionalDiploma.IsBlock = Convert.ToByte(student.IsBlock);
+                            //objProvisionalDiploma.IsBlock = Convert.ToByte(student.IsBlock);
                             objProvisionalDiploma.StudentId = Convert.ToInt32(student.StudentID);
                             objProvisionalDiploma.IsDiploma = Convert.ToByte(student.IsDiploma);
-                            objProvisionalDiploma.IsDuplicate = Convert.ToByte(student.IsDuplicate);
+                            //objProvisionalDiploma.IsDuplicate = Convert.ToByte(student.IsDuplicate);
                             objProvisionalDiploma.DuplicateDiplomaId = Convert.ToInt32(student.DuplicateDiplomaId);
                             objProvisionalDiploma.RequestId = Convert.ToInt32(student.RequestId);
                             objProvisionalDiploma.IsIssued = Convert.ToByte(student.IsIssued);
@@ -21826,7 +21826,7 @@ Web Site : www.techedu.rajasthan.gov.in
                             // create an object for new record
                             ProvisionalDiplomaCertificateSaveDataModel objMigrationDiploma = new ProvisionalDiplomaCertificateSaveDataModel();
 
-                            objMigrationDiploma.FinalDiploma = student.FinalDiplomaID ?? 0;// pk
+                            objMigrationDiploma.ProvisionalDiplomaID = student.ProvisionalDiplomaID ?? 0;// pk
 
                             objMigrationDiploma.Enrollment = Convert.ToString(student.EnrollmentNo) ?? string.Empty;
                             objMigrationDiploma.InstituteId = Convert.ToInt32(student.InstituteID);

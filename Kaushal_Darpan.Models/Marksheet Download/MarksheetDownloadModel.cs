@@ -321,7 +321,7 @@
 
     public class ProvisionalDiplomaCertificateSaveDataModel : ResponseBaseModel
     {
-        public int FinalDiploma { get; set; } // id
+        public int ProvisionalDiplomaID { get; set; } // id
         public string SrNo { get; set; } = string.Empty;
         public string Enrollment { get; set; } = string.Empty;
         public int InstituteId { get; set; }
@@ -356,7 +356,7 @@
     {
         public int? ModifyBy { get; set; } = 0;
         public int? SemesterID { get; set; } = 0;
-        public int? FinalDiplomaID { get; set; } = 0;
+        public int? ProvisionalDiplomaID { get; set; } = 0;
         public int? InstituteID { get; set; } = 0;
         public string? IsRevised { get; set; } = string.Empty;
         public int? IsBridge { get; set; } = 0;

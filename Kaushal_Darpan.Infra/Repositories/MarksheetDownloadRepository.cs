@@ -675,23 +675,23 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.CommandText = "USP_StudentListForProvisionalCertificate";
                     command.CommandTimeout = 0;
 
-                    if (body.ResultTypeID == (int)EnumResultType.MainResult) // main and reval
-                    {
-                        command.Parameters.AddWithValue("@action", "_getStuListForProvisionalDiploma");
-                    }
-                    else if (body.ResultTypeID == (int)EnumResultType.RwhResult ||
-                                body.ResultTypeID == (int)EnumResultType.RwhRevalEffected)
-                    {
-                        command.Parameters.AddWithValue("@action", "_getRWHStuListForProvisionalDiploma");
-                    }
-                    else if (body.ResultTypeID == (int)EnumResultType.Ufm)
-                    {
-                        throw new Exception("Invalid request!");
-                    }
-                    else
-                    {
-                        throw new Exception("Invalid request!");
-                    }
+                    //if (body.ResultTypeID == (int)EnumResultType.MainResult) // main and reval
+                    //{
+                    //    command.Parameters.AddWithValue("@action", "_getStuListForProvisionalDiploma");
+                    //}
+                    //else if (body.ResultTypeID == (int)EnumResultType.RwhResult ||
+                    //            body.ResultTypeID == (int)EnumResultType.RwhRevalEffected)
+                    //{
+                    //    command.Parameters.AddWithValue("@action", "_getRWHStuListForProvisionalDiploma");
+                    //}
+                    //else if (body.ResultTypeID == (int)EnumResultType.Ufm)
+                    //{
+                    //    throw new Exception("Invalid request!");
+                    //}
+                    //else
+                    //{
+                    //    throw new Exception("Invalid request!");
+                    //}
 
                     command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
                     command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
@@ -738,7 +738,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                     command.Parameters.AddWithValue("@action", "_SaveStudentProvisionalDiplomaCertificateData");
 
-                    command.Parameters.AddWithValue("@FinalDiploma", request.FinalDiploma); // id
+                    command.Parameters.AddWithValue("@ProvisionalDiplomaID", request.ProvisionalDiplomaID); // id
                     command.Parameters.AddWithValue("@enrollment", request.Enrollment);
                     command.Parameters.AddWithValue("@institute_id", request.InstituteId);
                     command.Parameters.AddWithValue("@sr_diploma", request.SrNo); // FD srno.
@@ -869,7 +869,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                     command.Parameters.AddWithValue("@action", "_SaveStudentMigrationCertificateData");
 
-                    command.Parameters.AddWithValue("@FinalDiploma", request.FinalDiploma); // id
+                    command.Parameters.AddWithValue("@FinalDiploma", request.ProvisionalDiplomaID); // id
                     command.Parameters.AddWithValue("@enrollment", request.Enrollment);
                     command.Parameters.AddWithValue("@institute_id", request.InstituteId);
                     command.Parameters.AddWithValue("@sr_diploma", request.SrNo); // FD srno.
