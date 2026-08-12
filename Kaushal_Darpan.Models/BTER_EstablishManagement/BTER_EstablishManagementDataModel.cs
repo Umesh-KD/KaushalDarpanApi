@@ -215,6 +215,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public string? Pincode { get; set; }
         public string? Address { get; set; }
 
+        public int? OfficeID { get; set; }
     }
 
     public class BTER_EM_AddServiceHistoryDataModel
