@@ -257,9 +257,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
-        public async Task<DataTable> GetConsolidatedDetailsResultRptTabulation(TabluationDataModel body)
+        public async Task<DataTable> GetConsolidatedDetailsResultRptTabulation(TabluationDataModel body, List<int> lstStreamId)
         {
-            _actionName = "GetConsolidatedDetailsResultRptTabulation(TabluationDataModel body)";
+            _actionName = "GetConsolidatedDetailsResultRptTabulation(TabluationDataModel body, List<int> lstStreamId)";
             try
             {
                 DataTable dt = new DataTable();
@@ -277,7 +277,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@SchemeID", body.SchemeID);
                     command.Parameters.AddWithValue("@EffectiveEndTermID", body.EffectiveFromEndTermId);
                     command.Parameters.AddWithValue("@RoleId", body.RoleID);
-                    command.Parameters.AddWithValue("@StreamID", body.StreamID);
+                    command.Parameters.AddWithValue("@StreamIDs", string.Join(",", lstStreamId));
 
                     _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                     dt = await command.FillAsync_DataTable();

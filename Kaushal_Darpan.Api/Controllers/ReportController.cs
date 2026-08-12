@@ -16078,12 +16078,15 @@ Sr.<br/>No.
                 sb.AppendLine("    <div style=\"width: 98%; margin: auto;\">");
 
 
+                List<int> lstStreamId = new List<int>() ;// for ConsolidatedDetails
+
                 DataTable heading_data = new DataTable();
                 // all streams loop 1 by 1
                 foreach (DataRow dr in streams_data.Rows)
                 {
                     // set streamid
                     body.StreamID = Convert.ToInt32(dr["StreamID"] ?? 0);
+                    lstStreamId.Add(body.StreamID);// for ConsolidatedDetails
 
                     // get main heading of report
                     heading_data = await Task.Run(() => _unitOfWork.ReportRepository.GetHeadingResultRptTabulation(body));
@@ -16132,7 +16135,7 @@ Sr.<br/>No.
 
 
                 // get consolidate summary of tabular details
-                var consolidate_data = await Task.Run(() => _unitOfWork.ReportRepository.GetConsolidatedDetailsResultRptTabulation(body));
+                var consolidate_data = await Task.Run(() => _unitOfWork.ReportRepository.GetConsolidatedDetailsResultRptTabulation(body, lstStreamId));
                 if (consolidate_data?.Rows.Count > 0)
                 {
                     //get html
@@ -21358,7 +21361,7 @@ Web Site : www.techedu.rajasthan.gov.in
                         {
                             CommonFuncationHelper.WriteTextLog($"1.2. dosenot file exists in else : {student.StudentName}", logfilename);
 
-                             //create folder
+                            //create folder
                             if (!System.IO.Directory.Exists(folderPath))
                             {
                                 Directory.CreateDirectory(folderPath);
@@ -21612,25 +21615,25 @@ Web Site : www.techedu.rajasthan.gov.in
                             // create an object for new record
                             ProvisionalDiplomaCertificateSaveDataModel objProvisionalDiploma = new ProvisionalDiplomaCertificateSaveDataModel();
 
-                            objProvisionalDiploma.FinalDiploma = student.FinalDiplomaID ?? 0;// pk
+                            objProvisionalDiploma.ProvisionalDiplomaID = student.ProvisionalDiplomaID ?? 0;// pk
 
                             objProvisionalDiploma.Enrollment = Convert.ToString(student.EnrollmentNo) ?? string.Empty;
                             objProvisionalDiploma.InstituteId = Convert.ToInt32(student.InstituteID);
                             //objProvisionalDiploma.SrDiploma = Convert.ToInt32(student.SrDiploma);
                             objProvisionalDiploma.SRNO = Convert.ToString(student.SRNO);
                             objProvisionalDiploma.PublishDate = Convert.ToString(student.PublishDate);
-                            objProvisionalDiploma.IsLocked = Convert.ToByte(student.IsLocked);
+                            //objProvisionalDiploma.IsLocked = Convert.ToByte(student.IsLocked);
                             objProvisionalDiploma.DiplomaPrintingDate = Convert.ToString(student.DiplomaPrintingDate);
-                            objProvisionalDiploma.IsRwhResult = Convert.ToByte(student.IsRWHResult);
-                            objProvisionalDiploma.RwhResultId = Convert.ToInt32(student.RWHResultID);
+                            //objProvisionalDiploma.IsRwhResult = Convert.ToByte(student.IsRWHResult);
+                            //objProvisionalDiploma.RwhResultId = Convert.ToInt32(student.RWHResultID);
                             objProvisionalDiploma.IsReval = Convert.ToByte(student.IsReval);
                             objProvisionalDiploma.IsRevisedIssueDate = Convert.ToByte(student.IsRevisedIssueDate);
                             objProvisionalDiploma.ResultId = Convert.ToInt32(student.ExamResultID);
                             objProvisionalDiploma.RevisedId = Convert.ToInt32(student.RevisedId);
-                            objProvisionalDiploma.IsBlock = Convert.ToByte(student.IsBlock);
+                            //objProvisionalDiploma.IsBlock = Convert.ToByte(student.IsBlock);
                             objProvisionalDiploma.StudentId = Convert.ToInt32(student.StudentID);
                             objProvisionalDiploma.IsDiploma = Convert.ToByte(student.IsDiploma);
-                            objProvisionalDiploma.IsDuplicate = Convert.ToByte(student.IsDuplicate);
+                            //objProvisionalDiploma.IsDuplicate = Convert.ToByte(student.IsDuplicate);
                             objProvisionalDiploma.DuplicateDiplomaId = Convert.ToInt32(student.DuplicateDiplomaId);
                             objProvisionalDiploma.RequestId = Convert.ToInt32(student.RequestId);
                             objProvisionalDiploma.IsIssued = Convert.ToByte(student.IsIssued);
@@ -21741,9 +21744,9 @@ Web Site : www.techedu.rajasthan.gov.in
 
         #region Bulk Student Migration Certificate
         [HttpPost("StudentMigrationCertificateDownloadChunk")]
-        public async Task<ApiResult<string>> StudentMigrationCertificateDownloadChunk([FromBody] List<ProvisionalDiplomaCertificateDownloadSearchModel> Model)
+        public async Task<ApiResult<string>> StudentMigrationCertificateDownloadChunk([FromBody] List<MigrationCertificateDownloadSearchModel> Model)
         {
-            ActionName = "StudentMigrationCertificateDownloadChunk([FromBody] List<ProvisionalDiplomaCertificateDownloadSearchModel> Model)";
+            ActionName = "StudentMigrationCertificateDownloadChunk([FromBody] List<MigrationCertificateDownloadSearchModel> Model)";
 
             var result = new ApiResult<string>();
             var logfilename = "_MigrationCertificateDownload";
@@ -21821,9 +21824,9 @@ Web Site : www.techedu.rajasthan.gov.in
                             CommonFuncationHelper.WriteTextLog($"1.4. save file in folder: {student.StudentName}", logfilename);
 
                             // create an object for new record
-                            ProvisionalDiplomaCertificateSaveDataModel objMigrationDiploma = new ProvisionalDiplomaCertificateSaveDataModel();
+                            MigrationCertificateSaveDataModel objMigrationDiploma = new MigrationCertificateSaveDataModel();
 
-                            objMigrationDiploma.FinalDiploma = student.FinalDiplomaID ?? 0;// pk
+                            objMigrationDiploma.MigrationID = student.MigrationID ?? 0;// pk
 
                             objMigrationDiploma.Enrollment = Convert.ToString(student.EnrollmentNo) ?? string.Empty;
                             objMigrationDiploma.InstituteId = Convert.ToInt32(student.InstituteID);
