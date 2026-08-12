@@ -21741,17 +21741,17 @@ Web Site : www.techedu.rajasthan.gov.in
 
         #region Bulk Student Migration Certificate
         [HttpPost("StudentMigrationCertificateDownloadChunk")]
-        public async Task<ApiResult<string>> StudentMigrationCertificateDownloadChunk([FromBody] List<DiplomaCertificateDownloadSearchModel> Model)
+        public async Task<ApiResult<string>> StudentMigrationCertificateDownloadChunk([FromBody] List<ProvisionalDiplomaCertificateDownloadSearchModel> Model)
         {
-            ActionName = "StudentMigrationCertificateDownloadChunk([FromBody] List<DiplomaCertificateDownloadSearchModel> Model)";
+            ActionName = "StudentMigrationCertificateDownloadChunk([FromBody] List<ProvisionalDiplomaCertificateDownloadSearchModel> Model)";
 
             var result = new ApiResult<string>();
-            var logfilename = "_DiplomaCertificateDownload";
+            var logfilename = "_MigrationCertificateDownload";
             var Session = string.Empty;
             try
             {
                 Session = Model[0].SessionName;
-                var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{Constants.FinalDiplomaFolder}/{Session}";
+                var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{Constants.MigrationCertificateFolder}/{Session}";
 
                 // store students that have filename success for merge file for shwoing marksheet
                 List<GenerateFinalDiplomaCertificateModel> ListData = new List<GenerateFinalDiplomaCertificateModel>();
@@ -21774,7 +21774,7 @@ Web Site : www.techedu.rajasthan.gov.in
                             // for merge
                             objStudent.StudentID = student.StudentID;
                             objStudent.RollNo = student.RollNo;
-                            objStudent.FileName = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{Constants.FinalDiplomaFolder}/{student.FileName}";
+                            objStudent.FileName = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{Constants.MigrationCertificateFolder}/{student.FileName}";
                             objStudent.Dis_FileName = student.Dis_FileName;
                             // add
                             ListData.Add(objStudent);
@@ -21790,11 +21790,11 @@ Web Site : www.techedu.rajasthan.gov.in
                             }
 
                             string timestamp_str = DateTime.Now.ToString("yyyyMMddHHmmssfff");
-                            var fileName = $"StudentDiplomaCertificate_{student.StudentName}_{timestamp_str}.pdf";
-                            string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{Constants.FinalDiplomaFolder}/{Session}/{fileName}";
+                            var fileName = $"StudentMigrationCertificate_{student.StudentName}_{timestamp_str}.pdf";
+                            string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{Constants.MigrationCertificateFolder}/{Session}/{fileName}";
 
                             // get html
-                            var sb = await _printHtmlFile.GetHtmlOfDiplomaCertificate(student);
+                            var sb = await _printHtmlFile.GetHtmlOfMigrationCertificate(student);
                             var _html = sb.ToString();
 
                             // remove last blank page
@@ -21896,7 +21896,7 @@ Web Site : www.techedu.rajasthan.gov.in
 
                 #region "Save Multiple PDF PAGES"
                 string timestamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
-                string outputFile = $"DiplomaCertificate_{timestamp}.pdf";
+                string outputFile = $"MigrationCertificate_{timestamp}.pdf";
                 string outputPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{outputFile}";
                 List<string?> strSoureFiles = ListData.Select(s => s.FileName)?.ToList();
 

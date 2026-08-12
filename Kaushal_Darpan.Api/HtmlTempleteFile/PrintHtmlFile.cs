@@ -4789,7 +4789,7 @@ border:1px solid #000;'>
 
 
 
-        #region Provisional Diploma Certificate
+        #region Provisional Diploma Certificate bulk
         //public async Task<StringBuilder> GetHtmlOfProvisionalCertificate(ProvisionalDiplomaCertificateDownloadSearchModel data)
         //{
         //    try
@@ -5145,6 +5145,173 @@ border:1px solid #000;'>
         }
 
         #endregion
+
+
+        #region Migration Certificate  bulk
+
+        public async Task<StringBuilder> GetHtmlOfMigrationCertificate(ProvisionalDiplomaCertificateDownloadSearchModel data)
+        {
+            try
+            {
+                StringBuilder sb = new StringBuilder();
+
+                sb.AppendLine("<!DOCTYPE html>");
+                sb.AppendLine("<html>");
+                sb.AppendLine("<head>");
+                sb.AppendLine("<meta charset='UTF-8'>");
+
+                sb.AppendLine("<style>");
+
+                // =========================================================
+                // A4 PAGE
+                // =========================================================
+
+                sb.AppendLine("@page {");
+                sb.AppendLine("    size: A4;");
+                sb.AppendLine("    margin: 0;");
+                sb.AppendLine("}");
+
+                sb.AppendLine("* {");
+                sb.AppendLine("    box-sizing: border-box;");
+                sb.AppendLine("}");
+
+                sb.AppendLine("html, body {");
+                sb.AppendLine("    margin: 0;");
+                sb.AppendLine("    padding: 0;");
+                sb.AppendLine("    width: 210mm;");
+                sb.AppendLine("    height: 297mm;");
+                sb.AppendLine("    background: transparent;");
+                sb.AppendLine("}");
+
+                sb.AppendLine("body {");
+                sb.AppendLine("    position: relative;");
+                sb.AppendLine("    font-family: Arial, Helvetica, sans-serif;");
+                sb.AppendLine("}");
+
+                // =========================================================
+                // COMMON VALUE STYLE
+                // =========================================================
+
+                sb.AppendLine(".value {");
+                sb.AppendLine("    position: absolute;");
+                sb.AppendLine("    white-space: nowrap;");
+                sb.AppendLine("    font-size: 14px;");
+                sb.AppendLine("    line-height: 1;");
+                sb.AppendLine("    font-family: Arial, Helvetica, sans-serif;");
+                sb.AppendLine("}");
+
+                sb.AppendLine("</style>");
+
+                sb.AppendLine("</head>");
+                sb.AppendLine("<body>");
+
+                // =========================================================
+                // 1. S.NO
+                // =========================================================
+                //
+                // Example:
+                // 26DM000003
+                //
+                // Top-right corner
+                // =========================================================
+
+                sb.AppendLine(
+                    $"<div class='value' " +
+                    $"style='left:174mm; top:11mm;'>" +
+                    $"{data.SRNO}" +
+                    "</div>");
+
+
+                // =========================================================
+                // 2. STUDENT NAME
+                // =========================================================
+                //
+                // Example:
+                // PRINCE CHOUDHARY
+                //
+                // =========================================================
+
+                sb.AppendLine(
+                    $"<div class='value' " +
+                    $"style='left:77mm; top:121mm;'>" +
+                    $"{data.StudentName}" +
+                    "</div>");
+
+
+                // =========================================================
+                // 3. FATHER'S NAME
+                // =========================================================
+                //
+                // Example:
+                // JHABAR MAL THALOR
+                //
+                // =========================================================
+
+                sb.AppendLine(
+                    $"<div class='value' " +
+                    $"style='left:77mm; top:143mm;'>" +
+                    $"{data.FatherName}" +
+                    "</div>");
+
+
+                // =========================================================
+                // 4. ENROLLMENT NO
+                // =========================================================
+                //
+                // Example:
+                // EE20220023/025
+                //
+                // =========================================================
+
+                sb.AppendLine(
+                    $"<div class='value' " +
+                    $"style='left:78mm; top:169mm;'>" +
+                    $"{data.EnrollmentNo}" +
+                    "</div>");
+
+
+                // =========================================================
+                // 5. PRINTING DATE
+                // =========================================================
+                //
+                // Example:
+                // 23-06-2026
+                //
+                // =========================================================
+
+                string diplomaPrintingDate = "";
+
+                if (DateTime.TryParse(
+                        Convert.ToString(data.DiplomaPrintingDate),
+                        out DateTime printingDate))
+                {
+                    diplomaPrintingDate =
+                        printingDate.ToString("dd-MM-yyyy");
+                }
+
+                sb.AppendLine(
+                    $"<div class='value' " +
+                    $"style='left:45mm; top:276mm;'>" +
+                    $"{diplomaPrintingDate}" +
+                    "</div>");
+
+
+                // =========================================================
+                // END
+                // =========================================================
+
+                sb.AppendLine("</body>");
+                sb.AppendLine("</html>");
+
+                return sb;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        #endregion
+
 
 
 
