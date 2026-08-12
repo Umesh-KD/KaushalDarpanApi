@@ -318,6 +318,40 @@
         public string? SRNO { get; set; }
     }
 
+
+    public class ProvisionalDiplomaCertificateSaveDataModel : ResponseBaseModel
+    {
+        public int FinalDiploma { get; set; } // id
+        public string SrNo { get; set; } = string.Empty;
+        public string Enrollment { get; set; } = string.Empty;
+        public int InstituteId { get; set; }
+        public int SrDiploma { get; set; }
+        public string ResultDate { get; set; } = string.Empty;
+        public string PublishDate { get; set; } = string.Empty;
+        public byte IsLocked { get; set; }
+        public string DiplomaPrintingDate { get; set; } = string.Empty;
+        public byte IsRwhResult { get; set; }
+        public int RwhResultId { get; set; }
+        public byte IsReval { get; set; }
+        public byte IsRevisedIssueDate { get; set; }
+        public int ResultId { get; set; }
+        public int RevisedId { get; set; }
+        public byte IsBlock { get; set; }
+        public int StudentId { get; set; }
+        public byte IsDiploma { get; set; }
+        public byte IsDuplicate { get; set; }
+        public int DuplicateDiplomaId { get; set; }
+        public int RequestId { get; set; }
+        public byte IsIssued { get; set; }
+        public int ResultTypeID { get; set; }
+        public int EffectiveEndTermID { get; set; }
+        public bool IsRevised { get; set; }
+        public string FileName { get; set; } = string.Empty; // with file path
+        public string Dis_FileName { get; set; } = string.Empty; // file name
+        public int SemesterID { get; set; }
+        public string? SRNO { get; set; }
+    }
+
     public class ProvisionalDiplomaCertificateDownloadSearchModel : RequestBaseModel
     {
         public int? ModifyBy { get; set; } = 0;

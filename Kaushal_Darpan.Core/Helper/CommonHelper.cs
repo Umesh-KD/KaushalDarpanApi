@@ -95,6 +95,7 @@ namespace Kaushal_Darpan.Core.Helper
         public const string MarksheetFolder = "Marksheet";
         public const string FinalDiplomaFolder = "FinalDiploma";
         public const string ProvisionalDiplomaFolder = "ProvisionalDiploma";
+        public const string MigrationCertificateFolder = "MigrationCertificate";
 
         //ITI FOLDERS
         public const string RDLCFolderITI = "Report/Files/ITI";

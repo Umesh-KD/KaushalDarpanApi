@@ -672,17 +672,17 @@ namespace Kaushal_Darpan.Infra.Repositories
                 using (var command = await _dbContext.CreateCommandAsync())
                 {
                     command.CommandType = CommandType.StoredProcedure;
-                    command.CommandText = "USP_StudentListForDiplomaCertificate";
+                    command.CommandText = "USP_StudentListForProvisionalCertificate";
                     command.CommandTimeout = 0;
 
                     if (body.ResultTypeID == (int)EnumResultType.MainResult) // main and reval
                     {
-                        command.Parameters.AddWithValue("@action", "_getStuListForFinalDiploma");
+                        command.Parameters.AddWithValue("@action", "_getStuListForProvisionalDiploma");
                     }
                     else if (body.ResultTypeID == (int)EnumResultType.RwhResult ||
                                 body.ResultTypeID == (int)EnumResultType.RwhRevalEffected)
                     {
-                        command.Parameters.AddWithValue("@action", "_getRWHStuListForFinalDiploma");
+                        command.Parameters.AddWithValue("@action", "_getRWHStuListForProvisionalDiploma");
                     }
                     else if (body.ResultTypeID == (int)EnumResultType.Ufm)
                     {
@@ -724,9 +724,9 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
-        public async Task<int> AddUpdateProvisionalDiplomaCertificate(FinalDiplomaCertificateSaveDataModel request)
+        public async Task<int> AddUpdateProvisionalDiplomaCertificate(ProvisionalDiplomaCertificateSaveDataModel request)
         {
-            _actionName = "AddUpdateProvisionalDiplomaCertificate(FinalDiplomaCertificateSaveDataModel request)";
+            _actionName = "AddUpdateProvisionalDiplomaCertificate(ProvisionalDiplomaCertificateSaveDataModel request)";
             try
             {
                 int result = 0;
@@ -803,17 +803,17 @@ namespace Kaushal_Darpan.Infra.Repositories
                 using (var command = await _dbContext.CreateCommandAsync())
                 {
                     command.CommandType = CommandType.StoredProcedure;
-                    command.CommandText = "USP_StudentListForDiplomaCertificate";
+                    command.CommandText = "USP_StudentListForMigrationCertificate";
                     command.CommandTimeout = 0;
 
                     if (body.ResultTypeID == (int)EnumResultType.MainResult) // main and reval
                     {
-                        command.Parameters.AddWithValue("@action", "_getStuListForFinalDiploma");
+                        command.Parameters.AddWithValue("@action", "_getStuListForMigrationDiploma");
                     }
                     else if (body.ResultTypeID == (int)EnumResultType.RwhResult ||
                                 body.ResultTypeID == (int)EnumResultType.RwhRevalEffected)
                     {
-                        command.Parameters.AddWithValue("@action", "_getRWHStuListForFinalDiploma");
+                        command.Parameters.AddWithValue("@action", "_getRWHStuListForMigrationDiploma");
                     }
                     else if (body.ResultTypeID == (int)EnumResultType.Ufm)
                     {
@@ -855,7 +855,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
-        public async Task<int> AddUpdateMigrationCertificate(FinalDiplomaCertificateSaveDataModel request)
+        public async Task<int> AddUpdateMigrationCertificate(ProvisionalDiplomaCertificateSaveDataModel request)
         {
             _actionName = "AddUpdateMigrationCertificate(FinalDiplomaCertificateSaveDataModel request)";
             try
@@ -864,10 +864,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                 using (var command = await _dbContext.CreateCommandAsync())
                 {
                     command.CommandType = CommandType.StoredProcedure;
-                    command.CommandText = "USP_SaveStudentFinalDiplomaCertificateData";
+                    command.CommandText = "USP_SaveStudentMigrationCertificateData";
                     command.CommandTimeout = 0;
 
-                    command.Parameters.AddWithValue("@action", "_SaveStudentFinalDiplomaCertificateData");
+                    command.Parameters.AddWithValue("@action", "_SaveStudentMigrationCertificateData");
 
                     command.Parameters.AddWithValue("@FinalDiploma", request.FinalDiploma); // id
                     command.Parameters.AddWithValue("@enrollment", request.Enrollment);
