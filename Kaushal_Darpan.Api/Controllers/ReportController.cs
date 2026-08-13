@@ -21742,7 +21742,7 @@ Web Site : www.techedu.rajasthan.gov.in
         #endregion
 
 
-        #region Bulk Student Migration Certificate
+        #region Bulk Student Migration Certificate DS
         [HttpPost("StudentMigrationCertificateDownloadChunk")]
         public async Task<ApiResult<string>> StudentMigrationCertificateDownloadChunk([FromBody] List<MigrationCertificateDownloadSearchModel> Model)
         {
@@ -21796,6 +21796,10 @@ Web Site : www.techedu.rajasthan.gov.in
                             var fileName = $"StudentMigrationCertificate_{student.StudentName}_{timestamp_str}.pdf";
                             string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{Constants.MigrationCertificateFolder}/{Session}/{fileName}";
 
+                            //GENERATE SRN NUMBER 
+                           // student.SRNO= await _unitOfWork.MarksheetDownloadRepository.AddUpdateMigrationCertificate(objMigrationDiploma);
+                           // await _unitOfWork.SaveChangesAsync();
+
                             // get html
                             var sb = await _printHtmlFile.GetHtmlOfMigrationCertificate(student);
                             var _html = sb.ToString();
@@ -21834,7 +21838,7 @@ Web Site : www.techedu.rajasthan.gov.in
                             objMigrationDiploma.SRNO = Convert.ToString(student.SRNO);
                             objMigrationDiploma.PublishDate = Convert.ToString(student.PublishDate);
                             objMigrationDiploma.IsLocked = Convert.ToByte(student.IsLocked);
-                            objMigrationDiploma.DiplomaPrintingDate = Convert.ToString(student.DiplomaPrintingDate);
+                            objMigrationDiploma.MigrationPrintingDate = Convert.ToString(student.MigrationPrintingDate);
                             objMigrationDiploma.IsRwhResult = Convert.ToByte(student.IsRWHResult);
                             objMigrationDiploma.RwhResultId = Convert.ToInt32(student.RWHResultID);
                             objMigrationDiploma.IsReval = Convert.ToByte(student.IsReval);
@@ -21845,12 +21849,12 @@ Web Site : www.techedu.rajasthan.gov.in
                             objMigrationDiploma.StudentId = Convert.ToInt32(student.StudentID);
                             objMigrationDiploma.IsDiploma = Convert.ToByte(student.IsDiploma);
                             objMigrationDiploma.IsDuplicate = Convert.ToByte(student.IsDuplicate);
-                            objMigrationDiploma.DuplicateDiplomaId = Convert.ToInt32(student.DuplicateDiplomaId);
+                            objMigrationDiploma.DuplicateMigrationId = Convert.ToInt32(student.DuplicateMigrationId);
                             objMigrationDiploma.RequestId = Convert.ToInt32(student.RequestId);
                             objMigrationDiploma.IsIssued = Convert.ToByte(student.IsIssued);
                             objMigrationDiploma.ResultTypeID = Convert.ToInt32(student.ResultTypeID);
                             objMigrationDiploma.EndTermID = Convert.ToInt32(student.EndTermID);
-                            objMigrationDiploma.EffectiveEndTermID = Convert.ToInt32(student.EffectiveEndTermID);
+                            objMigrationDiploma.EffectiveEndTermID = Convert.ToInt32(student.EffectiveFromEndTermId);
                             objMigrationDiploma.IsRevised = Convert.ToBoolean(student.IsRevised);
                             objMigrationDiploma.SemesterID = Convert.ToInt32(student.SemesterID);
                             objMigrationDiploma.IPAddress = CommonFuncationHelper.GetIpAddress();

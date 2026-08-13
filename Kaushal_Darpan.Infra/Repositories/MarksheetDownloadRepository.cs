@@ -865,6 +865,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@IsRevised", body.IsRevised);
                     command.Parameters.AddWithValue("@SchemeID", body.SchemeID);
                     command.Parameters.AddWithValue("@EnrollmentNo", body.EnrollmentNo);
+                    command.Parameters.AddWithValue("@EffectiveFromEndTermId", body.EffectiveFromEndTermId);
 
                     _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                     dataTable = await command.FillAsync_DataTable();
@@ -902,10 +903,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@MigrationID", request.MigrationID); // id
                     command.Parameters.AddWithValue("@enrollment", request.Enrollment);
                     command.Parameters.AddWithValue("@institute_id", request.InstituteId);
-                    command.Parameters.AddWithValue("@sr_diploma", request.SrNo); // FD srno.
+                    command.Parameters.AddWithValue("@sr_migration", request.SrNo); // FD srno.
                     command.Parameters.AddWithValue("@result_date", request.ResultDate); // publish date
                     command.Parameters.AddWithValue("@is_locked", request.IsLocked);
-                    command.Parameters.AddWithValue("@diploma_printing_date", request.DiplomaPrintingDate); // printing date
+                    command.Parameters.AddWithValue("@migration_printing_date", request.MigrationPrintingDate); // printing date
                     command.Parameters.AddWithValue("@is_rwh_result", request.IsRwhResult);
                     command.Parameters.AddWithValue("@rwh_result_id", request.RwhResultId);
                     command.Parameters.AddWithValue("@is_reval", request.IsReval);
@@ -917,7 +918,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@modifed", request.ModifyBy);
                     command.Parameters.AddWithValue("@is_diploma", request.IsDiploma);
                     command.Parameters.AddWithValue("@is_duplicate", request.IsDuplicate);
-                    command.Parameters.AddWithValue("@duplicate_diploma_id", request.DuplicateDiplomaId);
+                    command.Parameters.AddWithValue("@duplicate_migration_id", request.DuplicateMigrationId);
                     command.Parameters.AddWithValue("@request_id", request.RequestId);
                     command.Parameters.AddWithValue("@is_issued", request.IsIssued);
                     command.Parameters.AddWithValue("@ResultTypeID", request.ResultTypeID);

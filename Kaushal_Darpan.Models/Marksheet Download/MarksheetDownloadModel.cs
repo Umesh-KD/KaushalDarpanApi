@@ -273,6 +273,7 @@
         public string? FinalDiplomaTermName { get; set; } = string.Empty;
         public string? Division { get; set; } = string.Empty;
         public string? CourseDuration { get; set; } = string.Empty;
+        public int? EffectiveFromEndTermId { get; set; } = 0;
     }
 
     public class GenerateFinalDiplomaCertificateModel : RequestBaseModel
@@ -450,14 +451,14 @@
         public string? ResultDate { get; set; } = string.Empty;
         public string? PublishDate { get; set; } = string.Empty;
         public bool? IsLocked { get; set; } = false;
-        public string? DiplomaPrintingDate { get; set; } = string.Empty;
+        public string? MigrationPrintingDate { get; set; } = string.Empty;
         public string? IsRevisedIssueDate { get; set; } = string.Empty;
         public int? ExamResultID { get; set; } = 0;
         public int? RevisedId { get; set; } = 0;
         public int? IsBlock { get; set; } = 0;
         public int? IsDiploma { get; set; } = 0;
         public bool? IsDuplicate { get; set; } = false;
-        public int? DuplicateDiplomaId { get; set; } = 0;
+        public int? DuplicateMigrationId { get; set; } = 0;
         public int? RequestId { get; set; } = 0;
         public bool? IsIssued { get; set; } = false;
         public string? RegistrarSignFile { get; set; } = string.Empty;
@@ -480,7 +481,7 @@
         public string ResultDate { get; set; } = string.Empty;
         public string PublishDate { get; set; } = string.Empty;
         public byte IsLocked { get; set; }
-        public string DiplomaPrintingDate { get; set; } = string.Empty;
+        public string MigrationPrintingDate { get; set; } = string.Empty;
         public byte IsRwhResult { get; set; }
         public int RwhResultId { get; set; }
         public byte IsReval { get; set; }
@@ -491,7 +492,7 @@
         public int StudentId { get; set; }
         public byte IsDiploma { get; set; }
         public byte IsDuplicate { get; set; }
-        public int DuplicateDiplomaId { get; set; }
+        public int DuplicateMigrationId { get; set; }
         public int RequestId { get; set; }
         public byte IsIssued { get; set; }
         public int ResultTypeID { get; set; }

@@ -5290,7 +5290,7 @@ border:1px solid #000;'>
                 string diplomaPrintingDate = "";
 
                 if (DateTime.TryParse(
-                        Convert.ToString(data.DiplomaPrintingDate),
+                        Convert.ToString(data.MigrationPrintingDate),
                         out DateTime printingDate))
                 {
                     diplomaPrintingDate =
