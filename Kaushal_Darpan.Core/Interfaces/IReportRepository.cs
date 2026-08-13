@@ -298,7 +298,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetStreamResultRptTabulation(TabluationDataModel body);
         Task<DataTable> GetHeadingResultRptTabulation(TabluationDataModel body);
         Task<DataSet> GetTabularDetailsResultRptTabulation(TabluationDataModel body);
-        Task<DataTable> GetConsolidatedDetailsResultRptTabulation(TabluationDataModel body);
+        Task<DataTable> GetConsolidatedDetailsResultRptTabulation(TabluationDataModel body, List<int> lstStreamId);
 
         Task<DataSet> GetstudentWithdrawnList(AllotmentReportCollegeRequestModel model);
         Task<DataSet> GetGroupCodeMasterReport(GroupCodeAllocationAddEditModel filterModel);

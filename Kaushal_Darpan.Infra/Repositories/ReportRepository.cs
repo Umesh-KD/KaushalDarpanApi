@@ -257,9 +257,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
-        public async Task<DataTable> GetConsolidatedDetailsResultRptTabulation(TabluationDataModel body)
+        public async Task<DataTable> GetConsolidatedDetailsResultRptTabulation(TabluationDataModel body, List<int> lstStreamId)
         {
-            _actionName = "GetConsolidatedDetailsResultRptTabulation(TabluationDataModel body)";
+            _actionName = "GetConsolidatedDetailsResultRptTabulation(TabluationDataModel body, List<int> lstStreamId)";
             try
             {
                 DataTable dt = new DataTable();
@@ -277,6 +277,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@SchemeID", body.SchemeID);
                     command.Parameters.AddWithValue("@EffectiveEndTermID", body.EffectiveFromEndTermId);
                     command.Parameters.AddWithValue("@RoleId", body.RoleID);
+                    command.Parameters.AddWithValue("@StreamIDs", string.Join(",", lstStreamId));
 
                     _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                     dt = await command.FillAsync_DataTable();
@@ -3109,41 +3110,41 @@ namespace Kaushal_Darpan.Infra.Repositories
         #region "Donwload Appeared Passed"
         public async Task<DataTable> DownloadAppearedPassed(DownloadAppearedPassed model)
         {
-            _actionName = "GetStudentRollNoList(DownloadnRollNoModel model)";
-            return await Task.Run(async () =>
+            _actionName = "DownloadAppearedPassed(DownloadAppearedPassed model)";
+            try
             {
-                try
+                var dt = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    var dt = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_ResultRpt_AppearedPassedStatistics";
-                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
-                        command.Parameters.AddWithValue("@ResultType", model.ResultType);
-                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
-                        command.Parameters.AddWithValue("@StreamID", model.StreamID);
-                        command.Parameters.AddWithValue("@Action", "Appeared-Passed-Statistics");
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dt = await command.FillAsync_DataTable();
-                    }
-                    return dt;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_ResultRpt_AppearedPassedStatistics";
+
+                    command.Parameters.AddWithValue("@Action", "Appeared-Passed-Statistics");
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                    command.Parameters.AddWithValue("@ResultType", model.ResultType);
+                    command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                    command.Parameters.AddWithValue("@StreamID", model.StreamID);
+                    command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dt = await command.FillAsync_DataTable();
                 }
-                catch (Exception ex)
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
 
@@ -3193,39 +3194,40 @@ namespace Kaushal_Darpan.Infra.Repositories
         #region "Donwload Branch Wise Statistics"
         public async Task<DataTable> DownloadBranchWiseStatistics(DownloadAppearedPassed model)
         {
-            _actionName = "GetStudentRollNoList(DownloadnRollNoModel model)";
-            return await Task.Run(async () =>
+            _actionName = "DownloadBranchWiseStatistics(DownloadAppearedPassed model)";
+            try
             {
-                try
+                var dt = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    var dt = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_ResultRpt_AppearedPassedStatistics";
-                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
-                        command.Parameters.AddWithValue("@ResultType", model.ResultType);
-                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dt = await command.FillAsync_DataTable();
-                    }
-                    return dt;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_ResultRpt_AppearedPassedStatistics";
+
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                    command.Parameters.AddWithValue("@ResultType", model.ResultType);
+                    command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                    command.Parameters.AddWithValue("@StreamID", model.StreamID);
+                    command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dt = await command.FillAsync_DataTable();
                 }
-                catch (Exception ex)
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
 
@@ -3234,39 +3236,38 @@ namespace Kaushal_Darpan.Infra.Repositories
         #region "Donwload Institute Branch Wise Statistics"
         public async Task<DataTable> DownloadInstituteBranchWiseStatisticsReport(DownloadAppearedPassed model)
         {
-            _actionName = "GetStudentRollNoList(DownloadnRollNoModel model)";
-            return await Task.Run(async () =>
+            _actionName = "DownloadInstituteBranchWiseStatisticsReport(DownloadAppearedPassed model)";
+            try
             {
-                try
+                var dt = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    var dt = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_ResultRpt_AppearedPassedStatistics";
-                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
-                        command.Parameters.AddWithValue("@ResultType", model.ResultType);
-                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dt = await command.FillAsync_DataTable();
-                    }
-                    return dt;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_ResultRpt_AppearedPassedStatistics";
+
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                    command.Parameters.AddWithValue("@ResultType", model.ResultType);
+                    command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dt = await command.FillAsync_DataTable();
                 }
-                catch (Exception ex)
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
 
@@ -6919,7 +6920,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                             //command.Parameters.AddWithValue("@MigrationType", filterModel.MigrationType);
                             command.Parameters.AddWithValue("@Action", filterModel.Action);
                         }
-                        else 
+                        else
                         if (filterModel.Action == "duplicate-diploma-report")
                         {
                             command.CommandText = "Usp_Bter_DuplicateCertificate_Download";
@@ -6927,20 +6928,20 @@ namespace Kaushal_Darpan.Infra.Repositories
                             command.Parameters.AddWithValue("@Action", filterModel.Action);
                         }
 
-                            //else if (filterModel.Action == "Cancel-Enrollment-migration-certificate-download")
-                            //{
-                            //    command.CommandText = "Usp_Bter_MigrationCertificate_Report";
-                            //    command.Parameters.AddWithValue("@MigrationType", filterModel.MigrationType);
-                            //    command.Parameters.AddWithValue("@Action", filterModel.Action);
-                            //}
-                            //else if (filterModel.Action == "certificate-letter")
-                            //{
-                            //    command.CommandText = "Usp_Bter_ProvisionalCertificate_Report";
-                            //    command.Parameters.AddWithValue("@Action", "provisional-certificate-download");
-                            //}
+                        //else if (filterModel.Action == "Cancel-Enrollment-migration-certificate-download")
+                        //{
+                        //    command.CommandText = "Usp_Bter_MigrationCertificate_Report";
+                        //    command.Parameters.AddWithValue("@MigrationType", filterModel.MigrationType);
+                        //    command.Parameters.AddWithValue("@Action", filterModel.Action);
+                        //}
+                        //else if (filterModel.Action == "certificate-letter")
+                        //{
+                        //    command.CommandText = "Usp_Bter_ProvisionalCertificate_Report";
+                        //    command.Parameters.AddWithValue("@Action", "provisional-certificate-download");
+                        //}
 
-                            // Add parameters to the stored procedure from the model
-                            //command.CommandText = "Usp_Bter_Diploma_Report1";
+                        // Add parameters to the stored procedure from the model
+                        //command.CommandText = "Usp_Bter_Diploma_Report1";
 
                         command.Parameters.AddWithValue("@InstituteID", filterModel.InstituteID);
                         command.Parameters.AddWithValue("@SemesterID", filterModel.SemesterID);
@@ -8531,7 +8532,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@TradeTypeID", model.TradeTypeID);
                         command.Parameters.AddWithValue("@TradeId", model.TradeId);
                         command.Parameters.AddWithValue("@CollegeId", model.CollegeId);
-                        command.Parameters.AddWithValue("@StatusID", model.StatusID);
+                        command.Parameters.AddWithValue("@StatusID", model.ReportingStatus);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
 
@@ -9563,8 +9564,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@RoleID", model.RoleID);
                         command.Parameters.AddWithValue("@UserID", model.UserID);
                         command.Parameters.AddWithValue("@Action", "_getMinimum_MaximumMarks_IA_Report");
-                       
-                        
+
+
                     }
                     else if (model.Type == 13)
                     {
@@ -9636,11 +9637,14 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "Usp_Bter_DownloadCertificateLetter";
                         //command.Parameters.AddWithValue("@Action", "certificate-letter-download");
+
                         command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
                         command.Parameters.AddWithValue("@ResultType", model.ExamTypeID);
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                         command.Parameters.AddWithValue("@Eng_NonEng", model.CourseTypeID);
+                        command.Parameters.AddWithValue("@EffectiveFromEndTermId", model.EffectiveFromEndTermId);
+
                         _sqlQuery = command.GetSqlExecutableQuery();
                         ds = await command.FillAsync();
                     }
@@ -9960,6 +9964,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
                     command.Parameters.AddWithValue("@ResultType", model.ResultType);
                     command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
+                    command.Parameters.AddWithValue("@StreamID", model.StreamID);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     ds = await command.FillAsync();
@@ -10078,7 +10083,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
-                  
+
                 }
                 return dataTable;
             }
@@ -10568,6 +10573,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
                     command.Parameters.AddWithValue("@ResultType", model.ResultType);
                     command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
+                    command.Parameters.AddWithValue("@StreamID", model.StreamID);
                     command.Parameters.AddWithValue("@EffectiveEndTermID", model.EffectiveFromEndTermId);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
@@ -10960,7 +10966,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@StaffID", model.StaffID);
                     command.Parameters.AddWithValue("@Action", model.Action);
                     command.Parameters.AddWithValue("@GuestReqID", model.GuestReqID);
-                    
+
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
                 }

@@ -391,6 +391,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Pincode", request.Pincode);
                         command.Parameters.AddWithValue("@StateID", request.StateID);
                         command.Parameters.AddWithValue("@DistrictID", request.DistrictID);
+                        command.Parameters.AddWithValue("@OfficeID", request.OfficeID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         result = await command.ExecuteNonQueryAsync();
@@ -2488,6 +2489,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@Dis_AcquiringQualificationCertificate", request.Dis_AcquiringQualificationCertificate);
                     command.Parameters.AddWithValue("@CompetentAuthorityOrder", request.CompetentAuthorityOrder);
                     command.Parameters.AddWithValue("@Dis_CompetentAuthorityOrder", request.Dis_CompetentAuthorityOrder);
+                    command.Parameters.AddWithValue("@PreQualificationCertificate", request.PreQualificationCertificate);
+                    command.Parameters.AddWithValue("@Dis_PreQualificationCertificate", request.Dis_PreQualificationCertificate);
 
                     command.Parameters.AddWithValue("@IPAddress", _IPAddress);
 

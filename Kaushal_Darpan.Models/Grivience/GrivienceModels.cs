@@ -25,6 +25,13 @@ namespace Kaushal_Darpan.Models.CompanyMaster
         public int CreatedBy { get; set; }
         public int RoleID { get; set; }
 
+        public string? CategoryName { get; set; }
+        public string? IssueTypeName { get; set; }
+        public int? IssueTypeID { get; set; }
+        public int? FeeForID { get; set; }
+        public int? UserID { get; set; }
+        public int? StudentID { get; set; }
+
     }
     
     public class GrivienceReopenModelsDataModel
@@ -50,6 +57,9 @@ namespace Kaushal_Darpan.Models.CompanyMaster
         public int StatusID { get; set; }
         public int ModifyBy { get; set; }
         public int CreatedBy { get; set; }
+        public int StudentID { get; set; }
+        public int UserID { get; set; }
+        public string? Action { get; set; }
 
     }
     public class GrivienceResponseDataModel
@@ -68,6 +78,16 @@ namespace Kaushal_Darpan.Models.CompanyMaster
         public bool DeleteStatus { get; set; }
         public string ComplainNo { get; set; }
          
+    }
+
+    public class GrievanceCommonDropdownDataModel
+    {
+        public string? Action { get; set; }
+        public int? DepartmentID { get; set; }
+        public int? Eng_NonEng { get; set; }
+        public int? UserID { get; set; }
+        public int? RoleID { get; set; }
+        public int? CategoryID { get; set; }
     }
 
 }

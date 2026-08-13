@@ -153,6 +153,7 @@ namespace Kaushal_Darpan.Models.Report
         public int TradeId { get; set; }
         public int CollegeId { get; set; }
         public int StatusID { get; set; }
+        public int ReportingStatus { get; set; }
         public string CollegeName { get; set; } = string.Empty;
     }
 
