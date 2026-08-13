@@ -239,7 +239,31 @@ namespace Kaushal_Darpan.Models.CommonModel
         public int? IsBridge { get; set; }
         public string? EnrollmentNo { get; set; }
     }
+    public class EmailTemplate
+    {
+        public int ID { get; set; }
+        public string TemplateCode { get; set; } = string.Empty;
+        public string TemplateName { get; set; } = string.Empty;
+        public string EmailSubject { get; set; } = string.Empty;
+        public string EmailBody { get; set; } = string.Empty;
+        public string? ToQuery { get; set; }
+        public string? CcQuery { get; set; }
+        public string? BccQuery { get; set; }
+        public string? DataQuery { get; set; }
+        public string? EmailAttachment { get; set; }
+        public bool IsHtml { get; set; }
+    }
 
+    public class EmailSettings
+    {
+        public string Host { get; set; } = string.Empty;
+        public int Port { get; set; }
+        public string UserName { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+        public bool EnableSsl { get; set; }
+        public string FromEmail { get; set; } = string.Empty;
+        public string FromName { get; set; } = string.Empty;
+    }
 
 
 }

@@ -4,6 +4,7 @@ using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.SMSConfigurationSetting;
 using Kaushal_Darpan.Models.Student;
 using System.Data;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Kaushal_Darpan.Infra.Repositories
 {
@@ -206,5 +207,76 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<DataTable> GetEmailTemplateByTemplateCode(string TemplateCode)
+        {
+            _actionName = "GetEmailTemplateByTemplateCode(string TemplateCode)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    var dt = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetEmailTemplate";
+                        command.Parameters.AddWithValue("@TemplateCode", TemplateCode);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dt = await command.FillAsync_DataTable();
+
+                    }
+
+                    return dt;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<DataTable> GetDynamicData(string SQLQuery)
+        {
+            _actionName = "GetEmailTemplateByTemplateCode(string TemplateCode)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    var dt = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "ExecuteStoredQuery";
+                        command.Parameters.AddWithValue("@SQL", SQLQuery);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dt = await command.FillAsync_DataTable();
+
+                    }
+
+                    return dt;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
     }
 }
