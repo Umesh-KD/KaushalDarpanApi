@@ -46,12 +46,19 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                     if (body.ResultTypeID == (int)EnumResultType.MainResult) // main and reval
                     {
-                        command.Parameters.AddWithValue("@action", "_getStuListForMarksheet");
+                        command.Parameters.AddWithValue("@action", "_getStuListForMarksheet_main");
                     }
-                    else if (body.ResultTypeID == (int)EnumResultType.RwhResult ||
-                                body.ResultTypeID == (int)EnumResultType.RwhRevalEffected)
+                    else if(body.ResultTypeID == (int)EnumResultType.RevaluationResult)
                     {
-                        command.Parameters.AddWithValue("@action", "_getRWHStuListForMarksheet");
+                        command.Parameters.AddWithValue("@action", "_getStuListForMarksheet_reval");
+                    }
+                    else if(body.ResultTypeID == (int)EnumResultType.RwhResult)
+                    {
+                        command.Parameters.AddWithValue("@action", "_getStuListForMarksheet_RWH");
+                    }
+                    else if (body.ResultTypeID == (int)EnumResultType.RwhRevalEffected)
+                    {
+                        command.Parameters.AddWithValue("@action", "_getRWHStuListForMarksheet_RWH_reval");
                     }
                     else if (body.ResultTypeID == (int)EnumResultType.Ufm)
                     {
@@ -244,6 +251,18 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetMarksheetData";
+                        if (model.ExamTypeID == 1)
+                        {
+                            command.CommandText = "USP_GetMarksheetData";
+                        }
+                        else if (model.ExamTypeID == 2) 
+                        {
+                            command.CommandText = "USP_GetMarksheetLetterData_AfterReval";
+                        }
+                        else
+                        {
+                            command.CommandText = "USP_GetMarksheetData";
+                        }
 
                         command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
                         command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
