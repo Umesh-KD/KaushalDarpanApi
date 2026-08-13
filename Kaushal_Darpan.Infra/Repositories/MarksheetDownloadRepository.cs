@@ -79,6 +79,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEngID);
                     command.Parameters.AddWithValue("@IsRevised", body.IsRevised);
                     command.Parameters.AddWithValue("@SchemeID", body.SchemeID);
+                    command.Parameters.AddWithValue("@EffectiveFromEndTermId", body.EffectiveFromEndTermId);
 
                     _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                     dataTable = await command.FillAsync_DataTable();
@@ -250,14 +251,24 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_GetMarksheetData";
-                        if (model.ExamTypeID == 1)
+                        //command.CommandText = "USP_GetMarksheetData";
+                        if (model.ExamTypeID == (int)EnumResultType.MainResult)
                         {
                             command.CommandText = "USP_GetMarksheetData";
                         }
-                        else if (model.ExamTypeID == 2) 
+                        else if (model.ExamTypeID == (int)EnumResultType.RevaluationResult) 
                         {
                             command.CommandText = "USP_GetMarksheetLetterData_AfterReval";
+                        }
+                        else if (model.ExamTypeID == (int)EnumResultType.RwhResult)
+                        {
+                            command.CommandText = "USP_GetMarksheetLetterData_RWH";
+                            command.Parameters.AddWithValue("@EffectiveFromEndTermId", model.EffectiveFromEndTermId);
+                        }
+                        else if (model.ExamTypeID == (int)EnumResultType.RwhRevalEffected)
+                        {
+                            command.CommandText = "USP_GetMarksheetLetterData_RWH_Reval";
+                            command.Parameters.AddWithValue("@EffectiveFromEndTermId", model.EffectiveFromEndTermId);
                         }
                         else
                         {

@@ -36,6 +36,7 @@
         public int? DocumentID { get; set; }
         public int? EffectiveEndTermID { get; set; }
         public int? SchemeID { get; set; }
+        public int? EffectiveFromEndTermId { get; set; }
 
     }
 
