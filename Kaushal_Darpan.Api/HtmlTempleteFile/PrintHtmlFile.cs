@@ -3027,12 +3027,14 @@ thead th{
 
 
                 #region div set according to dep. printer (set margin-top in pixel also in footer that you set in minus here)
-                int css_margintopfordept = 25;
+                int css_margintopfordept = 30;
                 // div set according to dep. printer (set margin-top in pixel also in footer that you set in minus here)
-                sb.AppendLine($"<div style='margin-top:{css_margintopfordept}px;'>");
+               sb.AppendLine($"<div style='margin-top:{css_margintopfordept}px;'>");
+               
                 // srn
-                sb.AppendLine("        <div style=\"text-align:right;font-size:16px; font-weight:bold; padding-right:0px;padding-top:25px; height:20px;\">");
-                sb.AppendLine($"            {dr_studet["ODNumber"]}");
+                //sb.AppendLine("        <div style=\"text-align:right;font-size:16px; font-weight:bold; padding-right:0px;padding-top:25px; height:20px;\">");
+                sb.AppendLine("        <div style=\"text-align:right;font-size:16px; font-weight:bold; padding-right:0px;padding-top:0px; height:40px; margin-top:0px; \">");
+                sb.AppendLine($"       <span style=\"font-size:14px; \">{dr_studet["RevalStatus"]}</span> <br> {dr_studet["ODNumber"]}");
                 sb.AppendLine("        </div>");
 
                 // session
