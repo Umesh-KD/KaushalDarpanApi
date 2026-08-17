@@ -251,28 +251,28 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        //command.CommandText = "USP_GetMarksheetData";
-                        if (model.ExamTypeID == (int)EnumResultType.MainResult)
-                        {
-                            command.CommandText = "USP_GetMarksheetData";
-                        }
-                        else if (model.ExamTypeID == (int)EnumResultType.RevaluationResult) 
+                        
+                        if (model.ExamTypeID == (int)EnumResultType.RevaluationResult) 
                         {
                             command.CommandText = "USP_GetMarksheetLetterData_AfterReval";
+                            command.Parameters.AddWithValue("@Action", "_getStuListMarksheetLetter_reval");
                         }
                         else if (model.ExamTypeID == (int)EnumResultType.RwhResult)
                         {
                             command.CommandText = "USP_GetMarksheetLetterData_RWH";
+                            command.Parameters.AddWithValue("@Action", "_getStuListMarksheetLetter_rwh");
                             command.Parameters.AddWithValue("@EffectiveFromEndTermId", model.EffectiveFromEndTermId);
                         }
                         else if (model.ExamTypeID == (int)EnumResultType.RwhRevalEffected)
                         {
                             command.CommandText = "USP_GetMarksheetLetterData_RWH_Reval";
+                            command.Parameters.AddWithValue("@Action", "_getStuListMarksheetLetter_rwh_reval");
                             command.Parameters.AddWithValue("@EffectiveFromEndTermId", model.EffectiveFromEndTermId);
                         }
                         else
                         {
                             command.CommandText = "USP_GetMarksheetData";
+                            command.Parameters.AddWithValue("@Action", "_getStuListMarksheetLetter_main");
                         }
 
                         command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
