@@ -6814,7 +6814,7 @@ body {
 
 <div class=""summary-row"">
     <div class=""summary-label"">
-        7. शेष गयी अंकतालिकाएं :
+        7. शेष बची अंकतालिकाएं :
     </div>
     <div class=""summary-value"">
         {remainingDisplay}
