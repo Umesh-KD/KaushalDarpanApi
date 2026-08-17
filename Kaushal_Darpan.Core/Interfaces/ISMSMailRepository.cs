@@ -12,7 +12,10 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetSMSTemplateByMessageType(string MessageType);
         Task<bool> UpdateUnsendSMSById(string AID, string response);
 
-       // Task<int> SendSMSForStudentEnrollmentData(List<ForSMSEnrollmentStudentMarkedModel> model);
+        // Task<int> SendSMSForStudentEnrollmentData(List<ForSMSEnrollmentStudentMarkedModel> model);
+        Task<DataTable> GetEmailTemplateByTemplateCode(string TemplateCode);
+
+        Task<DataTable> GetDynamicData(string DataQuery);
 
     }
 }

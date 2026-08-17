@@ -180,6 +180,7 @@ namespace Kaushal_Darpan.Models.Student
         public string? ApplicationNo { get; set; }
         public string? MobileNo { get; set; }
         public string? MessageType { get; set; }
+        public string? TemplateCode { get; set; }
 
         //public int? EndTermID { get; set; }
     }

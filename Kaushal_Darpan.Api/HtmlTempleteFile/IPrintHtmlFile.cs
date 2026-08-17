@@ -28,7 +28,11 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
 
 
         Task<StringBuilder> GetHtmlOfDiplomaCertificate(DiplomaCertificateDownloadSearchModel data);
+        Task<StringBuilder> GetHtmlOfMigrationCertificate(MigrationCertificateDownloadSearchModel data);
+        Task<StringBuilder> GetHtmlOfProvisionalCertificate(ProvisionalDiplomaCertificateDownloadSearchModel data);
 
         Task<StringBuilder> GetGuestHouseSlip_Html(DataSet dataSet, int ResultType);
+        Task<StringBuilder> GetTemporaryDiplomaCertificateHtml(DataSet ds);
+        Task<StringBuilder> GetMArksheetLetterhHtml(DataSet ds);
     }
 }

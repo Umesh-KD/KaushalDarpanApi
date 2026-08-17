@@ -120,6 +120,6 @@ namespace Kaushal_Darpan.Core.Helper
                  "Noto_Sans_Devanagari",
                  "NotoSansDevanagari-VariableFont_wdth,wght.ttf"
          );
-
+        public static string SMTPFromEmail => _configuration["SMTP:SMTPFromEmail"] ?? "";
     }
 }

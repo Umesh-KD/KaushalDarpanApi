@@ -1,15 +1,22 @@
 ﻿using AutoMapper;
+using DocumentFormat.OpenXml.Wordprocessing;
 using Kaushal_Darpan.Api.Email;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Models.ApplicationMessageModel;
+using Kaushal_Darpan.Models.CommonModel;
+
 
 //using Newtonsoft.Json;
 using Kaushal_Darpan.Models.SMSConfigurationSetting;
 using Kaushal_Darpan.Models.Student;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Org.BouncyCastle.Asn1.IsisMtt.X509;
 using System.Data;
+using System.Net;
+using System.Net.Mail;
+using System.Text.RegularExpressions;
 using static Kaushal_Darpan.Api.Controllers.IndustryInstitutePartnershipMasterController;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -70,7 +77,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
                     ReturnOTP = CommonFuncationHelper.SMS_GenerateNewRandom();
                     MessageBody = MessageBody.Replace("{#OTP#}", ReturnOTP);
-                    await CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, MobileNo, MessageBody, TempletID); 
+                    await CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, MobileNo, MessageBody, TempletID);
                 }
                 else
                 {
@@ -78,7 +85,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     MessageBody = MessageBody.Replace("{#OTP#}", ReturnOTP);
                     await CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, MobileNo, MessageBody, TempletID);
                 }
-                 //await _emailService.SendEmail(MessageBody, "ramraj.malav@devitpl.com");
+                //await _emailService.SendEmail(MessageBody, "ramraj.malav@devitpl.com");
                 result.Data = ReturnOTP;
                 if (result.Data != null)
                 {
@@ -114,7 +121,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("SendApplicationMessage")]
         public async Task<ApiResult<string>> SendApplicationMessage(ApplicationMessageDataModel request)
         {
-            string oldmessagetype = request.MessageType;          
+            string oldmessagetype = request.MessageType;
 
             ActionName = "SendApplicationMessage(ApplicationMessageDataModel request)";
 
@@ -163,16 +170,16 @@ namespace Kaushal_Darpan.Api.Controllers
                     foreach (DataRow row in AppDetails.Rows)
                     {
                         MessageBody = MessageBody.Replace("{#ApplicationNo#}", Convert.ToString(row["ApplicationNo"]))
-                        .Replace("{#Scheme#}", Convert.ToString(row["Scheme"]))                        
+                        .Replace("{#Scheme#}", Convert.ToString(row["Scheme"]))
                         .Replace("{#DepartmentName#}", Convert.ToString(row["PortalName"]))
                         .Replace("{#var#}", Convert.ToString(row["MessageRemarks"]));
                         try
                         {
                             var mobile = Convert.ToString(row["MobileNo"]);
-                            if(mobile != null)
+                            if (mobile != null)
                             {
                                 CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, mobile, MessageBody, TempletID);//add in que
-                            }                            
+                            }
                         }
                         catch
                         {
@@ -182,7 +189,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 else if (request.MessageType == EnumMessageType.Bter_NotifyCandidateApproveMerit.GetDescription())
                 {
                     //DataTable AppDetails = await _unitOfWork.BterApplicationRepository.GetDetailsbyApplicationNo(request.ApplicationDetails);
-                    
+
                     DataTable AppDetails = await _unitOfWork.iCorrectMeritRepository.GetApplicationDetails_ByMeritId(request.MeritId!.Value);
                     foreach (DataRow row in AppDetails.Rows)
                     {
@@ -225,7 +232,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 else if (request.MessageType == EnumMessageType.GuestHouseCheckIn.GetDescription())
                 {
-                  
+
                     //MessageBody = MessageBody.Replace("{#RoomNo#}", request.ApplicationNo.Replace("{#GuestHouseName#}", request.ApplicantName));
                     MessageBody = MessageBody.Replace("{#checkIn_CheckOut#}", request.CheckIn_CheckOut)
                         .Replace("{#RoomNo#}", request.ApplicationNo)
@@ -244,7 +251,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 else if (request.MessageType == EnumMessageType.GuestHouseAdminApprove.GetDescription())
                 {
-                  
+
                     MessageBody = MessageBody.Replace("{#room#}", request.ApplicationNo)
                         .Replace("{#GuestHouseName#}", request.ApplicantName)
                         .Replace("{#var#}", "")
@@ -254,7 +261,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 //Bter Placmeent SMS Service campus creatrion
                 else if (request.MessageType == EnumMessageType.Bter_CampusPostCreation.GetDescription())
                 {
-                  
+
                     MessageBody = MessageBody.Replace("{#ApplicantName#}", request.ApplicantName)
                         .Replace("{#CampusID#}", request.CampusID)
                         .Replace("{#var#}", "")
@@ -283,11 +290,11 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     MessageBody = MessageBody.Replace("{#EnrollmentNo#}", request.EnrollmentNo)
                         .Replace("{#CampusID#}", request.CampusID)
-                        .Replace("{#var#}", "")                 
+                        .Replace("{#var#}", "")
                         .Replace("{#RegNo#}", request.RegNo)
                         ;
                     await CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, request.MobileNo, MessageBody, TempletID);
-                   // await CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, "8003781633", MessageBody, TempletID);
+                    // await CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, "8003781633", MessageBody, TempletID);
                 }
                 //Bter Placmeent SMS Service CompanyHRApprove
                 else if (request.MessageType == EnumMessageType.Bter_ComapnyHRApprove.GetDescription())
@@ -296,7 +303,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         .Replace("{#ReferenceID#}", request.ReferenceID)
                         ;
                     await CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, request.MobileNo, MessageBody, TempletID);
-                   // await CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, "8003781633", MessageBody, TempletID);
+                    // await CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, "8003781633", MessageBody, TempletID);
 
                 }
                 else
@@ -358,8 +365,8 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
                     AID = item["AID"].ToString();
                     MessageBody = item["SMSText"].ToString();
-                   TempletID = item["TemplateID"].ToString();
-                   MobileNo = item["MobileNo"].ToString();
+                    TempletID = item["TemplateID"].ToString();
+                    MobileNo = item["MobileNo"].ToString();
                     try
                     {
                         string Response = await CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, MobileNo, MessageBody, TempletID);
@@ -574,7 +581,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             }
                             if (item.MessageType == EnumMessageType.Exam_Fee_Reminder.GetDescription())
                             {
-                                
+
 
                                 //MessageBody = MessageBody.Replace("{#ApplicationNo#}", Convert.ToString(item.StudentName))
                                 //   .Replace("{#Scheme#}", Convert.ToString(item.StudentName))
@@ -796,7 +803,438 @@ namespace Kaushal_Darpan.Api.Controllers
 
         }
 
+        [HttpPost("SendEmail")]
+        public async Task<ApiResult<bool>> SendEmail([FromBody] List<ForSMSEnrollmentStudentMarkedModel> request)
+        {
+            ActionName = "SendEmail([FromBody] List<ForSMSEnrollmentStudentMarkedModel> request)";
 
+            return await Task.Run(async () =>
+            {
+                EmailTemplate ObjET = new EmailTemplate();
+                var result = new ApiResult<bool>();
+                try
+                {
+                    DataTable dataTable = await _unitOfWork.SMSMailRepository.GetEmailTemplateByTemplateCode(request[0].TemplateCode!);
+
+                    try
+                    {
+                        if (dataTable.Rows.Count > 0)
+                        {
+                            if (dataTable.Rows.Count > 0)
+                            {
+                                ObjET.ID = Convert.ToInt16(dataTable.Rows[0]["ID"]);
+                                ObjET.TemplateName = dataTable.Rows[0]["TemplateName"].ToString()!;
+                                ObjET.EmailSubject = dataTable.Rows[0]["EmailSubject"].ToString()!;
+                                ObjET.EmailBody = dataTable.Rows[0]["EmailBody"].ToString()!;
+                                ObjET.ToQuery = dataTable.Rows[0]["ToQuery"].ToString();
+                                ObjET.CcQuery = dataTable.Rows[0]["CcQuery"].ToString();
+                                ObjET.BccQuery = dataTable.Rows[0]["BccQuery"].ToString();
+                                ObjET.DataQuery = Convert.ToString(dataTable.Rows[0]["DataQuery"]);
+                                ObjET.EmailAttachment = dataTable.Rows[0]["EmailAttachment"].ToString();
+                            }
+                        }
+                        else
+                        {
+                            result.State = EnumStatus.Warning;
+                            result.Message = "Email Template Not found.!";
+                        }
+
+                        DataTable InnerdataTable = await _unitOfWork.SMSMailRepository.GetDynamicData(ObjET.DataQuery!);
+
+                        EmailSettings OBJES = new EmailSettings();
+
+                        foreach (DataRow DR in InnerdataTable.Rows)
+                        {
+                            try
+                            {
+                                ObjET.EmailBody = ObjET.EmailBody;
+
+                                MailMessage message = new MailMessage(OBJES.FromEmail, DR["EmailId"].ToString()!, ObjET.EmailSubject, ObjET.EmailBody);
+                                message.IsBodyHtml = true;
+
+                                message.Attachments.Add(new Attachment("EmailAttachment"));
+                                SmtpClient smtp = new SmtpClient();
+                                NetworkCredential basicCredential = new NetworkCredential(OBJES.UserName, OBJES.Password);
+                                smtp.Host = OBJES.Host;
+                                smtp.Port = OBJES.Port;
+                                smtp.EnableSsl = OBJES.EnableSsl;
+                                smtp.UseDefaultCredentials = false;
+                                smtp.Credentials = basicCredential;
+                                smtp.Send(message);
+                            }
+                            catch { }
+
+                        }
+
+                    }
+                    catch { }
+
+
+                    //result.Data = ReturnOTP;
+
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+
+                if (result.Data != null)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "Data load successfully .!";
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = "No record found.!";
+                }
+                return result;
+
+            });
+
+        }
+
+        [HttpPost("SendEmail_New")]
+        public async Task<ApiResult<bool>> SendEmail_New([FromBody] List<ForSMSEnrollmentStudentMarkedModel> request)
+        {
+            ActionName = "SendEmail([FromBody] List<ForSMSEnrollmentStudentMarkedModel> request)";
+
+            var result = new ApiResult<bool>();
+
+            try
+            {
+                if (request == null || request.Count == 0)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = "Request data not found.";
+                    return result;
+                }
+
+                // ============================================================
+                // 1. Get Email Template
+                // ============================================================
+
+                EmailTemplate ObjET = new EmailTemplate();
+
+                DataTable templateTable =
+                    await _unitOfWork.SMSMailRepository
+                        .GetEmailTemplateByTemplateCode(
+                            request[0].TemplateCode!);
+
+                if (templateTable == null || templateTable.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = "Email Template Not found.!";
+                    return result;
+                }
+
+                DataRow templateRow = templateTable.Rows[0];
+
+                ObjET.ID = Convert.ToInt32(templateRow["ID"]);
+
+                ObjET.TemplateName = Convert.ToString(templateRow["TemplateName"]) ?? "";
+                ObjET.EmailSubject = Convert.ToString(templateRow["EmailSubject"]) ?? "";
+                ObjET.EmailBody = Convert.ToString(templateRow["EmailBody"]) ?? "";
+                ObjET.ToQuery = Convert.ToString(templateRow["ToQuery"]) ?? "";
+                ObjET.CcQuery = Convert.ToString(templateRow["CcQuery"]) ?? "";
+                ObjET.BccQuery = Convert.ToString(templateRow["BccQuery"]) ?? "";
+                ObjET.DataQuery = Convert.ToString(templateRow["DataQuery"]) ?? "";
+                ObjET.EmailAttachment = Convert.ToString(templateRow["EmailAttachment"]) ?? "";
+
+                // ============================================================
+                // 2. Get Dynamic Data From DB
+                // ============================================================
+
+                DataTable dynamicDataTable =
+                    await _unitOfWork.SMSMailRepository
+                        .GetDynamicData(ObjET.DataQuery);
+
+
+                // ============================================================
+                // 3. Email Settings
+                // ============================================================
+
+                EmailSettings OBJES = new EmailSettings
+                {
+                    Host = ConfigurationHelper.SMTPHost,
+                    Port = ConfigurationHelper.SMTPPort,
+                    UserName = ConfigurationHelper.SMTPUsername,
+                    Password = ConfigurationHelper.SMTPPassword,
+                    EnableSsl = ConfigurationHelper.EnableSsl,
+                    FromEmail = ConfigurationHelper.SMTPFromEmail
+                };
+
+
+                // ============================================================
+                // 4. Send Email For Each Request
+                // ============================================================
+
+                foreach (var item in request)
+                {
+                    try
+                    {
+                        // ----------------------------------------------------
+                        // IMPORTANT:
+                        // Always use original template body
+                        // ----------------------------------------------------
+
+                        string emailBody = ObjET.EmailBody;
+                        string emailSubject = ObjET.EmailSubject;
+
+
+                        // ----------------------------------------------------
+                        // Replace Dynamic DB Values
+                        // ----------------------------------------------------
+
+                        if (dynamicDataTable != null &&
+                            dynamicDataTable.Rows.Count > 0)
+                        {
+                            //DataRow dataRow = dynamicDataTable.Rows[0];
+                            foreach (DataRow DR in dynamicDataTable.Rows)
+                            {
+                                foreach (DataColumn column in dynamicDataTable.Columns)
+                                {
+                                    string columnName = column.ColumnName;
+
+                                    string value =
+                                        Convert.ToString(
+                                            DR[column]) ?? "";
+
+                                    emailBody = emailBody.Replace(
+                                        "{{" + columnName + "}}",
+                                        value);
+
+                                    emailSubject = emailSubject.Replace(
+                                        "{{" + columnName + "}}",
+                                        value);
+                                }
+                                // ====================================================
+                                // 5. Get To / CC / BCC
+                                // ====================================================
+
+                                string toEmail = "";
+                                string ccEmail = "";
+                                string bccEmail = "";
+
+                                if (!string.IsNullOrWhiteSpace(DR["Email"].ToString()))
+                                {
+                                    toEmail = Convert.ToString(DR["Email"]) ?? "";
+                                }
+
+                                if (!string.IsNullOrWhiteSpace(ObjET.CcQuery))
+                                {
+                                    ccEmail = Convert.ToString(ObjET.CcQuery);
+                                }
+
+                                if (!string.IsNullOrWhiteSpace(ObjET.BccQuery))
+                                {
+                                    bccEmail = Convert.ToString(ObjET.BccQuery);
+                                }
+
+
+                                // ====================================================
+                                // 6. If To Email Not Found
+                                // ====================================================
+
+                                if (string.IsNullOrWhiteSpace(toEmail))
+                                {
+                                    continue;
+                                }
+
+
+                                // ====================================================
+                                // 7. Create Mail
+                                // ====================================================
+
+                                using (MailMessage message = new MailMessage())
+                                {
+                                    message.From =
+                                        new MailAddress(
+                                            OBJES.FromEmail);
+
+                                    message.Subject = emailSubject;
+                                    message.Body = emailBody;
+                                    message.IsBodyHtml = true;
+
+
+                                    // ------------------------------------------------
+                                    // TO
+                                    // ------------------------------------------------
+
+                                    AddEmails( message.To, toEmail);
+
+
+                                    // ------------------------------------------------
+                                    // CC
+                                    // ------------------------------------------------
+
+                                    AddEmails( message.CC, ccEmail);
+
+                                    // ------------------------------------------------
+                                    // BCC
+                                    // ------------------------------------------------
+
+                                    AddEmails( message.Bcc, bccEmail);
+
+                                    // =================================================
+                                    // 8. Attachment
+                                    // =================================================
+
+                                    if (!string.IsNullOrWhiteSpace(
+                                        ObjET.EmailAttachment))
+                                    {
+                                        string attachmentPath =
+                                            ObjET.EmailAttachment;
+
+                                        // Check file
+                                        if (System.IO.File.Exists(attachmentPath))
+                                        {
+                                            message.Attachments.Add(
+                                                new Attachment(attachmentPath));
+                                        }
+                                    }
+
+
+                                    // =================================================
+                                    // 9. SMTP
+                                    // =================================================
+
+                                    using (SmtpClient smtp =
+                                           new SmtpClient())
+                                    {
+                                        smtp.Host = OBJES.Host;
+                                        smtp.Port = OBJES.Port;
+                                        smtp.EnableSsl = OBJES.EnableSsl;
+                                        smtp.UseDefaultCredentials = false;
+
+                                        smtp.Credentials =
+                                            new NetworkCredential(
+                                                OBJES.UserName,
+                                                OBJES.Password);
+
+                                       //var k= await smtp.SendMailAsync(message);
+
+                                        try
+                                        {
+                                            await smtp.SendMailAsync(message);
+
+                                            // ============================================================
+                                            // 10. Success
+                                            // ============================================================
+
+                                            result.Data = true;
+                                            result.State = EnumStatus.Success;
+                                            result.Message = "Email sent successfully.!";
+
+
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            // ============================================================
+                                            // 10. Success
+                                            // ============================================================
+
+                                            result.State = EnumStatus.Error;
+                                            result.ErrorMessage = ex.Message;
+
+                                        }
+
+                                    }
+                                }
+
+                            }
+
+                        }
+
+                    }
+                    catch (Exception emailEx)
+                    {
+                        // Don't hide email error
+                        var nex = new NewException
+                        {
+                            PageName = PageName,
+                            ActionName = ActionName,
+                            Ex = emailEx
+                        };
+
+                        await CreateErrorLog(
+                            nex,
+                            _unitOfWork);
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex
+                };
+
+                await CreateErrorLog(
+                    nex,
+                    _unitOfWork);
+
+                return result;
+            }
+        }
+        private string ReplaceVariables(string text, Dictionary<string, object> data)
+        {
+            if (string.IsNullOrEmpty(text))
+                return text;
+
+            return Regex.Replace(
+                text,
+                @"\{\{(.*?)\}\}",
+                match =>
+                {
+                    string key = match.Groups[1]
+                        .Value
+                        .Trim();
+
+                    return data.TryGetValue(key, out var value)
+                        ? value?.ToString() ?? ""
+                        : match.Value;
+                });
+        }
+
+        private void AddEmails(MailAddressCollection collection, string? emails)
+        {
+            if (string.IsNullOrWhiteSpace(emails))
+                return;
+
+            string[] emailList = emails
+                .Split(
+                    new[] { ';', ',' },
+                    StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (string email in emailList)
+            {
+                string value = email.Trim();
+
+                if (!string.IsNullOrWhiteSpace(value))
+                {
+                    collection.Add(
+                        new MailAddress(value));
+                }
+            }
+        }
 
     }
 }
