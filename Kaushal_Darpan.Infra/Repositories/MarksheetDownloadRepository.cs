@@ -578,12 +578,19 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                     if (body.ResultTypeID == (int)EnumResultType.MainResult) // main and reval
                     {
-                        command.Parameters.AddWithValue("@action", "_getStuListForFinalDiploma");
+                        command.Parameters.AddWithValue("@action", "_getStuListForFinalDiploma_main");
                     }
-                    else if (body.ResultTypeID == (int)EnumResultType.RwhResult ||
-                                body.ResultTypeID == (int)EnumResultType.RwhRevalEffected)
+                    else if (body.ResultTypeID == (int)EnumResultType.RevaluationResult)// after reval
                     {
-                        command.Parameters.AddWithValue("@action", "_getRWHStuListForFinalDiploma");
+                        command.Parameters.AddWithValue("@action", "_getStuListForFinalDiploma_reval");
+                    }
+                    else if (body.ResultTypeID == (int)EnumResultType.RwhResult)
+                    {
+                        command.Parameters.AddWithValue("@action", "_getStuListForFinalDiploma_rwh");
+                    }
+                    else if (body.ResultTypeID == (int)EnumResultType.RwhRevalEffected)
+                    {
+                        command.Parameters.AddWithValue("@action", "_getStuListForFinalDiploma_rwh_reval");
                     }
                     else if (body.ResultTypeID == (int)EnumResultType.Ufm)
                     {
@@ -605,6 +612,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@IsRevised", body.IsRevised);
                     command.Parameters.AddWithValue("@SchemeID", body.SchemeID);
                     command.Parameters.AddWithValue("@EnrollmentNo", body.EnrollmentNo);
+                    command.Parameters.AddWithValue("@EffectiveFromEndTermId", body.EffectiveFromEndTermId);
 
                     _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                     dataTable = await command.FillAsync_DataTable();
@@ -734,6 +742,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@IsRevised", body.IsRevised);
                     command.Parameters.AddWithValue("@SchemeID", body.SchemeID);
                     command.Parameters.AddWithValue("@EnrollmentNo", body.EnrollmentNo);
+                    command.Parameters.AddWithValue("@EffectiveFromEndTermId", body.EffectiveFromEndTermId);
 
                     _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                     dataTable = await command.FillAsync_DataTable();
