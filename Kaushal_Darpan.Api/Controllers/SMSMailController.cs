@@ -1145,11 +1145,25 @@ namespace Kaushal_Darpan.Api.Controllers
                                         {
                                             await smtp.SendMailAsync(message);
 
-                                        
+                                            // ============================================================
+                                            // 10. Success
+                                            // ============================================================
+
+                                            result.Data = true;
+                                            result.State = EnumStatus.Success;
+                                            result.Message = "Email sent successfully.!";
+
+
                                         }
                                         catch (Exception ex)
                                         {
-                                           
+                                            // ============================================================
+                                            // 10. Success
+                                            // ============================================================
+
+                                            result.State = EnumStatus.Error;
+                                            result.ErrorMessage = ex.Message;
+
                                         }
 
                                     }
@@ -1175,15 +1189,6 @@ namespace Kaushal_Darpan.Api.Controllers
                             _unitOfWork);
                     }
                 }
-
-
-                // ============================================================
-                // 10. Success
-                // ============================================================
-
-                result.Data = true;
-                result.State = EnumStatus.Success;
-                result.Message = "Email sent successfully.!";
 
                 return result;
             }
