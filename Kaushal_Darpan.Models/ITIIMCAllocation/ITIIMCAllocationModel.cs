@@ -19,6 +19,8 @@
         public string AllotedCategory { get; set; }
         public string SeatMetrixColumn { get; set; }
         public string OpenCategory { get; set; }
+        public string? AadharNo { get; set; }
+        public int? Gender { get; set; }
     }
     public class ITIIMCAllocationSearchModel
     {

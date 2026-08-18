@@ -487,5 +487,48 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
+        [HttpPost("UpdateAllotmentDetails")]
+        public async Task<ApiResult<DataTable>> UpdateAllotmentDetails([FromBody] ITIIMCAllocationDataModel request)
+        {
+            ActionName = "UpdateAllotmentDetails([FromBody])";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<DataTable>();
+                try
+                {
+                    result.Data = await _unitOfWork.ITIIMCAllocationRepository.UpdateAllotmentDetails(request);
+                    await _unitOfWork.SaveChangesAsync();
+                    if (result.Data.Rows.Count > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = "Data updating Successfull .!";
+
+                    }
+                    else if (result.Data.Rows.Count == 0)
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = "There was an error updating data.!";
+
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+
     }
 }
