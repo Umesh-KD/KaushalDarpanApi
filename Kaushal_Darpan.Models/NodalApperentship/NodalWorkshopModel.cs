@@ -285,6 +285,16 @@ namespace Kaushal_Darpan.Models.NodalApperentship
         public int FinancialYearID { get; set; }
         public string Action { get; set; }
     }
+    public class ITI_DynamicReport
+    {
 
+        public int AcedemicYearID { get; set; }
+        public Boolean ShowManagementType { get; set; }
+        public Boolean ShowTradeDuration { get; set; }
+        public Boolean ShowTradeLevel { get; set; }
+        public Boolean ShowTradeScheme { get; set; }
+        public Boolean FilterByAllotmentType { get; set; }
+
+    }
 
 }

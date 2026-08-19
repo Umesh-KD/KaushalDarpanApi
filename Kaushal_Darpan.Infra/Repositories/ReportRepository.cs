@@ -11024,5 +11024,43 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
         #endregion
+            
+        public async Task<DataTable> getITIDynamicReport(ITI_DynamicReport model)
+        {
+            _actionName = "GetITI_FinalReport(ITI_FinalReportModule model)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "Usp_GetStudetnReports_AllotmentWisedybnamic";
+                    command.Parameters.AddWithValue("@AcedemicYearID", model.AcedemicYearID);
+                    command.Parameters.AddWithValue("@ShowTradeLevel", model.ShowTradeLevel);
+                    command.Parameters.AddWithValue("@ShowTradeScheme", model.ShowTradeScheme);
+                    command.Parameters.AddWithValue("@ShowManagementType", model.ShowManagementType);
+                    command.Parameters.AddWithValue("@ShowTradeDuration", model.ShowTradeDuration);
+                    command.Parameters.AddWithValue("@FilterByAllotmentType", model.FilterByAllotmentType);
+       
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
     }
 }
