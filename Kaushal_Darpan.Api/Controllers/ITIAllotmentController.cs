@@ -1761,7 +1761,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                         sb.Append($@"
         <div style='margin-top:3px;'>&nbsp;</div>
-        <b style='font-size:15px;'>  {tradeGroup.Key.BranchName}  (Shift: {tradeGroup.Key.Shift} Unit: {tradeGroup.Key.UnitNo} ) </b>
+        <b style='font-size:15px;'>  {tradeGroup.Key.BranchName}  (Shift: {tradeGroup.Key.Shift} Unit: {tradeGroup.Key.UnitNo}) </b>
 
 
         <table cellpadding='2' cellspacing='0'>
