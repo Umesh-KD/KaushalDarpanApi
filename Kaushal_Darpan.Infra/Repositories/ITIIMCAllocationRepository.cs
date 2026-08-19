@@ -415,6 +415,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ApplicationId", body.ApplicationID);
                         command.Parameters.AddWithValue("@AadharNo", body.AadharNo);
                         command.Parameters.AddWithValue("@Gender", body.Gender);
+                        command.Parameters.AddWithValue("@CategoryID", body.CategoryID);
                         command.Parameters.AddWithValue("@Action", "UpdateAllotmentDetails");
 
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
