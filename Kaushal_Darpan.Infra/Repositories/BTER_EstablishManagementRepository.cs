@@ -2491,6 +2491,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@Dis_CompetentAuthorityOrder", request.Dis_CompetentAuthorityOrder);
                     command.Parameters.AddWithValue("@PreQualificationCertificate", request.PreQualificationCertificate);
                     command.Parameters.AddWithValue("@Dis_PreQualificationCertificate", request.Dis_PreQualificationCertificate);
+                    command.Parameters.AddWithValue("@ObtainedDivisionID", request.ObtainedDivisionID);
 
                     command.Parameters.AddWithValue("@IPAddress", _IPAddress);
 

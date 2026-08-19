@@ -251,28 +251,28 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        //command.CommandText = "USP_GetMarksheetData";
-                        if (model.ExamTypeID == (int)EnumResultType.MainResult)
-                        {
-                            command.CommandText = "USP_GetMarksheetData";
-                        }
-                        else if (model.ExamTypeID == (int)EnumResultType.RevaluationResult) 
+                        
+                        if (model.ExamTypeID == (int)EnumResultType.RevaluationResult) 
                         {
                             command.CommandText = "USP_GetMarksheetLetterData_AfterReval";
+                            command.Parameters.AddWithValue("@Action", "_getStuListMarksheetLetter_reval");
                         }
                         else if (model.ExamTypeID == (int)EnumResultType.RwhResult)
                         {
                             command.CommandText = "USP_GetMarksheetLetterData_RWH";
+                            command.Parameters.AddWithValue("@Action", "_getStuListMarksheetLetter_rwh");
                             command.Parameters.AddWithValue("@EffectiveFromEndTermId", model.EffectiveFromEndTermId);
                         }
                         else if (model.ExamTypeID == (int)EnumResultType.RwhRevalEffected)
                         {
                             command.CommandText = "USP_GetMarksheetLetterData_RWH_Reval";
+                            command.Parameters.AddWithValue("@Action", "_getStuListMarksheetLetter_rwh_reval");
                             command.Parameters.AddWithValue("@EffectiveFromEndTermId", model.EffectiveFromEndTermId);
                         }
                         else
                         {
                             command.CommandText = "USP_GetMarksheetData";
+                            command.Parameters.AddWithValue("@Action", "_getStuListMarksheetLetter_main");
                         }
 
                         command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
@@ -578,12 +578,19 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                     if (body.ResultTypeID == (int)EnumResultType.MainResult) // main and reval
                     {
-                        command.Parameters.AddWithValue("@action", "_getStuListForFinalDiploma");
+                        command.Parameters.AddWithValue("@action", "_getStuListForFinalDiploma_main");
                     }
-                    else if (body.ResultTypeID == (int)EnumResultType.RwhResult ||
-                                body.ResultTypeID == (int)EnumResultType.RwhRevalEffected)
+                    else if (body.ResultTypeID == (int)EnumResultType.RevaluationResult)// after reval
                     {
-                        command.Parameters.AddWithValue("@action", "_getRWHStuListForFinalDiploma");
+                        command.Parameters.AddWithValue("@action", "_getStuListForFinalDiploma_reval");
+                    }
+                    else if (body.ResultTypeID == (int)EnumResultType.RwhResult)
+                    {
+                        command.Parameters.AddWithValue("@action", "_getStuListForFinalDiploma_rwh");
+                    }
+                    else if (body.ResultTypeID == (int)EnumResultType.RwhRevalEffected)
+                    {
+                        command.Parameters.AddWithValue("@action", "_getStuListForFinalDiploma_rwh_reval");
                     }
                     else if (body.ResultTypeID == (int)EnumResultType.Ufm)
                     {
@@ -605,6 +612,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@IsRevised", body.IsRevised);
                     command.Parameters.AddWithValue("@SchemeID", body.SchemeID);
                     command.Parameters.AddWithValue("@EnrollmentNo", body.EnrollmentNo);
+                    command.Parameters.AddWithValue("@EffectiveFromEndTermId", body.EffectiveFromEndTermId);
 
                     _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                     dataTable = await command.FillAsync_DataTable();
@@ -734,6 +742,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@IsRevised", body.IsRevised);
                     command.Parameters.AddWithValue("@SchemeID", body.SchemeID);
                     command.Parameters.AddWithValue("@EnrollmentNo", body.EnrollmentNo);
+                    command.Parameters.AddWithValue("@EffectiveFromEndTermId", body.EffectiveFromEndTermId);
 
                     _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                     dataTable = await command.FillAsync_DataTable();

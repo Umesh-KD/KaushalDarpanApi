@@ -22,5 +22,6 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<DataSet> GetIMCStudentDetails(ITIIMCAllocationSearchModel body);
         Task<DataTable> UpdateMobile(ITIIMCAllocationSearchModel body);
+        Task<DataTable> UpdateAllotmentDetails(ITIIMCAllocationDataModel body);
     }
 }

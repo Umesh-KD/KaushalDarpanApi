@@ -91,8 +91,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetStudentsJoiningStatusMarks";
-
-
                         command.Parameters.AddWithValue("@AllotmentId", body.AllotmentId);
                         command.Parameters.AddWithValue("@AllotmentMasterId", body.AllotmentMasterId);
                         command.Parameters.AddWithValue("@ApplicationID", body.ApplicationID);
@@ -103,13 +101,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ReportingStatus", body.ReportingStatus);
                         command.Parameters.AddWithValue("@AcademicYearID", body.FinancialYearID);
                         command.Parameters.AddWithValue("@TradeCode", body.TradeCode);
-
-
                         command.Parameters.AddWithValue("@PageNumber", body.PageNumber);
                         command.Parameters.AddWithValue("@PageSize", body.PageSize);
-
-                        command.Parameters.AddWithValue("@Action", "UpgradedbyUpward");
-
+                        command.Parameters.AddWithValue("@Action", string.IsNullOrEmpty(body.ActionName)? "UpgradedbyUpward" : body.ActionName);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
                     }

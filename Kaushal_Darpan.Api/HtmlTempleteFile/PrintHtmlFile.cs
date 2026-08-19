@@ -6046,5 +6046,884 @@ body {
             }
         }
         #endregion
+
+        #region Marksheet letter
+
+        public async Task<StringBuilder> GetMArksheetLetterhHtml(DataSet ds)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            try
+            {
+                // =========================================================
+                // VALIDATION
+                // =========================================================
+
+                if (ds == null || ds.Tables.Count < 3)
+                    return sb;
+
+                DataTable dtHeader = ds.Tables[0];
+                DataTable dtBranch = ds.Tables[1];
+                DataTable dtSummary = ds.Tables[2];
+
+                if (dtHeader == null || dtHeader.Rows.Count == 0)
+                    return sb;
+
+                // =========================================================
+                // HELPER METHODS
+                // =========================================================
+
+                string GetValue(DataRow row, string columnName)
+                {
+                    if (row == null || !row.Table.Columns.Contains(columnName))
+                        return "";
+
+                    return row[columnName] == DBNull.Value
+                        ? ""
+                        : row[columnName]?.ToString()?.Trim() ?? "";
+                }
+
+                int GetIntValue(DataRow row, string columnName)
+                {
+                    if (row == null || !row.Table.Columns.Contains(columnName))
+                        return 0;
+
+                    if (row[columnName] == DBNull.Value)
+                        return 0;
+
+                    int.TryParse(row[columnName]?.ToString(), out int value);
+
+                    return value;
+                }
+
+                string Encode(string value)
+                {
+                    return System.Net.WebUtility.HtmlEncode(value ?? "");
+                }
+
+                // =========================================================
+                // TABLE 0 - HEADER DATA
+                // =========================================================
+
+                DataRow header = dtHeader.Rows[0];
+
+                string registrationNo = GetValue(header, "RegistrationNo");
+                string reportDate = GetValue(header, "Date");
+                string instituteName = GetValue(header, "InstituteName");
+                string instituteCode = GetValue(header, "InstituteCode");
+                string YearSemesterNameHindi = GetValue(header, "YearSemesterNameHindi");
+                string CourseTypeNameHindi = GetValue(header, "CourseTypeNameHindi");
+
+                string subject = GetValue(header, "Subject");
+
+                if (string.IsNullOrEmpty(subject))
+                {
+                    subject = "मूल अंकतालिकाएं भिजवाने बाबत |";
+                }
+
+                string endTermHindi = GetValue(header, "EndTermHindi");
+                string financialYearName = GetValue(header, "FinancialYearName");
+                string yearName = GetValue(header, "YearName");
+                string semesterName = GetValue(header, "SemesterName");
+
+                // =========================================================
+                // TABLE 2 - SUMMARY DATA
+                // =========================================================
+
+                int ufmCount = 0;
+                int courtCaseCount = 0;
+                int detainedCount = 0;
+                int leftCount = 0;
+                int rwhCount = 0;
+                int previousRwhCount = 0;
+                int remainingCount = 0;
+                int notSentCount = 0;
+                int sentCount = 0;
+
+                string ufmRollNumbers = "";
+                string RWHRollNo = "";
+
+                if (dtSummary != null && dtSummary.Rows.Count > 0)
+                {
+                    DataRow summary = dtSummary.Rows[0];
+
+                    ufmCount = GetIntValue(summary, "UFMCount");
+                    courtCaseCount = GetIntValue(summary, "CourtCaseCount");
+                    detainedCount = GetIntValue(summary, "DetainCount");
+                    leftCount = GetIntValue(summary, "LeftCount");
+                    rwhCount = GetIntValue(summary, "RWHCount");
+                    previousRwhCount = GetIntValue(summary, "RWH_PrevYearNotClearCount");
+                    remainingCount = GetIntValue(summary, "Remaining");
+                    notSentCount = GetIntValue(summary, "NotDispatched");
+                    sentCount = GetIntValue(summary, "TotalDispatched");
+
+                    ufmRollNumbers = GetValue(summary, "UFMRollNumbers");
+                    RWHRollNo = GetValue(summary, "RWHRollNo");
+
+                }
+
+                // =========================================================
+                // HTML START
+                // =========================================================
+
+                sb.Append(@"
+<!DOCTYPE html>
+<html lang=""hi"">
+
+<head>
+
+<meta charset=""UTF-8"">
+<meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+
+<title>अंकतालिकाएं - राजकीय पॉलिटेक्निक कॉलेज</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 20px;
+    background: #eee;
+    color: #111;
+    font-family: Arial, ""Noto Sans Devanagari"", ""Mangal"", sans-serif;
+}
+
+.page {
+    width: 794px;
+    min-height: 1123px;
+    margin: 0 auto;
+    padding: 28px 40px 25px;
+    background: #fff;
+    border: 1px solid #bbb;
+    font-size: 14px;
+    line-height: 1.45;
+}
+
+/* Header */
+
+.top-right {
+    text-align: right;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.govt {
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+    margin-top: 0;
+}
+
+.department {
+    text-align: center;
+    font-size: 21px;
+    font-weight: 700;
+    margin-top: 3px;
+}
+
+.header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 7px;
+}
+
+.letter-no {
+    font-weight: bold;
+}
+
+.date-code {
+    text-align: right;
+    font-weight: bold;
+    line-height: 1.7;
+}
+
+.code {
+    font-size: 17px;
+    margin-top: 4px;
+}
+
+.code span {
+    border-bottom: 2px solid #111;
+    padding-bottom: 1px;
+}
+
+.college {
+    margin-top: 5px;
+    font-weight: bold;
+    line-height: 1.45;
+}
+
+.subject {
+    font-weight: bold;
+    margin-top: 7px;
+}
+
+/* Letter */
+
+.letter-body {
+    margin-top: 15px;
+}
+
+.salutation {
+    font-weight: bold;
+    margin-bottom: 3px;
+}
+
+.intro {
+    text-align: justify;
+    font-weight: 600;
+    margin: 0;
+    text-indent: 30px;
+}
+
+/* Table */
+
+.result-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 17px;
+    font-size: 13px;
+}
+
+.result-table th,
+.result-table td {
+    border: 1px solid #222;
+    padding: 5px 7px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.result-table th {
+    font-weight: bold;
+    background: #fff;
+}
+
+.result-table .branch {
+    width: 10%;
+}
+
+.result-table .regular {
+    width: 30%;
+}
+
+.result-table .yog {
+    width: 8%;
+}
+
+.result-table .external {
+    width: 30%;
+}
+
+.result-table .external-yog {
+    width: 8%;
+}
+
+.result-table .total {
+    width: 14%;
+}
+
+.grand-total td {
+    font-weight: bold;
+    height: 32px;
+}
+
+.grand-total td:first-child {
+    text-align: right;
+    padding-right: 15px;
+}
+
+/* Note */
+
+.note {
+    margin-top: 22px;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+/* Summary */
+
+.summary {
+    margin-top: 8px;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.summary {
+    margin-top: 8px;
+    font-weight: bold;
+    font-size: 13px;
+    width: 100%;
+}
+
+.summary-row {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    min-height: 28px;
+}
+
+.summary-label {
+    display: table-cell;
+    width: calc(100% - 85px);
+    text-align: left;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.summary-value {
+    display: table-cell;
+    width: 85px;
+    text-align: right;
+    vertical-align: middle;
+    font-size: 14px;
+    font-weight: bold;
+    white-space: nowrap;
+    padding-bottom: 2px;
+}
+
+.summary-row.indent .summary-label {
+    padding-left: 15px;
+}
+
+.summary-row.final {
+    margin-top: 1px;
+}
+
+.summary-row.final .summary-value {
+    padding-top: 4px;
+}
+
+.attachment {
+    margin-top: 18px;
+    font-weight: bold;
+}
+
+.summary-final {
+    width: 100%;
+    margin-top: 8px;
+}
+
+.summary-final-row {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    min-height: 32px;
+}
+
+.summary-final-label {
+    display: table-cell;
+    width: calc(100% - 85px);
+    text-align: right;
+    vertical-align: middle;
+    padding-right: 8px;
+    font-weight: bold;
+}
+
+.summary-final-value {
+    display: table-cell;
+    width: 85px;
+    text-align: right;
+    vertical-align: middle;
+    border-bottom: 1px solid #111;
+    padding-bottom: 3px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Signature */
+
+.signature {
+    margin-top: 28px;
+    text-align: right;
+    font-weight: bold;
+    padding-right: 25px;
+}
+
+.signature-title {
+    margin-top: 20px;
+}
+
+/* Print */
+
+/* =========================================================
+   RWH ROLL NUMBER PAGE
+   ========================================================= */
+
+.rwh-page {
+    width: 100%;
+    min-height: 100%;
+    page-break-before: always;
+    padding-top: 20px;
+}
+
+.rwh-title {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.rwh-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.rwh-table th,
+.rwh-table td {
+    border: 1px solid #222;
+    padding: 6px 8px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.rwh-table th {
+    font-weight: bold;
+}
+
+.rwh-sno {
+    width: 70px;
+}
+
+.rwh-roll {
+    width: auto;
+}
+
+@media print {
+
+    body {
+        padding: 0;
+        background: white;
+    }
+
+    .page {
+        width: 210mm;
+        min-height: 297mm;
+        margin: 0;
+        border: none;
+        padding: 7mm 10.5mm 7mm;
+    }
+
+    @page {
+        size: A4;
+        margin: 0;
+    }
+}
+
+@media (max-width: 850px) {
+
+    body {
+        padding: 0;
+    }
+
+    .page {
+        width: 100%;
+        min-height: auto;
+        border: none;
+    }
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class=""page"">
+
+<div class=""top-right"">
+    रजिस्टर्ड
+</div>
+
+<div class=""govt"">
+    राजस्थान सरकार
+</div>
+
+<div class=""department"">
+    प्राविधिक शिक्षा मण्डल,राजस्थान, जोधपुर
+</div>
+
+<div class=""header-row"">
+
+    <div>
+
+        <div class=""letter-no"">
+            क्रमांक : " + Encode(registrationNo) + @"
+        </div>
+
+        <div style=""margin-top:8px; font-weight:bold;"">
+            प्रधानाचार्य
+        </div>
+
+        <div class=""college"">
+            " + Encode(instituteName) + @"
+        </div>
+
+    </div>
+
+    <div class=""date-code"">
+
+        <div>
+            दिनांक : " + Encode(reportDate) + @"
+        </div>
+
+        <div class=""code"">
+            संस्थान कोड
+            <span>" + Encode(instituteCode) + @"</span>
+        </div>
+
+    </div>
+
+</div>
+
+<div class=""subject"">
+    विषय : " + Encode(subject) + @"
+</div>
+
+<div class=""letter-body"">
+
+<div class=""salutation"">
+    महोदय,
+</div>
+
+<p class=""intro"">
+    इस पत्र के साथ आपको परीक्षा " + Encode(endTermHindi) + @"
+    (सत्र " + Encode(financialYearName) + @")
+    " + Encode(YearSemesterNameHindi) + @"
+    " + Encode(CourseTypeNameHindi) + @"
+    की मूल अंकतालिकाएं भेजी जा रही हैं।
+</p>
+
+<table class=""result-table"">
+
+<thead>
+
+<tr>
+
+    <th class=""branch"">
+        ब्रांच
+    </th>
+
+    <th class=""regular"">
+        नियमित (रोल नम्बर)
+    </th>
+
+    <th class=""yog"">
+        योग
+    </th>
+
+    <th class=""external"">
+        बाह्य (रोल नम्बर)
+    </th>
+
+    <th class=""external-yog"">
+        योग
+    </th>
+
+    <th class=""total"">
+        कुल योग
+    </th>
+
+</tr>
+
+</thead>
+
+<tbody>
+");
+
+                // =========================================================
+                // TABLE 1 - BRANCH DATA
+                // =========================================================
+
+                int regularTotal = 0;
+                int externalTotal = 0;
+                int grandTotal = 0;
+
+                if (dtBranch != null && dtBranch.Rows.Count > 0)
+                {
+                    foreach (DataRow row in dtBranch.Rows)
+                    {
+                        string branch = GetValue(row, "Branch");
+
+                        string RegRollNumber = GetValue(row, "RegRollNumber");
+
+                        int RegTotal = GetIntValue(row, "RegTotal");
+
+                        string ExRollNumber = GetValue(row, "ExRollNumber");
+
+                        int ExTotal = GetIntValue(row, "ExTotal");
+
+                        int GrandTotal = GetIntValue(row, "GrandTotal");
+
+                        // If Total is not returned from SQL,
+                        // calculate it here.
+                        //if (total == 0)
+                        //{
+                        //    total = regularCount + externalCount;
+                        //}
+
+                        //regularTotal += regularCount;
+                        //externalTotal += externalCount;
+                        //grandTotal += total;
+
+                        sb.Append($@"
+
+<tr>
+
+    <td>
+        {Encode(branch)}
+    </td>
+
+    <td>
+        {Encode(RegRollNumber)}
+    </td>
+
+    <td>
+        {RegTotal}
+    </td>
+
+    <td>
+        {Encode(ExRollNumber)}
+    </td>
+
+    <td>
+        {ExTotal}
+    </td>
+
+    <td>
+        {GrandTotal}
+    </td>
+
+</tr>
+");
+                    }
+                }
+
+                // =========================================================
+                // GRAND TOTAL
+                // =========================================================
+
+                sb.Append($@"
+</tbody>
+
+</table>
+
+<div class=""note"">
+
+    क्र.स. 1,2,5 प्रश्न 6 में अंकतालिकाएं बाद में भेजी जानेगी
+    एवं क्र.स. 3 एवं 4 की अंकतालिकाएं जारी नहीं की जावेगी।
+
+</div>
+
+<div class=""summary"">
+");
+
+                // =========================================================
+                // SUMMARY
+                // =========================================================
+
+                string ufmDisplay =
+                    ufmCount == 0
+                        ? "NIL"
+                        : ufmCount.ToString();
+
+                string courtCaseDisplay =
+                    courtCaseCount == 0
+                        ? "NIL"
+                        : courtCaseCount.ToString();
+
+                string detainedDisplay =
+                    detainedCount == 0
+                        ? "NIL"
+                        : detainedCount.ToString();
+
+                string leftDisplay =
+                    leftCount == 0
+                        ? "NIL"
+                        : leftCount.ToString();
+
+                string rwhDisplay =
+                    rwhCount == 0
+                        ? "NIL"
+                        : rwhCount.ToString();
+
+                string previousRwhDisplay =
+                    "(-)" + previousRwhCount;
+
+                string remainingDisplay =
+                    "(-)" + remainingCount;
+
+                sb.Append($@"
+
+<div class=""summary-row"">
+    <div class=""summary-label"">
+        1. UFM : {Encode(ufmRollNumbers)}
+    </div>
+    <div class=""summary-value"">
+        {ufmDisplay}
+    </div>
+</div>
+
+<div class=""summary-row"">
+    <div class=""summary-label"">
+        2. Court Case:
+    </div>
+    <div class=""summary-value"">
+        {courtCaseDisplay}
+    </div>
+</div>
+
+<div class=""summary-row"">
+    <div class=""summary-label"">
+        3. Detained :
+    </div>
+    <div class=""summary-value"">
+        {detainedDisplay}
+    </div>
+</div>
+
+<div class=""summary-row"">
+    <div class=""summary-label"">
+        4. Left :
+    </div>
+    <div class=""summary-value"">
+        {leftDisplay}
+    </div>
+</div>
+
+<div class=""summary-row"">
+    <div class=""summary-label"">
+        5. RWH :
+    </div>
+    <div class=""summary-value"">
+        {rwhDisplay}
+    </div>
+</div>
+
+<div class=""summary-row"">
+    <div class=""summary-label"">
+        6. RWH(Prev. Year Not Cleared) :(Roll Numbers in attacted file)
+    </div>
+    <div class=""summary-value"">
+        {previousRwhDisplay}
+    </div>
+</div>
+
+<div class=""summary-row"">
+    <div class=""summary-label"">
+        7. शेष बची अंकतालिकाएं :
+    </div>
+    <div class=""summary-value"">
+        {remainingDisplay}
+    </div>
+</div>
+
+<div class=""summary-final"">
+
+    <div class=""summary-final-row"">
+
+        <div class=""summary-final-label"">
+            कुल नहीं भिजवाई गयी अंकतालिकाएं
+        </div>
+
+        <div class=""summary-final-value"">
+            {notSentCount}
+        </div>
+
+    </div>
+
+    <div class=""summary-final-row"">
+
+        <div class=""summary-final-label"">
+            कुल भिजवाई गयी अंकतालिकाएं
+        </div>
+
+        <div class=""summary-final-value"">
+            {sentCount}
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+<div class=""attachment"">
+    संलग्न - अंकतालिकाएं {sentCount}
+</div>
+
+<div class=""signature"">
+
+    <div>
+        भवदीय
+    </div>
+
+    <div class=""signature-title"">
+        संयुक्त निदेशक (रजिस्ट्रार)
+    </div>
+
+</div>
+
+</div>
+
+</div>
+");
+                // =========================================================
+                // RWH ROLL NUMBER PAGE
+                // =========================================================
+
+                if (!string.IsNullOrWhiteSpace(RWHRollNo) &&
+    !string.Equals(RWHRollNo, "NIL", StringComparison.OrdinalIgnoreCase))
+                {
+                    sb.Append($@"
+
+<div class=""page rwh-page"">
+
+<div class=""top-right"">
+    रजिस्टर्ड
+</div>
+
+<div class=""govt"">
+    राजस्थान सरकार
+</div>
+
+<div class=""department"">
+    प्राविधिक शिक्षा मण्डल,राजस्थान, जोधपुर
+</div>
+
+    <div class=""rwh-title"">
+        RWH (Prev. Year Not Cleared) Roll Numbers:
+    </div>
+
+    <div style=""font-weight:bold; margin-top:20px;"">
+        {Encode(RWHRollNo)}
+    </div>
+
+</div>
+");
+                }
+
+                sb.Append(@"
+
+</body>
+
+</html>
+");
+
+                return sb;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(
+                    "Error generating Original Marksheet Dispatch HTML.",
+                    ex
+                );
+            }
+        }
+
+        #endregion
     }
 }

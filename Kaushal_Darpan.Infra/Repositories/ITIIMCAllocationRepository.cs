@@ -396,6 +396,47 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
+        public async Task<DataTable> UpdateAllotmentDetails(ITIIMCAllocationDataModel body)
+        {
+            _actionName = "UpdateAllotmentDetails()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetITIIMCAllocationData";
+
+                        command.Parameters.AddWithValue("@MobileNo", body.MobileNo);
+                        command.Parameters.AddWithValue("@AcademicYearID", body.AcademicYearID);
+                        command.Parameters.AddWithValue("@ModifyBy", body.ModifyBy);
+                        command.Parameters.AddWithValue("@ApplicationId", body.ApplicationID);
+                        command.Parameters.AddWithValue("@AadharNo", body.AadharNo);
+                        command.Parameters.AddWithValue("@Gender", body.Gender);
+                        command.Parameters.AddWithValue("@CategoryID", body.CategoryID);
+                        command.Parameters.AddWithValue("@Action", "UpdateAllotmentDetails");
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
 
 
 

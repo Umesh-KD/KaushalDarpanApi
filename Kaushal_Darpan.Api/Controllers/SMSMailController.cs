@@ -16,6 +16,7 @@ using Org.BouncyCastle.Asn1.IsisMtt.X509;
 using System.Data;
 using System.Net;
 using System.Net.Mail;
+using System.ServiceModel.Channels;
 using System.Text.RegularExpressions;
 using static Kaushal_Darpan.Api.Controllers.IndustryInstitutePartnershipMasterController;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -1017,6 +1018,9 @@ namespace Kaushal_Darpan.Api.Controllers
                                     emailSubject = emailSubject.Replace(
                                         "{{" + columnName + "}}",
                                         value);
+
+                                   
+
                                 }
                                 // ====================================================
                                 // 5. Get To / CC / BCC
@@ -1102,6 +1106,19 @@ namespace Kaushal_Darpan.Api.Controllers
                                             message.Attachments.Add(
                                                 new Attachment(attachmentPath));
                                         }
+                                    }
+                                    else
+                                    {
+                                        if (dynamicDataTable.Columns.Contains("Doc") && !string.IsNullOrWhiteSpace(DR["Doc"].ToString()))
+                                        {
+                                            if (System.IO.File.Exists(DR["Doc"].ToString()))
+                                            {
+                                                message.Attachments.Add(
+                                                    new Attachment(DR["Doc"].ToString()!));
+                                            }
+                                        }
+
+                                       
                                     }
 
 

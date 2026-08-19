@@ -628,6 +628,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public string PreQualificationCertificate { get; set; } = string.Empty;
         public string Dis_PreQualificationCertificate { get; set; } = string.Empty;
         public string Action { get; set; } = string.Empty;
+        public int ObtainedDivisionID { get; set; } = 0;
     }
 
     public class StaffCareerAdvancementDataModel
