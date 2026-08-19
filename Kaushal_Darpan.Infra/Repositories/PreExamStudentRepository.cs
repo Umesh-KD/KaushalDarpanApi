@@ -1506,7 +1506,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<DataTable> GetMainAnnexure(AnnexureDataModel model)
         {
-            _actionName = "GetPreExamStudent()";
+            _actionName = "GetMainAnnexure(AnnexureDataModel model)";
             try
             {
                 DataTable dataTable = new DataTable();

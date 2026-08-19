@@ -24,6 +24,8 @@ namespace Kaushal_Darpan.Api.Code.PlaywrightPdf
     #region model
     public class PdfOptions
     {
+        private string? _footerTemplate;
+
         public string Format { get; set; } = "A4";
         public bool Landscape { get; set; }
         public bool PrintBackground { get; set; } = true;
@@ -33,7 +35,27 @@ namespace Kaushal_Darpan.Api.Code.PlaywrightPdf
         public string MarginRight { get; set; } = "5mm";
         public bool DisplayHeaderFooter { get; set; }
         public string? HeaderTemplate { get; set; }
-        public string? FooterTemplate { get; set; }
+        public string? FooterTemplate
+        {
+            get
+            {
+                if (PrintFooterPageNo)
+                {
+                    return """
+                    <div style="font-size: 10px; width: 100%; text-align: center;">
+                        Page <span class="pageNumber"></span> of <span class="totalPages"></span>
+                    </div>
+                    """;
+                }
+
+                return _footerTemplate;
+            }
+            set
+            {
+                _footerTemplate = value;
+            }
+        }
+        public bool PrintFooterPageNo { get; set; } = false;
         public float Scale { get; set; } = 1;
     }
     #endregion
