@@ -1751,12 +1751,18 @@ namespace Kaushal_Darpan.Api.Controllers
                 
 
                 int rowTradeC = 1;
-                    foreach (var tradeGroup in collegeGroup.GroupBy(f => f.BranchName))
+                    foreach (var tradeGroup in collegeGroup.GroupBy(f => new
+                    {
+                        f.BranchName,
+                        f.Shift,
+                        f.UnitNo
+                    }))
                     {
 
                         sb.Append($@"
         <div style='margin-top:3px;'>&nbsp;</div>
-        <b style='font-size:15px;'>  {tradeGroup.Key}</b>
+        <b style='font-size:15px;'>  {tradeGroup.Key.BranchName}  (Shift: {tradeGroup.Key.Shift} Unit: {tradeGroup.Key.UnitNo} ) </b>
+
 
         <table cellpadding='2' cellspacing='0'>
           <tr>
