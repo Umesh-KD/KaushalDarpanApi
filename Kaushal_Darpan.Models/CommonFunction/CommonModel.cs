@@ -265,5 +265,21 @@ namespace Kaushal_Darpan.Models.CommonModel
         public string FromName { get; set; } = string.Empty;
     }
 
+    public class EmailLog
+    {
+        public long ID { get; set; }
+        public string? TemplateCode { get; set; }
+        public string? ToEmail { get; set; }
+        public string? CcEmail { get; set; }
+        public string? BccEmail { get; set; }
+        public string? EmailSubject { get; set; }
+        public string? EmailBody { get; set; }
+        public string? EmailAttachment { get; set; }
+        public string EmailStatus { get; set; } = string.Empty;
+        public string? ErrorMessage { get; set; }
+        public int? ReferenceID { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime? SentDate { get; set; }
+    }
 
 }
