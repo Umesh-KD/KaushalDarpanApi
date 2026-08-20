@@ -88,6 +88,7 @@
         public int TradeId { get; set; }
         public int CollegeId2 { get; set; }   // duplicate of CollegeId in your row
         public string? AdmissionRound { get; set; }
+        public string? FinYearName { get; set; }
     }
 
 }

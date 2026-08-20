@@ -6096,11 +6096,6 @@ body {
                     return value;
                 }
 
-                string Encode(string value)
-                {
-                    return System.Net.WebUtility.HtmlEncode(value ?? "");
-                }
-
                 // =========================================================
                 // TABLE 0 - HEADER DATA
                 // =========================================================
@@ -6142,6 +6137,7 @@ body {
 
                 string ufmRollNumbers = "";
                 string RWHRollNo = "";
+                string detainedRollNumbers = "";
 
                 if (dtSummary != null && dtSummary.Rows.Count > 0)
                 {
@@ -6159,6 +6155,7 @@ body {
 
                     ufmRollNumbers = GetValue(summary, "UFMRollNumbers");
                     RWHRollNo = GetValue(summary, "RWHRollNo");
+                    detainedRollNumbers = GetValue(summary, "DetainedRollNumbers");
 
                 }
 
@@ -6198,7 +6195,7 @@ body {
     padding: 28px 40px 25px;
     background: #fff;
     border: 1px solid #bbb;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 1.45;
 }
 
@@ -6516,7 +6513,7 @@ body {
 @media (max-width: 850px) {
 
     body {
-        padding: 0;
+        padding: 0;    
     }
 
     .page {
@@ -6551,7 +6548,7 @@ body {
     <div>
 
         <div class=""letter-no"">
-            क्रमांक : " + Encode(registrationNo) + @"
+            क्रमांक : " + registrationNo + @"
         </div>
 
         <div style=""margin-top:8px; font-weight:bold;"">
@@ -6559,7 +6556,7 @@ body {
         </div>
 
         <div class=""college"">
-            " + Encode(instituteName) + @"
+            " + instituteName + @"
         </div>
 
     </div>
@@ -6567,12 +6564,12 @@ body {
     <div class=""date-code"">
 
         <div>
-            दिनांक : " + Encode(reportDate) + @"
+            दिनांक : " + reportDate + @"
         </div>
 
         <div class=""code"">
             संस्थान कोड
-            <span>" + Encode(instituteCode) + @"</span>
+            <span>" + instituteCode + @"</span>
         </div>
 
     </div>
@@ -6580,7 +6577,7 @@ body {
 </div>
 
 <div class=""subject"">
-    विषय : " + Encode(subject) + @"
+    विषय : " + subject + @"
 </div>
 
 <div class=""letter-body"">
@@ -6590,10 +6587,10 @@ body {
 </div>
 
 <p class=""intro"">
-    इस पत्र के साथ आपको परीक्षा " + Encode(endTermHindi) + @"
-    (सत्र " + Encode(financialYearName) + @")
-    " + Encode(YearSemesterNameHindi) + @"
-    " + Encode(CourseTypeNameHindi) + @"
+    इस पत्र के साथ आपको परीक्षा " + endTermHindi + @"
+    (सत्र " + financialYearName + @")
+    " + YearSemesterNameHindi + @"
+    " + CourseTypeNameHindi + @"
     की मूल अंकतालिकाएं भेजी जा रही हैं।
 </p>
 
@@ -6674,11 +6671,11 @@ body {
 <tr>
 
     <td>
-        {Encode(branch)}
+        {branch}
     </td>
 
     <td>
-        {Encode(RegRollNumber)}
+        {RegRollNumber}
     </td>
 
     <td>
@@ -6686,7 +6683,7 @@ body {
     </td>
 
     <td>
-        {Encode(ExRollNumber)}
+        {ExRollNumber}
     </td>
 
     <td>
@@ -6713,7 +6710,7 @@ body {
 
 <div class=""note"">
 
-    क्र.स. 1,2,5 प्रश्न 6 में अंकतालिकाएं बाद में भेजी जानेगी
+    क्र.स. 1,2,5 एवं 6 की अंकतालिकाएं बाद में भेजी जावेगी
     एवं क्र.स. 3 एवं 4 की अंकतालिकाएं जारी नहीं की जावेगी।
 
 </div>
@@ -6760,7 +6757,7 @@ body {
 
 <div class=""summary-row"">
     <div class=""summary-label"">
-        1. UFM : {Encode(ufmRollNumbers)}
+        1. UFM : {ufmRollNumbers}
     </div>
     <div class=""summary-value"">
         {ufmDisplay}
@@ -6778,7 +6775,7 @@ body {
 
 <div class=""summary-row"">
     <div class=""summary-label"">
-        3. Detained :
+        3. Detained : {detainedRollNumbers}
     </div>
     <div class=""summary-value"">
         {detainedDisplay}
@@ -6874,7 +6871,7 @@ body {
                 // =========================================================
                 // RWH ROLL NUMBER PAGE
                 // =========================================================
-
+                
                 if (!string.IsNullOrWhiteSpace(RWHRollNo) &&
     !string.Equals(RWHRollNo, "NIL", StringComparison.OrdinalIgnoreCase))
                 {
@@ -6899,7 +6896,7 @@ body {
     </div>
 
     <div style=""font-weight:bold; margin-top:20px;"">
-        {Encode(RWHRollNo)}
+        {RWHRollNo}
     </div>
 
 </div>

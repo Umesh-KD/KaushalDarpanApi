@@ -16078,7 +16078,7 @@ Sr.<br/>No.
                 sb.AppendLine("    <div style=\"width: 98%; margin: auto;\">");
 
 
-                List<int> lstStreamId = new List<int>() ;// for ConsolidatedDetails
+                List<int> lstStreamId = new List<int>();// for ConsolidatedDetails
 
                 DataTable heading_data = new DataTable();
                 // all streams loop 1 by 1
@@ -21797,8 +21797,8 @@ Web Site : www.techedu.rajasthan.gov.in
                             string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{Constants.MigrationCertificateFolder}/{Session}/{fileName}";
 
                             //GENERATE SRN NUMBER 
-                           // student.SRNO= await _unitOfWork.MarksheetDownloadRepository.AddUpdateMigrationCertificate(objMigrationDiploma);
-                           // await _unitOfWork.SaveChangesAsync();
+                            // student.SRNO= await _unitOfWork.MarksheetDownloadRepository.AddUpdateMigrationCertificate(objMigrationDiploma);
+                            // await _unitOfWork.SaveChangesAsync();
 
                             // get html
                             var sb = await _printHtmlFile.GetHtmlOfMigrationCertificate(student);
@@ -22180,6 +22180,40 @@ Web Site : www.techedu.rajasthan.gov.in
             return result;
         }
         #endregion
+    
+            [HttpPost("getITIDynamicReport")]
+        public async Task<ApiResult<DataTable>> getITIDynamicReport(ITI_DynamicReport model)
+        {
+            ActionName = "GetITI_FinalReport(ITI_FinalReportModule model)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ReportRepository.getITIDynamicReport(model));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
     }
-
-}
+    }

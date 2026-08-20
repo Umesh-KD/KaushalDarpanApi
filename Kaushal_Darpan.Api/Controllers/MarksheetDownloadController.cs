@@ -4,6 +4,7 @@ using DinkToPdf;
 using DinkToPdf.Contracts;
 using DocumentFormat.OpenXml.EMMA;
 using Kaushal_Darpan.Api.Code.Attribute;
+using Kaushal_Darpan.Api.Code.PlaywrightPdf;
 using Kaushal_Darpan.Api.HtmlTempleteFile;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
@@ -35,13 +36,19 @@ namespace Kaushal_Darpan.Api.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly IConverter _converter;
         private readonly IPrintHtmlFile _printHtmlFile;
+        private readonly IPlaywrightPdfService _pdfService;
 
-        public MarksheetDownloadController(IMapper mapper, IUnitOfWork unitOfWork, IConverter converter, IPrintHtmlFile printHtmlFile)
+        public MarksheetDownloadController(IMapper mapper,
+                    IUnitOfWork unitOfWork,
+                    IConverter converter,
+                    IPrintHtmlFile printHtmlFile,
+                    IPlaywrightPdfService pdfService)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _converter = converter;
             _printHtmlFile = printHtmlFile;
+            _pdfService = pdfService;
         }
 
         [HttpPost("GetStudents")]
@@ -110,41 +117,18 @@ namespace Kaushal_Darpan.Api.Controllers
                                      + "</body></html>";
                     }
 
-                    // pdf document setting
-                    var doc = new HtmlToPdfDocument
-                    {
-                        GlobalSettings =
-                    {
-                        PaperSize = PaperKind.A4,
-                        Orientation = Orientation.Portrait,
-                        Margins = new MarginSettings
-                        {
-                            Top = 10,
-                            Bottom = 10,
-                            Left = 5,
-                            Right = 5
-                        }
-                    },
-                        Objects =
-                    {
-                        new ObjectSettings
-                        {
-                            HtmlContent = _html,
-                            WebSettings = { DefaultEncoding = "utf-8" },
-
-                            FooterSettings = new FooterSettings
-                            {
-                                FontName = "Arial",
-                                FontSize = 7,
-                                Center = "Page [page] of [toPage]",
-                                Line = true
-                            }
-                        }
-                    }
-                    };
-
-                    // return
-                    byte[] pdfBytes = await Task.Run(() => _converter.Convert(doc));
+                    var pdfBytes = await _pdfService.GenerateAsync(_html,
+                                            new PdfOptions
+                                            {
+                                                Format = "A4",
+                                                MarginTop = "5mm",
+                                                MarginBottom = "5mm",
+                                                MarginLeft = "5mm",
+                                                MarginRight = "5mm",
+                                                PrintBackground = true,
+                                                DisplayHeaderFooter = true,
+                                                PrintFooterPageNo = true
+                                            });
 
                     result.Data = Convert.ToBase64String(pdfBytes);
                     result.State = EnumStatus.Success;
@@ -375,7 +359,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     return result;
                 }
 
-                var sb = await _printHtmlFile.StudentResult_Public_GetHtml(data , (int)model.ResultType);
+                var sb = await _printHtmlFile.StudentResult_Public_GetHtml(data, (int)model.ResultType);
                 var _html = sb.ToString();
 
                 // remove last blank page
