@@ -4949,204 +4949,109 @@ border:1px solid #000;'>
         {
             try
             {
+                // set sign of registrar                
+                string reg_signFilepath = $"{ConfigurationHelper.StaticFileRootPath}{data.RegistrarSignFile}";
+                byte[] reg_signbytes = System.IO.File.ReadAllBytes(CommonFuncationHelper.IsFileExisitsOrDefault(reg_signFilepath));
+                string reg_signbase64 = Convert.ToBase64String(reg_signbytes);
+                string reg_signext = Path.GetExtension(reg_signFilepath).ToLower();
+                string reg_signmime = reg_signext switch
+                {
+                    ".png" => "image/png",
+                    ".jpg" => "image/jpeg",
+                    ".jpeg" => "image/jpeg",
+                    ".gif" => "image/gif",
+                    _ => "image/png"
+                };
+
                 StringBuilder sb = new StringBuilder();
 
                 sb.AppendLine("<!DOCTYPE html>");
-                sb.AppendLine("<html>");
+                sb.AppendLine("<html lang=\"en\">");
                 sb.AppendLine("<head>");
-                sb.AppendLine("<meta charset='UTF-8'>");
+                sb.AppendLine("<meta charset=\"UTF-8\">");
+                sb.AppendLine("<title>Provisional Certificate</title>");
 
                 sb.AppendLine("<style>");
-
-                // A4 exact size
-                sb.AppendLine("@page {");
-                sb.AppendLine("    size: A4;");
-                sb.AppendLine("    margin: 0;");
-                sb.AppendLine("}");
-
-                sb.AppendLine("* {");
-                sb.AppendLine("    box-sizing: border-box;");
-                sb.AppendLine("}");
-
-                sb.AppendLine("html, body {");
-                sb.AppendLine("    margin: 0;");
-                sb.AppendLine("    padding: 0;");
-                sb.AppendLine("    width: 210mm;");
-                sb.AppendLine("    height: 297mm;");
-                sb.AppendLine("    background: transparent;");
-                sb.AppendLine("}");
-
-                sb.AppendLine("body {");
-                sb.AppendLine("    position: relative;");
-                sb.AppendLine("    font-family: Arial, Helvetica, sans-serif;");
-                sb.AppendLine("}");
-
-                sb.AppendLine(".value {");
-                sb.AppendLine("    position: absolute;");
-                sb.AppendLine("    white-space: nowrap;");
-                sb.AppendLine("    font-size: 14px;");
-                sb.AppendLine("    line-height: 1;");
-                sb.AppendLine("}");
-
+                sb.AppendLine("body { font-size:20px; font-family: Arial, sans-serif;white-space: nowrap; }");
+                sb.AppendLine(".certificate { width: 7.5in; height: 8in; }");
+                sb.AppendLine(".name-block { margin-top: 300px; line-height: 1.6; width:100%; float:left; }");
+                sb.AppendLine(".name-block div { margin-bottom: 2px; }");
+                sb.AppendLine(".code-row { margin-top: 30px;  width:100%; float:left;padding-left:0px; }");
+                sb.AppendLine(".branch { margin-top: 60px;  width:100%; float:left; }");
+                sb.AppendLine(".session-row { margin-top: 50px; width:100%; float:left; }");
+                sb.AppendLine(".session-left { display:flex; align-items:center; gap:170px; }");
+                sb.AppendLine(".honours {  margin-right: 80px;  margin-top:8px;}");
+                sb.AppendLine(".duration { margin-top: 20px;  width:100%; float:left;  }");
+                sb.AppendLine(".signature-row { margin-top: 60px; width:100%; float:left; }");
+                sb.AppendLine(".completion-date { margin-top: 12px; }");
+                sb.AppendLine(".signature-img { text-align:right; margin-top:-90px; float:right; margin-right:50px;}");
+                sb.AppendLine(".issue-date { margin-top: 30px;  }");
                 sb.AppendLine("</style>");
-                sb.AppendLine("</head>");
 
+                sb.AppendLine("</head>");
                 sb.AppendLine("<body>");
 
-                // =========================================================
-                // 1. S.NO
-                // =========================================================
-                //
-                // Original position:
-                // Top-right area
-                //
-                sb.AppendLine(
-                    $"<div class='value' style='left:174mm; top:11.5mm;'>"
-                    + $"{data.SRNO}"
-                    + "</div>");
+                sb.AppendLine("<div class=\"certificate\">");
+                sb.AppendLine("<div style='text-align:right; height:20px;padding-right:0px;'>");
+                sb.AppendLine($"{data.SRNO}</div>");
 
+                sb.AppendLine("<div class=\"name-block\">");
+                sb.AppendLine("<span style=\"width:30%;float:left;\">&nbsp;</span>");
+                sb.AppendLine("<span style=\"float:right;width:70%;\">");
+                sb.AppendLine($"<div>{data.StudentName}</div>");
+                sb.AppendLine($"<div>{data.FatherName}</div>");
+                sb.AppendLine("</span>");
+                sb.AppendLine("</div>");
 
-                // =========================================================
-                // 2. STUDENT NAME
-                // =========================================================
-                //
-                // Original:
-                // AASU SINGH
-                //
-                sb.AppendLine(
-                    $"<div class='value' style='left:89mm; top:69mm;'>"
-                    + $"{data.StudentName}"
-                    + "</div>");
+                sb.AppendLine("<div class=\"code-row\">");
+                sb.AppendLine("<div style=\"width:30%;float:left;\">&nbsp;</div>");
+                sb.AppendLine($"<div style=\"width:20%;float:left;\">{data.EnrollmentNo}</div>");
+                sb.AppendLine("<div style=\"width:30%;float:left;\">&nbsp;</div>");
+                sb.AppendLine($"<div style=\"width:20%;float:left;\">{data.RollNo}</div>");
+                sb.AppendLine("</div>");
 
+                sb.AppendLine("<div class=\"branch\">");
+                sb.AppendLine("<span style=\"width:30%;float:left;\">&nbsp;</span>");
+                sb.AppendLine($"<span style=\"width:70%;float:left;\">{data.StreamName}</span>");
+                sb.AppendLine("</div>");
 
-                // =========================================================
-                // 3. FATHER / MOTHER NAME
-                // =========================================================
-                //
-                // S/O SANG SINGH
-                //
-                sb.AppendLine(
-                    $"<div class='value' style='left:89mm; top:76mm;'>"
-                    + $"{data.FatherName}"
-                    + "</div>");
+                sb.AppendLine("<div class=\"session-row\">");
+                sb.AppendLine("<div style=\"width:13%;float:left;\">&nbsp;</div>");
+                sb.AppendLine("<div style=\"width:87%;float:left;\">");
+                sb.AppendLine($"<div>{data.FinalDiplomaTermName}</div>");
 
+                sb.AppendLine("<div class=\"session-left\">");
+                sb.AppendLine($"<div>Session {data.SessionName}</div>");
+                sb.AppendLine($"<div class=\"honours\">{data.Division}</div>");
+                sb.AppendLine("</div>");
 
-                // =========================================================
-                // 4. ENROLLMENT NO
-                // =========================================================
-                //
-                // CE20220001/001
-                //
-                sb.AppendLine(
-                    $"<div class='value' style='left:87mm; top:103mm;'>"
-                    + $"{data.EnrollmentNo}"
-                    + "</div>");
+                sb.AppendLine("</div>");
+                sb.AppendLine("</div>");
 
+                sb.AppendLine("<div class=\"duration\">");
+                sb.AppendLine($"Duration of The Course : {data.CourseDuration} Years");
+                sb.AppendLine("</div>");
 
-                // =========================================================
-                // 5. ROLL NO
-                // =========================================================
-                //
-                // 6500003
-                //
-                sb.AppendLine(
-                    $"<div class='value' style='left:168mm; top:103mm;'>"
-                    + $"{data.RollNo}"
-                    + "</div>");
+                sb.AppendLine("<div class=\"signature-row\">");
 
-
-                // =========================================================
-                // 6. DIPLOMA NAME
-                // =========================================================
-                //
-                // DIPLOMA IN CIVIL ENGINEERING
-                //
-                sb.AppendLine(
-                    $"<div class='value' style='left:85mm; top:129mm;'>"
-                    + $"{data.StreamName}"
-                    + "</div>");
-
-
-                // =========================================================
-                // 7. DIPLOMA / EXAM DATE
-                // =========================================================
-                //
-                // May-2024
-                //
-                sb.AppendLine(
-                    $"<div class='value' style='left:48mm; top:149mm;'>"
-                    + $"{data.FinalDiplomaTermName}"
-                    + "</div>");
-
-
-                // =========================================================
-                // 8. SESSION
-                // =========================================================
-                //
-                // Session 2024
-                //
-                sb.AppendLine(
-                    $"<div class='value' style='left:48mm; top:156mm;'>"
-                    + $"Session {data.SessionName}"
-                    + "</div>");
-
-
-                // =========================================================
-                // 9. DIVISION
-                // =========================================================
-                //
-                // First (Honours)
-                //
-                sb.AppendLine(
-                    $"<div class='value' style='left:129mm; top:158mm;'>"
-                    + $"{data.Division}"
-                    + "</div>");
-
-
-                // =========================================================
-                // 10. COURSE DURATION
-                // =========================================================
-                //
-                // 3 Years
-                //
-                sb.AppendLine(
-                    $"<div class='value' style='left:91mm; top:175mm;'>"
-                    + $"{data.CourseDuration}"
-                    + "</div>");
-
-
-                // =========================================================
-                // 11. DIPLOMA COMPLETION DATE
-                // =========================================================
-                //
-                // 24-04-2025
-                //
+                sb.AppendLine("<div class=\"completion-date\" style=\"width:330px;text-align:center;\">");
 
                 string resultDate = Convert.ToDateTime(data.ResultDate).ToString("dd-MM-yyyy");
+                sb.AppendLine($"<div>Diploma Completion Date : {resultDate}</div>");
 
-                sb.AppendLine(
-                    $"<div class='value' style='left:82mm; top:224mm;'>"
-                    + $"{resultDate}"
-                    + "</div>");
+                string diplomaPrintingDate = Convert.ToDateTime(data.DiplomaPrintingDate).ToString("dd-MM-yyyy");
+                sb.AppendLine($"<div class=\"issue-date\">{diplomaPrintingDate}</div>");
+                sb.AppendLine("</div>");
 
+                sb.AppendLine("<div class=\"signature-img\">");
+                sb.AppendLine($"<img src=\"data:{reg_signmime};base64,{reg_signbase64}\" style=\"width:80px;\"/>");
 
-                // =========================================================
-                // 12. PRINTING DATE
-                // =========================================================
-                //
-                // 27-11-2025
-                //
+                
+                sb.AppendLine("</div>");
 
-                string printingDate = Convert
-                    .ToDateTime(data.DiplomaPrintingDate)
-                    .ToString("dd-MM-yyyy");
+                sb.AppendLine("</div>");
 
-                sb.AppendLine(
-                     $"<div class='value' style='left:51mm; top:247mm;'>"
-                     + $"{printingDate}"
-                     + "</div>");
-
-
+                sb.AppendLine("</div>");
                 sb.AppendLine("</body>");
                 sb.AppendLine("</html>");
 

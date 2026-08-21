@@ -21598,12 +21598,12 @@ Web Site : www.techedu.rajasthan.gov.in
                             var pdfBytes = await _pdfService.GenerateAsync(_html,
                                 new PdfOptions
                                 {
-                                    Format = "A4",
-                                    MarginTop = "10mm",
+                                    Width = "7.5in",
+                                    Height = "8in",
+                                    MarginTop = "3mm",
                                     MarginBottom = "0mm",
                                     MarginLeft = "10mm",
-                                    MarginRight = "10mm",
-                                    PrintBackground = true
+                                    MarginRight = "10mm"
                                 });
 
 
@@ -21650,8 +21650,8 @@ Web Site : www.techedu.rajasthan.gov.in
 
 
                             // save
-                            await _unitOfWork.MarksheetDownloadRepository.AddUpdateProvisionalDiplomaCertificate(objProvisionalDiploma);
-                            await _unitOfWork.SaveChangesAsync();
+                            //await _unitOfWork.MarksheetDownloadRepository.AddUpdateProvisionalDiplomaCertificate(objProvisionalDiploma);
+                            //await _unitOfWork.SaveChangesAsync();
 
                             CommonFuncationHelper.WriteTextLog($"1.8. save student done : {student.StudentName}", logfilename);
 
