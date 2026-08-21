@@ -21813,15 +21813,15 @@ Web Site : www.techedu.rajasthan.gov.in
                             }
 
                             var pdfBytes = await _pdfService.GenerateAsync(_html,
-                                new PdfOptions
-                                {
-                                    Format = "A4",
-                                    MarginTop = "10mm",
-                                    MarginBottom = "0mm",
-                                    MarginLeft = "10mm",
-                                    MarginRight = "10mm",
-                                    PrintBackground = true
-                                });
+                                                new PdfOptions
+                                                {
+                                                    Width = "7.5in",
+                                                    Height = "8in",
+                                                    MarginTop = "10mm",
+                                                    MarginBottom = "5mm",
+                                                    MarginLeft = "10mm",
+                                                    MarginRight = "10mm"
+                                                });
 
                             await System.IO.File.WriteAllBytesAsync(filepath, pdfBytes);
 
@@ -21865,8 +21865,8 @@ Web Site : www.techedu.rajasthan.gov.in
 
 
                             // save
-                            await _unitOfWork.MarksheetDownloadRepository.AddUpdateMigrationCertificate(objMigrationDiploma);
-                            await _unitOfWork.SaveChangesAsync();
+                            //await _unitOfWork.MarksheetDownloadRepository.AddUpdateMigrationCertificate(objMigrationDiploma);
+                            //await _unitOfWork.SaveChangesAsync();
 
                             CommonFuncationHelper.WriteTextLog($"1.8. save student done : {student.StudentName}", logfilename);
 
@@ -22180,8 +22180,8 @@ Web Site : www.techedu.rajasthan.gov.in
             return result;
         }
         #endregion
-    
-            [HttpPost("getITIDynamicReport")]
+
+        [HttpPost("getITIDynamicReport")]
         public async Task<ApiResult<DataTable>> getITIDynamicReport(ITI_DynamicReport model)
         {
             ActionName = "GetITI_FinalReport(ITI_FinalReportModule model)";
@@ -22216,4 +22216,4 @@ Web Site : www.techedu.rajasthan.gov.in
             return result;
         }
     }
-    }
+}

@@ -26,14 +26,16 @@ namespace Kaushal_Darpan.Api.Code.PlaywrightPdf
     {
         private string? _footerTemplate;
 
-        public string Format { get; set; } = "A4";
-        public bool Landscape { get; set; }
+        public string Format { get; set; } //= "A0";
+        public string Width { get; set; } //= "0in";
+        public string Height { get; set; } //= "0in";
+        public bool Landscape { get; set; } = false;
         public bool PrintBackground { get; set; } = true;
-        public string MarginTop { get; set; } = "5mm";
-        public string MarginBottom { get; set; } = "5mm";
-        public string MarginLeft { get; set; } = "5mm";
-        public string MarginRight { get; set; } = "5mm";
-        public bool DisplayHeaderFooter { get; set; }
+        public string MarginTop { get; set; } //= "0mm";
+        public string MarginBottom { get; set; } //= "0mm";
+        public string MarginLeft { get; set; } //= "0mm";
+        public string MarginRight { get; set; } //= "0mm";
+        public bool DisplayHeaderFooter { get; set; } = false;
         public string? HeaderTemplate { get; set; }
         public string? FooterTemplate
         {
@@ -85,6 +87,8 @@ namespace Kaushal_Darpan.Api.Code.PlaywrightPdf
                     new PagePdfOptions
                     {
                         Format = options.Format,
+                        Width = options.Width,
+                        Height = options.Height,
                         Landscape = options.Landscape,
                         PrintBackground = options.PrintBackground,
                         Scale = options.Scale,

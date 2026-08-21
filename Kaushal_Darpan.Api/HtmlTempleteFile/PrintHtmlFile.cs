@@ -1,5 +1,6 @@
 ﻿
 using AngleSharp.Html;
+using DocumentFormat.OpenXml.EMMA;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Models.CommonModel;
 using Kaushal_Darpan.Models.MarksheetDownloadModel;
@@ -3029,8 +3030,8 @@ thead th{
                 #region div set according to dep. printer (set margin-top in pixel also in footer that you set in minus here)
                 int css_margintopfordept = 30;
                 // div set according to dep. printer (set margin-top in pixel also in footer that you set in minus here)
-               sb.AppendLine($"<div style='margin-top:{css_margintopfordept}px;'>");
-               
+                sb.AppendLine($"<div style='margin-top:{css_margintopfordept}px;'>");
+
                 // srn
                 //sb.AppendLine("        <div style=\"text-align:right;font-size:16px; font-weight:bold; padding-right:0px;padding-top:25px; height:20px;\">");
                 sb.AppendLine("        <div style=\"text-align:right;font-size:16px; font-weight:bold; padding-right:0px;padding-top:0px; height:40px; margin-top:0px; \">");
@@ -5165,6 +5166,20 @@ border:1px solid #000;'>
             {
                 StringBuilder sb = new StringBuilder();
 
+                // set sign of registrar                
+                string reg_signFilepath = $"{ConfigurationHelper.StaticFileRootPath}{data.RegistrarSignFile}";
+                byte[] reg_signbytes = System.IO.File.ReadAllBytes(CommonFuncationHelper.IsFileExisitsOrDefault(reg_signFilepath));
+                string reg_signbase64 = Convert.ToBase64String(reg_signbytes);
+                string reg_signext = Path.GetExtension(reg_signFilepath).ToLower();
+                string reg_signmime = reg_signext switch
+                {
+                    ".png" => "image/png",
+                    ".jpg" => "image/jpeg",
+                    ".jpeg" => "image/jpeg",
+                    ".gif" => "image/gif",
+                    _ => "image/png"
+                };
+
                 sb.AppendLine("<!DOCTYPE html>");
                 sb.AppendLine("<html>");
                 sb.AppendLine("<head>");
@@ -5172,147 +5187,216 @@ border:1px solid #000;'>
 
                 sb.AppendLine("<style>");
 
-                // =========================================================
-                // A4 PAGE
-                // =========================================================
-
-                sb.AppendLine("@page {");
-                sb.AppendLine("    size: A4;");
-                sb.AppendLine("    margin: 0;");
-                sb.AppendLine("}");
-
-                sb.AppendLine("* {");
-                sb.AppendLine("    box-sizing: border-box;");
-                sb.AppendLine("}");
-
-                sb.AppendLine("html, body {");
-                sb.AppendLine("    margin: 0;");
-                sb.AppendLine("    padding: 0;");
-                sb.AppendLine("    width: 210mm;");
-                sb.AppendLine("    height: 297mm;");
-                sb.AppendLine("    background: transparent;");
+                sb.AppendLine("body {");
+                sb.AppendLine("    font-size:18px;");
                 sb.AppendLine("}");
 
                 sb.AppendLine("body {");
-                sb.AppendLine("    position: relative;");
-                sb.AppendLine("    font-family: Arial, Helvetica, sans-serif;");
+                sb.AppendLine("    font-family: Arial, sans-serif;");
                 sb.AppendLine("}");
 
-                // =========================================================
-                // COMMON VALUE STYLE
-                // =========================================================
-
-                sb.AppendLine(".value {");
-                sb.AppendLine("    position: absolute;");
-                sb.AppendLine("    white-space: nowrap;");
-                sb.AppendLine("    font-size: 14px;");
-                sb.AppendLine("    line-height: 1;");
-                sb.AppendLine("    font-family: Arial, Helvetica, sans-serif;");
+                sb.AppendLine(".certificate {");
+                sb.AppendLine("    width: 7.5in;");
+                sb.AppendLine("    height: 8in;");
+                sb.AppendLine("    box-sizing: border-box;");
+                sb.AppendLine("    padding: 15px;");
+                sb.AppendLine("    overflow: hidden;");
                 sb.AppendLine("}");
+
 
                 sb.AppendLine("</style>");
-
                 sb.AppendLine("</head>");
+
                 sb.AppendLine("<body>");
 
-                // =========================================================
-                // 1. S.NO
-                // =========================================================
-                //
-                // Example:
-                // 26DM000003
-                //
-                // Top-right corner
-                // =========================================================
+                sb.AppendLine("<div class='certificate'>");
 
-                sb.AppendLine(
-                    $"<div class='value' " +
-                    $"style='left:174mm; top:11mm;'>" +
-                    $"{data.SRNO}" +
-                    "</div>");
+                sb.AppendLine("<div style='text-align:right; height:20px;'>");
+                sb.AppendLine($"{data.SRNO}");
+                sb.AppendLine("</div>");
+
+                // =====================================================
+                // Rajasthan Government - BLANK, POSITION PRESERVED
+                // =====================================================
+
+                sb.AppendLine("<div class='center' >");
+                sb.AppendLine("&nbsp;");
+                sb.AppendLine("</div>");
 
 
-                // =========================================================
-                // 2. STUDENT NAME
-                // =========================================================
-                //
-                // Example:
-                // PRINCE CHOUDHARY
-                //
-                // =========================================================
+                // =====================================================
+                // Government of Rajasthan - BLANK
+                // =====================================================
 
-                sb.AppendLine(
-                    $"<div class='value' " +
-                    $"style='left:77mm; top:121mm;'>" +
-                    $"{data.StudentName}" +
-                    "</div>");
+                sb.AppendLine("<div class='center' >");
+                sb.AppendLine("&nbsp;");
+                sb.AppendLine("</div>");
 
 
-                // =========================================================
-                // 3. FATHER'S NAME
-                // =========================================================
-                //
-                // Example:
-                // JHABAR MAL THALOR
-                //
-                // =========================================================
+                // =====================================================
+                // Board Hindi - BLANK
+                // =====================================================
 
-                sb.AppendLine(
-                    $"<div class='value' " +
-                    $"style='left:77mm; top:143mm;'>" +
-                    $"{data.FatherName}" +
-                    "</div>");
+                sb.AppendLine("<div class='center' style='margin-top:15px;'>");
+                sb.AppendLine("&nbsp;");
+                sb.AppendLine("</div>");
 
 
-                // =========================================================
-                // 4. ENROLLMENT NO
-                // =========================================================
-                //
-                // Example:
-                // EE20220023/025
-                //
-                // =========================================================
+                // =====================================================
+                // Board English - BLANK
+                // =====================================================
 
-                sb.AppendLine(
-                    $"<div class='value' " +
-                    $"style='left:78mm; top:169mm;'>" +
-                    $"{data.EnrollmentNo}" +
-                    "</div>");
+                sb.AppendLine("<div class='center' >");
+                sb.AppendLine("&nbsp;");
+                sb.AppendLine("</div>");
 
 
-                // =========================================================
-                // 5. PRINTING DATE
-                // =========================================================
-                //
-                // Example:
-                // 23-06-2026
-                //
-                // =========================================================
+                // =====================================================
+                // Certificate Hindi Title - BLANK
+                // =====================================================
 
-                string diplomaPrintingDate = "";
-
-                if (DateTime.TryParse(
-                        Convert.ToString(data.MigrationPrintingDate),
-                        out DateTime printingDate))
-                {
-                    diplomaPrintingDate =
-                        printingDate.ToString("dd-MM-yyyy");
-                }
-
-                sb.AppendLine(
-                    $"<div class='value' " +
-                    $"style='left:45mm; top:276mm;'>" +
-                    $"{diplomaPrintingDate}" +
-                    "</div>");
+                sb.AppendLine("<div class='center' style='margin-top:20px;'>");
+                sb.AppendLine("&nbsp;");
+                sb.AppendLine("</div>");
 
 
-                // =========================================================
-                // END
-                // =========================================================
+                // =====================================================
+                // Certificate English Title - BLANK
+                // =====================================================
 
+                sb.AppendLine("<div class='center' >");
+                sb.AppendLine("&nbsp;");
+                sb.AppendLine("</div>");
+
+
+                // =====================================================
+                // STUDENT NAME - VALUE ONLY
+                // Original position preserved
+                // =====================================================
+
+                sb.AppendLine("<div style='margin-top:40px;'>");
+
+                sb.AppendLine("<span style='display:inline-block; width:220px;'>");
+                sb.AppendLine("&nbsp;");
+                sb.AppendLine("</span>");
+
+                sb.AppendLine("<span>");
+                sb.AppendLine($"{data.StudentName}");
+                sb.AppendLine("</span>");
+
+                sb.AppendLine("</div>");
+
+
+                // =====================================================
+                // FATHER NAME - VALUE ONLY
+                // Original position preserved
+                // =====================================================
+
+                sb.AppendLine("<div style='margin-top:25px;'>");
+
+                sb.AppendLine("<span style='display:inline-block; width:220px;'>");
+                sb.AppendLine("&nbsp;");
+                sb.AppendLine("</span>");
+
+                sb.AppendLine("<span>");
+                sb.AppendLine($"{data.FatherName}");
+                sb.AppendLine("</span>");
+
+                sb.AppendLine("</div>");
+
+
+                // =====================================================
+                // ENROLLMENT NO - VALUE ONLY
+                // Original position preserved
+                // =====================================================
+
+                sb.AppendLine("<div style='margin-top:25px;'>");
+
+                sb.AppendLine("<span style='display:inline-block; width:220px;'>");
+                sb.AppendLine("&nbsp;");
+                sb.AppendLine("</span>");
+
+                sb.AppendLine("<span>");
+                sb.AppendLine($"{data.EnrollmentNo}");
+                sb.AppendLine("</span>");
+
+                sb.AppendLine("</div>");
+
+
+                // =====================================================
+                // HINDI DECLARATION - BLANK
+                // Height/position preserved
+                // =====================================================
+
+                sb.AppendLine("<div style='margin-top:30px; line-height:1.5;'>");
+                sb.AppendLine("&nbsp;<br>");
+                sb.AppendLine("&nbsp;<br>");
+                sb.AppendLine("&nbsp;");
+                sb.AppendLine("</div>");
+
+
+                // =====================================================
+                // ENGLISH DECLARATION - BLANK
+                // Height/position preserved
+                // =====================================================
+
+                sb.AppendLine("<div style='margin-top:25px; line-height:1.5;'>");
+                sb.AppendLine("&nbsp;<br>");
+                sb.AppendLine("&nbsp;<br>");
+                sb.AppendLine("&nbsp;");
+                sb.AppendLine("</div>");
+
+
+                // =====================================================
+                // PLACE - BLANK
+                // Position preserved
+                // =====================================================
+
+                sb.AppendLine("<div style='margin-top:30px;'>");
+                sb.AppendLine("&nbsp;<br>");
+                sb.AppendLine("&nbsp;");
+                sb.AppendLine("</div>");
+
+
+                // =====================================================
+                // DATE - BLANK
+                // REGISTRAR - KEEP
+                // =====================================================
+
+                sb.AppendLine("<div style='margin-top:25px;'>");
+
+                sb.AppendLine("<span>");
+                sb.AppendLine("&nbsp;<br>");
+                sb.AppendLine("&nbsp;");
+                sb.AppendLine("</span>");
+
+                sb.AppendLine("<span style='margin-left:20px;'>");
+                sb.AppendLine($"{data.MigrationPrintingDate}");
+                sb.AppendLine("</span>");
+
+
+                // =====================================================
+                // REGISTRAR
+                // =====================================================
+
+                sb.AppendLine("<span style='float:right; margin-right:40px;'>");
+                sb.AppendLine($"<img src=\"data:{reg_signmime};base64,{reg_signbase64}\" style=\"width:80px;\"/>");
+                sb.AppendLine("<br><br>");
+                sb.AppendLine("");
+                sb.AppendLine("</span>");
+
+                sb.AppendLine("</div>");
+
+
+                // =====================================================
+                // CLOSE
+                // =====================================================
+
+                sb.AppendLine("</div>");
                 sb.AppendLine("</body>");
                 sb.AppendLine("</html>");
 
+                //
                 return sb;
             }
             catch
@@ -6871,7 +6955,7 @@ body {
                 // =========================================================
                 // RWH ROLL NUMBER PAGE
                 // =========================================================
-                
+
                 if (!string.IsNullOrWhiteSpace(RWHRollNo) &&
     !string.Equals(RWHRollNo, "NIL", StringComparison.OrdinalIgnoreCase))
                 {
