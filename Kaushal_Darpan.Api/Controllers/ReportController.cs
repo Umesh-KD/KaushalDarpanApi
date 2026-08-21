@@ -21747,7 +21747,7 @@ Web Site : www.techedu.rajasthan.gov.in
         public async Task<ApiResult<string>> StudentMigrationCertificateDownloadChunk([FromBody] List<MigrationCertificateDownloadSearchModel> Model)
         {
             ActionName = "StudentMigrationCertificateDownloadChunk([FromBody] List<MigrationCertificateDownloadSearchModel> Model)";
-
+            //
             var result = new ApiResult<string>();
             var logfilename = "_MigrationCertificateDownload";
             var Session = string.Empty;
