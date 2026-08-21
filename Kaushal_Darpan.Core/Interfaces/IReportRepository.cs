@@ -298,7 +298,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetStreamResultRptTabulation(TabluationDataModel body);
         Task<DataTable> GetHeadingResultRptTabulation(TabluationDataModel body);
         Task<DataSet> GetTabularDetailsResultRptTabulation(TabluationDataModel body);
-        Task<DataTable> GetConsolidatedDetailsResultRptTabulation(TabluationDataModel body);
+        Task<DataTable> GetConsolidatedDetailsResultRptTabulation(TabluationDataModel body, List<int> lstStreamId);
 
         Task<DataSet> GetstudentWithdrawnList(AllotmentReportCollegeRequestModel model);
         Task<DataSet> GetGroupCodeMasterReport(GroupCodeAllocationAddEditModel filterModel);
@@ -347,5 +347,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> ApprenticeshipFresherReports(ApprenticeshipRegistrationSearchModal model);
         Task<DataTable> GetGuestHouseSlip(GeustHouseSlipModule model);
         Task<DataTable> GetITI_FinalReport(ITI_FinalReportModule model);
+        Task<DataTable> getITIDynamicReport(ITI_DynamicReport model);
     }
 }

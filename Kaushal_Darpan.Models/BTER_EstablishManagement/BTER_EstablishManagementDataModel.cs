@@ -68,6 +68,12 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public string? act{ get; set; }
         public int? IsProbationCompleted { get; set; }
         public int? IsServingADHOC { get; set; }
+        public int? DesignationID { get; set; }
+        public int? QualificationID { get; set; }
+        public int? PayLevelID { get; set; }
+        public int? QualificationIDaf { get; set; }
+        public int? QualificationIDbe { get; set; }
+        public string? DateOfImplementation { get; set; }
     }
 
     public class BTER_EM_GetPersonalDetailByUserID
@@ -209,26 +215,28 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public string? Pincode { get; set; }
         public string? Address { get; set; }
 
+        public int? OfficeID { get; set; }
     }
 
     public class BTER_EM_AddServiceHistoryDataModel
     {
-        public int ServiceHistoryID { get; set; }
-        public string SSOID { get; set; }
-        public int UserID { get; set; }
+        public int? ServiceHistoryID { get; set; }
+        public string? SSOID { get; set; }
+        public int? UserID { get; set; }
 
-        public string JoiningDate { get; set; }
-        public int OfficeID { get; set; }
+        public string? JoiningDate { get; set; }
+        public int? OfficeID { get; set; }
         public string? OfficeName { get; set; }
 
-        public int InstituteID { get; set; }
+        public int? InstituteID { get; set; }
         public string? InstituteName { get; set; }
 
-        public string FromDate { get; set; }
-        public string ToDate { get; set; }
+        public string? FromDate { get; set; }
+        public string? ToDate { get; set; }
 
-        public int DesignationID { get; set; }
-        public int QualificationID { get; set; }
+        public int? DesignationID { get; set; }
+        public int? ServiceBranchID { get; set; }
+        public int? QualificationID { get; set; }
         public string? DesignationName { get; set; }
 
         public string? Qualification { get; set; }
@@ -238,31 +246,34 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public string? UploadDoc { get; set; }
 
         // Transfer
-        public bool IsTransfer { get; set; }
-        public int TransferToInstituteID { get; set; }
-        public int TransferFromInstituteID { get; set; }
+        public bool? IsTransfer { get; set; }
+        public int? TransferToInstituteID { get; set; }
+        public int? TransferFromInstituteID { get; set; }
 
         public string? TransferFromInstituteName { get; set; }
         public string? TransferToInstituteName { get; set; }
 
-        public int TransferFromOfficeID { get; set; }
-        public int TransferToOfficeID { get; set; }
+        public int? TransferFromOfficeID { get; set; }
+        public int? TransferToOfficeID { get; set; }
 
         public string? TransferToOfficeName { get; set; }
         public string? DateOfTransfer { get; set; }
 
         // Promotion
-        public bool IsPromotion { get; set; }
+        public bool? IsPromotion { get; set; }
 
-        public int ToDesignationIDPromotion { get; set; }
+        public int? ToDesignationIDPromotion { get; set; }
+        public int? ToBranchIDPromotion { get; set; }
         public string? ToDesignationName { get; set; }
+        public string? ServiceBranchName { get; set; }
+        public string? ToBranchNamePromotion { get; set; }
 
         public string? DateOfpromotion { get; set; }
 
         // Multiple Documents
-        public List<BTER_EM_DocumentServiceHistoryDataModel> TransferDocuments { get; set; } = new List<BTER_EM_DocumentServiceHistoryDataModel>();
+        public List<BTER_EM_DocumentServiceHistoryDataModel>? TransferDocuments { get; set; } = new List<BTER_EM_DocumentServiceHistoryDataModel>();
 
-        public List<BTER_EM_DocumentServiceHistoryDataModel> PromotionDocuments { get; set; } = new List<BTER_EM_DocumentServiceHistoryDataModel>();
+        public List<BTER_EM_DocumentServiceHistoryDataModel>? PromotionDocuments { get; set; } = new List<BTER_EM_DocumentServiceHistoryDataModel>();
     }
 
     public class StaffDetailsPreviewDataModel_ServiceHistory
@@ -297,19 +308,29 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int RoleID { get; set; }
         public int DepartmentID { get; set; }
 
+        public string? Address { get; set; }
+        public string? State { get; set; }
+        public string? District { get; set; }
+        public string? Pincode { get; set; }
+        public string? IsServingADHOC_str { get; set; }
+        public string? IsProbationCompleted_str { get; set; }
+        public bool? IsProbationCompleted { get; set; }
+        public string? ProbationCompletionDate { get; set; }
+        public string? WhatsAppNumber { get; set; }
+        public string? Email { get; set; }
+
         // Service History
         public List<BTER_EM_AddServiceHistoryDataModel> ServiceHistoryList { get; set; }
             = new List<BTER_EM_AddServiceHistoryDataModel>();
 
         public List<StaffTrainingDetailDataModel>? TrainingDetailsList { get; set; }
-
     }
 
     public class BTER_EM_DocumentServiceHistoryDataModel
     {
         public int? ServiceHistoryID { get; set; }
 
-        public string DocumentType { get; set; }   // Transfer / Promotion
+        public string? DocumentType { get; set; }   // Transfer / Promotion
 
         public string? DisUploadDoc { get; set; }
 
@@ -588,5 +609,40 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? DepartmentID { get; set; }
         public int? ManagementTypeID { get; set; }
         public string? OrderNo { get; set; }
+    }
+
+    public class StaffQualificationDataModel
+    {
+        public int StaffID { get; set; } = 0;
+        public int UserID { get; set; } = 0;
+        public int StaffQualificationID { get; set; } = 0;
+        public int QualificationID { get; set; } = 0;
+        public string IsQualificationObtainedDuringService { get; set; } = string.Empty;
+        public string QualificationAcquredDate { get; set; } = string.Empty;
+        public string ObtainedDivision { get; set; } = string.Empty;
+        public string Specialization { get; set; } = string.Empty;
+        public string AcquiringQualificationCertificate { get; set; } = string.Empty;
+        public string Dis_AcquiringQualificationCertificate { get; set; } = string.Empty;
+        public string CompetentAuthorityOrder { get; set; } = string.Empty;
+        public string Dis_CompetentAuthorityOrder { get; set; } = string.Empty;
+        public string PreQualificationCertificate { get; set; } = string.Empty;
+        public string Dis_PreQualificationCertificate { get; set; } = string.Empty;
+        public string Action { get; set; } = string.Empty;
+        public int ObtainedDivisionID { get; set; } = 0;
+    }
+
+    public class StaffCareerAdvancementDataModel
+    {
+        public int StaffID { get; set; } = 0;
+        public int UserID { get; set; } = 0;
+        public int StaffCASID { get; set; } = 0;
+        public int PayLevelTypeID { get; set; } = 0;
+        public int PayLevelID { get; set;} = 0;
+        public string DateOfImplementation { get; set; } = string.Empty;
+        public string OrderNo { get; set; } = string.Empty;
+        public string OrderDate { get; set; } = string.Empty;
+        public string Action { get; set; } = string.Empty;
+        public string CASDocument { get; set; } = string.Empty;
+        public string Dis_CASDocument { get; set; } = string.Empty;
     }
 }

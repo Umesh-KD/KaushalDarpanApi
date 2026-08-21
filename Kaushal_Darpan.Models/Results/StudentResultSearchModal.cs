@@ -33,6 +33,9 @@ namespace Kaushal_Darpan.Models.Results
         public int SemesterID { get; set; }
         public string? IPAddress { get; set; }
         public string? ResultType { get; set; }
+        public string? Key { get; set; }
+        public string? ResultDeclarationDate { get; set; }
+        public string? ResultPublishDate { get; set; }
         public int? SchemeID { get; set; }
         public int? ResultTypeID { get; set; }
     }

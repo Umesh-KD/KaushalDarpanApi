@@ -1,9 +1,14 @@
 ﻿using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
+using Kaushal_Darpan.Models.CommonModel;
 using Kaushal_Darpan.Models.SMSConfigurationSetting;
 using Kaushal_Darpan.Models.Student;
+using Microsoft.Data.SqlClient;
 using System.Data;
+using static QRCoder.PayloadGenerator.SwissQrCode;
+using System.Net.Mail;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Kaushal_Darpan.Infra.Repositories
 {
@@ -206,5 +211,134 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<DataTable> GetEmailTemplateByTemplateCode(string TemplateCode)
+        {
+            _actionName = "GetEmailTemplateByTemplateCode(string TemplateCode)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    var dt = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetEmailTemplate";
+                        command.Parameters.AddWithValue("@TemplateCode", TemplateCode);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dt = await command.FillAsync_DataTable();
+
+                    }
+
+                    return dt;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<DataTable> GetDynamicData(string SQLQuery)
+        {
+            _actionName = "GetEmailTemplateByTemplateCode(string TemplateCode)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    var dt = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "ExecuteStoredQuery";
+                        command.Parameters.AddWithValue("@SQL", SQLQuery);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dt = await command.FillAsync_DataTable();
+
+                    }
+
+                    return dt;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<long> SaveEmailLog(EmailLog ModelEmailLog)
+        {
+            _actionName = "SaveEmailLog(EmailLog ModelEmailLog)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    long result = 0;                  
+                   
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_SaveEmailLog";
+
+                        command.Parameters.AddWithValue("@TemplateCode",(object?)ModelEmailLog.TemplateCode ?? DBNull.Value);
+                        command.Parameters.AddWithValue("@ToEmail",(object?)ModelEmailLog.ToEmail ?? DBNull.Value);
+                        command.Parameters.AddWithValue("@CcEmail",(object?)ModelEmailLog.CcEmail ?? DBNull.Value);
+                        command.Parameters.AddWithValue("@BccEmail",(object?)ModelEmailLog.BccEmail ?? DBNull.Value);
+                        command.Parameters.AddWithValue("@EmailSubject", (object?)ModelEmailLog.EmailSubject ?? DBNull.Value);
+                        command.Parameters.AddWithValue("@EmailBody",(object?)ModelEmailLog.EmailBody ?? DBNull.Value);
+                        command.Parameters.AddWithValue("@EmailAttachment",(object?)ModelEmailLog.EmailAttachment ?? DBNull.Value);
+                        command.Parameters.AddWithValue("@EmailStatus", ModelEmailLog.EmailStatus);
+                        command.Parameters.AddWithValue("@ErrorMessage",(object?)ModelEmailLog.ErrorMessage ?? DBNull.Value);
+                        command.Parameters.AddWithValue("@ReferenceID",(object?)ModelEmailLog.ReferenceID ?? DBNull.Value);
+                        command.Parameters.AddWithValue("@SentDate",(object?)ModelEmailLog.SentDate ?? DBNull.Value);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+
+                        var outputId = new SqlParameter("@ID", SqlDbType.BigInt)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+
+                        command.Parameters.Add(outputId);
+
+                        await command.ExecuteNonQueryAsync();
+
+                         result = Convert.ToInt64(outputId.Value);
+
+                    }
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
     }
 }

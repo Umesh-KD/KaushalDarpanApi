@@ -5,6 +5,7 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Hangfire;
 using Kaushal_Darpan.Api.Code.PlaywrightPdf;
+using Kaushal_Darpan.Api.Code.SignalR;
 using Kaushal_Darpan.Api.Email;
 using Kaushal_Darpan.Api.HtmlTempleteFile;
 using Kaushal_Darpan.Api.Middlewares;
@@ -86,8 +87,55 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 //{
 //    builder.WithOrigins("http://localhost:4200", "http://localhost:5230/").AllowAnyMethod().AllowAnyHeader();
 //}));
+
 // all origin
-builder.Services.AddCors(x => x.AddPolicy("corepolicy", x1 => x1.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().WithExposedHeaders("X-AuthToken", "no-loader", "Content-Disposition")));
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("corepolicy", policy =>
+//    {
+//        policy
+//            .AllowAnyOrigin()
+//            .AllowAnyHeader()
+//            .AllowAnyMethod()
+//            .WithExposedHeaders("X-AuthToken", "no-loader", "Content-Disposition");
+//    });
+//});
+// all origin with signal-r
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("corepolicy", policy =>
+//    {
+//        policy
+//            .SetIsOriginAllowed(_ => true)
+//            .AllowAnyHeader()
+//            .AllowAnyMethod()
+//            .AllowCredentials()
+//            .WithExposedHeaders("X-AuthToken", "no-loader", "Content-Disposition");
+//    });
+//});
+
+// two policies
+builder.Services.AddCors(options =>
+{
+    // Existing policy for APIs
+    options.AddPolicy("corepolicy", policy =>
+    {
+        policy.AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .WithExposedHeaders("X-AuthToken", "no-loader", "Content-Disposition");
+    });
+
+    // SignalR policy
+    options.AddPolicy("signalrpolicy", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200", "https://testkdhte.rajasthan.gov.in", "https://kdhte.rajasthan.gov.in")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
+});
+
 
 //security
 string[] allowedMethods = ["GET", "POST", "PUT", "DELETE", "PATCH"];
@@ -191,6 +239,24 @@ builder.Services.AddAuthentication(option =>
         ValidateIssuerSigningKey = true,
         ValidateLifetime = true
     };
+    // signal-r jwt (if send by bearer token)
+    //o.Events = new JwtBearerEvents
+    //{
+    //    OnMessageReceived = context =>
+    //    {
+    //        var accessToken = context.Request.Query["access_token"];
+
+    //        var path = context.HttpContext.Request.Path;
+
+    //        if (!string.IsNullOrEmpty(accessToken) &&
+    //            path.StartsWithSegments("/SignalR"))
+    //        {
+    //            context.Token = accessToken;
+    //        }
+
+    //        return Task.CompletedTask;
+    //    }
+    //};
 });
 builder.Services.AddAuthorization();
 // end auth with jwt and jwt token
@@ -271,11 +337,21 @@ builder.Services.AddSingleton(new PlaywrightBrowserManager(browser));
 builder.Services.AddScoped<IPlaywrightPdfService, PlaywrightPdfService>();
 #endregion
 
+builder.Services.AddSignalR()
+    .AddJsonProtocol(options =>
+    {
+        options.PayloadSerializerOptions.PropertyNamingPolicy = null;
+        options.PayloadSerializerOptions.DictionaryKeyPolicy = null;
+        options.PayloadSerializerOptions.PropertyNameCaseInsensitive = true;
+    }); // signal-r
+
+builder.Services.AddScoped<IDashboardSignalRService, DashboardSignalRService>();
 
 
 
 
-// ------------ pipeline ----------------------
+
+// ---------------------------------- pipeline -------------------------------------------
 var app = builder.Build();
 
 // Set up static helper with accessor
@@ -302,12 +378,13 @@ else
     app.UseHsts();
 }
 
+//routing
+app.UseRouting();
 
 // Use CORS policy here only
 app.UseCors("corepolicy");
 
-//routing
-app.UseRouting();
+//
 app.UseXfo(o => o.Deny());
 
 
@@ -380,8 +457,11 @@ app.UseStaticFiles();
 app.UseAuthentication();
 
 app.UseAuthorization();
-app.MapControllers();
 
+app.MapControllers().RequireCors("corepolicy"); ;
+
+app.MapHub<SignalRHub>("/api/api/SignalRHub")
+   .RequireCors("signalrpolicy"); // signal-r
 
 app.Run();
 

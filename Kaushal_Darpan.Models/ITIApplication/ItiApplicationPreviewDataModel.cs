@@ -69,6 +69,7 @@ namespace Kaushal_Darpan.Models.ITIApplication
             public List<ItiPendingDataModel> PendingDataModel { get; set; }
             public List<DocumentDetailsModel>? DocumentDetailList { get; set; }
             public DataTable? EmitraTransactionsModelList { get; set; }
+            public DataTable? EmitraTransactionsDataModelList { get; set; }
 
             public bool IsFinalPay { get; set; }
             public int TransactionID { get; set; }

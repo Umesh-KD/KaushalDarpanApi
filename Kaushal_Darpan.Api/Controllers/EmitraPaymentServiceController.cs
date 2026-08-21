@@ -495,6 +495,7 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
+        // verify examination and reval fee 
         [HttpPost("GetTransactionStatus")]
         public async Task<ApiResult<EmitraResponseParametersModel>> GetTransactionStatus(RPPTransactionStatusDataModel Model)
         {
@@ -553,6 +554,7 @@ namespace Kaushal_Darpan.Api.Controllers
                                 await _unitOfWork.CommonFunctionRepository.UpdateEmitraPaymentStatus(RESPONSEPARAMS);
                                 await _unitOfWork.SaveChangesAsync();
                             }
+
                             else
                             {
                                 result.State = EnumStatus.Error;
@@ -3180,6 +3182,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 var vIsFailed = CommonFuncationHelper.EmitraDecrypt(IsFailed);
                 if (EmitraResponseData != null)
                 {
+                    EmitraResponseData.TransactionNo = EmitraResponseData.TRANSACTIONID;
                     EmitraResponseData.ApplicationIdEnc = CommonFuncationHelper.EmitraDecrypt(ApplicationIdEnc);
                     EmitraResponseData.TRANSACTIONID = CommonFuncationHelper.EmitraDecrypt(UniquerequestId);
                     await _unitOfWork.CommonFunctionRepository.UpdateEmitraPaymentStatus(EmitraResponseData);
@@ -4162,23 +4165,23 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 // getting service ID;
-
+                ActionName = ActionName + " #Step1";
                 if (Model.StudentFeesTransactionItems.Count > 0)
                 {
                     decimal Tamount = 0;
-
+                    ActionName = ActionName + " #Step2";
                     FeeAmountModel_WhatsApp amountReq = new FeeAmountModel_WhatsApp();
                     amountReq.StudentID = Model.StudentID;
                     amountReq.SemesterID = Model.SemesterID;
                     amountReq.StudentExamID = Model.ApplicationIdEnc;
                     var amountResult = await _unitOfWork.RevaluationRepository.GetFeeAmountRevalSubject(amountReq);
-
+                    ActionName = ActionName + " #Step3";
                     foreach (var item in Model.StudentFeesTransactionItems)
                     {
                         item.ItemAmount = (int)amountResult.Amount;
                         Tamount = (decimal)(Tamount + item.ItemAmount);
                     }
-
+                    ActionName = ActionName + " #Step4";
                     EmitraTransactionsModel objEmitra = new EmitraTransactionsModel();
                     objEmitra.key = "_InsertDetails";
                     objEmitra.ApplicationIdEnc = Model.ApplicationIdEnc;
@@ -4193,17 +4196,17 @@ namespace Kaushal_Darpan.Api.Controllers
                     objEmitra.ServiceID = Model.ServiceID;
                     
                     objEmitra.FeeFor = "RevalFee";
-
+                    ActionName = ActionName + " #Step5";
                     //
-                    
+
                     Random rnd = new Random();
                     objEmitra.PRN = "KD" + rnd.Next(100000, 999999) + rnd.Next(100000, 999999);
                     objEmitra.RequestString = JsonConvert.SerializeObject(objEmitra);
-
+                    ActionName = ActionName + " #Step6";
                     //
                     var result2 = await _unitOfWork.CommonFunctionRepository.CreateEmitraTransation(objEmitra);
                     await _unitOfWork.SaveChangesAsync();
-
+                    ActionName = ActionName + " #Step7";
                     if (result2.TransactionId > 0)
                     {
                         result.State = EnumStatus.Success;

@@ -153,6 +153,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DistrictID", body.DistrictID);
                         command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
                         command.Parameters.AddWithValue("@FinancialYearID", body.AcademicYearID);
+                        command.Parameters.AddWithValue("@IsApprentship", body.IsApprentship);
                         //command.Parameters.AddWithValue("@CreatedBy", body.CreatedBy);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -500,6 +501,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ModifyBy", body.ModifyBy);
                         command.Parameters.AddWithValue("@UserID", body.UserID);
                         command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                        command.Parameters.AddWithValue("@IsApprentship", body.IsApprentship);
 
 
                         command.Parameters.Add("@retval_ID", SqlDbType.Int);

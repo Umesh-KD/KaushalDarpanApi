@@ -88,6 +88,7 @@ namespace Kaushal_Darpan.Models.ITINodalOfficerExminerReport
         public int AcademicYearID { get; set; }
         public int EndTermID { get; set; }
         public int DistrictID { get; set; }
+        public bool IsApprentship { get; set; }
     }
 
     public class NodalExamMapping
@@ -102,6 +103,7 @@ namespace Kaushal_Darpan.Models.ITINodalOfficerExminerReport
         public string? SSOID{ get; set; }
         public string? Email{ get; set; }
         public string? MobileNumber{ get; set; }
+        public bool IsApprentship { get; set; }
     }
 
 }

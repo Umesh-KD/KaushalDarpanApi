@@ -426,7 +426,9 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
                     var data = await _unitOfWork.ReportRepository.GetAllotmentReceipt(AllotmentId);
 
-                    if (data != null)
+                    if (data != null &&
+                        data.Tables.Count > 0 &&
+                        data.Tables[0].Rows.Count > 0)
                     {
 
 
@@ -1650,62 +1652,132 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 // Add a style block at the top of your HTML
                 sb.Append(@"
-        <style>
-            body {
-                 font-family: Arial, sans-serif;
-                font-size: 10pt; /* Global font size */
-            }
-            table {
-                border-collapse: collapse;
-                width: 100%;
-            }
-            th, td {
-                border: 1px solid #494949;
-                padding: 4px;
-                font-size: 10pt; /* Cell font size */
+<style>
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 10pt;
+        color: #333333;
+        margin: 0;
+        padding: 0;
+    }
 
-            }
-            b {
-                font-size: 12pt; /* Trade name header */
-            }
-        </style>
-        ");
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    #pdf-header {
+        width: 100%;
+        margin-bottom: 15px;
+        border: 1px solid #444444;
+    }
+
+    #pdf-header td {
+        border: none;
+        text-align: center;
+        padding: 12px 8px;
+    }
+
+    .college-name {
+        font-size: 15pt;
+        font-weight: bold;
+        color: #1f4e78;
+        padding-bottom: 5px;
+    }
+
+    .report-title {
+        font-size: 11pt;
+        font-weight: bold;
+        color: #333333;
+    }
+
+    .financial-year {
+        color: #1f4e78;
+        font-weight: bold;
+    }
+
+    .total-applicant {
+        background-color: #1f4e78;
+        color: #ffffff;
+        font-size: 10pt;
+        font-weight: bold;
+        text-align: left;
+        padding: 7px 10px !important;
+        border: 1px solid #1f4e78 !important;
+    }
+
+    th, td {
+        border: 1px solid #777777;
+        padding: 5px;
+        font-size: 10pt;
+    }
+
+    th {
+        background-color: #eaf1f8;
+        font-weight: bold;
+        color: #222222;
+    }
+</style>
+");
 
                 foreach (var collegeGroup in data.GroupBy(f => f.CollegeId))
                 {
+                    var college = collegeGroup.FirstOrDefault();
 
                     sb.Append($@"
-        <table id='pdf-header' style='width:100%'>
-            <tr>
-                <td style='text-align:center'>
-                    {collegeGroup.FirstOrDefault()?.CollegeName}<br /><br />
-                    Reported Applicant List
-                </td>
-            </tr>
-            <tr>
-                <th colspan='3' style='border-bottom: 1px solid #494949; padding-top:1px;'>Total Applicant {data.Count}</th>
-            </tr>
-        </table>");
-                    int rowTradeC = 1;
-                    foreach (var tradeGroup in collegeGroup.GroupBy(f => f.BranchName))
+    <table id='pdf-header'>
+        <tr>
+            <td>
+                <div class='college-name'>
+                    {college?.CollegeName}
+                </div>
+
+                <div class='report-title'>
+                    Reported Trainee List
+                    <span class='financial-year'>
+                        ({college?.FinYearName})
+                    </span>
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td class='total-applicant'>
+                Total Trainee: {collegeGroup.Count()}
+            </td>
+        </tr>
+    </table>
+    ");
+                
+
+                int rowTradeC = 1;
+                    foreach (var tradeGroup in collegeGroup.GroupBy(f => new
+                    {
+                        f.BranchName,
+                        f.Shift,
+                        f.UnitNo
+                    }))
                     {
 
                         sb.Append($@"
         <div style='margin-top:3px;'>&nbsp;</div>
-        <b>  {tradeGroup.Key}</b>
+        <b style='font-size:15px;'>  {tradeGroup.Key.BranchName}  (Shift: {tradeGroup.Key.Shift} Unit: {tradeGroup.Key.UnitNo}) </b>
+
 
         <table cellpadding='2' cellspacing='0'>
-            <tr>
-                <th>Sr No</th>
-                <th>Application No</th>
-                <th>Name</th>
-                <th>Father Name</th>
-                <th>Shift</th>
-                <th>Unit</th>
-                <th>Allotted Category</th>
-                <th>Reported Date and Time</th>
-         <th>Admission Round</th>
-            </tr>");
+          <tr>
+    <th style='text-align:left;'>SrNo</th>
+    <th style='text-align:left;'>App No</th>
+    <th style='text-align:left;'>Trainee  Name</th>
+    <th style='text-align:left;'>Father Name</th>
+    <th style='text-align:left;'>Shift</th>
+    <th style='text-align:left;'>Unit</th>
+    <th style='text-align:left;'>Allotted Category</th>
+    <th style='text-align:left;'>Reported Date Time</th>
+    <th style='text-align:left;'>Admission Round</th>
+</tr>");
+
+
 
                         int rowNumber = 1;
                         foreach (var s in tradeGroup.OrderBy(f => f.Shift).ThenBy(f => f.UnitNo))

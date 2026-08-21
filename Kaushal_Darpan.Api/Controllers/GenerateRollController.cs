@@ -73,7 +73,7 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
-        [HttpPost("GetGenerateRevelData")]
+        [HttpPost("GetGenerateRevelData")] // reval roll no.
         public async Task<ApiResult<DataTable>> GetGenerateRevelData(GenerateRollSearchModel model)
         {
             ActionName = "GetGenerateRevelData(GenerateRollSearchModel model)";
@@ -169,7 +169,7 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
         [RoleActionFilter(EnumRole.ACP, EnumRole.ACP_NonEng,EnumRole.JDConfidential_Eng, EnumRole.JDConfidential_NonEng)]
-        [HttpPost("SaveAllRevelData")]
+        [HttpPost("SaveAllRevelData")] // generate reval roll no.
         public async Task<ApiResult<bool>> SaveAllRevelData([FromBody] List<GenerateRevalRollData> request)
         {
             ActionName = "SaveAllRevelData([FromBody] List<GenerateRevalRollData> request)";

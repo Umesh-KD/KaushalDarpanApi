@@ -24,16 +24,40 @@ namespace Kaushal_Darpan.Api.Code.PlaywrightPdf
     #region model
     public class PdfOptions
     {
-        public string Format { get; set; } = "A4";
-        public bool Landscape { get; set; }
+        private string? _footerTemplate;
+
+        public string Format { get; set; } //= "A0";
+        public string Width { get; set; } //= "0in";
+        public string Height { get; set; } //= "0in";
+        public bool Landscape { get; set; } = false;
         public bool PrintBackground { get; set; } = true;
-        public string MarginTop { get; set; } = "5mm";
-        public string MarginBottom { get; set; } = "5mm";
-        public string MarginLeft { get; set; } = "5mm";
-        public string MarginRight { get; set; } = "5mm";
-        public bool DisplayHeaderFooter { get; set; }
+        public string MarginTop { get; set; } //= "0mm";
+        public string MarginBottom { get; set; } //= "0mm";
+        public string MarginLeft { get; set; } //= "0mm";
+        public string MarginRight { get; set; } //= "0mm";
+        public bool DisplayHeaderFooter { get; set; } = false;
         public string? HeaderTemplate { get; set; }
-        public string? FooterTemplate { get; set; }
+        public string? FooterTemplate
+        {
+            get
+            {
+                if (PrintFooterPageNo)
+                {
+                    return """
+                    <div style="font-size: 10px; width: 100%; text-align: center;">
+                        Page <span class="pageNumber"></span> of <span class="totalPages"></span>
+                    </div>
+                    """;
+                }
+
+                return _footerTemplate;
+            }
+            set
+            {
+                _footerTemplate = value;
+            }
+        }
+        public bool PrintFooterPageNo { get; set; } = false;
         public float Scale { get; set; } = 1;
     }
     #endregion
@@ -63,6 +87,8 @@ namespace Kaushal_Darpan.Api.Code.PlaywrightPdf
                     new PagePdfOptions
                     {
                         Format = options.Format,
+                        Width = options.Width,
+                        Height = options.Height,
                         Landscape = options.Landscape,
                         PrintBackground = options.PrintBackground,
                         Scale = options.Scale,
