@@ -4767,12 +4767,15 @@ border:1px solid #000;'>
                 sb.AppendLine("      </div>");
 
                 sb.AppendLine($"      <div class=\"division\" style=\"margin-left:60px; text-align:left;\">{data.CourseDuration}</div>");
+
+
                 sb.AppendLine($"      <div class=\"completion-date\" style=\"margin-left:60px; text-align:left;\">{data.ResultDate}</div>");
 
                 // signature 
                 sb.AppendLine($"      <div class=\"signature\"><img src=\"data:{reg_signmime};base64,{reg_signbase64}\" style=\"width:80px;\"/></div>");
 
-                sb.AppendLine($"      <div class=\"sign-date\">{data.DiplomaPrintingDate}</div>");
+                string diplomaPrintingDate = Convert.ToDateTime(data.DiplomaPrintingDate).ToString("dd-MM-yyyy");
+                sb.AppendLine($"      <div class=\"sign-date\">{diplomaPrintingDate}</div>");
                 sb.AppendLine("  </div>");
 
                 sb.AppendLine("</div>");
@@ -5164,7 +5167,6 @@ border:1px solid #000;'>
         {
             try
             {
-                StringBuilder sb = new StringBuilder();
 
                 // set sign of registrar                
                 string reg_signFilepath = $"{ConfigurationHelper.StaticFileRootPath}{data.RegistrarSignFile}";
@@ -5180,6 +5182,8 @@ border:1px solid #000;'>
                     _ => "image/png"
                 };
 
+
+                StringBuilder sb = new StringBuilder();
                 sb.AppendLine("<!DOCTYPE html>");
                 sb.AppendLine("<html>");
                 sb.AppendLine("<head>");
@@ -5199,8 +5203,8 @@ border:1px solid #000;'>
                 sb.AppendLine("    width: 7.5in;");
                 sb.AppendLine("    height: 8in;");
                 sb.AppendLine("    box-sizing: border-box;");
-                sb.AppendLine("    padding: 15px;");
-                sb.AppendLine("    overflow: hidden;");
+                sb.AppendLine("    padding: 0px 0px 0px 15px;");
+               // sb.AppendLine("    overflow: hidden;");
                 sb.AppendLine("}");
 
 
@@ -5211,7 +5215,7 @@ border:1px solid #000;'>
 
                 sb.AppendLine("<div class='certificate'>");
 
-                sb.AppendLine("<div style='text-align:right; height:20px;'>");
+                sb.AppendLine("<div style='text-align:right; height:20px;letter-spacing: -1px;padding-right:20px;'>");
                 sb.AppendLine($"{data.SRNO}");
                 sb.AppendLine("</div>");
 
@@ -5268,15 +5272,35 @@ border:1px solid #000;'>
                 sb.AppendLine("&nbsp;");
                 sb.AppendLine("</div>");
 
+                // =====================================================
+                // Certificate English Title - BLANK
+                // =====================================================
+
+                sb.AppendLine("<div class='center' >");
+                sb.AppendLine("&nbsp;");
+                sb.AppendLine("</div>");
+
+                // =====================================================
+                // Certificate English Title - BLANK
+                // =====================================================
+
+                sb.AppendLine("<div class='center' >");
+                sb.AppendLine("&nbsp;");
+                sb.AppendLine("</div>");
+
+                sb.AppendLine("<div class='center' >");
+                sb.AppendLine("&nbsp;");
+                sb.AppendLine("</div>");
+
 
                 // =====================================================
                 // STUDENT NAME - VALUE ONLY
                 // Original position preserved
                 // =====================================================
 
-                sb.AppendLine("<div style='margin-top:40px;'>");
+                sb.AppendLine("<div style='margin-top:85px;letter-spacing: -1px;'>");
 
-                sb.AppendLine("<span style='display:inline-block; width:220px;'>");
+                sb.AppendLine("<span style='display:inline-block; width:235px;'>");
                 sb.AppendLine("&nbsp;");
                 sb.AppendLine("</span>");
 
@@ -5292,9 +5316,9 @@ border:1px solid #000;'>
                 // Original position preserved
                 // =====================================================
 
-                sb.AppendLine("<div style='margin-top:25px;'>");
+                sb.AppendLine("<div style='margin-top:40px;letter-spacing: -1px;'>");
 
-                sb.AppendLine("<span style='display:inline-block; width:220px;'>");
+                sb.AppendLine("<span style='display:inline-block; width:235px;'>");
                 sb.AppendLine("&nbsp;");
                 sb.AppendLine("</span>");
 
@@ -5310,9 +5334,9 @@ border:1px solid #000;'>
                 // Original position preserved
                 // =====================================================
 
-                sb.AppendLine("<div style='margin-top:25px;'>");
+                sb.AppendLine("<div style='margin-top:42px;letter-spacing: -1px;'>");
 
-                sb.AppendLine("<span style='display:inline-block; width:220px;'>");
+                sb.AppendLine("<span style='display:inline-block; width:235px;'>");
                 sb.AppendLine("&nbsp;");
                 sb.AppendLine("</span>");
 
@@ -5335,6 +5359,7 @@ border:1px solid #000;'>
                 sb.AppendLine("</div>");
 
 
+
                 // =====================================================
                 // ENGLISH DECLARATION - BLANK
                 // Height/position preserved
@@ -5352,10 +5377,7 @@ border:1px solid #000;'>
                 // Position preserved
                 // =====================================================
 
-                sb.AppendLine("<div style='margin-top:30px;'>");
-                sb.AppendLine("&nbsp;<br>");
-                sb.AppendLine("&nbsp;");
-                sb.AppendLine("</div>");
+               
 
 
                 // =====================================================
@@ -5363,15 +5385,16 @@ border:1px solid #000;'>
                 // REGISTRAR - KEEP
                 // =====================================================
 
-                sb.AppendLine("<div style='margin-top:25px;'>");
+                sb.AppendLine("<div style='margin-top:90px;letter-spacing: -1px;'>");
 
                 sb.AppendLine("<span>");
-                sb.AppendLine("&nbsp;<br>");
+                sb.AppendLine("&nbsp;");
                 sb.AppendLine("&nbsp;");
                 sb.AppendLine("</span>");
 
-                sb.AppendLine("<span style='margin-left:20px;'>");
-                sb.AppendLine($"{data.MigrationPrintingDate}");
+                string migrationPrintingDate = Convert.ToDateTime(data.MigrationPrintingDate).ToString("dd-MM-yyyy");
+                sb.AppendLine("<span style='margin-left:80px; '>");
+                sb.AppendLine($"{migrationPrintingDate}");
                 sb.AppendLine("</span>");
 
 
@@ -5379,7 +5402,7 @@ border:1px solid #000;'>
                 // REGISTRAR
                 // =====================================================
 
-                sb.AppendLine("<span style='float:right; margin-right:40px;'>");
+                sb.AppendLine("<span style='float:right; margin-right:60px; margin-top:-80px;'>");
                 sb.AppendLine($"<img src=\"data:{reg_signmime};base64,{reg_signbase64}\" style=\"width:80px;\"/>");
                 sb.AppendLine("<br><br>");
                 sb.AppendLine("");
