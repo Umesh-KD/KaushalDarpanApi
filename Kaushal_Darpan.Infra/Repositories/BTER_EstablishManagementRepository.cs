@@ -2381,6 +2381,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@RetirementOrder", body.RetirementDocument);
                         command.Parameters.AddWithValue("@dis_RetirementOrder", body.Dis_RetirementDocument);
                         command.Parameters.AddWithValue("@ProfileStatus", body.ProfileStatus);
+                        command.Parameters.AddWithValue("@ModifyBy", body.ModifyBy);
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         // Execute the command

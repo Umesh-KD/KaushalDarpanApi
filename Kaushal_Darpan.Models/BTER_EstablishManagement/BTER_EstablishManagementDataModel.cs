@@ -582,6 +582,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int CreatedBy { get; set; }
         public int DepartmentID { get; set; }
         public int ProfileStatus { get; set; }
+        public int ModifyBy { get; set; }
     }
 
     public class BTER_DesignationWiseBranchDataModel
