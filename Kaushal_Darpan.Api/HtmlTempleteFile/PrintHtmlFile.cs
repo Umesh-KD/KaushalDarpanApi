@@ -4974,7 +4974,7 @@ border:1px solid #000;'>
                 sb.AppendLine("<style>");
                 sb.AppendLine("body { font-size:20px; font-family: Arial, sans-serif;white-space: nowrap; }");
                 sb.AppendLine(".certificate { width: 7.5in; height: 8in; }");
-                sb.AppendLine(".name-block { margin-top: 300px; line-height: 1.6; width:100%; float:left; }");
+                sb.AppendLine(".name-block { margin-top: 285px; line-height: 1.6; width:100%; float:left; }");
                 sb.AppendLine(".name-block div { margin-bottom: 2px; }");
                 sb.AppendLine(".code-row { margin-top: 30px;  width:100%; float:left;padding-left:0px; }");
                 sb.AppendLine(".branch { margin-top: 60px;  width:100%; float:left; }");
@@ -4984,8 +4984,8 @@ border:1px solid #000;'>
                 sb.AppendLine(".duration { margin-top: 20px;  width:100%; float:left;  }");
                 sb.AppendLine(".signature-row { margin-top: 60px; width:100%; float:left; }");
                 sb.AppendLine(".completion-date { margin-top: 12px; }");
-                sb.AppendLine(".signature-img { text-align:right; margin-top:-90px; float:right; margin-right:50px;}");
-                sb.AppendLine(".issue-date { margin-top: 30px;  }");
+                sb.AppendLine(".signature-img { text-align:right; margin-top:-105px; float:right; margin-right:50px;}");
+                sb.AppendLine(".issue-date { margin-top: 28px;  }");
                 sb.AppendLine("</style>");
 
                 sb.AppendLine("</head>");

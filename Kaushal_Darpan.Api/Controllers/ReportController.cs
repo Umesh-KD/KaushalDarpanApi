@@ -21650,8 +21650,8 @@ Web Site : www.techedu.rajasthan.gov.in
 
 
                             // save
-                            await _unitOfWork.MarksheetDownloadRepository.AddUpdateProvisionalDiplomaCertificate(objProvisionalDiploma);
-                            await _unitOfWork.SaveChangesAsync();
+                            //await _unitOfWork.MarksheetDownloadRepository.AddUpdateProvisionalDiplomaCertificate(objProvisionalDiploma);
+                            //await _unitOfWork.SaveChangesAsync();
 
                             CommonFuncationHelper.WriteTextLog($"1.8. save student done : {student.StudentName}", logfilename);
 
