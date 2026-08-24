@@ -1,4 +1,5 @@
-﻿using Kaushal_Darpan.Models.PreExamStudent;
+﻿using Kaushal_Darpan.Models.CommonModel;
+using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.SMSConfigurationSetting;
 using Kaushal_Darpan.Models.Student;
 using System.Data;
@@ -14,8 +15,8 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         // Task<int> SendSMSForStudentEnrollmentData(List<ForSMSEnrollmentStudentMarkedModel> model);
         Task<DataTable> GetEmailTemplateByTemplateCode(string TemplateCode);
-
         Task<DataTable> GetDynamicData(string DataQuery);
+        Task<long> SaveEmailLog(EmailLog ModelEmailLog);
 
     }
 }

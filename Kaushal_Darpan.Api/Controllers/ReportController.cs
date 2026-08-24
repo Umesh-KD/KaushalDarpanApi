@@ -21598,12 +21598,12 @@ Web Site : www.techedu.rajasthan.gov.in
                             var pdfBytes = await _pdfService.GenerateAsync(_html,
                                 new PdfOptions
                                 {
-                                    Format = "A4",
-                                    MarginTop = "10mm",
+                                    Width = "7.5in",
+                                    Height = "8in",
+                                    MarginTop = "3mm",
                                     MarginBottom = "0mm",
                                     MarginLeft = "10mm",
-                                    MarginRight = "10mm",
-                                    PrintBackground = true
+                                    MarginRight = "10mm"
                                 });
 
 
@@ -21747,7 +21747,7 @@ Web Site : www.techedu.rajasthan.gov.in
         public async Task<ApiResult<string>> StudentMigrationCertificateDownloadChunk([FromBody] List<MigrationCertificateDownloadSearchModel> Model)
         {
             ActionName = "StudentMigrationCertificateDownloadChunk([FromBody] List<MigrationCertificateDownloadSearchModel> Model)";
-
+            //
             var result = new ApiResult<string>();
             var logfilename = "_MigrationCertificateDownload";
             var Session = string.Empty;
@@ -21813,15 +21813,15 @@ Web Site : www.techedu.rajasthan.gov.in
                             }
 
                             var pdfBytes = await _pdfService.GenerateAsync(_html,
-                                new PdfOptions
-                                {
-                                    Format = "A4",
-                                    MarginTop = "10mm",
-                                    MarginBottom = "0mm",
-                                    MarginLeft = "10mm",
-                                    MarginRight = "10mm",
-                                    PrintBackground = true
-                                });
+                                                new PdfOptions
+                                                {
+                                                    Width = "7.5in",
+                                                    Height = "8in",
+                                                    MarginTop = "3mm",
+                                                    MarginBottom = "0mm",
+                                                    MarginLeft = "10mm",
+                                                    MarginRight = "10mm"
+                                                });
 
                             await System.IO.File.WriteAllBytesAsync(filepath, pdfBytes);
 
@@ -22180,8 +22180,8 @@ Web Site : www.techedu.rajasthan.gov.in
             return result;
         }
         #endregion
-    
-            [HttpPost("getITIDynamicReport")]
+
+        [HttpPost("getITIDynamicReport")]
         public async Task<ApiResult<DataTable>> getITIDynamicReport(ITI_DynamicReport model)
         {
             ActionName = "GetITI_FinalReport(ITI_FinalReportModule model)";
@@ -22216,4 +22216,4 @@ Web Site : www.techedu.rajasthan.gov.in
             return result;
         }
     }
-    }
+}

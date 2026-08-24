@@ -909,9 +909,8 @@ namespace Kaushal_Darpan.Api.Controllers
         public async Task<ApiResult<bool>> SendEmail_New([FromBody] List<ForSMSEnrollmentStudentMarkedModel> request)
         {
             ActionName = "SendEmail([FromBody] List<ForSMSEnrollmentStudentMarkedModel> request)";
-
             var result = new ApiResult<bool>();
-
+            long k = 0;
             try
             {
                 if (request == null || request.Count == 0)
@@ -942,7 +941,6 @@ namespace Kaushal_Darpan.Api.Controllers
                 DataRow templateRow = templateTable.Rows[0];
 
                 ObjET.ID = Convert.ToInt32(templateRow["ID"]);
-
                 ObjET.TemplateName = Convert.ToString(templateRow["TemplateName"]) ?? "";
                 ObjET.EmailSubject = Convert.ToString(templateRow["EmailSubject"]) ?? "";
                 ObjET.EmailBody = Convert.ToString(templateRow["EmailBody"]) ?? "";
@@ -992,13 +990,11 @@ namespace Kaushal_Darpan.Api.Controllers
                         string emailBody = ObjET.EmailBody;
                         string emailSubject = ObjET.EmailSubject;
 
-
                         // ----------------------------------------------------
                         // Replace Dynamic DB Values
                         // ----------------------------------------------------
 
-                        if (dynamicDataTable != null &&
-                            dynamicDataTable.Rows.Count > 0)
+                        if (dynamicDataTable != null && dynamicDataTable.Rows.Count > 0)
                         {
                             //DataRow dataRow = dynamicDataTable.Rows[0];
                             foreach (DataRow DR in dynamicDataTable.Rows)
@@ -1006,21 +1002,9 @@ namespace Kaushal_Darpan.Api.Controllers
                                 foreach (DataColumn column in dynamicDataTable.Columns)
                                 {
                                     string columnName = column.ColumnName;
-
-                                    string value =
-                                        Convert.ToString(
-                                            DR[column]) ?? "";
-
-                                    emailBody = emailBody.Replace(
-                                        "{{" + columnName + "}}",
-                                        value);
-
-                                    emailSubject = emailSubject.Replace(
-                                        "{{" + columnName + "}}",
-                                        value);
-
-                                   
-
+                                    string value = Convert.ToString(DR[column]) ?? "";
+                                    emailBody = emailBody.Replace("{{" + columnName + "}}", value);
+                                    emailSubject = emailSubject.Replace("{{" + columnName + "}}", value);
                                 }
                                 // ====================================================
                                 // 5. Get To / CC / BCC
@@ -1045,7 +1029,6 @@ namespace Kaushal_Darpan.Api.Controllers
                                     bccEmail = Convert.ToString(ObjET.BccQuery);
                                 }
 
-
                                 // ====================================================
                                 // 6. If To Email Not Found
                                 // ====================================================
@@ -1055,56 +1038,47 @@ namespace Kaushal_Darpan.Api.Controllers
                                     continue;
                                 }
 
-
                                 // ====================================================
                                 // 7. Create Mail
                                 // ====================================================
 
                                 using (MailMessage message = new MailMessage())
                                 {
-                                    message.From =
-                                        new MailAddress(
-                                            OBJES.FromEmail);
+                                    message.From = new MailAddress(OBJES.FromEmail);
 
                                     message.Subject = emailSubject;
                                     message.Body = emailBody;
                                     message.IsBodyHtml = true;
 
-
                                     // ------------------------------------------------
                                     // TO
                                     // ------------------------------------------------
 
-                                    AddEmails( message.To, toEmail);
-
+                                    AddEmails(message.To, toEmail);
 
                                     // ------------------------------------------------
                                     // CC
                                     // ------------------------------------------------
 
-                                    AddEmails( message.CC, ccEmail);
+                                    AddEmails(message.CC, ccEmail);
 
                                     // ------------------------------------------------
                                     // BCC
                                     // ------------------------------------------------
 
-                                    AddEmails( message.Bcc, bccEmail);
+                                    AddEmails(message.Bcc, bccEmail);
 
                                     // =================================================
                                     // 8. Attachment
                                     // =================================================
 
-                                    if (!string.IsNullOrWhiteSpace(
-                                        ObjET.EmailAttachment))
+                                    if (!string.IsNullOrWhiteSpace(ObjET.EmailAttachment))
                                     {
-                                        string attachmentPath =
-                                            ObjET.EmailAttachment;
-
+                                        string attachmentPath = ObjET.EmailAttachment;
                                         // Check file
                                         if (System.IO.File.Exists(attachmentPath))
                                         {
-                                            message.Attachments.Add(
-                                                new Attachment(attachmentPath));
+                                            message.Attachments.Add(new Attachment(attachmentPath));
                                         }
                                     }
                                     else
@@ -1113,66 +1087,58 @@ namespace Kaushal_Darpan.Api.Controllers
                                         {
                                             if (System.IO.File.Exists(DR["Doc"].ToString()))
                                             {
-                                                message.Attachments.Add(
-                                                    new Attachment(DR["Doc"].ToString()!));
+                                                message.Attachments.Add(new Attachment(DR["Doc"].ToString()!));
                                             }
                                         }
-
-                                       
                                     }
-
 
                                     // =================================================
                                     // 9. SMTP
                                     // =================================================
 
-                                    using (SmtpClient smtp =
-                                           new SmtpClient())
+                                    using (SmtpClient smtp = new SmtpClient())
                                     {
                                         smtp.Host = OBJES.Host;
                                         smtp.Port = OBJES.Port;
                                         smtp.EnableSsl = OBJES.EnableSsl;
                                         smtp.UseDefaultCredentials = false;
 
-                                        smtp.Credentials =
-                                            new NetworkCredential(
-                                                OBJES.UserName,
-                                                OBJES.Password);
-
-                                       //var k= await smtp.SendMailAsync(message);
+                                        smtp.Credentials = new NetworkCredential(OBJES.UserName, OBJES.Password);
+                                        //var k= await smtp.SendMailAsync(message);
 
                                         try
                                         {
                                             await smtp.SendMailAsync(message);
+                                            // ============================================================
+                                            // 10. Success                                            
+                                            k = await SaveEmailLogs(message, templateRow["TemplateName"].ToString()!, "Email is sent successfully");
 
                                             // ============================================================
-                                            // 10. Success
-                                            // ============================================================
 
-                                            result.Data = true;
-                                            result.State = EnumStatus.Success;
-                                            result.Message = "Email sent successfully.!";
-
+                                            result.Data = k > 0 ? true : false;
+                                            result.State = k > 0 ? EnumStatus.Success : EnumStatus.Error;
+                                            result.Message = k > 0 ? "Email logged successfully." : "Something went wrong.";
 
                                         }
                                         catch (Exception ex)
                                         {
                                             // ============================================================
-                                            // 10. Success
+                                            // 11. Error
                                             // ============================================================
-
+                                            k = await SaveEmailLogs(message, templateRow["TemplateName"].ToString()!, ex.Message);
                                             result.State = EnumStatus.Error;
                                             result.ErrorMessage = ex.Message;
-
                                         }
-
                                     }
                                 }
-
                             }
-
                         }
-
+                    }
+                    catch (SmtpException ex)
+                    {
+                        result.Data = false;
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = ex.Message;
                     }
                     catch (Exception emailEx)
                     {
@@ -1211,6 +1177,28 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             }
         }
+
+
+        private async Task<long> SaveEmailLogs(MailMessage message, string TemplateName, string Status)
+        {
+            return await _unitOfWork.SMSMailRepository.SaveEmailLog(new EmailLog
+            {
+                TemplateCode = TemplateName,
+                ToEmail = string.Join(",", message.To.Select(x => x.Address)),
+                CcEmail = string.Join(",", message.CC.Select(x => x.Address)),
+                BccEmail = string.Join(",", message.Bcc.Select(x => x.Address)),
+                EmailSubject = message.Subject,
+                EmailBody = message.Body,
+                EmailAttachment = string.Join(",", message.Attachments.Select(x => x.Name)),
+                EmailStatus = Status,
+                ErrorMessage = null,
+                ReferenceID = 0,//referenceId,
+                SentDate = DateTime.Now
+            });
+
+        }
+
+
         private string ReplaceVariables(string text, Dictionary<string, object> data)
         {
             if (string.IsNullOrEmpty(text))
