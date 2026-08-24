@@ -225,8 +225,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ShowAll", model.ShowAll);
                         command.Parameters.AddWithValue("@Status", model.Status);
                         command.Parameters.AddWithValue("@RoleID", model.RoleID);
-                        command.Parameters.AddWithValue("@IsYearly", model.IsYearly);
-                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        command.Parameters.AddWithValue("@ActionName", model.ActionName);
+                        //command.Parameters.AddWithValue("@IsYearly", model.ActionName);
+                       _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
                     }
                     return dataTable;

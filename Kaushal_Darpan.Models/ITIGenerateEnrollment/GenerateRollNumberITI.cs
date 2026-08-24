@@ -28,5 +28,7 @@ namespace Kaushal_Darpan.Models.ITIGenerateEnrollment
         public int? ShowAll { get; set; }
         public int? Status { get; set; }
         public int? StudentTypeID { get; set; }
+        public string ?ActionName { get; set; }
+
     }
 }
