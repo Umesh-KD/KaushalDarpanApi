@@ -571,6 +571,19 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
     }
 
 
+    public class RetirementProcessModel:RequestBaseModel
+    {
+        public int? StaffID { get; set; }
+        public int? StaffUserID { get; set; }
+        public string? RetirementOrderDate { get; set; }
+        public string? RetirementDocument { get; set; }
+        public string? Dis_RetirementDocument { get; set; }
+        public string? RetirementRemarks { get; set; }
+        public int CreatedBy { get; set; }
+        public int DepartmentID { get; set; }
+        public int ProfileStatus { get; set; }
+    }
+
     public class BTER_DesignationWiseBranchDataModel
     {
         public int DepartmentID { get; set; } = 0;

@@ -2359,6 +2359,53 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+
+        public async Task<bool> SaveRetirementAction(RetirementProcessModel body)
+        {
+            _actionName = "SaveRetirementAction(RetirementProcessModel body)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_BTER_EM_StaffUpdateRetirement";
+                        command.Parameters.AddWithValue("@Action", "UpdateStaff_Retirement");
+                        command.Parameters.AddWithValue("@StaffID", body.StaffID);
+                        command.Parameters.AddWithValue("@StaffUserID", body.StaffUserID);
+                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                        command.Parameters.AddWithValue("@RetirementRemark", body.RetirementRemarks);
+                        command.Parameters.AddWithValue("@RetirementOrderDate", body.RetirementOrderDate);
+                        command.Parameters.AddWithValue("@RetirementOrder", body.RetirementDocument);
+                        command.Parameters.AddWithValue("@dis_RetirementOrder", body.Dis_RetirementDocument);
+                        command.Parameters.AddWithValue("@ProfileStatus", body.ProfileStatus);
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        // Execute the command
+                        result = await command.ExecuteNonQueryAsync();
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
         public async Task<DataTable> Bter_EM_GetCommonDropdownData(EM_CommonDropdownDataModel body)
         {
             _actionName = "Bter_EM_GetCommonDropdownData(EM_CommonDropdownDataModel body)";
