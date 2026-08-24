@@ -70,6 +70,7 @@
         public string? RollNo { get; set; }
         public string? DOB { get; set; }
         public int? EffectiveEndTermID { get; set; }
+        public short? HasBulk { get; set; }
     }
 
     public class MarksheetSaveDataModel

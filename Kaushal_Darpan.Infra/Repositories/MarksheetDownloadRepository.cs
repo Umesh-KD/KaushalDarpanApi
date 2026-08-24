@@ -359,6 +359,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@RollNo", model.RollNo);
                     command.Parameters.AddWithValue("@DOB", model.DOB);
                     command.Parameters.AddWithValue("@ResultTypeID", model.ResultType);
+                    command.Parameters.AddWithValue("@HasBulk", model.HasBulk);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     ds = await command.FillAsync();
@@ -430,6 +431,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@DOB", model.DOB);
                     command.Parameters.AddWithValue("@ResultTypeID", model.ResultType);
                     command.Parameters.AddWithValue("@EffectiveEndTermIDNew", model.EffectiveEndTermID);
+                    command.Parameters.AddWithValue("@HasBulk", model.HasBulk);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     ds = await command.FillAsync();
@@ -503,6 +505,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@RollNo", model.RollNo);
                     command.Parameters.AddWithValue("@DOB", model.DOB);
                     command.Parameters.AddWithValue("@ResultTypeID", model.ResultType);
+                    command.Parameters.AddWithValue("@HasBulk", model.HasBulk);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     ds = await command.FillAsync();
