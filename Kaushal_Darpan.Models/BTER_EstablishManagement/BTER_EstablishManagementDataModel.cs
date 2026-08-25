@@ -74,6 +74,8 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? QualificationIDaf { get; set; }
         public int? QualificationIDbe { get; set; }
         public string? DateOfImplementation { get; set; }
+        public int? BugetHeadID { get; set; }
+        public int? SalaryDrawnInstituteID { get; set; }
     }
 
     public class BTER_EM_GetPersonalDetailByUserID

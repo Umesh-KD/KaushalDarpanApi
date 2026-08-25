@@ -5046,7 +5046,7 @@ border:1px solid #000;'>
                 sb.AppendLine("<div class=\"signature-img\">");
                 sb.AppendLine($"<img src=\"data:{reg_signmime};base64,{reg_signbase64}\" style=\"width:80px;\"/>");
 
-                
+
                 sb.AppendLine("</div>");
 
                 sb.AppendLine("</div>");
@@ -5109,7 +5109,7 @@ border:1px solid #000;'>
                 sb.AppendLine("    height: 8in;");
                 sb.AppendLine("    box-sizing: border-box;");
                 sb.AppendLine("    padding: 0px 0px 0px 15px;");
-               // sb.AppendLine("    overflow: hidden;");
+                // sb.AppendLine("    overflow: hidden;");
                 sb.AppendLine("}");
 
 
@@ -5282,7 +5282,7 @@ border:1px solid #000;'>
                 // Position preserved
                 // =====================================================
 
-               
+
 
 
                 // =====================================================
@@ -5852,7 +5852,7 @@ body {
 
 <div class='header'>
 
-    <div class='reg'>
+    <div class='reg' style='padding-right:170px;item-align:left;width:80%;'>
         रजि.
     </div>
 
@@ -5876,7 +5876,7 @@ body {
         {System.Net.WebUtility.HtmlEncode(registrationNo)}
     </td>
 
-    <td class='right' style='width:40%;'>
+    <td class='right' style='width:40%;padding-right:170px;'>
         दिनांक:
         {System.Net.WebUtility.HtmlEncode(reportDate)}
     </td>
@@ -5888,7 +5888,7 @@ body {
 
     <td class='left' style='padding-top:25px;'>
         <div class='principle'>
-            PRINCIPLE
+            PRINCIPAL
         </div>
         <div class='college'>
             {System.Net.WebUtility.HtmlEncode(instituteName)}
@@ -6030,10 +6030,17 @@ body {
                     sb.Append(@"
 </tbody>
 
-</table>
+</table>");
 
-</div>
-");
+                    // =========================================================
+                    // sign
+                    // =========================================================
+                    if (pageNo == pageCount)
+                    {
+                        sb.Append("<div class='right' style='margin-right:100px;margin-top:50px;'><b>भवदीय</b></div>");
+                        sb.Append("<div class='right' style='margin-right:30px;margin-top:40px;'><b>संयुक्त निदेशक (रजिस्ट्रार)</b></div>");
+                    }
+                    sb.Append("</div>");
                 }
 
 
