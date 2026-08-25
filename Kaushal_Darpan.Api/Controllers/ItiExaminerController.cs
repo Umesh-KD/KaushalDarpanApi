@@ -172,13 +172,13 @@ namespace Kaushal_Darpan.Api.Controllers
                         result.ErrorMessage = "Validation failed!";
                         return result;
                     }
-                     
+
 
                     result.Data = await _unitOfWork.ItiExaminerRepository.SaveData(request);
-             
-                    if (result.Data>0)
+
+                    if (result.Data > 0)
                     {
-                       
+
                         result.State = EnumStatus.Success;
                         if (request.ExaminerID == 0)
                         {
@@ -196,7 +196,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         result.ErrorMessage = "Examiner Already Exist with this SSOID";
                     }
 
-                  
+
 
                     else
                     {
@@ -691,7 +691,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 var result = new ApiResult<int>();
                 try
                 {
-                    
+
                     result.Data = await _unitOfWork.ItiExaminerRepository.SaveExaminerData(request);
                     await _unitOfWork.SaveChangesAsync();
                     if (result.Data > 0)
@@ -833,7 +833,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     //}
 
-                    return File(reportResult.MainStream, "application/pdf", newFileName );
+                    return File(reportResult.MainStream, "application/pdf", newFileName);
                 }
                 else
                 {
@@ -867,10 +867,10 @@ namespace Kaushal_Darpan.Api.Controllers
                 //var data = await _unitOfWork.ItiExaminerRepository.SaveDataSubmitAndForwardToAdmin(filterModel);
                 //await _unitOfWork.SaveChangesAsync();
                 //var objData = CommonFuncationHelper.ConvertDataTable<RenumerationExaminerPDFModel>(data);
-                
-                    var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
 
-                    var data1 = await _unitOfWork.ItiExaminerRepository.Iti_RemunerationGenerateAndViewPdf(filterModel);
+                var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
+
+                var data1 = await _unitOfWork.ItiExaminerRepository.Iti_RemunerationGenerateAndViewPdf(filterModel);
                 if (data1?.Rows?.Count > 0)
                 {
                     //rdlc
@@ -901,12 +901,12 @@ namespace Kaushal_Darpan.Api.Controllers
                         filterModel.filename = newFileName;
                     }
                 }
-                 var data = await _unitOfWork.ItiExaminerRepository.SaveDataSubmitAndForwardToAdmin(filterModel);
-                 await _unitOfWork.SaveChangesAsync();
+                var data = await _unitOfWork.ItiExaminerRepository.SaveDataSubmitAndForwardToAdmin(filterModel);
+                await _unitOfWork.SaveChangesAsync();
                 if (data == 1)
                 {
                     result.State = EnumStatus.Success;
-                   result.Message = "Forwarded To Admin Successfully";
+                    result.Message = "Forwarded To Admin Successfully";
                 }
                 else
                 {
@@ -1906,8 +1906,8 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-        [HttpPost("TeacherForExaminerReportDewnloadPdfNew")]
-        public async Task<IActionResult> TeacherForExaminerReportDewnloadPdfNew([FromBody] ITITeacherForExaminerSearchModel body)
+        [HttpPost("TeacherForExaminerReportDewnloadPdfNew1")]
+        public async Task<IActionResult> TeacherForExaminerReportDewnloadPdfNew1([FromBody] ITITeacherForExaminerSearchModel body)
         {
             try
             {
@@ -1916,7 +1916,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 // Grouping data dynamically
                 var groupedData = dataList
-                    .GroupBy(x => new { x.SubjectCode, x.StreamID, x.SemesterID, x.CenterCode })
+                    .GroupBy(x => new { x.SubjectCode, x.StreamID, x.SemesterID })
                     .ToList();
 
                 var sb = new StringBuilder();
@@ -1930,6 +1930,59 @@ namespace Kaushal_Darpan.Api.Controllers
     <title>SCVT Examination Marks Sheet</title>
 
     <style>
+.exam-header {
+    width: 100%;
+    border-collapse: collapse;
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+.exam-header td {
+    border: none;
+    padding: 1px 3px;
+    font-size: 10px;
+    line-height: 13px;
+    vertical-align: middle;
+}
+
+.header-left {
+    width: 55%;
+    text-align: left;
+}
+
+.header-right {
+    width: 45%;
+    text-align: right;
+}
+
+.marks-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 4px;
+    table-layout: fixed;
+}
+
+.marks-table th,
+.marks-table td {
+    border: 1px solid #555;
+    padding: 3px 4px;
+    font-size: 10px;
+    line-height: 13px;
+}
+
+.marks-table th {
+    font-weight: bold;
+    text-align: left;
+    background: #f5f5f5;
+}
+
+.marks-table td {
+    vertical-align: middle;
+}
+
+
+
         * {
             box-sizing: border-box;
             font-family: Arial, sans-serif;
@@ -2079,36 +2132,262 @@ namespace Kaushal_Darpan.Api.Controllers
                     ExaminerName = firstItem.ExaminerName;
                     MobileNo = firstItem.MobileNo;
 
-                    const int maxRowsPerColumn = 30; // Adjust row split count as needed
-                    var leftList = students.Take(maxRowsPerColumn).ToList();
-                    var rightList = students.Skip(maxRowsPerColumn).Take(maxRowsPerColumn).ToList();
 
-                    if (leftList.Count > 30)
+                    const int maxRowsPerColumn = 35;
+                    const int rowsPerPage = maxRowsPerColumn * 2; // 60
+
+                    int totalPages = 0;
+
+                    if (students.Count > maxRowsPerColumn)
                     {
+                        totalPages = (int)Math.Ceiling(
+                            (double)students.Count / rowsPerPage
+                        );
 
-                        sb.Append($@"
+                        // ============================================
+                        // LOOP THROUGH DYNAMIC PAGES
+                        // ============================================
+                        for (int pageNo = 0; pageNo < totalPages; pageNo++)
+                        {
+                            int pageStartIndex = pageNo * rowsPerPage;
+
+                            // Current page records only
+                            var pageStudents = students
+                                .Skip(pageStartIndex)
+                                .Take(rowsPerPage)
+                                .ToList();
+
+                            // Left = 30
+                            var leftList = pageStudents
+                                .Take(maxRowsPerColumn)
+                                .ToList();
+
+                            // Right = next 30
+                            var rightList = pageStudents
+                                .Skip(maxRowsPerColumn)
+                                .Take(maxRowsPerColumn)
+                                .ToList();
+
+                            sb.Append($@"
 <div class=""page"">
-    <!-- 50/50 Layout Table Wrapper -->
     <table class=""layout-table"">
         <tr>
-            <!-- Left Side Column (1 to 10) -->
+
+            <!-- LEFT SIDE -->
             <td width=""49%"">
-                <!-- Left Header -->
+
                 <table style=""width:100%; border:none; margin-bottom:10px;"">
                     <tr>
-                        <td style=""border:none; text-align:left;""><b>{firstItem.ExamName}</b></td>
-                        <td style=""border:none; text-align:right;"">Center Code: <b>{firstItem.CenterCode}</b></td>
+                        <td style=""border:none; text-align:left;"">
+                            <b>{firstItem.ExamName}</b>
+                        </td>
+                        <td style=""border:none; text-align:right;"">
+                            Center Code: <b>{firstItem.CenterCode}</b>
+                        </td>
                     </tr>
+
                     <tr>
-                        <td style=""border:none; text-align:left;"">Examiner Code: <b>{firstItem.ExaminerCode}</b></td>
-                        <td style=""border:none; text-align:right;"">Subject: <b>{firstItem.SubjectName}</b></td>                        
+                        <td style=""border:none; text-align:left;"">
+                            Examiner Code: <b>{firstItem.ExaminerCode}</b>
+                        </td>
+                        <td style=""border:none; text-align:right;"">
+                            Subject: <b>{firstItem.SubjectName}</b>
+                        </td>
                     </tr>
+
                     <tr>
-                        <td style=""border:none; text-align:left;"">Trade: <b>{firstItem.StreamName}</b></td>
-                        <td style=""border:none; text-align:right;"">Maximum Marks: <b>{firstItem.MaxMarks}</b></td>
+                        <td style=""border:none; text-align:left;"">
+                            Trade: <b>{firstItem.StreamName}</b>
+                        </td>
+                        <td style=""border:none; text-align:right;"">
+                            Maximum Marks: <b>{firstItem.MaxMarks}</b>
+                        </td>
                     </tr>
                 </table>
 
+                <table class=""marks-table"">
+                    <thead>
+                        <tr>
+                            <th class=""col-sno"">S.No.</th>
+                            <th class=""col-roll"">Roll No</th>
+                            <th colspan=""2"" class=""text-center"">
+                                Marks Obtained
+                            </th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th class=""col-words"">In Words</th>
+                            <th class=""col-fig"">In Fig.</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+");
+
+                            // ============================================
+                            // LEFT SIDE
+                            // ============================================
+                            for (int i = 0; i < leftList.Count; i++)
+                            {
+                                var item = leftList[i];
+
+                                int sno = pageStartIndex + i + 1;
+
+                                sb.Append($@"
+                        <tr>
+                            <td class=""col-sno"">{sno}</td>
+                            <td class=""col-roll"">{item.RollNo}</td>
+                            <td class=""col-words"">{item.ObtainedMarks_inWords}</td>
+                            <td class=""col-fig"">{item.ObtainedMarks}</td>
+                        </tr>");
+                            }
+                            for (int i = leftList.Count; i < maxRowsPerColumn; i++)
+                            {
+                                int sno = pageStartIndex + maxRowsPerColumn + i + 1;
+
+                                sb.Append($@"
+                        <tr>
+                            <td class=""col-sno"">{sno}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>");
+                            }
+
+
+                            sb.Append($@"
+                    </tbody>
+                </table>
+
+            </td>
+
+            <!-- GAP -->
+            <td width=""2%""></td>
+
+            <!-- RIGHT SIDE -->
+            <td width=""49%"">
+
+                <table style=""width:100%; border:none; margin-bottom:10px;"">
+                    <tr>
+                        <td style=""border:none; text-align:left;"">
+                            <b>{firstItem.ExamName}</b>
+                        </td>
+                        <td style=""border:none; text-align:right;"">
+                            Center Code: <b>{firstItem.CenterCode}</b>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style=""border:none; text-align:left;"">
+                            Examiner Code: <b>{firstItem.ExaminerCode}</b>
+                        </td>
+                        <td style=""border:none; text-align:right;"">
+                            Subject: <b>{firstItem.SubjectName}</b>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style=""border:none; text-align:left;"">
+                            Trade: <b>{firstItem.StreamName}</b>
+                        </td>
+                        <td style=""border:none; text-align:right;"">
+                            Maximum Marks: <b>{firstItem.MaxMarks}</b>
+                        </td>
+                    </tr>
+                </table>
+
+                <table class=""marks-table"">
+                    <thead>
+                        <tr>
+                            <th class=""col-sno"">S.No.</th>
+                            <th class=""col-roll"">Roll No</th>
+                            <th colspan=""2"" class=""text-center"">
+                                Marks Obtained
+                            </th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th class=""col-words"">In Words</th>
+                            <th class=""col-fig"">In Fig.</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+");
+
+                            // ============================================
+                            // RIGHT SIDE
+                            // ============================================
+                            for (int i = 0; i < rightList.Count; i++)
+                            {
+                                var item = rightList[i];
+
+                                int sno = pageStartIndex + maxRowsPerColumn + i + 1;
+
+                                sb.Append($@"
+                        <tr>
+                            <td class=""col-sno"">{sno}</td>
+                            <td class=""col-roll"">{item.RollNo}</td>
+                            <td class=""col-words"">{item.ObtainedMarks_inWords}</td>
+                            <td class=""col-fig"">{item.ObtainedMarks}</td>
+                        </tr>");
+                            }
+
+                            // ============================================
+                            // BLANK ROWS ON RIGHT SIDE
+                            // ============================================
+                            for (int i = rightList.Count; i < maxRowsPerColumn; i++)
+                            {
+                                int sno = pageStartIndex + maxRowsPerColumn + i + 1;
+
+                                sb.Append($@"
+                        <tr>
+                            <td class=""col-sno"">{sno}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>");
+                            }
+
+                            sb.Append(@"
+                    </tbody>
+                </table>
+
+            </td>
+
+        </tr>
+    </table>
+</div>");
+
+                        } // END page loop
+                    }
+
+                    else
+                    {
+                        sb.Append($@"
+<div >
+    <!-- 50/50 Layout Table Wrapper -->
+    <table style=""width:100%;"">
+        <tr>
+            <!-- Left Side Column (1 to 10) -->
+            <td width=""100%"">
+                <!-- Left Header -->
+     <table style=""width:100%; border:none; margin-bottom:10px; margin-top:10px;"">
+    <tr>
+        <td style=""border:none; text-align:left;""><b>{firstItem.ExamName}</b></td>
+        <td style=""border:none; text-align:right;"">Center Code: <b>{firstItem.CenterCode}</b></td>
+    </tr>
+    <tr>
+        <td style=""border:none; text-align:left;"">Examiner Code: <b>{firstItem.ExaminerCode}</b></td>
+        <td style=""border:none; text-align:right;"">Subject: <b>{firstItem.SubjectName}</b></td>                        
+    </tr>
+    <tr>
+        <td style=""border:none; text-align:left;"">Trade: <b>{firstItem.StreamName}</b></td>
+        <td style=""border:none; text-align:right;"">Maximum Marks: <b>{firstItem.MaxMarks}</b></td>
+    </tr>
+</table>
                 <!-- Left Marks Table -->
                 <table class=""marks-table"">
                     <thead>
@@ -2125,20 +2404,28 @@ namespace Kaushal_Darpan.Api.Controllers
                         </tr>
                     </thead>
                     <tbody>");
-
-                        for (int i = 0; i < maxRowsPerColumn; i++)
+                        int index = 1;
+                        foreach (var item in students)
                         {
-                            if (i < leftList.Count)
-                            {
-                                var item = leftList[i];
-                                sb.Append($@"
+
+
+
+
+                            sb.Append($@"
                         <tr>
-                            <td class=""col-sno"">{i + 1}</td>
+                            <td class=""col-sno"">{index}</td>
                             <td class=""col-roll"">{item.RollNo}</td>
                             <td class=""col-words"">{item.ObtainedMarks_inWords}</td>
                             <td class=""col-fig"">{item.ObtainedMarks}</td>
                         </tr>");
-                            }
+
+                            index++;
+
+
+
+                            pagebreackCount++;
+
+
                             //else
                             //{
                             //    sb.Append($@"
@@ -2149,162 +2436,6 @@ namespace Kaushal_Darpan.Api.Controllers
                             //    <td></td>
                             //</tr>");
                             //}
-                        }
-
-                        sb.Append($@"
-                    </tbody>
-                </table>
-            </td>
-
-
-            <!-- 2% Horizontal Spacing Gap -->
-            <td width=""2%""></td>
-
-            <!-- Right Side Column (11 to 20) -->
-
-
-            <td width=""49%"">
-
-                <!-- Right Header -->
-                <table style=""width:100%; border:none; margin-bottom:10px;"">
-                    <tr>
-                        <td style=""border:none; text-align:left;""><b>{firstItem.ExamName}</b></td>
-                        <td style=""border:none; text-align:right;"">Center Code: <b>{firstItem.CenterCode}</b></td>
-                    </tr>
-                    <tr>
-                        <td style=""border:none; text-align:left;"">Examiner Code: <b>{firstItem.ExaminerCode}</b></td>
-                        <td style=""border:none; text-align:right;"">Subject: <b>{firstItem.SubjectName}</b></td>                        
-                    </tr>
-                    <tr>
-                        <td style=""border:none; text-align:left;"">Trade: <b>{firstItem.StreamName}</b></td>
-                        <td style=""border:none; text-align:right;"">Maximum Marks: <b>{firstItem.MaxMarks}</b></td>
-                    </tr>
-                </table>
-
-
-                <!-- Right Marks Table -->
-                <table class=""marks-table"">
-                    <thead>
-                        <tr>
-                            <th class=""col-sno"">S.No.</th>
-                            <th class=""col-roll"">Roll No</th>
-                            <th colspan=""2"" class=""text-center"">Marks Obtained</th>
-                        </tr>
-                        <tr>
-                            <th></th>
-                            <th></th>
-                            <th class=""col-words"">In Words</th>
-                            <th class=""col-fig"">In Fig.</th>
-                        </tr>
-                    </thead>
-                    <tbody>");
-
-                        for (int i = 0; i < maxRowsPerColumn; i++)
-                        {
-                            int sno = maxRowsPerColumn + i + 1;
-                            if (i < rightList.Count)
-                            {
-                                var item = rightList[i];
-                                sb.Append($@"
-                        <tr>
-                            <td class=""col-sno"">{sno}</td>
-                            <td class=""col-roll"">{item.RollNo}</td>
-                            <td class=""col-words"">{item.ObtainedMarks_inWords}</td>
-                            <td class=""col-fig"">{item.ObtainedMarks}</td>
-                        </tr>");
-                            }
-                            else
-                            {
-                                sb.Append($@"
-                        <tr>
-                            <td class=""col-sno"">{sno}</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>");
-                            }
-                        }
-
-                        sb.Append(@"
-                    </tbody>
-                </table>
-            </td>
-        </tr>
-    </table>
-</div>");
-                    }
-                    else
-                    {
-                        sb.Append($@"
-<div >
-    <!-- 50/50 Layout Table Wrapper -->
-    <table class=""layout-table"">
-        <tr>
-            <!-- Left Side Column (1 to 10) -->
-            <td width=""100%"">
-                <!-- Left Header -->
-                <table style=""width:100%; border:none; margin-bottom:10px; margin-top:10px;"">
-                    <tr>
-                        <td style=""border:none; text-align:left;""><b>{firstItem.ExamName}</b></td>
-                        <td style=""border:none; text-align:right;"">Center Code: <b>{firstItem.CenterCode}</b></td>
-                    </tr>
-                    <tr>
-                        <td style=""border:none; text-align:left;"">Examiner Code: <b>{firstItem.ExaminerCode}</b></td>
-                        <td style=""border:none; text-align:right;"">Subject: <b>{firstItem.SubjectName}</b></td>                        
-                    </tr>
-                    <tr>
-                        <td style=""border:none; text-align:left;"">Trade: <b>{firstItem.StreamName}</b></td>
-                        <td style=""border:none; text-align:right;"">Maximum Marks: <b>{firstItem.MaxMarks}</b></td>
-                    </tr>
-                </table>
-
-                <!-- Left Marks Table -->
-                <table class=""marks-table"">
-                    <thead>
-                        <tr>
-                            <th class=""col-sno"">S.No.</th>
-                            <th class=""col-roll"">Roll No</th>
-                            <th colspan=""2"" class=""text-center"">Marks Obtained</th>
-                        </tr>
-                        <tr>
-                            <th></th>
-                            <th></th>
-                            <th class=""col-words"">In Words</th>
-                            <th class=""col-fig"">In Fig.</th>
-                        </tr>
-                    </thead>
-                    <tbody>");
-
-                        for (int i = 0; i < maxRowsPerColumn; i++)
-                        {
-                            if (i < leftList.Count)
-                            {
-                                var item = leftList[i];
-                                sb.Append($@"
-                        <tr>
-                            <td class=""col-sno"">{i + 1}</td>
-                            <td class=""col-roll"">{item.RollNo}</td>
-                            <td class=""col-words"">{item.ObtainedMarks_inWords}</td>
-                            <td class=""col-fig"">{item.ObtainedMarks}</td>
-                        </tr>");
-
-
-
-
-
-                                pagebreackCount++;
-
-                            }
-                            else
-                            {
-                                sb.Append($@"
-                            <tr>
-                                <td class=""col-sno"">{i + 1}</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>");
-                            }
 
                         }
 
@@ -2316,11 +2447,11 @@ namespace Kaushal_Darpan.Api.Controllers
 
             ");
 
-                        if (pagebreackCount >= 30)
-                        {
-                            sb.Append("<div style='page-break-after: always;'></div>");
-                            pagebreackCount = 0;
-                        }
+                        //if (pagebreackCount >= 40)
+                        //{
+                        //    sb.Append("<div style='page-break-after: always;'></div>");
+                        //    pagebreackCount = 0;
+                        //}
 
 
 
@@ -2401,6 +2532,874 @@ namespace Kaushal_Darpan.Api.Controllers
                 };
 
                 byte[] pdfBytes = _converter.Convert(doc);
+
+                return File(
+                    pdfBytes,
+                    "application/pdf",
+                    "Teacher_For_Examiner_Report.pdf"
+                );
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+
+
+        [HttpPost("TeacherForExaminerReportDewnloadPdfNew")]
+        public async Task<IActionResult> TeacherForExaminerReportDewnloadPdfNew(
+    [FromBody] ITITeacherForExaminerSearchModel body)
+        {
+            try
+            {
+                var streams_data =
+                    await _unitOfWork.ItiExaminerRepository
+                    .TeacherForExaminerReportDewnloadPdf(body);
+
+                var dataList =
+                    CommonFuncationHelper
+                    .ConvertDataTable<List<ITITeacherForExaminerSearchModel>>(streams_data);
+
+                // ============================================================
+                // GROUP DATA
+                // ============================================================
+
+                var groupedData = dataList
+                    .GroupBy(x => new
+                    {
+                        x.SubjectCode,
+                        x.StreamID,
+                        x.SemesterID
+                    })
+                    .ToList();
+
+                var sb = new StringBuilder();
+
+                // ============================================================
+                // HTML HEADER + CSS
+                // ============================================================
+
+                sb.Append(@"
+<!DOCTYPE html>
+<html lang=""en"">
+
+<head>
+
+<meta charset=""UTF-8"">
+
+<title>SCVT Examination Marks Sheet</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: #fff;
+}
+
+/* ============================================================
+   PAGE
+   ============================================================ */
+
+.page {
+    width: 100%;
+    page-break-after: always;
+    break-after: page;
+
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+
+.page:last-child {
+    page-break-after: auto;
+    break-after: auto;
+}
+
+/* ============================================================
+   50 / 50 LAYOUT
+   ============================================================ */
+
+.layout-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+
+.layout-table > tbody > tr > td {
+    padding: 0;
+    vertical-align: top;
+}
+
+/* ============================================================
+   EXAM HEADER
+   ============================================================ */
+
+.exam-header {
+    width: 100%;
+    border-collapse: collapse;
+    border: none;
+    margin: 0 0 6px 0;
+    padding: 0;
+}
+
+.exam-header td {
+    border: none;
+    padding: 1px 3px;
+    font-size: 9px;
+    line-height: 12px;
+    vertical-align: middle;
+}
+
+.header-left {
+    width: 55%;
+    text-align: left;
+}
+
+.header-right {
+    width: 45%;
+    text-align: right;
+}
+
+/* ============================================================
+   MARKS TABLE
+   ============================================================ */
+
+.marks-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+
+.marks-table thead {
+    display: table-header-group;
+}
+
+.marks-table tbody {
+    display: table-row-group;
+}
+
+.marks-table tr {
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+
+.marks-table th,
+.marks-table td {
+    border: 1px solid #444;
+    padding: 2px 3px;
+    height: 20px;
+    font-size: 9px;
+    line-height: 11px;
+    vertical-align: middle;
+}
+
+.marks-table th {
+    font-weight: bold;
+    background-color: #f0f0f0;
+}
+
+/* ============================================================
+   COLUMN WIDTH
+   ============================================================ */
+
+.col-sno {
+    width: 12%;
+    text-align: center;
+}
+
+.col-roll {
+    width: 30%;
+}
+
+.col-words {
+    width: 43%;
+}
+
+.col-fig {
+    width: 15%;
+    text-align: center;
+}
+
+/* ============================================================
+   BLANK ROW
+   ============================================================ */
+
+.blank-row td {
+    height: 20px;
+}
+
+/* ============================================================
+   PRINT
+   ============================================================ */
+
+@media print {
+
+    .page {
+        page-break-after: always;
+        break-after: page;
+    }
+
+    .page:last-child {
+        page-break-after: auto;
+        break-after: auto;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+");
+
+                var ExaminerName = String.Empty;
+                var MobileNo = String.Empty;
+
+                // ============================================================
+                // LOOP GROUP
+                // ============================================================
+
+                foreach (var group in groupedData)
+                {
+                    var students = group.ToList();
+
+                    var firstItem = students.FirstOrDefault();
+
+                    if (firstItem == null)
+                        continue;
+
+                    ExaminerName = firstItem.ExaminerName;
+                    MobileNo = firstItem.MobileNo;
+
+
+                    // ========================================================
+                    // IMPORTANT
+                    // 35 ROWS LEFT
+                    // 35 ROWS RIGHT
+                    // TOTAL 70 STUDENTS PER PAGE
+                    // ========================================================
+
+                    const int maxRowsPerColumn = 40;
+
+                    const int rowsPerPage = 80;
+
+
+                    // ========================================================
+                    // TOTAL PAGES
+                    // ========================================================
+
+                    int totalPages =
+                        (int)Math.Ceiling(
+                            (double)students.Count / rowsPerPage
+                        );
+
+
+                    // ========================================================
+                    // PAGE LOOP
+                    // ========================================================
+
+                    for (int pageNo = 0; pageNo < totalPages; pageNo++)
+                    {
+
+                        int pageStartIndex =
+                            pageNo * rowsPerPage;
+
+
+                        // ====================================================
+                        // GET CURRENT PAGE STUDENTS
+                        // ====================================================
+
+                        var pageStudents = students
+                            .Skip(pageStartIndex)
+                            .Take(rowsPerPage)
+                            .ToList();
+
+
+                        // ====================================================
+                        // LEFT = FIRST 35
+                        // ====================================================
+
+                        var leftList = pageStudents
+                            .Take(maxRowsPerColumn)
+                            .ToList();
+
+
+                        // ====================================================
+                        // RIGHT = NEXT 35
+                        // ====================================================
+
+                        var rightList = pageStudents
+                            .Skip(maxRowsPerColumn)
+                            .Take(maxRowsPerColumn)
+                            .ToList();
+
+
+                        // ====================================================
+                        // START PAGE
+                        // ====================================================
+
+                        sb.Append(@"
+<div class=""page"">
+
+<table class=""layout-table"">
+
+<tr>
+
+<!-- ============================================================
+     LEFT SIDE
+     ============================================================ -->
+
+<td width=""49%"">
+
+<table class=""exam-header"">
+
+<tr>
+
+<td class=""header-left"">
+<b>" + firstItem.ExamName + @"</b>
+</td>
+
+<td class=""header-right"">
+Center Code:
+<b>" + firstItem.CenterCode + @"</b>
+</td>
+
+</tr>
+
+
+<tr>
+
+<td class=""header-left"">
+Examiner Code:
+<b>" + firstItem.ExaminerCode + @"</b>
+</td>
+
+<td class=""header-right"">
+Subject:
+<b>" + firstItem.SubjectName + @"</b>
+</td>
+
+</tr>
+
+
+<tr>
+
+<td class=""header-left"">
+Trade:
+<b>" + firstItem.StreamName + @"</b>
+</td>
+
+<td class=""header-right"">
+Maximum Marks:
+<b>" + firstItem.MaxMarks + @"</b>
+</td>
+
+</tr>
+
+</table>
+
+
+<table class=""marks-table"">
+
+<thead>
+
+<tr>
+
+<th class=""col-sno"">
+S.No.
+</th>
+
+<th class=""col-roll"">
+Roll No
+</th>
+
+<th colspan=""2"" class=""text-center"">
+Marks Obtained
+</th>
+
+</tr>
+
+
+<tr>
+
+<th></th>
+
+<th></th>
+
+<th class=""col-words"">
+In Words
+</th>
+
+<th class=""col-fig"">
+In Fig.
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+");
+
+
+                        // ====================================================
+                        // LEFT STUDENTS
+                        // ====================================================
+
+                        for (int i = 0; i < leftList.Count; i++)
+                        {
+                            var item = leftList[i];
+
+                            int sno =
+                                pageStartIndex +
+                                i +
+                                1;
+
+
+                            sb.Append($@"
+<tr>
+
+<td class=""col-sno"">
+{sno}
+</td>
+
+<td class=""col-roll"">
+{item.RollNo}
+</td>
+
+<td class=""col-words"">
+{item.ObtainedMarks_inWords}
+</td>
+
+<td class=""col-fig"">
+{item.ObtainedMarks}
+</td>
+
+</tr>
+");
+                        }
+
+
+                        // ====================================================
+                        // LEFT BLANK ROWS
+                        // ====================================================
+
+                        for (int i = leftList.Count;
+                             i < maxRowsPerColumn;
+                             i++)
+                        {
+
+                            int sno =
+                                pageStartIndex +
+                                i +
+                                1;
+
+
+                            sb.Append($@"
+<tr class=""blank-row"">
+
+<td class=""col-sno"">
+{sno}
+</td>
+
+<td class=""col-roll""></td>
+
+<td class=""col-words""></td>
+
+<td class=""col-fig""></td>
+
+</tr>
+");
+                        }
+
+
+                        sb.Append(@"
+</tbody>
+
+</table>
+
+</td>
+
+
+<!-- ============================================================
+     GAP
+     ============================================================ -->
+
+<td width=""2%""></td>
+
+
+<!-- ============================================================
+     RIGHT SIDE
+     ============================================================ -->
+
+<td width=""49%"">
+
+
+<table class=""exam-header"">
+
+<tr>
+
+<td class=""header-left"">
+<b>" + firstItem.ExamName + @"</b>
+</td>
+
+<td class=""header-right"">
+Center Code:
+<b>" + firstItem.CenterCode + @"</b>
+</td>
+
+</tr>
+
+
+<tr>
+
+<td class=""header-left"">
+Examiner Code:
+<b>" + firstItem.ExaminerCode + @"</b>
+</td>
+
+<td class=""header-right"">
+Subject:
+<b>" + firstItem.SubjectName + @"</b>
+</td>
+
+</tr>
+
+
+<tr>
+
+<td class=""header-left"">
+Trade:
+<b>" + firstItem.StreamName + @"</b>
+</td>
+
+<td class=""header-right"">
+Maximum Marks:
+<b>" + firstItem.MaxMarks + @"</b>
+</td>
+
+</tr>
+
+</table>
+
+
+<table class=""marks-table"">
+
+<thead>
+
+<tr>
+
+<th class=""col-sno"">
+S.No.
+</th>
+
+<th class=""col-roll"">
+Roll No
+</th>
+
+<th colspan=""2"" class=""text-center"">
+Marks Obtained
+</th>
+
+</tr>
+
+
+<tr>
+
+<th></th>
+
+<th></th>
+
+<th class=""col-words"">
+In Words
+</th>
+
+<th class=""col-fig"">
+In Fig.
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+");
+
+
+                        // ====================================================
+                        // RIGHT STUDENTS
+                        // ====================================================
+
+                        for (int i = 0; i < rightList.Count; i++)
+                        {
+                            var item = rightList[i];
+
+                            int sno =
+                                pageStartIndex +
+                                maxRowsPerColumn +
+                                i +
+                                1;
+
+
+                            sb.Append($@"
+<tr>
+
+<td class=""col-sno"">
+{sno}
+</td>
+
+<td class=""col-roll"">
+{item.RollNo}
+</td>
+
+<td class=""col-words"">
+{item.ObtainedMarks_inWords}
+</td>
+
+<td class=""col-fig"">
+{item.ObtainedMarks}
+</td>
+
+</tr>
+");
+                        }
+
+
+                        // ====================================================
+                        // RIGHT BLANK ROWS
+                        // ====================================================
+
+                        for (int i = rightList.Count;
+                             i < maxRowsPerColumn;
+                             i++)
+                        {
+
+                            int sno =
+                                pageStartIndex +
+                                maxRowsPerColumn +
+                                i +
+                                1;
+
+
+                            sb.Append($@"
+<tr class=""blank-row"">
+
+<td class=""col-sno"">
+{sno}
+</td>
+
+<td class=""col-roll""></td>
+
+<td class=""col-words""></td>
+
+<td class=""col-fig""></td>
+
+</tr>
+");
+                        }
+
+
+                        // ====================================================
+                        // CLOSE RIGHT TABLE + PAGE
+                        // ====================================================
+
+                        sb.Append(@"
+</tbody>
+
+</table>
+
+</td>
+
+</tr>
+
+</table>
+
+
+");
+                        sb.Append($@"
+
+<br/>
+
+<table width='100%'
+       style='border:none;
+              border-collapse:collapse;
+              margin-top:30px;'>
+
+<tr>
+
+<td width='50%'
+    style='border:none;
+           padding:6px 20px 6px 0;'>
+
+<span style='font-weight:bold;'>
+Name:
+</span>
+
+<span style='margin-left:10px;'>
+{ExaminerName}
+</span>
+
+</td>
+
+
+<td width='50%'
+    style='border:none;
+           padding:6px 0 6px 20px;'>
+
+<span style='font-weight:bold;'>
+Date:
+</span>
+
+<span style='display:inline-block;
+             width:160px;
+             border-bottom:1px solid #000;
+             margin-left:10px;'>
+</span>
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td style='border:none;
+           padding:6px 20px 6px 0;'>
+
+<span style='font-weight:bold;'>
+Post:
+</span>
+
+<span style='display:inline-block;
+             width:180px;
+             border-bottom:1px solid #000;
+             margin-left:10px;'>
+</span>
+
+</td>
+
+
+<td style='border:none;
+           padding:6px 0 6px 20px;'>
+
+<span style='font-weight:bold;'>
+Signature:
+</span>
+
+<span style='display:inline-block;
+             width:160px;
+             border-bottom:1px solid #000;
+             margin-left:10px;'>
+</span>
+</td>
+</tr>
+<tr>
+<td style='border:none;
+           padding:6px 20px 6px 0;'>
+
+<span style='font-weight:bold;'>
+Mobile No:
+</span>
+
+<span style='margin-left:10px;'>
+{MobileNo}
+</span>
+
+</td>
+
+<td style='border:none;'>
+</td>
+
+</tr>
+
+</table>
+</div>
+");
+
+                    } // END PAGE LOOP
+
+                } // END GROUP LOOP
+
+
+                // ============================================================
+                // EXAMINER DETAILS
+                // ============================================================
+
+
+
+                // ============================================================
+                // CLOSE HTML
+                // ============================================================
+
+                sb.Append(@"
+</body>
+</html>
+");
+
+
+                // ============================================================
+                // PDF SETTINGS
+                // ============================================================
+
+                var doc = new HtmlToPdfDocument
+                {
+                    GlobalSettings =
+            {
+                PaperSize = PaperKind.A4,
+
+                Orientation = Orientation.Portrait,
+
+                Margins = new MarginSettings
+                {
+                    Top = 10,
+                    Bottom = 10,
+                    Left = 10,
+                    Right = 10
+                }
+            },
+
+                    Objects =
+            {
+                new ObjectSettings
+                {
+                    HtmlContent = sb.ToString(),
+
+                    WebSettings =
+                    {
+                        DefaultEncoding = "utf-8"
+                    },
+
+                    FooterSettings =
+                    {
+                        FontName = "Arial",
+                        FontSize = 9
+                    }
+                }
+            }
+                };
+
+
+                // ============================================================
+                // CONVERT PDF
+                // ============================================================
+
+                byte[] pdfBytes =
+                    _converter.Convert(doc);
+
 
                 return File(
                     pdfBytes,
