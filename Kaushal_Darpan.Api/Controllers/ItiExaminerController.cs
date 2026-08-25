@@ -2570,7 +2570,8 @@ namespace Kaushal_Darpan.Api.Controllers
                     {
                         x.SubjectCode,
                         x.StreamID,
-                        x.SemesterID
+                        x.SemesterID,
+                        x.CenterCode
                     })
                     .ToList();
 
@@ -2595,7 +2596,7 @@ namespace Kaushal_Darpan.Api.Controllers
 * {
     box-sizing: border-box;
     font-family: Arial, sans-serif;
-    font-size: 10px;
+    font-size: 11px;
 }
 
 body {
@@ -2655,7 +2656,7 @@ body {
 .exam-header td {
     border: none;
     padding: 1px 3px;
-    font-size: 9px;
+    font-size: 10px;
     line-height: 12px;
     vertical-align: middle;
 }
@@ -2701,7 +2702,7 @@ body {
     border: 1px solid #444;
     padding: 2px 3px;
     height: 20px;
-    font-size: 9px;
+    font-size: 10px;
     line-height: 11px;
     vertical-align: middle;
 }
@@ -2739,6 +2740,38 @@ body {
 
 .blank-row td {
     height: 20px;
+}
+
+
+.exam-header {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 0 8px 0;
+    border: 1px solid #ddd;
+    table-layout: fixed;
+}
+
+.exam-header td {
+    padding: 6px 9px;
+       border: 1px solid #ddd;
+    vertical-align: middle;
+    font-size: 10px !important;
+    line-height: 1.2;
+}
+
+.exam-header .header-left {
+    width: 50%;
+    text-align: left;
+}
+
+.exam-header .header-right {
+    width: 50%;
+    text-align: right;
+}
+
+.exam-header b {
+    font-weight: bold;
+    font-size: 10px;
 }
 
 /* ============================================================
@@ -3386,7 +3419,7 @@ Mobile No:
                     FooterSettings =
                     {
                         FontName = "Arial",
-                        FontSize = 9
+                        FontSize = 10
                     }
                 }
             }
