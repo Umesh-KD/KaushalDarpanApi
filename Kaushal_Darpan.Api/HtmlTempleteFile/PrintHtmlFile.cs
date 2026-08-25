@@ -5852,7 +5852,7 @@ body {
 
 <div class='header'>
 
-    <div class='reg' style='padding-right:100px;item-align:left;width:87%;'>
+    <div class='reg' style='padding-right:170px;item-align:left;width:80%;'>
         रजि.
     </div>
 
@@ -5876,7 +5876,7 @@ body {
         {System.Net.WebUtility.HtmlEncode(registrationNo)}
     </td>
 
-    <td class='right' style='width:40%;padding-right:100px;'>
+    <td class='right' style='width:40%;padding-right:170px;'>
         दिनांक:
         {System.Net.WebUtility.HtmlEncode(reportDate)}
     </td>
@@ -6035,10 +6035,11 @@ body {
                     // =========================================================
                     // sign
                     // =========================================================
-
-                    sb.Append("<div class='right' style='margin-right:100px;margin-top:50px;'><b>भवदीय</b></div>");
-                    sb.Append("<div class='right' style='margin-right:30px;margin-top:40px;'><b>संयुक्त निदेशक (रजिस्ट्रार)</b></div>");
-
+                    if (pageNo == pageCount)
+                    {
+                        sb.Append("<div class='right' style='margin-right:100px;margin-top:50px;'><b>भवदीय</b></div>");
+                        sb.Append("<div class='right' style='margin-right:30px;margin-top:40px;'><b>संयुक्त निदेशक (रजिस्ट्रार)</b></div>");
+                    }
                     sb.Append("</div>");
                 }
 
