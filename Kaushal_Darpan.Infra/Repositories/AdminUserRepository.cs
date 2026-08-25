@@ -108,6 +108,53 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+        public async Task<List<Branchlist>> GetAllstaffBranch(AdminUserSearchModel body)
+        {
+            _actionName = "GetAllstaffBranch(AdminUserSearchModel body)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_getAllbranch";
+
+                    command.Parameters.AddWithValue("@UserID", body.UserID);
+                    command.Parameters.AddWithValue("@UserAdditionID", body.UserAdditionID);
+                    command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                    command.Parameters.AddWithValue("@EndTermId", body.EndTermID);
+                    command.Parameters.AddWithValue("@CourseTypeId", body.Eng_NonEng);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                var data = new List<Branchlist>();
+                if (dataTable != null)
+                {
+                    if (dataTable.Rows.Count > 0)
+                    {
+                        data = CommonFuncationHelper.ConvertDataTable<List<Branchlist>>(dataTable);
+                    }
+                }
+                return data;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
+
         public async Task<AdminUserDetailModel> GetById(AdminUserSearchModel body)
         {
             _actionName = "GetById(int PK_ID)";
