@@ -1731,7 +1731,75 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
+        [HttpPost("DeleteStudent")]
+        public async Task<ApiResult<bool>> DeleteStudent([FromBody] List<ItiAssignStudentExaminer> request)
+        {
+            ActionName = "DeleteStudent([FromBody] List<ItiAssignStudentExaminer> request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
 
+
+                    //validation
+                    //if (request.Any(x => x.RoleId != (int)EnumRole.Admin))
+                    //{
+                    //    result.State = EnumStatus.Warning;
+                    //    result.Message = Constants.MSG_UNAUTHORIZED_ACCESS_FOR_ROLE;
+                    //    return result;
+                    //}
+                    if (request.Count == 0)
+                    {
+                        result.State = EnumStatus.Error;
+                        result.Message = Constants.MSG_VALIDATION_FAILED;
+                        return result;
+                    }
+                    //ipaddress
+                    request.ForEach(x =>
+                    {
+                        x.IPAddress = CommonFuncationHelper.GetIpAddress();
+                    });
+                    // Pass the list to the repository for batch update
+                    var isSave = await _unitOfWork.ItiExaminerRepository.DeleteStudent(request);
+                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
+
+                    if (isSave == -1)
+                    {
+                        result.Data = true;
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_NO_DATA_SAVE;
+                    }
+                    else if (isSave > 0)
+                    {
+                        result.Data = true;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+
+                    // Log the error
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
 
     }
 }

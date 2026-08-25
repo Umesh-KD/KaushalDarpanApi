@@ -24,6 +24,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetItiRemunerationAdminDetails(ITI_AppointExaminerDetailsModel filterModel);
 
         Task<int> SaveStudent(List<ItiAssignStudentExaminer> model);
+        Task<int> DeleteStudent(List<ItiAssignStudentExaminer> model);
         Task<DataTable> DeleteAssignStudentByExaminerID(int examinerId);
         Task<int> SaveExaminerData(ITITheoryExaminerModel productDetails);
 
