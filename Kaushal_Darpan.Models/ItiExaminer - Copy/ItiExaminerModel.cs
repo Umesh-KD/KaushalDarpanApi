@@ -85,7 +85,7 @@ namespace Kaushal_Darpan.Models.ItiExaminer
        
         public int? MaxMarks { get; set; }
         public Int64? RollNo { get; set; }
-        public int? ObtainedMarks { get; set; }
+        public string? ObtainedMarks { get; set; }
         public string? ExaminerName { get; set; }
         public string? MobileNo { get; set; }
 
