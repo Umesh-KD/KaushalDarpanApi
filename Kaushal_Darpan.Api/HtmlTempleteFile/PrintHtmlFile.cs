@@ -5926,7 +5926,7 @@ body {
 <div class='body-text' style='padding-left:55px;'>
 
     इस पत्र के साथ आपको
-    {System.Net.WebUtility.HtmlEncode(EndTermHindi)} सत्र {System.Net.WebUtility.HtmlEncode(sessionName)}
+    {System.Net.WebUtility.HtmlEncode(EndTermHindi)} (सत्र {System.Net.WebUtility.HtmlEncode(sessionName)})
     परीक्षा के अस्थाई डिप्लोमा प्रमाण पत्र एवं प्रव्रजन प्रमाण पत्र
     निम्नानुसार भिजवाये जा रहे हैं :-
 
