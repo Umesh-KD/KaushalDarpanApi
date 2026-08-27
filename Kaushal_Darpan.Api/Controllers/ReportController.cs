@@ -21651,8 +21651,8 @@ Web Site : www.techedu.rajasthan.gov.in
 
 
                             // save
-                            //await _unitOfWork.MarksheetDownloadRepository.AddUpdateProvisionalDiplomaCertificate(objProvisionalDiploma);
-                            //await _unitOfWork.SaveChangesAsync();
+                            await _unitOfWork.MarksheetDownloadRepository.AddUpdateProvisionalDiplomaCertificate(objProvisionalDiploma);
+                            await _unitOfWork.SaveChangesAsync();
 
                             CommonFuncationHelper.WriteTextLog($"1.8. save student done : {student.StudentName}", logfilename);
 
@@ -21679,8 +21679,8 @@ Web Site : www.techedu.rajasthan.gov.in
                             EnrollmentNo = student.EnrollmentNo
                         });
 
-                        CommonFuncationHelper.WriteTextLog($"2. loop error for student : {student.StudentName}", logfilename);
-                        CommonFuncationHelper.WriteTextLog($"2.1. loop error : {ex1.Message}", logfilename);
+                        CommonFuncationHelper.WriteTextLog($"2 loop error  for student : {ex1.Message}", logfilename);
+                        CommonFuncationHelper.WriteTextLog($"2.1. loop error for student : {student.StudentName}", logfilename);
                     }
 
                     CommonFuncationHelper.WriteTextLog($"--------------------- main loop end: {i} ------------------------", logfilename);
