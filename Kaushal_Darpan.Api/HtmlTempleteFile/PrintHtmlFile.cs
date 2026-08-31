@@ -2113,25 +2113,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                     श्रेणी {group.Key.UFMCategoryName} के अन्तर्गत दण्डित करने का निर्णय दिया गया है :-
             </div>");
 
-                    // category
-                    var ufmcategory = Convert.ToInt32(group.Key.UFMCategory ?? "0");
-                    if (Convert.ToInt32(group.Key.UFMCategory ?? "0") == 1)
-                    {
-                        sb.AppendLine($@"
-            <div class='hindi' style='text-align:justify;margin-top:15px;'>
-                उपरोक्त रोल नंबर के परीक्षार्थियों को जिस विषय की परीक्षा में अनुचित साधन प्रयोग में लेते हुए पकड़ा गया था, उस विषय की परीक्षा निरस्त की जाती है।
-            </div>");
-                    }
-                    else if (Convert.ToInt32(group.Key.UFMCategory ?? "0") != 5)
-                    {
-                        sb.AppendLine($@"
-            <div class='hindi' style='text-align:justify;margin-top:15px;'>
-                उपरोक्त रोल नम्बर के परीक्षार्थियों की सत्र {FinancialYearName}
-                में दी गयी डिप्लोमा {CourseTypeHindiName} {TermNameHindi}, {YearName} की समस्त सैद्धान्तिक एवं प्रायोगिक विषयों की
-                परीक्षाएं (जिसमें छात्र बैठा) निरस्त की जाती हैं।
-            </div>");
-                    }
-
+                    // table
                     sb.AppendLine("<table class='roll-table'>");
 
                     int count = 0;
@@ -2166,10 +2148,30 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
 
                     sb.AppendLine("</table>");
 
+                    // category
+                    var ufmcategory = Convert.ToInt32(group.Key.UFMCategory ?? "0");
+                    if (Convert.ToInt32(group.Key.UFMCategory ?? "0") == 1)
+                    {
+                        sb.AppendLine($@"
+            <div class='hindi' style='text-align:justify;margin-top:15px;'>
+                उपरोक्त रोल नंबर के परीक्षार्थियों को जिस विषय की परीक्षा में अनुचित साधन प्रयोग में लेते हुए पकड़ा गया था, उस विषय की परीक्षा निरस्त की जाती है।
+            </div>");
+                    }
+                    else if (Convert.ToInt32(group.Key.UFMCategory ?? "0") != 5)
+                    {
+                        sb.AppendLine($@"
+            <div class='hindi' style='text-align:justify;margin-top:15px;'>
+                उपरोक्त रोल नम्बर के परीक्षार्थियों की सत्र {FinancialYearName}
+                में दी गयी डिप्लोमा {CourseTypeHindiName} {TermNameHindi}, {YearName} की समस्त सैद्धान्तिक एवं प्रायोगिक विषयों की
+                परीक्षाएं (जिसमें छात्र बैठा) निरस्त की जाती हैं।
+            </div>");
+                    }
+
                 }
 
-    
+
                 // Signature
+                sb.AppendLine("</br>");
                 sb.AppendLine("<div class='signature'>");
                 sb.AppendLine("(रघुनाथ सिंह)<br/>");
                 sb.AppendLine("संयुक्त निदेशक (गोपनीय)");
