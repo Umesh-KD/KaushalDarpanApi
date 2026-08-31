@@ -22098,7 +22098,7 @@ Web Site : www.techedu.rajasthan.gov.in
             {
                 var data = await _unitOfWork.ReportRepository.GetCertificateLetterReport(filterModel);
 
-                if (data == null || data.Tables.Count == 0 || data.Tables[0].Rows.Count == 0)
+                if (data == null || data.Tables.Count < 2 || data.Tables[0].Rows.Count == 0 || data.Tables[1].Rows.Count == 0)
                 {
                     result.State = EnumStatus.Warning;
                     result.Message = Constants.MSG_DATA_NOT_FOUND;

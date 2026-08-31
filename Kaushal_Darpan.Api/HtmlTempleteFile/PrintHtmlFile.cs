@@ -315,7 +315,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                             {
                                 if (k == 1)
                                 {
-                                    sb.AppendLine($"<td rowspan=\"{dataRowBlockCount}\" colspan=\"{dt_tabluerdet1.Columns.Count}\" style=\"text-align:center;font-weight:bolder;text-transform: uppercase;font-size:1.5em;letter-spacing:3px;\"> {dr[dc.ColumnName]} </td>");
+                                    sb.AppendLine($"<td rowspan=\"{dataRowBlockCount}\" colspan=\"{dt_tabluerdet1.Columns.Count}\" style=\"text-align:center;font-weight:bolder;text-transform: uppercase;font-size:1.5em;\"> {dr[dc.ColumnName]} </td>");
                                 }
                                 break;// print one then rest exclude from creation
                             }
@@ -1974,8 +1974,8 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                     .Select(x => Convert.ToString(x["EndTermName"]))
                     .FirstOrDefault() ?? "";
 
-                string YearName = dt.AsEnumerable()
-                    .Select(x => Convert.ToString(x["YearName"]))
+                string TermYear = dt.AsEnumerable()
+                    .Select(x => Convert.ToString(x["TermYear"]))
                     .FirstOrDefault() ?? "";
 
                 string TermNameHindi = dt.AsEnumerable()
@@ -2091,7 +2091,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 sb.AppendLine("<table style='width:100%;margin-top:15px;'>");
                 sb.AppendLine("<tr>");
                 sb.AppendLine("<td class='hindi' style='text-align:left;font-weight:bold;'>");
-                sb.AppendLine("क्रमांकः एफ(12) प्राशिम/गोप./2026/");
+                sb.AppendLine($"क्रमांकः एफ(12) प्राशिम/गोप./{TermYear}/");
                 sb.AppendLine("</td>");
                 sb.AppendLine("<td class='hindi' style='text-align:right;padding-right:65px;font-weight:bold;'>");
                 sb.AppendLine($"दिनांकः");
@@ -2106,18 +2106,14 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 // Category Wise Data
                 foreach (var group in groupedData)
                 {
-                    //सत्र 2024 - 2025(छठे सेमेस्टर, नवंबर 2024) के अनुचित साधनों के मामलों पर गठित समिति ने 09 / 10 / 2025 को 
-                    //    आयोजित अपनी बैठक में संपूर्ण रिकॉर्ड का अवलोकन, अध्ययन और विचार - विमर्श करने के बाद 
-                    //    निम्नलिखित रोल नंबर वाले छात्रों को बोर्ड की दंड अनुसूची की धारा 2(दो) के तहत दंडित करने का निर्णय लिया है
-                    //{ group.Key.CodeID}
-
+                    // main 
                     sb.AppendLine($@"
             <div class='hindi' style='text-align:justify;margin-top:15px;'>
-                सत्र {financialYear} (सेमेस्टर पद्धति {group.Key.SemesterNameHindi} {group.Key.TermNameHindi}, {YearName}) के अनुचित साधन के मामलों की समिति ने 
-                    {DateTime.Now:dd/MM/yyyy} को हुई बैठक में संपूर्ण रिकॉर्ड के अवलोकन,अध्ययन एवं विचार विमर्श के पश्चात् निम्न रोल नंबर के विद्यार्थियों को मंडल की दण्ड सारणी की
+                सत्र {financialYear} (सेमेस्टर पद्धति {group.Key.SemesterNameHindi} {group.Key.TermNameHindi}, {TermYear}) के अनुचित साधन के मामलों की समिति ने संपूर्ण रिकॉर्ड के अवलोकन,अध्ययन एवं विचार विमर्श के पश्चात् निम्न रोल नंबर के विद्यार्थियों को मंडल की दण्ड सारणी की
                     श्रेणी {group.Key.UFMCategoryName} के अन्तर्गत दण्डित करने का निर्णय दिया गया है :-
             </div>");
 
+                    // table
                     sb.AppendLine("<table class='roll-table'>");
 
                     int count = 0;
@@ -2152,23 +2148,30 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
 
                     sb.AppendLine("</table>");
 
-                }
-
-                sb.AppendLine($@"
-            <div class='hindi' style='text-align:justify;margin-bottom:25px;'>
+                    // category
+                    var ufmcategory = Convert.ToInt32(group.Key.UFMCategory ?? "0");
+                    if (Convert.ToInt32(group.Key.UFMCategory ?? "0") == 1)
+                    {
+                        sb.AppendLine($@"
+            <div class='hindi' style='text-align:justify;margin-top:15px;'>
+                उपरोक्त रोल नंबर के परीक्षार्थियों को जिस विषय की परीक्षा में अनुचित साधन प्रयोग में लेते हुए पकड़ा गया था, उस विषय की परीक्षा निरस्त की जाती है।
+            </div>");
+                    }
+                    else if (Convert.ToInt32(group.Key.UFMCategory ?? "0") != 5)
+                    {
+                        sb.AppendLine($@"
+            <div class='hindi' style='text-align:justify;margin-top:15px;'>
                 उपरोक्त रोल नम्बर के परीक्षार्थियों की सत्र {FinancialYearName}
-                में दी गयी डिप्लोमा {CourseTypeHindiName} {TermNameHindi}, {YearName} की समस्त सैद्धान्तिक एवं प्रायोगिक विषयों की
+                में दी गयी डिप्लोमा {CourseTypeHindiName} {TermNameHindi}, {TermYear} की समस्त सैद्धान्तिक एवं प्रायोगिक विषयों की
                 परीक्षाएं (जिसमें छात्र बैठा) निरस्त की जाती हैं।
             </div>");
+                    }
+
+                }
+
 
                 // Signature
-                //sb.AppendLine("<div class='signature'>");
-                //sb.AppendLine("(रघुनाथ सिंह)<br/>");
-                //sb.AppendLine("संयुक्त निदेशक (गोपनीय)<br/><br/>");
-                //sb.AppendLine("दिनांक:");
-                //sb.AppendLine("</div>");
-
-                // Signature
+                sb.AppendLine("</br>");
                 sb.AppendLine("<div class='signature'>");
                 sb.AppendLine("(रघुनाथ सिंह)<br/>");
                 sb.AppendLine("संयुक्त निदेशक (गोपनीय)");
@@ -2178,7 +2181,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 sb.AppendLine("<table style='width:100%; margin-top:30px;'>");
                 sb.AppendLine("<tr>");
                 sb.AppendLine("<td style='text-align:left; font-weight:bold;'>");
-                sb.AppendLine("क्रमांक : एफ6(12)प्राशिम/गोप./2026/");
+                sb.AppendLine($"क्रमांक : एफ6(12)प्राशिम/गोप./{TermYear}/");
                 sb.AppendLine("</td>");
                 sb.AppendLine("<td style='text-align:right;padding-right:65px;font-weight:bold;'>");
                 sb.AppendLine($"दिनांक :");
