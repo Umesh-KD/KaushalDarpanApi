@@ -2492,6 +2492,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@PayLevelID", body.PayLevelID);
                     command.Parameters.AddWithValue("@DateOfImplementation", body.DateOfImplementation);
                     command.Parameters.AddWithValue("@QualificationIDbe", body.QualificationIDbe);
+                    command.Parameters.AddWithValue("@QualificationIDaf", body.QualificationIDaf);
                     command.Parameters.AddWithValue("@BugetHeadID", body.BugetHeadID);
                     command.Parameters.AddWithValue("@SalaryDrawnInstituteID", body.SalaryDrawnInstituteID);
 
