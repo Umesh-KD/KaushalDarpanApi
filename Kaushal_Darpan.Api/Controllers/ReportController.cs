@@ -22098,7 +22098,7 @@ Web Site : www.techedu.rajasthan.gov.in
             {
                 var data = await _unitOfWork.ReportRepository.GetCertificateLetterReport(filterModel);
 
-                if (data == null || data.Tables.Count == 0 || data.Tables[0].Rows.Count == 0)
+                if (data == null || data.Tables.Count < 2 || data.Tables[0].Rows.Count == 0 || data.Tables[1].Rows.Count == 0)
                 {
                     result.State = EnumStatus.Warning;
                     result.Message = Constants.MSG_DATA_NOT_FOUND;
@@ -22216,5 +22216,43 @@ Web Site : www.techedu.rajasthan.gov.in
             }
             return result;
         }
+
+
+
+        [HttpPost("GetZoneWiseAllotmentReport")]
+        public async Task<ApiResult<DataTable>> GetZoneWiseAllotmentReport(ITI_FinalReportModule model)
+        {
+            ActionName = "GetITI_FinalReport(ITI_FinalReportModule model)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ReportRepository.GetZoneWiseAllotmentReport(model));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
     }
 }
