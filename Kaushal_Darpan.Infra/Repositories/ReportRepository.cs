@@ -11070,7 +11070,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 using (var command = await _dbContext.CreateCommandAsync())
                 {
                     command.CommandType = CommandType.StoredProcedure;
-                    command.CommandText = "USP_ITI_ZoneWiseAllotmentReport";
+                    command.CommandText = "USP_ITI_AdmissionAllotmentReport";
                     command.Parameters.AddWithValue("@AcedemicYearID", model.FinancialYearID);
                     command.Parameters.AddWithValue("@Action", model.Action);
                     _sqlQuery = command.GetSqlExecutableQuery();
