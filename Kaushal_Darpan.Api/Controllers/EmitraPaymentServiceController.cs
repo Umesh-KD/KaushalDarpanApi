@@ -5,6 +5,7 @@ using DocumentFormat.OpenXml.Drawing;
 using DocumentFormat.OpenXml.EMMA;
 using DocumentFormat.OpenXml.Office2010.ExcelAc;
 using EmitraEmitraEncrytDecryptClient;
+using ICSharpCode.SharpZipLib.Checksum;
 using iTextSharp.text.pdf.spatial;
 using Kaushal_Darpan.Api.Models;
 using Kaushal_Darpan.Core.Entities;
@@ -4614,7 +4615,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 //new services Changes
                 string requestBody = JsonConvert.SerializeObject(new
                 {
-                    cleintId = data.CleintID,
+                    cleintId = data.MERCHANTCODE,
                     clientSecret = data.ClientSecret
                 });
                 HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(data.TokenURL);
@@ -4637,20 +4638,26 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     {
 
+
+
+                        string checkSumn= EmitraHelper.GenerateSha256HashNew(data.MERCHANTCODE+ data.SERVICEID+ Model.PRN+data.CHECKSUMKEY);
+
                         string token = _MobilaAppCancelMerchanttokenResponse.data.access_token;
                         string requestStatusBody = JsonConvert.SerializeObject(new
                         {
                             MERCHANTCODE = data.MERCHANTCODE,
                             SERVICEID = data.SERVICEID,
-                            PRN = data.PRN,
-                            AMOUNT = data.AMOUNT
-                        });
+                            PRN = Model.PRN,
+                            AMOUNT = Model.AMOUNT,
+                            CHECKSUM= checkSumn
 
+                        });
+                        data.VerifyURL = "https://emitraapp.rajasthan.gov.in/em/aggregator/api/payment/refundByPrn";
                         HttpWebRequest statusRequest = (HttpWebRequest)WebRequest.Create(data.VerifyURL);
                         statusRequest.Method = "POST";
                         statusRequest.ContentType = "application/json";
                         statusRequest.Headers.Add("Authorization", "Bearer " + token);
-                        statusRequest.Headers.Add("X-Api-Name", "PAYMENT_STATUS");
+                        statusRequest.Headers.Add("X-Api-Name", "PAYMENT_REFUND_BY_PRN");
                         statusRequest.Headers.Add("Access-Control-Allow-Origin", "*");
                         statusRequest.Timeout = 30000;
                         using (var streamWriter = new StreamWriter(statusRequest.GetRequestStream()))
@@ -4668,33 +4675,9 @@ namespace Kaushal_Darpan.Api.Controllers
                                 string STATUS = stuff.STATUS;
                                 string RESPONSECODE = stuff.RESPONSECODE;
 
-                                if (_VerifywallettransactionsResponse?.statusCode == 200 && _VerifywallettransactionsResponse.data != null)
-                                {
-                                    result.State = EnumStatus.Success;
-                                    result.Data = _VerifywallettransactionsResponse.data;
-                                    result.Message = _VerifywallettransactionsResponse.message;
-                                    //Update Database
-                                    _VerifywallettransactionsResponse.data.TransactionNo = _VerifywallettransactionsResponse.data.TRANSACTIONID;
-                                    _VerifywallettransactionsResponse.data.ApplicationIdEnc = Model.ApplicationID;
-                                    _VerifywallettransactionsResponse.data.TRANSACTIONID = Model.TransactionID;
-                                    _VerifywallettransactionsResponse.data.ExamStudentStatus = Convert.ToString(Model.ExamStudentStatus);
 
-                                    await _unitOfWork.CommonFunctionRepository.UpdateEmitraApplicationPaymentStatus(_VerifywallettransactionsResponse.data);
-                                    await _unitOfWork.SaveChangesAsync();
-                                }
-                                else
-                                {
-                                    result.State = EnumStatus.Error;
-                                    result.Data = _VerifywallettransactionsResponse.data; ;
-                                    result.ErrorMessage = _VerifywallettransactionsResponse.message;
-                                    //Update Database
-                                    _VerifywallettransactionsResponse.data.TransactionNo = _VerifywallettransactionsResponse.data.TRANSACTIONID;
-                                    _VerifywallettransactionsResponse.data.ApplicationIdEnc = Model.ApplicationID;
-                                    _VerifywallettransactionsResponse.data.TRANSACTIONID = Model.TransactionID;
-                                    _VerifywallettransactionsResponse.data.ExamStudentStatus = Convert.ToString(Model.ExamStudentStatus);
-                                    await _unitOfWork.CommonFunctionRepository.UpdateEmitraApplicationPaymentStatus(_VerifywallettransactionsResponse.data);
-                                    await _unitOfWork.SaveChangesAsync();
-                                }
+
+                               
                             }
                         }
                     }

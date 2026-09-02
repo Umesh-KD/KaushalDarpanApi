@@ -57,6 +57,8 @@ namespace Kaushal_Darpan.Models.ItiExaminer
         public int ExaminerID { get; set; }
         public int StudentExamPaperMarksID { get; set; }
 
+        public int CheckStatus { get; set; }
+
     }
 
     public class ITITeacherForExaminerSearchModel : RequestBaseModel
