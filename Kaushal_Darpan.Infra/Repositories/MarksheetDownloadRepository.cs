@@ -48,11 +48,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.Parameters.AddWithValue("@action", "_getStuListForMarksheet_main");
                     }
-                    else if(body.ResultTypeID == (int)EnumResultType.RevaluationResult)
+                    else if (body.ResultTypeID == (int)EnumResultType.RevaluationResult)
                     {
                         command.Parameters.AddWithValue("@action", "_getStuListForMarksheet_reval");
                     }
-                    else if(body.ResultTypeID == (int)EnumResultType.RwhResult)
+                    else if (body.ResultTypeID == (int)EnumResultType.RwhResult)
                     {
                         command.Parameters.AddWithValue("@action", "_getStuListForMarksheet_RWH");
                     }
@@ -243,65 +243,62 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<DataSet> MarksheetLetterDownload(MarksheetDownloadSearchModel model)
         {
             _actionName = "MarksheetLetterDownload(MarksheetDownloadSearchModel model)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                var ds = new DataSet();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    var ds = new DataSet();
-                    using (var command = await _dbContext.CreateCommandAsync())
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    if (model.ExamTypeID == (int)EnumResultType.RevaluationResult)
                     {
-                        command.CommandType = CommandType.StoredProcedure;
-                        
-                        if (model.ExamTypeID == (int)EnumResultType.RevaluationResult) 
-                        {
-                            command.CommandText = "USP_GetMarksheetLetterData_AfterReval";
-                            command.Parameters.AddWithValue("@Action", "_getStuListMarksheetLetter_reval");
-                        }
-                        else if (model.ExamTypeID == (int)EnumResultType.RwhResult)
-                        {
-                            command.CommandText = "USP_GetMarksheetLetterData_RWH";
-                            command.Parameters.AddWithValue("@Action", "_getStuListMarksheetLetter_rwh");
-                            command.Parameters.AddWithValue("@EffectiveFromEndTermId", model.EffectiveFromEndTermId);
-                        }
-                        else if (model.ExamTypeID == (int)EnumResultType.RwhRevalEffected)
-                        {
-                            command.CommandText = "USP_GetMarksheetLetterData_RWH_Reval";
-                            command.Parameters.AddWithValue("@Action", "_getStuListMarksheetLetter_rwh_reval");
-                            command.Parameters.AddWithValue("@EffectiveFromEndTermId", model.EffectiveFromEndTermId);
-                        }
-                        else
-                        {
-                            command.CommandText = "USP_GetMarksheetData";
-                            command.Parameters.AddWithValue("@Action", "_getStuListMarksheetLetter_main");
-                        }
-
-                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
-                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
-                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                        command.Parameters.AddWithValue("@ExamTypeID", model.ExamTypeID);
-
-                        command.Parameters.AddWithValue("@FinancialYearID", model.AcademicYearID);
-                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEngID);
-
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        ds = await command.FillAsync();
+                        command.CommandText = "USP_GetMarksheetLetterData_AfterReval";
+                        command.Parameters.AddWithValue("@Action", "_getStuListMarksheetLetter_reval");
                     }
-                    return ds;
-                }
-                catch (Exception ex)
-                {
-                    var errorDesc = new ErrorDescription
+                    else if (model.ExamTypeID == (int)EnumResultType.RwhResult)
                     {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
+                        command.CommandText = "USP_GetMarksheetLetterData_RWH";
+                        command.Parameters.AddWithValue("@Action", "_getStuListMarksheetLetter_rwh");
+                        command.Parameters.AddWithValue("@EffectiveFromEndTermId", model.EffectiveFromEndTermId);
+                    }
+                    else if (model.ExamTypeID == (int)EnumResultType.RwhRevalEffected)
+                    {
+                        command.CommandText = "USP_GetMarksheetLetterData_RWH_Reval";
+                        command.Parameters.AddWithValue("@Action", "_getStuListMarksheetLetter_rwh_reval");
+                        command.Parameters.AddWithValue("@EffectiveFromEndTermId", model.EffectiveFromEndTermId);
+                    }
+                    else
+                    {
+                        command.CommandText = "USP_GetMarksheetData";
+                        command.Parameters.AddWithValue("@Action", "_getStuListMarksheetLetter_main");
+                    }
+
+                    command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                    command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@ExamTypeID", model.ExamTypeID);
+
+                    command.Parameters.AddWithValue("@FinancialYearID", model.AcademicYearID);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEngID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    ds = await command.FillAsync();
                 }
-            });
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         public async Task<DataTable> Get5thSemBackPaperReport(BackPaperReportDataModel body)
