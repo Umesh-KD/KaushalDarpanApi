@@ -73,6 +73,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ParentRoleID", request.ParentRoleID);
                         command.Parameters.AddWithValue("@OrderNo", request.OrderNo);
                         command.Parameters.AddWithValue("@VacancyID", request.VacancyID);
+                        command.Parameters.AddWithValue("@BranchID", request.BranchID);
 
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out

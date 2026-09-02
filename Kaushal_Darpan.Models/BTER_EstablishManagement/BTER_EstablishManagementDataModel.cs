@@ -42,6 +42,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public string? MultiGuestHouseIDs { get; set; }
         public string? OrderNo { get; set; }
         public int? VacancyID { get; set; }
+        public int? BranchID { get; set; }
         public List<BTER_EM_StaffHostelListModel>? GuestHouseIDs { get; set; }
     }
 
