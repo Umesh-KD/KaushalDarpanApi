@@ -74,6 +74,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@OrderNo", request.OrderNo);
                         command.Parameters.AddWithValue("@VacancyID", request.VacancyID);
                         command.Parameters.AddWithValue("@BranchID", request.BranchID);
+                        command.Parameters.AddWithValue("@ChildPostServiceTypeID", request.ChildPostServiceTypeID);
+                        command.Parameters.AddWithValue("@PostServiceTypeID", request.PostServiceTypeID);
 
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
@@ -218,6 +220,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@VacancyID", request.VacancyID);
                         command.Parameters.AddWithValue("@BugetHeadTypeID", request.BugetHeadTypeID);
                         command.Parameters.AddWithValue("@BugetHeadID", request.BugetHeadID);
+                        command.Parameters.AddWithValue("@PostServiceTypeID", request.PostServiceTypeID);
+                        command.Parameters.AddWithValue("@ChildPostServiceTypeID", request.ChildPostServiceTypeID);
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
 
@@ -2435,6 +2439,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@EndTermId", body.EndTermId);
                         command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
                         command.Parameters.AddWithValue("@ManagementTypeID", body.ManagementTypeID);
+                        command.Parameters.AddWithValue("@PostServiceTypeID", body.PostServiceTypeID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
