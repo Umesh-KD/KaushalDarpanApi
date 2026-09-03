@@ -892,6 +892,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+    
         public async Task<int> SavePassoutReport(ITIApprenticeshipRegPassOutModel request)
         {
             _actionName = "SaveExaminerData(ExaminerMaster request)";
@@ -1121,6 +1122,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@RoleID", request.RoleID);
                         command.Parameters.AddWithValue("@TradeID", request.TradeID);
                         command.Parameters.AddWithValue("@PassYear", request.PassYear);
+                        command.Parameters.AddWithValue("@PortalYear", request.PortalYear);
+                        command.Parameters.AddWithValue("@PortalMonth", request.PortalMonth);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();

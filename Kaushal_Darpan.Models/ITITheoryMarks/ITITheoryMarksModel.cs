@@ -86,7 +86,12 @@ namespace Kaushal_Darpan.Models.ITITheoryMarks
     {
         public int AppointExaminerID { get; set ; }
         public int FinalSubmit { get; set ; }
+        public int CenterID { get; set; }
+        public int SemesterID { get; set; }
+        public int StreamID { get; set; }
+        public int EndTermID { get; set; }
         public string? Remark { get; set ; }
+        public string? SubjectName { get; set; }
     }
 }
 
