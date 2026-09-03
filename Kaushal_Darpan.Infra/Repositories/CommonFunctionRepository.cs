@@ -441,47 +441,44 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         {
             _actionName = "InstituteMaster()";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_InstituteMaster";
+                    if (DepartmentID == 1)
                     {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_InstituteMaster";
-                        if (DepartmentID == 1)
-                        {
-                            command.Parameters.AddWithValue("@action", "BTERInstitute");
-                        }
-                        else if (DepartmentID == 2)
-                        {
-                            command.Parameters.AddWithValue("@action", "ITIInstitute");
-                        }
-
-                        command.Parameters.AddWithValue("@Eng_NonEng", Eng_NonEng);
-                        command.Parameters.AddWithValue("@EndTermId", EndTermId);
-                        command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
-                        command.Parameters.AddWithValue("@ManagementTypeID", ManagementTypeID);
-
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dataTable = await command.FillAsync_DataTable();
+                        command.Parameters.AddWithValue("@action", "BTERInstitute");
                     }
-                    return dataTable;
-                }
-                catch (Exception ex)
-                {
-                    var errorDesc = new ErrorDescription
+                    else if (DepartmentID == 2)
                     {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
+                        command.Parameters.AddWithValue("@action", "ITIInstitute");
+                    }
+
+                    command.Parameters.AddWithValue("@Eng_NonEng", Eng_NonEng);
+                    command.Parameters.AddWithValue("@EndTermId", EndTermId);
+                    command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
+                    command.Parameters.AddWithValue("@ManagementTypeID", ManagementTypeID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
                 }
-            });
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
 
@@ -1779,40 +1776,38 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<DataTable> GetCommonMasterData(string MasterCode = "", int DepartmentID = 0, int CourseTypeID = 0, int StaffTypeID = 0)
         {
-            _actionName = "GetFinancialYear()";
-            return await Task.Run(async () =>
+            _actionName = @"GetCommonMasterData(string MasterCode = "", int DepartmentID = 0, int CourseTypeID = 0, int StaffTypeID = 0)";
+            try
             {
-                try
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_CommonMasterData";
-                        //command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
-                        command.Parameters.AddWithValue("@MasterCode", MasterCode);
-                        command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
-                        command.Parameters.AddWithValue("@CourseTypeID", CourseTypeID);
-                        command.Parameters.AddWithValue("@StaffTypeID", StaffTypeID);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_CommonMasterData";
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-                    return dataTable;
+                    //command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
+                    command.Parameters.AddWithValue("@MasterCode", MasterCode);
+                    command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
+                    command.Parameters.AddWithValue("@CourseTypeID", CourseTypeID);
+                    command.Parameters.AddWithValue("@StaffTypeID", StaffTypeID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
                 }
-                catch (Exception ex)
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         public async Task<DataTable> GetItiVacantPost(VacantPostMaster model)
