@@ -8099,6 +8099,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@RoleID", model.RoleID);
                         command.Parameters.AddWithValue("@TradeID", model.TradeID);
                         command.Parameters.AddWithValue("@PassYear", model.PassYear);
+                        command.Parameters.AddWithValue("@PortalMonth", model.PortalMonth);
+                        command.Parameters.AddWithValue("@PortalYear", model.PortalYear);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         ds = await command.FillAsync();
 
