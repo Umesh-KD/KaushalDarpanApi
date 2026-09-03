@@ -265,6 +265,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
 
         public string? TransferToOfficeName { get; set; }
         public string? DateOfTransfer { get; set; }
+        public string? TransferTime { get; set; }
 
         // Promotion
         public bool? IsPromotion { get; set; }
@@ -274,6 +275,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public string? ToDesignationName { get; set; }
         public string? ServiceBranchName { get; set; }
         public string? ToBranchNamePromotion { get; set; }
+        public string? PromotionTime { get; set; }
 
         public string? DateOfpromotion { get; set; }
 
