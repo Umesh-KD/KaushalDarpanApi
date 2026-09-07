@@ -84,6 +84,7 @@
         public List<StaffHostelListModel>? StaffHostelListModel { get; set; }
 
         public bool IsExaminer { get; set; }
+        public string? VendorID { get; set; }
 
     }
 
