@@ -172,6 +172,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? FilterStaffTypeID { get; set; }
         public string? FilterName { get; set; }
         public string? FilterSSOID { get; set; }
+        public int? BranchID { get; set; }
     }
 
     public class BTER_EM_AddStaffDetailsDataModel
@@ -223,6 +224,8 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public string? Address { get; set; }
 
         public int? OfficeID { get; set; }
+        public int? PostServiceTypeID { get; set; }
+        public int? ChildPostServiceTypeID { get; set; }
     }
 
     public class BTER_EM_AddServiceHistoryDataModel
