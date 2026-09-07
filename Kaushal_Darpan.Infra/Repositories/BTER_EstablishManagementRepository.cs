@@ -1253,7 +1253,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
-
                         dataSet = await command.FillAsync();
                     }
 
