@@ -172,6 +172,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? FilterStaffTypeID { get; set; }
         public string? FilterName { get; set; }
         public string? FilterSSOID { get; set; }
+        public int? BranchID { get; set; }
     }
 
     public class BTER_EM_AddStaffDetailsDataModel
@@ -223,6 +224,8 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public string? Address { get; set; }
 
         public int? OfficeID { get; set; }
+        public int? PostServiceTypeID { get; set; }
+        public int? ChildPostServiceTypeID { get; set; }
     }
 
     public class BTER_EM_AddServiceHistoryDataModel
@@ -265,6 +268,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
 
         public string? TransferToOfficeName { get; set; }
         public string? DateOfTransfer { get; set; }
+        public string? TransferTime { get; set; }
 
         // Promotion
         public bool? IsPromotion { get; set; }
@@ -274,6 +278,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public string? ToDesignationName { get; set; }
         public string? ServiceBranchName { get; set; }
         public string? ToBranchNamePromotion { get; set; }
+        public string? PromotionTime { get; set; }
 
         public string? DateOfpromotion { get; set; }
 

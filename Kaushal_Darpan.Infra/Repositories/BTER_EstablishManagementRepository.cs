@@ -277,6 +277,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@FilterName", body.FilterName);
                         command.Parameters.AddWithValue("@FilterSSOID", body.FilterSSOID);
                         command.Parameters.AddWithValue("@FilterStaffTypeID", body.FilterStaffTypeID);
+                        command.Parameters.AddWithValue("@BranchID", body.BranchID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -397,6 +398,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@StateID", request.StateID);
                         command.Parameters.AddWithValue("@DistrictID", request.DistrictID);
                         command.Parameters.AddWithValue("@OfficeID", request.OfficeID);
+                        command.Parameters.AddWithValue("@PostServiceTypeID", request.PostServiceTypeID);
+                        command.Parameters.AddWithValue("@ChildPostServiceTypeID", request.ChildPostServiceTypeID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         result = await command.ExecuteNonQueryAsync();
@@ -1250,7 +1253,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
-
                         dataSet = await command.FillAsync();
                     }
 

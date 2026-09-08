@@ -36,6 +36,8 @@
         public int DepartmentID { get; set; }
         public int FinancialYearId { get; set; }
         public int EndTermID { get; set; }
+        public bool IsEng { get; set; }
+        public bool IsNonEng { get; set; }
         public bool IsPayment { get; set; }
         public bool IsProfileComplete { get; set; }
 

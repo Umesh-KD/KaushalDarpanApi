@@ -204,6 +204,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@EndTermID", request.EndTermID);
                         command.Parameters.AddWithValue("@Capacity", request.Capacity);
                         command.Parameters.AddWithValue("@IsProfileComplete", request.IsProfileComplete);
+                        command.Parameters.AddWithValue("@IsEng", request.IsEng);
+                        command.Parameters.AddWithValue("@IsNonEng", request.IsNonEng);
 
                         command.Parameters.Add("@Return", SqlDbType.Int); // out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out

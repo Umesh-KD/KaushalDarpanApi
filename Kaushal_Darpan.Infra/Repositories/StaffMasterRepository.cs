@@ -151,6 +151,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);
                         command.Parameters.AddWithValue("@EduQualificationDetails", JsonConvert.SerializeObject(request.EduQualificationDetailsModel));
                         command.Parameters.AddWithValue("@StaffSubjectListModel", JsonConvert.SerializeObject(request.StaffSubjectListModel));
+                        command.Parameters.AddWithValue("@VendorID", request.VendorID);
 
 
                         _sqlQuery = command.GetSqlExecutableQuery();

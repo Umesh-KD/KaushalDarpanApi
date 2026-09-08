@@ -21855,7 +21855,7 @@ Web Site : www.techedu.rajasthan.gov.in
                             objMigrationDiploma.IsIssued = Convert.ToByte(student.IsIssued);
                             objMigrationDiploma.ResultTypeID = Convert.ToInt32(student.ResultTypeID);
                             objMigrationDiploma.EndTermID = Convert.ToInt32(student.EndTermID);
-                            objMigrationDiploma.EffectiveEndTermID = Convert.ToInt32(student.EffectiveFromEndTermId);
+                            objMigrationDiploma.EffectiveEndTermID = Convert.ToInt32(student.EffectiveEndTermID);
                             objMigrationDiploma.IsRevised = Convert.ToBoolean(student.IsRevised);
                             objMigrationDiploma.SemesterID = Convert.ToInt32(student.SemesterID);
                             objMigrationDiploma.IPAddress = CommonFuncationHelper.GetIpAddress();
