@@ -266,28 +266,69 @@ namespace Kaushal_Darpan.Api.Controllers
 
                             //var colspan = data.Tables[0].AsEnumerable().Where(row => row.Field<string>("QualificationID") == "10").CopyToDataTable();
 
+
+
+                            //Ds comment start
+                            //sb1.Append("<tr>");
+                            //sb1.Append("<th colspan='" + colspan + "' style='text-align: left; padding: 10px; font-weight: bold;border:1px solid gray; '>");
+
+                            //sb1.Append("<table style='width:100%;'><tr><td style='text-align: left; text-decoration: underline; font-size: 13px;'><b> " + request.SemesterID + " Year (Annual Examination) "
+                            //    //+ row["DurationYear"] +
+                            //    + DurationYear +
+                            //    " Year Trades</b></td>" +
+                            //    "<td  style='text-align: right; font-size: 13px;'><b>  Exam Month Year: " + data.Tables[0].Rows[0]["AcadSession"].ToString() + " | Result Declaration Date:<u> " + data.Tables[0].Rows[0]["ResultDecDate"] + "<u> </b></td></tr></table>");
+                            //sb1.Append("</th>");
+
+                            ////sb1.Append("<th style='text-align: right; padding: 10px; font-weight: bold; text-decoration: underline; font-size: 15px;border:1px solid gray; '>");
+                            ////sb1.Append("<b>  Exam Month Year: "+ data.Tables[0].Rows[0]["AcadSession"].ToString() + " | Result Dec Date: _______________</b>");
+                            ////sb1.Append("</th>'");
+
+                            //sb1.Append("</tr>");
+                            //sb1.Append("<tr>");
+                            //sb1.Append("<th colspan='" + colspan + "' style='text-align: left; padding: 10px; font-weight: bold; text-decoration: underline; font-size: 13px;border:1px solid gray; '>");
+                            ////sb1.Append("<b> Trade: " + row["TradeName"] + "</b>");
+                            //sb1.Append("<b > Trade: " + TradeName.ToUpper() + "</b>");
+                            //sb1.Append("</th>");
+                            //sb1.Append("</tr>");
+                            //Ds comment end 
+
+
+                            //changes starts here 
                             sb1.Append("<tr>");
-                            sb1.Append("<th colspan='" + colspan + "' style='text-align: left; padding: 10px; font-weight: bold;border:1px solid gray; '>");
-                            sb1.Append("<table style='width:100%;'><tr><td style='text-align: left; text-decoration: underline; font-size: 13px;'><b> " + request.SemesterID + " Year (Annual Examination) "
-                                //+ row["DurationYear"] +
-                                + DurationYear +
+                            sb1.Append("<th colspan='" + colspan + "' style='padding:10px; font-weight: bold; border:1px solid gray;'>");
 
+                            sb1.Append("<table style='width:100%; border-collapse:collapse;'>");
+                            sb1.Append("<tr>");
 
+                            // Left - Semester / Year
+                            sb1.Append("<td style='width:33%; text-align:left; font-size:13px; white-space:nowrap;'>");
+                            sb1.Append("<b><u>" + request.SemesterID + " Year (Annual Examination) "
+                                + DurationYear + " Year Trades</u></b>");
+                            sb1.Append("</td>");
 
-                                " Year Trades</b></td><td  style='text-align: right; font-size: 13px;'><b>  Exam Month Year: " + data.Tables[0].Rows[0]["AcadSession"].ToString() + " | Result Declaration Date:<u> "+ data.Tables[0].Rows[0]["ResultDecDate"] + "<u> </b></td></tr></table>");
-                            sb1.Append("</th>");
+                            // Center - Trade
+                            sb1.Append("<td style='width:34%; text-align:center; font-size:13px; white-space:nowrap;'>");
+                            sb1.Append("<b><u>Trade: " + TradeName.ToUpper() + "</u></b>");
+                            sb1.Append("</td>");
 
-                            //sb1.Append("<th style='text-align: right; padding: 10px; font-weight: bold; text-decoration: underline; font-size: 15px;border:1px solid gray; '>");
-                            //sb1.Append("<b>  Exam Month Year: "+ data.Tables[0].Rows[0]["AcadSession"].ToString() + " | Result Dec Date: _______________</b>");
-                            //sb1.Append("</th>'");
+                            // Right - Exam Month Year + Result Declaration Date
+                            sb1.Append("<td style='width:33%; text-align:right; font-size:13px; white-space:nowrap;'>");
+                            sb1.Append("<b>Exam Month Year: "
+                                + data.Tables[0].Rows[0]["AcadSession"].ToString()
+                                + " | Result Declaration Date: <u>"
+                                + data.Tables[0].Rows[0]["ResultDecDate"].ToString()
+                                + "</u></b>");
+                            sb1.Append("</td>");
 
                             sb1.Append("</tr>");
-                            sb1.Append("<tr>");
-                            sb1.Append("<th colspan='" + colspan + "' style='text-align: left; padding: 10px; font-weight: bold; text-decoration: underline; font-size: 13px;border:1px solid gray; '>");
-                            //sb1.Append("<b> Trade: " + row["TradeName"] + "</b>");
-                            sb1.Append("<b > Trade: " + TradeName.ToUpper() + "</b>");
+                            sb1.Append("</table>");
+
                             sb1.Append("</th>");
                             sb1.Append("</tr>");
+
+                            //changes ends here
+
+
 
                             //<!-- ✅ Institute Loop -->
                             //@for(institute of getInstitutesByTrade(trade.TradeId); track institute) {
@@ -577,28 +618,69 @@ namespace Kaushal_Darpan.Api.Controllers
 
                             //var colspan = data.Tables[0].AsEnumerable().Where(row => row.Field<string>("QualificationID") == "10").CopyToDataTable();
 
+
+                            //DataSet comment start 
+                            //sb1.Append("<tr>");
+                            //sb1.Append("<th colspan='" + colspan + "' style='text-align: left; padding: 10px; font-weight: bold;border:0.2px solid #d1d0d0;'>");
+                            //sb1.Append("<table style='width:100%;'><tr><td style='text-align: left; text-decoration: underline; font-size: 13px;'><b> " + request.SemesterID + " Year (Annual Examination) "
+                            //    //+ row["DurationYear"] +
+                            //    + DurationYear +
+
+
+
+                            //    " Year Trades</b></td><td  style='text-align: right; font-size: 13px;'><b>  Exam Month Year: " + data.Tables[0].Rows[0]["AcadSession"].ToString() + " | Result Declaration Date: <u>"+ data.Tables[0].Rows[0]["ResultDecDate"].ToString()+ "</u></b></td></tr></table>");
+                            //sb1.Append("</th>");
+
+                            ////sb1.Append("<th style='text-align: right; padding: 10px; font-weight: bold; text-decoration: underline; font-size: 15px;border:1px solid gray; '>");
+                            ////sb1.Append("<b>  Exam Month Year: "+ data.Tables[0].Rows[0]["AcadSession"].ToString() + " | Result Dec Date: _______________</b>");
+                            ////sb1.Append("</th>'");
+
+                            //sb1.Append("</tr>");
+                            //sb1.Append("<tr>");
+                            //sb1.Append("<th colspan='" + colspan + "' style='text-align: left; padding: 10px; font-weight: bold; text-decoration: underline; font-size: 13px;border:0.2px solid #d1d0d0;'>");
+                            ////sb1.Append("<b> Trade: " + row["TradeName"] + "</b>");
+                            //sb1.Append("<b> Trade: " + TradeName.ToUpper() + "</b>");
+                            //sb1.Append("</th>");
+                            //sb1.Append("</tr>");
+                            //DataSet comment ends 
+
+
+
+                            //changes starts here 
                             sb1.Append("<tr>");
-                            sb1.Append("<th colspan='" + colspan + "' style='text-align: left; padding: 10px; font-weight: bold;border:0.2px solid #d1d0d0;'>");
-                            sb1.Append("<table style='width:100%;'><tr><td style='text-align: left; text-decoration: underline; font-size: 13px;'><b> " + request.SemesterID + " Year (Annual Examination) "
-                                //+ row["DurationYear"] +
-                                + DurationYear +
+                            sb1.Append("<th colspan='" + colspan + "' style='padding:10px; font-weight: bold; border:1px solid gray;'>");
 
+                            sb1.Append("<table style='width:100%; border-collapse:collapse;'>");
+                            sb1.Append("<tr>");
 
+                            // Left - Semester / Year
+                            sb1.Append("<td style='width:33%; text-align:left; font-size:13px; white-space:nowrap;'>");
+                            sb1.Append("<b><u>" + request.SemesterID + " Year (Annual Examination) "
+                                + DurationYear + " Year Trades</u></b>");
+                            sb1.Append("</td>");
 
-                                " Year Trades</b></td><td  style='text-align: right; font-size: 13px;'><b>  Exam Month Year: " + data.Tables[0].Rows[0]["AcadSession"].ToString() + " | Result Declaration Date: <u>"+ data.Tables[0].Rows[0]["ResultDecDate"].ToString()+ "</u></b></td></tr></table>");
-                            sb1.Append("</th>");
+                            // Center - Trade
+                            sb1.Append("<td style='width:34%; text-align:center; font-size:13px; white-space:nowrap;'>");
+                            sb1.Append("<b><u>Trade: " + TradeName.ToUpper() + "</u></b>");
+                            sb1.Append("</td>");
 
-                            //sb1.Append("<th style='text-align: right; padding: 10px; font-weight: bold; text-decoration: underline; font-size: 15px;border:1px solid gray; '>");
-                            //sb1.Append("<b>  Exam Month Year: "+ data.Tables[0].Rows[0]["AcadSession"].ToString() + " | Result Dec Date: _______________</b>");
-                            //sb1.Append("</th>'");
+                            // Right - Exam Month Year + Result Declaration Date
+                            sb1.Append("<td style='width:33%; text-align:right; font-size:13px; white-space:nowrap;'>");
+                            sb1.Append("<b>Exam Month Year: "
+                                + data.Tables[0].Rows[0]["AcadSession"].ToString()
+                                + " | Result Declaration Date: <u>"
+                                + data.Tables[0].Rows[0]["ResultDecDate"].ToString()
+                                + "</u></b>");
+                            sb1.Append("</td>");
 
                             sb1.Append("</tr>");
-                            sb1.Append("<tr>");
-                            sb1.Append("<th colspan='" + colspan + "' style='text-align: left; padding: 10px; font-weight: bold; text-decoration: underline; font-size: 13px;border:0.2px solid #d1d0d0;'>");
-                            //sb1.Append("<b> Trade: " + row["TradeName"] + "</b>");
-                            sb1.Append("<b> Trade: " + TradeName.ToUpper() + "</b>");
+                            sb1.Append("</table>");
+
                             sb1.Append("</th>");
                             sb1.Append("</tr>");
+
+                            //changes ends here
+
 
                             //<!-- ✅ Institute Loop -->
                             //@for(institute of getInstitutesByTrade(trade.TradeId); track institute) {
