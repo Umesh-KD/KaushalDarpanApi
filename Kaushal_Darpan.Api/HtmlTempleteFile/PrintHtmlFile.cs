@@ -3463,7 +3463,7 @@ thead th{
                 sb.AppendLine("<div style=\"width:50%;float:left;text-align:right;\">");
 
                 // result publish date
-                sb.AppendLine($"<div style=\"margin-top:20px;font-size:15px;font-weight:bold;padding-right:100px;\">{dr_studet["ResultDeclareDate"]}</div>");
+                sb.AppendLine($"<div style=\"margin-top:20px;font-size:15px;font-weight:bold;padding-right:100px;\">{dr_studet["ResultDeclarationDate"]}</div>");
                 sb.AppendLine($"<div style=\"margin-top:28px;font-size:15px;font-weight:bold;padding-right:160px;\">{dr_studet["ResultDeclarationDate_Reval"]}</div>");
 
                 sb.AppendLine("</div>");
