@@ -16042,7 +16042,7 @@ Sr.<br/>No.
                     SchemeID = body.SchemeID,
                     EffectiveEndTermId = body.EffectiveFromEndTermId
                 };
-                var resultPublishModel = await Task.Run(() => _unitOfWork.CommonFunctionRepository.HasResultPublishedForRoleAndOtherInfo(hasPublishBody));
+                var resultPublishModel = await _unitOfWork.CommonFunctionRepository.HasResultPublishedForRoleAndOtherInfo(hasPublishBody);
                 if (resultPublishModel.ResultPublished == 0)
                 {
                     result.State = EnumStatus.Error;
@@ -16051,7 +16051,7 @@ Sr.<br/>No.
                 }
 
                 // get all streams 
-                var streams_data = await Task.Run(() => _unitOfWork.ReportRepository.GetStreamResultRptTabulation(body));
+                var streams_data = await _unitOfWork.ReportRepository.GetStreamResultRptTabulation(body);
 
                 if (streams_data?.Rows?.Count == 0)
                 {
@@ -16099,20 +16099,20 @@ Sr.<br/>No.
                     var tabular_data = new DataSet();
                     if (body.ResultTypeId == (int)EnumResultType.MainResult)
                     {
-                        tabular_data = await Task.Run(() => _unitOfWork.ReportRepository.GetTabularDetailsResultRptTabulation(body));
-                        //tabular_data = await Task.Run(() => _unitOfWork.CommonFunctionRepository.Dummy_GetTestUspDataByAction("_get_data_to_test"));
+                        tabular_data = await _unitOfWork.ReportRepository.GetTabularDetailsResultRptTabulation(body);
+                        //tabular_data = await _unitOfWork.CommonFunctionRepository.Dummy_GetTestUspDataByAction("_get_data_to_test");
                     }
                     else if (body.ResultTypeId == (int)EnumResultType.RwhResult || body.ResultTypeId == (int)EnumResultType.RwhRevalEffected)
                     {
-                        tabular_data = await Task.Run(() => _unitOfWork.ReportRepository.GetTabularDetailsResultRptTabulationRWH(body));
+                        tabular_data = await _unitOfWork.ReportRepository.GetTabularDetailsResultRptTabulationRWH(body);
                     }
                     else if (body.ResultTypeId == (int)EnumResultType.RevaluationResult)
                     {
-                        tabular_data = await Task.Run(() => _unitOfWork.ReportRepository.GetTabularDetailsResultRptTabulationReval(body));
+                        tabular_data = await _unitOfWork.ReportRepository.GetTabularDetailsResultRptTabulationReval(body);
                     }
                     else if (body.ResultTypeId == (int)EnumResultType.Ufm)
                     {
-                        tabular_data = await Task.Run(() => _unitOfWork.ReportRepository.GetTabularDetailsResultRptTabulationufm(body));
+                        tabular_data = await _unitOfWork.ReportRepository.GetTabularDetailsResultRptTabulationufm(body);
                     }
                     else
                     {
@@ -16135,7 +16135,7 @@ Sr.<br/>No.
 
 
                 // get consolidate summary of tabular details
-                var consolidate_data = await Task.Run(() => _unitOfWork.ReportRepository.GetConsolidatedDetailsResultRptTabulation(body, lstStreamId));
+                var consolidate_data = await _unitOfWork.ReportRepository.GetConsolidatedDetailsResultRptTabulation(body, lstStreamId);
                 if (consolidate_data?.Rows.Count > 0)
                 {
                     //get html

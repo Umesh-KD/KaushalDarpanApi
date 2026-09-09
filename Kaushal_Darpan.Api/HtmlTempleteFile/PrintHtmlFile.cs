@@ -191,6 +191,16 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 StringBuilder sb_hm = new StringBuilder();
                 StringBuilder sb_h = new StringBuilder();
 
+                // publish date html
+                var _publishDataStr = $"<strong>Date of Result Declaration : {resultPublishModel?.PublishDate}</strong><br>";
+
+                // reval
+                if (body.ResultTypeId == (int)EnumResultType.RevaluationResult)
+                {
+                    _publishDataStr = $"<strong>Date of Result Declaration : {resultPublishModel?.PublishDate_Main}</strong><br> <strong>Date of issue : {resultPublishModel?.PublishDate}</strong>";
+                }
+                
+
                 // heading
                 sb_hm.AppendLine("        <table cellspacing=\"0\" cellpadding=\"5\" style=\"width:100%; border-collapse:collapse; border: 1px solid #c3c3c3; font-family:Arial, sans-serif; font-size:14px;\">");
                 sb_hm.AppendLine("            <tr>");
@@ -205,9 +215,11 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                     sb_hm.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_4"]}</strong>");
                 }
                 sb_hm.AppendLine("                </td>");
-                sb_hm.AppendLine("                <td style=\"width:20%; text-align:right; vertical-align:bottom;\">");
-                sb_hm.AppendLine("                    <strong>Date of Result Declaration</strong><br>");
-                sb_hm.AppendLine($"                    <strong>{resultPublishModel?.ResultDeclarationDate}</strong>");
+                sb_hm.AppendLine("                <td style=\"width:25%; text-align:right; vertical-align:bottom;\">");
+                
+                // add publish data html
+                sb_hm.AppendLine(_publishDataStr);
+                
                 sb_hm.AppendLine("                </td>");
                 sb_hm.AppendLine("            </tr>");
                 sb_hm.AppendLine("        </table>");
@@ -457,6 +469,15 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
             {
                 StringBuilder sb_hm = new StringBuilder();
 
+                // publish date html
+                var _publishDataStr = $"<strong>Date of Result Declaration : {resultPublishModel?.PublishDate}</strong><br>";
+
+                // reval
+                if (body.ResultTypeId == (int)EnumResultType.RevaluationResult)
+                {
+                    _publishDataStr = $"<strong>Date of Result Declaration : {resultPublishModel?.PublishDate_Main}</strong><br> <strong>Date of issue : {resultPublishModel?.PublishDate}</strong>";
+                }
+
                 // heading main
                 sb_hm.AppendLine("        <table cellspacing=\"0\" cellpadding=\"5\" style=\"width:100%; border-collapse:collapse; border: 1px solid #c3c3c3; font-family:Arial, sans-serif; font-size:14px;\" >");
                 sb_hm.AppendLine("            <tr>");
@@ -472,8 +493,10 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 }
                 sb_hm.AppendLine("                </td>");
                 sb_hm.AppendLine("                <td style=\"width:20%; text-align:right; vertical-align:bottom;\">");
-                sb_hm.AppendLine("                    <strong>Date of Result Declaration</strong><br>");
-                sb_hm.AppendLine($"                    <strong>{resultPublishModel?.ResultDeclarationDate}</strong>");
+
+                // add publish data html
+                sb_hm.AppendLine(_publishDataStr);
+
                 sb_hm.AppendLine("                </td>");
                 sb_hm.AppendLine("            </tr>");
                 sb_hm.AppendLine("        </table>");
