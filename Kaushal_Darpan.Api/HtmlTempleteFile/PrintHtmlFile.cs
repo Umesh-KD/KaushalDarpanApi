@@ -192,7 +192,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 StringBuilder sb_h = new StringBuilder();
 
                 // publish date html
-                var _publishDataStr = $"<strong>Date of Result Declaration : {resultPublishModel?.PublishDate}</strong><br>";
+                var _publishDataStr = $"<strong>Date of Result Declaration : {resultPublishModel?.PublishDate}</strong>";
 
                 // reval
                 if (body.ResultTypeId == (int)EnumResultType.RevaluationResult)
@@ -470,7 +470,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 StringBuilder sb_hm = new StringBuilder();
 
                 // publish date html
-                var _publishDataStr = $"<strong>Date of Result Declaration : {resultPublishModel?.PublishDate}</strong><br>";
+                var _publishDataStr = $"<strong>Date of Result Declaration : {resultPublishModel?.PublishDate}</strong>";
 
                 // reval
                 if (body.ResultTypeId == (int)EnumResultType.RevaluationResult)
