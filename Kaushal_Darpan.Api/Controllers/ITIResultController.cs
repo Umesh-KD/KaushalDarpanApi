@@ -300,16 +300,17 @@ namespace Kaushal_Darpan.Api.Controllers
                             sb1.Append("<table style='width:100%; border-collapse:collapse;'>");
                             sb1.Append("<tr>");
 
+                            // Center - Trade
+                            sb1.Append("<td style='width:34%; text-align:center; font-size:13px; white-space:nowrap;'>");
+                            sb1.Append("<b><u>Trade: " + TradeName.ToUpper() + "</u></b>");
+                            sb1.Append("</td>");
+
                             // Left - Semester / Year
                             sb1.Append("<td style='width:33%; text-align:left; font-size:13px; white-space:nowrap;'>");
                             sb1.Append("<b><u>" + request.SemesterID + " Year (Annual Examination) "
                                 + DurationYear + " Year Trades</u></b>");
                             sb1.Append("</td>");
 
-                            // Center - Trade
-                            sb1.Append("<td style='width:34%; text-align:center; font-size:13px; white-space:nowrap;'>");
-                            sb1.Append("<b><u>Trade: " + TradeName.ToUpper() + "</u></b>");
-                            sb1.Append("</td>");
 
                             // Right - Exam Month Year + Result Declaration Date
                             sb1.Append("<td style='width:33%; text-align:right; font-size:13px; white-space:nowrap;'>");
@@ -653,16 +654,17 @@ namespace Kaushal_Darpan.Api.Controllers
                             sb1.Append("<table style='width:100%; border-collapse:collapse;'>");
                             sb1.Append("<tr>");
 
+                            // Center - Trade
+                            sb1.Append("<td style='width:34%; text-align:center; font-size:13px; white-space:nowrap;'>");
+                            sb1.Append("<b><u>Trade: " + TradeName.ToUpper() + "</u></b>");
+                            sb1.Append("</td>");
+
                             // Left - Semester / Year
                             sb1.Append("<td style='width:33%; text-align:left; font-size:13px; white-space:nowrap;'>");
                             sb1.Append("<b><u>" + request.SemesterID + " Year (Annual Examination) "
                                 + DurationYear + " Year Trades</u></b>");
                             sb1.Append("</td>");
 
-                            // Center - Trade
-                            sb1.Append("<td style='width:34%; text-align:center; font-size:13px; white-space:nowrap;'>");
-                            sb1.Append("<b><u>Trade: " + TradeName.ToUpper() + "</u></b>");
-                            sb1.Append("</td>");
 
                             // Right - Exam Month Year + Result Declaration Date
                             sb1.Append("<td style='width:33%; text-align:right; font-size:13px; white-space:nowrap;'>");
