@@ -460,10 +460,10 @@ namespace Kaushal_Darpan.Api.Controllers
                                 sb1.Append("<tr>");
                                 sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Lalit Baral)<br/>Senior Instructor</b></td>");
                                 sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Prem Prakash Rathore)<br/>Senior Instructor</b></td>");
-                                sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Surendra Baghmar)<br/>Group Instructor</b></td>");
+                                sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Pawan Kumar Bhati)<br/>Assistant Director</b></td>");
                                 sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Hukam Singh Rathore)<br/>Deputy Director</b></td>");
-                                sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Dr. Jagdish Prasad)<br/>Deputy Director</b></td>");
-                                sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Praveen Kumar Verma)<br/>S.A. (Joint Director)</b></td>");
+                                //sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Dr. Jagdish Prasad)<br/>Deputy Director</b></td>");
+                                sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Kapil Luna)<br/>S.A. (Joint Director)</b></td>");
                                 sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Sugar Singh Meena)<br/>Director, RCVET</b></td>");
                                 sb1.Append("</tr>");
                                 sb1.Append("</table>");
@@ -1168,10 +1168,10 @@ namespace Kaushal_Darpan.Api.Controllers
                                 sb1.Append("<tr>");
                                 sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Lalit Baral)<br/>Senior Instructor</b></td>");
                                 sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Prem Prakash Rathore)<br/>Senior Instructor</b></td>");
-                                sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Surendra Baghmar)<br/>Group Instructor</b></td>");
+                                sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Pawan Kumar Bhati)<br/>Assistant Director</b></td>");
                                 sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Hukam Singh Rathore)<br/>Deputy Director</b></td>");
-                                sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Dr. Jagdish Prasad)<br/>Deputy Director</b></td>");
-                                sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Praveen Kumar Verma)<br/>S.A. (Joint Director)</b></td>");
+                                //sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Dr. Jagdish Prasad)<br/>Deputy Director</b></td>");
+                                sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Kapil Luna)<br/>S.A. (Joint Director)</b></td>");
                                 sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Sugar Singh Meena)<br/>Director, RCVET</b></td>");
                                 sb1.Append("</tr>");
                                 sb1.Append("</table>");
