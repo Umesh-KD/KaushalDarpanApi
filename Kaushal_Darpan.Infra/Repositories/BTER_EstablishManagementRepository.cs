@@ -2503,6 +2503,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@QualificationIDaf", body.QualificationIDaf);
                     command.Parameters.AddWithValue("@BugetHeadID", body.BugetHeadID);
                     command.Parameters.AddWithValue("@SalaryDrawnInstituteID", body.SalaryDrawnInstituteID);
+                    command.Parameters.AddWithValue("@IsSpeciallyAbledPerson", body.IsSpeciallyAbledPerson);
+                    command.Parameters.AddWithValue("@IsEmpWorkingOnDeputationToOther", body.IsEmpWorkingOnDeputationToOther);
+                    command.Parameters.AddWithValue("@StateID", body.StateID);
+                    command.Parameters.AddWithValue("@DistrictID", body.DistrictID);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
