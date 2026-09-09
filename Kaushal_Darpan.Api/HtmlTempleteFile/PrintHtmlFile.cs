@@ -199,7 +199,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 {
                     _publishDataStr = $"<strong>Date of Result Declaration : {resultPublishModel?.PublishDate_Main}</strong><br> <strong>Date of issue : {resultPublishModel?.PublishDate}</strong>";
                 }
-                
+
 
                 // heading
                 sb_hm.AppendLine("        <table cellspacing=\"0\" cellpadding=\"5\" style=\"width:100%; border-collapse:collapse; border: 1px solid #c3c3c3; font-family:Arial, sans-serif; font-size:14px;\">");
@@ -216,10 +216,10 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 }
                 sb_hm.AppendLine("                </td>");
                 sb_hm.AppendLine("                <td style=\"width:25%; text-align:right; vertical-align:bottom;\">");
-                
+
                 // add publish data html
                 sb_hm.AppendLine(_publishDataStr);
-                
+
                 sb_hm.AppendLine("                </td>");
                 sb_hm.AppendLine("            </tr>");
                 sb_hm.AppendLine("        </table>");
@@ -3463,8 +3463,8 @@ thead th{
                 sb.AppendLine("<div style=\"width:50%;float:left;text-align:right;\">");
 
                 // result publish date
-                sb.AppendLine($"<div style=\"margin-top:20px;font-size:15px;font-weight:bold;padding-right:100px;\">{(dr_studet["ResultDeclarationDate"] ?? dr_studet["ResultDeclareDate"])}</div>");
-                sb.AppendLine($"<div style=\"margin-top:28px;font-size:15px;font-weight:bold;padding-right:160px;\">{(dr_studet["ResultDeclarationDate"] ?? dr_studet["ResultDeclarationDate_Reval"])}</div>");
+                sb.AppendLine($"<div style=\"margin-top:20px;font-size:15px;font-weight:bold;padding-right:100px;\">{dr_studet["ResultDeclareDate"]}</div>");
+                sb.AppendLine($"<div style=\"margin-top:28px;font-size:15px;font-weight:bold;padding-right:160px;\">{dr_studet["ResultDeclarationDate_Reval"]}</div>");
 
                 sb.AppendLine("</div>");
                 sb.AppendLine($"<div style=\"width:50%;text-align:center;float:right;margin-top:-10px; \">");
