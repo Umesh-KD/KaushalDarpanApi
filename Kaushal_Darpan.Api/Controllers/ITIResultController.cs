@@ -541,6 +541,360 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
+        //[HttpPost("DownloadCFormReport")]
+        //public async Task<ApiResult<string>> DownloadCFormReport([FromBody] ITIResultsModel request)
+        //{
+        //    ActionName = "DownloadCFormReport(string ApplicationID)";
+
+        //    return await Task.Run(async () =>
+        //    {
+        //        var result = new ApiResult<string>();
+        //        try
+        //        {
+        //            var data = await _unitOfWork.ITIResultRepository.GetCFormReport(request);
+        //            if (data?.Tables?.Count > 0 && data.Tables[0].Rows.Count > 0)
+        //            {
+
+        //                System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+        //                //data.Tables[0].TableName = "StateTradeCertificate";   
+
+        //                //data.Tables[0].Rows[0]["logo"] = $"{ConfigurationHelper.StaticFileRootPath}/NE-100.png";
+        //                //data.Tables[0].Rows[0]["signlogo"] = $"{ConfigurationHelper.StaticFileRootPath}/iti_signlogo.png";
+
+        //                string devFontSize = "15px";
+        //                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+        //                //string htmlTemplatePath = $"{ConfigurationHelper.RootPath}{Constants.StateTradeCertificateITI}/ITIMarksheetCONSOLIDATED.html";
+
+        //                //string html = Utility.PDFWorks.GetHtml(htmlTemplatePath, data);
+
+        //                System.Text.StringBuilder sb1 = new System.Text.StringBuilder();
+
+        //                //html = Utility.PDFWorks.ReplaceCustomTag(html);
+
+
+
+
+
+        //                var list = new List<TradeSubjectModel>();
+        //                if (data.Tables[0] != null)
+        //                {
+        //                    list = CommonFuncationHelper.ConvertDataTable<List<TradeSubjectModel>>(data.Tables[0]);
+        //                }
+
+        //                foreach (var item in list.GroupBy(f => f.TradeId))
+        //                {
+
+        //                    sb1.Append("<table id='pdf-headers' style='width:100%' margin:0; padding:0;border='0' cellpadding='0'>");
+        //                    sb1.Append("<tr><td style='text-align: center; padding: 0px; font-weight: bold; font-size: 15px;'>Rajasthan Council for Vocational Education and Training, Rajasthan</td></tr>");
+        //                    sb1.Append("<tr><td style='text-align: center; padding: 0px; font-weight: bold; font-size: 14px;'>Department of Skill, Employment and Entrepreneurship</td></tr>");
+        //                    //sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 11px;'>SCVT Yearly " + data.Tables[0].Rows[0]["AcadSession"].ToString() + " " + (request.ExamType == 1 ? "Main" : "Supplementary") + "  Examination Result</td></tr>");
+        //                    sb1.Append("<tr><td style='text-align: center; padding: 0px; font-weight: bold; font-size: 11px;'>" + data.Tables[0].Rows[0]["ExamName"] + "</td></tr>");
+        //                    sb1.Append("</table>");
+
+        //                    //  }
+        //                    //foreach (DataRow row in data.Tables[0].Rows)
+        //                    //{
+        //                    int TotalTrainee = 0;
+        //                    int PassTrainee = 0;
+        //                    int FailTrainee = 0;
+        //                    float PercentageTrainee = 0;
+
+        //                    sb1.Append("<table style='border-collapse: collapse;margin-top:10; padding:0; width: 100%; font-family: Arial; font-size:14px' border='0' cellpadding='3' cellspacing='0'>");
+
+
+        //                    //@for(trade of TradeList; track trade) {
+        //                    //<!-- ✅ Trade Name -->
+        //                    // int TradeId = Convert.ToInt32(row["TradeId"].ToString());
+        //                    int TradeId = item.Key;
+        //                    var colspan = data.Tables[1].AsEnumerable()
+        //                        .Where(row => row.Field<int>("TradeId") == TradeId)
+        //                        .Select(row => row.Field<int>("SubjectID"))
+        //                        .Distinct()
+        //                        .Count() + 9;
+
+
+        //                    string TradeName = item?.FirstOrDefault()?.TradeName ?? string.Empty;// tradeRow?.Field<string>("TradeName") ?? string.Empty;
+        //                    string DurationYear = item?.FirstOrDefault()?.DurationYear ?? string.Empty;
+
+        //                    //var colspan = data.Tables[0].AsEnumerable().Where(row => row.Field<string>("QualificationID") == "10").CopyToDataTable();
+
+
+        //                    //DataSet comment start 
+        //                    //sb1.Append("<tr>");
+        //                    //sb1.Append("<th colspan='" + colspan + "' style='text-align: left; padding: 10px; font-weight: bold;border:0.2px solid #d1d0d0;'>");
+        //                    //sb1.Append("<table style='width:100%;'><tr><td style='text-align: left; text-decoration: underline; font-size: 13px;'><b> " + request.SemesterID + " Year (Annual Examination) "
+        //                    //    //+ row["DurationYear"] +
+        //                    //    + DurationYear +
+
+
+
+        //                    //    " Year Trades</b></td><td  style='text-align: right; font-size: 13px;'><b>  Exam Month Year: " + data.Tables[0].Rows[0]["AcadSession"].ToString() + " | Result Declaration Date: <u>"+ data.Tables[0].Rows[0]["ResultDecDate"].ToString()+ "</u></b></td></tr></table>");
+        //                    //sb1.Append("</th>");
+
+        //                    ////sb1.Append("<th style='text-align: right; padding: 10px; font-weight: bold; text-decoration: underline; font-size: 15px;border:1px solid gray; '>");
+        //                    ////sb1.Append("<b>  Exam Month Year: "+ data.Tables[0].Rows[0]["AcadSession"].ToString() + " | Result Dec Date: _______________</b>");
+        //                    ////sb1.Append("</th>'");
+
+        //                    //sb1.Append("</tr>");
+        //                    //sb1.Append("<tr>");
+        //                    //sb1.Append("<th colspan='" + colspan + "' style='text-align: left; padding: 10px; font-weight: bold; text-decoration: underline; font-size: 13px;border:0.2px solid #d1d0d0;'>");
+        //                    ////sb1.Append("<b> Trade: " + row["TradeName"] + "</b>");
+        //                    //sb1.Append("<b> Trade: " + TradeName.ToUpper() + "</b>");
+        //                    //sb1.Append("</th>");
+        //                    //sb1.Append("</tr>");
+        //                    //DataSet comment ends 
+
+
+
+        //                    //changes starts here 
+        //                    sb1.Append("<tr>");
+        //                    sb1.Append("<th colspan='" + colspan + "' style='padding:10px; font-weight: bold; border:1px solid gray;'>");
+
+        //                    sb1.Append("<table style='width:100%; border-collapse:collapse;'>");
+        //                    sb1.Append("<tr>");
+
+        //                    // Center - Trade
+        //                    sb1.Append("<td style='width:34%; text-align:left; font-size:13px; white-space:nowrap;'>");
+        //                    sb1.Append("<b><u>Trade: " + TradeName.ToUpper() + "</u></b>");
+        //                    sb1.Append("</td>");
+
+        //                    // Left - Semester / Year
+        //                    sb1.Append("<td style='width:33%; text-align:center; font-size:13px; white-space:nowrap;'>");
+        //                    sb1.Append("<b><u>" + request.SemesterID + " Year (Annual Examination) "
+        //                        + DurationYear + " Year Trades</u></b>");
+        //                    sb1.Append("</td>");
+
+
+        //                    // Right - Exam Month Year + Result Declaration Date
+        //                    sb1.Append("<td style='width:33%; text-align:right; font-size:13px; white-space:nowrap;'>");
+        //                    sb1.Append("<b>Exam Month Year: "
+        //                        + data.Tables[0].Rows[0]["AcadSession"].ToString()
+        //                        + " | Result Declaration Date: <u>"
+        //                        + data.Tables[0].Rows[0]["ResultDecDate"].ToString()
+        //                        + "</u></b>");
+        //                    sb1.Append("</td>");
+
+        //                    sb1.Append("</tr>");
+        //                    sb1.Append("</table>");
+
+        //                    sb1.Append("</th>");
+        //                    sb1.Append("</tr>");
+
+        //                    //changes ends here
+
+
+        //                    //<!-- ✅ Institute Loop -->
+        //                    //@for(institute of getInstitutesByTrade(trade.TradeId); track institute) {
+
+
+
+        //                    DataTable instituteData = GetInstitutesByTrade(TradeId, data.Tables[1]);
+        //                    DataTable subjectData = GetSubjectNameDataList(TradeId, data.Tables[1]);
+
+        //                    foreach (DataRow rowIns in instituteData.Rows)
+        //                    {
+
+
+        //                        //<!-- ✅ Institutename -->
+        //                        sb1.Append("<tr>");
+        //                        sb1.Append("<th colspan='" + colspan + "' style='text-align:left;padding:10px;font-weight:bold;text-decoration:underline;font-size:11px;border:0.2px solid #d1d0d0; border-bottom:none;'>");
+        //                        sb1.Append("<b> Institute: " + rowIns["InstituteName"] + "</b>");
+        //                        sb1.Append("</th>");
+        //                        sb1.Append("</tr>");
+
+        //                        //<!-- ✅ Column Headers ONLY here -->
+        //                        sb1.Append("<tr>");
+        //                        sb1.Append("<th rowspan='2' style='text-align: center;font-size: 10px;border:0.2px solid #d1d0d0;  width:1%;  '>S.No.</th>");
+        //                        //sb1.Append("<th rowspan='2' style='text-align:left; font-size: 10px;border:1px solid gray;'>Trainee's Name / Father's Name</th>");
+        //                        sb1.Append("<th rowspan='2' style='text-align:left; font-size:10px; border:0.2px solid #d1d0d0; width:15%; white-space:normal;'>Trainee's Name<br/>Father's Name</th>");
+        //                        sb1.Append("<th rowspan='2' style='text-align:center; font-size: 10px;border:0.2px solid #d1d0d0; width:40px;'>Enrollment<br/>Date of Birth</th>");
+        //                        sb1.Append("<th rowspan='2' style='text-align:center; font-size: 10px;border:0.2px solid #d1d0d0; width:40px;'>Roll Number</th>");
+        //                        sb1.Append("<th rowspan='2' style='text-align:center; font-size: 10px;border:0.2px solid #d1d0d0; width:2.5%;'>Last <br/> Appeared</th>");
+        //                        //@for(subj of ReporSubjectNameDataList(trade.TradeId); let idx2 = $index; track subj) {
+        //                        foreach (DataRow rowSub in subjectData.Rows)
+        //                        {
+        //                            try
+        //                            {
+        //                                sb1.Append("<th style='text-align: center; font-size: 10px;border:0.2px solid #d1d0d0; '>" + rowSub["SubjectName"] + "</th>");
+        //                            }
+        //                            catch (Exception ex)
+        //                            {
+        //                                var nex = new NewException
+        //                                {
+        //                                    PageName = "subjectData.Rows",
+        //                                    ActionName = ActionName,
+        //                                    Ex = ex,
+        //                                };
+        //                                await CreateErrorLog(nex, _unitOfWork);
+        //                            }
+        //                        }
+
+
+        //                        sb1.Append("<th style='text-align: center; font-size: 10px;border:0.2px solid #d1d0d0;'>Grand Total                 </th>");
+        //                        sb1.Append("<th rowspan='2' style='text-align: center; font-size: 10px;border:0.2px solid #d1d0d0;width:10px;'>Result                      </th>");
+        //                        sb1.Append("<th rowspan='2' style='text-align: center; font-size: 10px;border:0.2px solid #d1d0d0;'>Certificate <br/> Marksheet Number </th>");
+        //                        sb1.Append("<th rowspan='2' style='text-align: center; font-size: 10px;border:0.2px solid #d1d0d0;'>Academic Session                </th>");
+
+
+        //                        sb1.Append("</tr>");
+        //                        sb1.Append("<tr>");
+        //                        //@for(subj of ReporSubjectNameDataList(trade.TradeId); let idx2 = $index; track subj) {
+        //                        int grantTotal = 0;
+        //                        foreach (DataRow rowSub in subjectData.Rows)
+        //                        {
+        //                            grantTotal += Convert.ToInt32(rowSub["MaxMarks"]);
+        //                            sb1.Append("<th style='text-align: center; font-size: 10px;border:0.2px solid #d1d0d0;'>" + rowSub["MinMarks"] + "/" + rowSub["MaxMarks"] + "</th>");
+        //                        }
+        //                        sb1.Append("<th style='text-align: center; font-size: 10px;border:0.2px solid #d1d0d0;'>" + grantTotal + "</th>");
+        //                        sb1.Append("</tr>");
+
+        //                        //<!-- ✅ Trainee List -->
+        //                        DataTable traineeData = GetTraineesByInstitute(TradeId, Convert.ToInt32(rowIns["InstituteID"].ToString()), data.Tables[1]);
+        //                        //@for(trainee of getTraineesByInstitute(trade.TradeId, institute.InstituteID); let idx = $index; track trainee) {
+        //                        int idx = 1;
+        //                        foreach (DataRow rowTrnee in traineeData.Rows)
+        //                        {
+
+        //                            TotalTrainee += 1;
+        //                            PassTrainee = PassTrainee + (rowTrnee["Result"].ToString() == "P" ? 1 : 0);
+        //                            FailTrainee = FailTrainee + (rowTrnee["Result"].ToString() == "F" ? 1 : 0);
+        //                            sb1.Append("<tr>");
+
+        //                            sb1.Append("<td style='text-align: center;   font-size: 10px;border:0.2px solid #d1d0d0;'>" + (idx++) + "</td>");
+        //                            sb1.Append("<td style='text-align: left;   font-size: 10px;border:0.2px solid #d1d0d0;'> " +
+        //                                rowTrnee["TraineeName"] + "<br />"+
+        //                                 rowTrnee["FatherName"]
+
+        //                                + "</td>");
+        //                            sb1.Append("<td style='text-align: center; font-size: 10px;border:0.2px solid #d1d0d0;'>" + rowTrnee["EnrollmentNo"] + "<br />" + rowTrnee["DOB"] + " </td>");
+        //                            sb1.Append("<td style='text-align: center; font-size: 10px;border:0.2px solid #d1d0d0;'>" + rowTrnee["RollNo"] + "</td>");
+        //                            sb1.Append("<td style='text-align:center;    font-size: 10px;border:0.2px solid #d1d0d0;'>" + rowTrnee["LastAppeared"] + "</td>");
+        //                            //@for(subj of ReporSubjectNameDataList(trade.TradeId); let idx2 = $index; track subj) {
+        //                            foreach (DataRow rowSub in subjectData.Rows)
+        //                            {
+        //                                try
+        //                                {
+        //                                    if (rowSub["SubjectName"].ToString() == "Paper-III: Workshop Calculation & Science")
+        //                                    {
+        //                                        sb1.Append("<th style='text-align: center; font-size: 10px;border:0.2px solid #d1d0d0; width:10%;'>" + rowTrnee[rowSub["SubjectName"].ToString()] + "</th>");
+        //                                    }
+        //                                    else
+        //                                    {
+        //                                        sb1.Append("<th style='text-align: center; font-size: 10px;border:0.2px solid #d1d0d0;'>" + rowTrnee[rowSub["SubjectName"].ToString()] + "</th>");
+        //                                    }
+
+        //                                }
+        //                                catch (Exception ex)
+        //                                {
+        //                                }
+        //                            }
+
+        //                            //}
+        //                            sb1.Append("<th style='text-align: center; font-size: 10px;border:0.2px solid #d1d0d0;'>" + rowTrnee["GrandTotal"] + "</th>");
+        //                            sb1.Append("<td style='text-align: center; font-size: 10px;border:0.2px solid #d1d0d0;;width:10px; '>" + rowTrnee["Result"] + "</td>");
+        //                            sb1.Append("<td style='text-align: center; font-size: 10px;border:0.2px solid #d1d0d0;'>" +
+        //                                rowTrnee["OriginalCertificateNumber"] + "<br />" +
+        //                                 rowTrnee["serial_number"]
+        //                                + "</td>");
+        //                            sb1.Append("<td style='text-align: center; font-size: 10px;border:0.2px solid #d1d0d0;'>" + rowTrnee["AcadSession"] + "</td>");
+
+
+
+        //                            sb1.Append("</tr>");
+        //                        }
+        //                        //}
+        //                    }
+        //                    int col = Convert.ToInt16((colspan - (colspan / 4) * 4)) + Convert.ToInt16((colspan / 4));
+
+
+
+
+        //                    PercentageTrainee = TotalTrainee > 0
+        //                        ? (float)((decimal)PassTrainee * 100 / TotalTrainee)
+        //                        : 0;
+
+
+        //                    sb1.Append("<tr>");
+        //                    sb1.Append("<td colspan='" + colspan / 4 + "' style='text-align: left;   font-size: 11px;border:0.2px solid #d1d0d0;'><b>Total Trainee :" + TotalTrainee + " </b></td>");
+        //                    sb1.Append("<td colspan='" + colspan / 4 + "' style='text-align: left;   font-size: 11px;border:0.2px solid #d1d0d0;'><b>Pass Trainee :" + PassTrainee + " </b></td>");
+        //                    sb1.Append("<td colspan='" + colspan / 4 + "' style='text-align: left;   font-size: 11px;border:0.2px solid #d1d0d0;'><b>Fail Trainee :" + FailTrainee + " </b></td>");
+        //                    sb1.Append("<td colspan='" + col + "' style='text-align: left;   font-size: 11px;border:0.2px solid #d1d0d0;'><b>Percentage Trainee :" + PercentageTrainee.ToString("N2") + "</b></td>");
+        //                    sb1.Append("</tr>");
+
+        //                    if (request.InstituteId == 0)
+        //                    {
+        //                        sb1.Append("<tr>");
+
+        //                        sb1.Append("<td height='40' valign='bottom' colspan='" + colspan + "' style='text-align: left;   font-size: 11px;border:0.2px solid #d1d0d0;'><b>Checked 1______________________ Checked 2______________________ all marks are entered online by concerned examiners and submitted hard copy at RCVET.</b></td>");
+        //                        sb1.Append("</tr>");
+
+
+
+
+
+
+        //                        sb1.Append("<tr>");
+        //                        sb1.Append("<td height='70' valign='bottom' colspan='" + colspan + "' style='text-align: left;   font-size: 11px;border:1px solid gray'>");
+        //                        sb1.Append("<table  style='border-collapse: collapse; width: 100%;' border='0' cellpadding='0' cellspacing='0'>");
+        //                        sb1.Append("<tr>");
+        //                        sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Lalit Baral)<br/>Senior Instructor</b></td>");
+        //                        sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Prem Prakash Rathore)<br/>Senior Instructor</b></td>");
+        //                        sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Surendra Baghmar)<br/>Group Instructor</b></td>");
+        //                        sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Hukam Singh Rathore)<br/>Deputy Director</b></td>");
+        //                        sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Dr. Jagdish Prasad)<br/>Deputy Director</b></td>");
+        //                        sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Praveen Kumar Verma)<br/>S.A. (Joint Director)</b></td>");
+        //                        sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Sugar Singh Meena)<br/>Director, RCVET</b></td>");
+        //                        sb1.Append("</tr>");
+        //                        sb1.Append("</table>");
+        //                        sb1.Append("</td>");
+        //                        sb1.Append("</tr>");
+        //                    }
+        //                    else
+        //                    {
+        //                        sb1.Append("<tr>");
+        //                        sb1.Append("<td colspan='" + colspan + "' style='text-align: left;   font-size: 11px;border:0.2px solid #d1d0d0;'><b>This is computer generated report, therefore it does not require any physical signature or attestation. Incase if any issue the same can be verified from RCVET, Jodhpur</b></td>");
+        //                        sb1.Append("</tr>");
+
+        //                    }
+
+        //                    sb1.Append("</table>");
+        //                    sb1.Append("<div class='page-break'></div>");
+        //                    // sb1.Append("<div class='page-break' style='page-break-after: always;'></div>");
+        //                }
+
+        //                //sb1.Append(UnicodeToKrutidev.FindAndReplaceKrutidev(html.Replace("<br>", "<br/>"), true, devFontSize));
+        //                var watermarkImagePath = $"{ConfigurationHelper.StaticFileRootPath}/ITILogo.jpg";
+        //                byte[] pdfBytes = Utility.PDFWorks.GeneratePDFGetByte_Cfrom(sb1, "LANDSCAPE A4");
+        //                result.Data = Convert.ToBase64String(pdfBytes); ;
+        //                result.State = EnumStatus.Success;
+        //                result.Message = "Success";
+        //            }
+        //            else
+        //            {
+        //                result.State = EnumStatus.Warning;
+        //                result.Message = Constants.MSG_DATA_NOT_FOUND;
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            await _unitOfWork.DisposeAsync();
+        //            // Write error log
+        //            var nex = new NewException
+        //            {
+        //                PageName = PageName,
+        //                ActionName = ActionName,
+        //                Ex = ex,
+        //            };
+        //            await CreateErrorLog(nex, _unitOfWork);
+        //            //
+        //            result.State = EnumStatus.Error;
+        //            result.ErrorMessage = ex.Message;
+        //        }
+        //        return result;
+        //    });
+        //}
+
         [HttpPost("DownloadCFormReport")]
         public async Task<ApiResult<string>> DownloadCFormReport([FromBody] ITIResultsModel request)
         {
@@ -572,10 +926,6 @@ namespace Kaushal_Darpan.Api.Controllers
 
                         //html = Utility.PDFWorks.ReplaceCustomTag(html);
 
-
-
-
-
                         var list = new List<TradeSubjectModel>();
                         if (data.Tables[0] != null)
                         {
@@ -584,27 +934,11 @@ namespace Kaushal_Darpan.Api.Controllers
 
                         foreach (var item in list.GroupBy(f => f.TradeId))
                         {
-                          
-                            sb1.Append("<table id='pdf-headers' style='width:100%' margin:0; padding:0;border='0' cellpadding='0'>");
-                            sb1.Append("<tr><td style='text-align: center; padding: 0px; font-weight: bold; font-size: 15px;'>Rajasthan Council for Vocational Education and Training, Rajasthan</td></tr>");
-                            sb1.Append("<tr><td style='text-align: center; padding: 0px; font-weight: bold; font-size: 14px;'>Department of Skill, Employment and Entrepreneurship</td></tr>");
-                            //sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 11px;'>SCVT Yearly " + data.Tables[0].Rows[0]["AcadSession"].ToString() + " " + (request.ExamType == 1 ? "Main" : "Supplementary") + "  Examination Result</td></tr>");
-                            sb1.Append("<tr><td style='text-align: center; padding: 0px; font-weight: bold; font-size: 11px;'>" + data.Tables[0].Rows[0]["ExamName"] + "</td></tr>");
-                            sb1.Append("</table>");
-
-                            //  }
-                            //foreach (DataRow row in data.Tables[0].Rows)
-                            //{
                             int TotalTrainee = 0;
                             int PassTrainee = 0;
                             int FailTrainee = 0;
                             float PercentageTrainee = 0;
 
-                            sb1.Append("<table style='border-collapse: collapse;margin-top:10; padding:0; width: 100%; font-family: Arial; font-size:14px' border='0' cellpadding='3' cellspacing='0'>");
-
-
-                            //@for(trade of TradeList; track trade) {
-                            //<!-- ✅ Trade Name -->
                             // int TradeId = Convert.ToInt32(row["TradeId"].ToString());
                             int TradeId = item.Key;
                             var colspan = data.Tables[1].AsEnumerable()
@@ -613,12 +947,24 @@ namespace Kaushal_Darpan.Api.Controllers
                                 .Distinct()
                                 .Count() + 9;
 
-
                             string TradeName = item?.FirstOrDefault()?.TradeName ?? string.Empty;// tradeRow?.Field<string>("TradeName") ?? string.Empty;
                             string DurationYear = item?.FirstOrDefault()?.DurationYear ?? string.Empty;
 
-                            //var colspan = data.Tables[0].AsEnumerable().Where(row => row.Field<string>("QualificationID") == "10").CopyToDataTable();
+                            // repeat-header:yes is a non-standard style that only XMLWorker understands.
+                            // Combined with <thead> below, it tells the underlying PdfPTable to redraw
+                            // the header rows at the top of every page this table spills onto -
+                            // including automatic overflow breaks inside a trade, not just the manual
+                            // <div class="page-break"> between trades.
+                            sb1.Append("<table style='border-collapse: collapse;margin-top:10; padding:0; width: 100%; font-family: Arial; font-size:14px; repeat-header:yes;' border='0' cellpadding='3' cellspacing='0'>");
 
+                            sb1.Append("<thead>");
+
+                            sb1.Append("<tr><td colspan='" + colspan + "' style='text-align: center; padding: 0px; font-weight: bold; font-size: 15px;'>Rajasthan Council for Vocational Education and Training, Rajasthan</td></tr>");
+                            sb1.Append("<tr><td colspan='" + colspan + "' style='text-align: center; padding: 0px; font-weight: bold; font-size: 14px;'>Department of Skill, Employment and Entrepreneurship</td></tr>");
+                            //sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 11px;'>SCVT Yearly " + data.Tables[0].Rows[0]["AcadSession"].ToString() + " " + (request.ExamType == 1 ? "Main" : "Supplementary") + "  Examination Result</td></tr>");
+                            sb1.Append("<tr><td colspan='" + colspan + "' style='text-align: center; padding: 0px; font-weight: bold; font-size: 11px;'>" + data.Tables[0].Rows[0]["ExamName"] + "</td></tr>");
+
+                            //var colspan = data.Tables[0].AsEnumerable().Where(row => row.Field<string>("QualificationID") == "10").CopyToDataTable();
 
                             //DataSet comment start 
                             //sb1.Append("<tr>");
@@ -626,9 +972,6 @@ namespace Kaushal_Darpan.Api.Controllers
                             //sb1.Append("<table style='width:100%;'><tr><td style='text-align: left; text-decoration: underline; font-size: 13px;'><b> " + request.SemesterID + " Year (Annual Examination) "
                             //    //+ row["DurationYear"] +
                             //    + DurationYear +
-
-
-
                             //    " Year Trades</b></td><td  style='text-align: right; font-size: 13px;'><b>  Exam Month Year: " + data.Tables[0].Rows[0]["AcadSession"].ToString() + " | Result Declaration Date: <u>"+ data.Tables[0].Rows[0]["ResultDecDate"].ToString()+ "</u></b></td></tr></table>");
                             //sb1.Append("</th>");
 
@@ -645,8 +988,6 @@ namespace Kaushal_Darpan.Api.Controllers
                             //sb1.Append("</tr>");
                             //DataSet comment ends 
 
-
-
                             //changes starts here 
                             sb1.Append("<tr>");
                             sb1.Append("<th colspan='" + colspan + "' style='padding:10px; font-weight: bold; border:1px solid gray;'>");
@@ -658,6 +999,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             sb1.Append("<td style='width:34%; text-align:left; font-size:13px; white-space:nowrap;'>");
                             sb1.Append("<b><u>Trade: " + TradeName.ToUpper() + "</u></b>");
                             sb1.Append("</td>");
+
 
                             // Left - Semester / Year
                             sb1.Append("<td style='width:33%; text-align:center; font-size:13px; white-space:nowrap;'>");
@@ -683,18 +1025,17 @@ namespace Kaushal_Darpan.Api.Controllers
 
                             //changes ends here
 
+                            sb1.Append("</thead>");
+                            sb1.Append("<tbody>");
 
                             //<!-- ✅ Institute Loop -->
                             //@for(institute of getInstitutesByTrade(trade.TradeId); track institute) {
-
-
 
                             DataTable instituteData = GetInstitutesByTrade(TradeId, data.Tables[1]);
                             DataTable subjectData = GetSubjectNameDataList(TradeId, data.Tables[1]);
 
                             foreach (DataRow rowIns in instituteData.Rows)
                             {
-
 
                                 //<!-- ✅ Institutename -->
                                 sb1.Append("<tr>");
@@ -730,12 +1071,10 @@ namespace Kaushal_Darpan.Api.Controllers
                                     }
                                 }
 
-
                                 sb1.Append("<th style='text-align: center; font-size: 10px;border:0.2px solid #d1d0d0;'>Grand Total                 </th>");
                                 sb1.Append("<th rowspan='2' style='text-align: center; font-size: 10px;border:0.2px solid #d1d0d0;width:10px;'>Result                      </th>");
                                 sb1.Append("<th rowspan='2' style='text-align: center; font-size: 10px;border:0.2px solid #d1d0d0;'>Certificate <br/> Marksheet Number </th>");
                                 sb1.Append("<th rowspan='2' style='text-align: center; font-size: 10px;border:0.2px solid #d1d0d0;'>Academic Session                </th>");
-
 
                                 sb1.Append("</tr>");
                                 sb1.Append("<tr>");
@@ -763,7 +1102,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                                     sb1.Append("<td style='text-align: center;   font-size: 10px;border:0.2px solid #d1d0d0;'>" + (idx++) + "</td>");
                                     sb1.Append("<td style='text-align: left;   font-size: 10px;border:0.2px solid #d1d0d0;'> " +
-                                        rowTrnee["TraineeName"] + "<br />"+
+                                        rowTrnee["TraineeName"] + "<br />" +
                                          rowTrnee["FatherName"]
 
                                         + "</td>");
@@ -799,21 +1138,15 @@ namespace Kaushal_Darpan.Api.Controllers
                                         + "</td>");
                                     sb1.Append("<td style='text-align: center; font-size: 10px;border:0.2px solid #d1d0d0;'>" + rowTrnee["AcadSession"] + "</td>");
 
-
-
                                     sb1.Append("</tr>");
                                 }
                                 //}
                             }
                             int col = Convert.ToInt16((colspan - (colspan / 4) * 4)) + Convert.ToInt16((colspan / 4));
 
-
-
-
                             PercentageTrainee = TotalTrainee > 0
                                 ? (float)((decimal)PassTrainee * 100 / TotalTrainee)
                                 : 0;
-
 
                             sb1.Append("<tr>");
                             sb1.Append("<td colspan='" + colspan / 4 + "' style='text-align: left;   font-size: 11px;border:0.2px solid #d1d0d0;'><b>Total Trainee :" + TotalTrainee + " </b></td>");
@@ -828,11 +1161,6 @@ namespace Kaushal_Darpan.Api.Controllers
 
                                 sb1.Append("<td height='40' valign='bottom' colspan='" + colspan + "' style='text-align: left;   font-size: 11px;border:0.2px solid #d1d0d0;'><b>Checked 1______________________ Checked 2______________________ all marks are entered online by concerned examiners and submitted hard copy at RCVET.</b></td>");
                                 sb1.Append("</tr>");
-
-
-
-
-
 
                                 sb1.Append("<tr>");
                                 sb1.Append("<td height='70' valign='bottom' colspan='" + colspan + "' style='text-align: left;   font-size: 11px;border:1px solid gray'>");
@@ -858,6 +1186,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                             }
 
+                            sb1.Append("</tbody>");
                             sb1.Append("</table>");
                             sb1.Append("<div class='page-break'></div>");
                             // sb1.Append("<div class='page-break' style='page-break-after: always;'></div>");
@@ -894,8 +1223,6 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
-
-     
 
 
 
