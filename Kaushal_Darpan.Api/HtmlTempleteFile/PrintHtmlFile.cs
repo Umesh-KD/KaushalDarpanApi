@@ -3461,8 +3461,11 @@ thead th{
                 sb.AppendLine($"<div style=\"width:95%; height:100px; margin-top:-5px;\">");
 
                 sb.AppendLine("<div style=\"width:50%;float:left;text-align:right;\">");
+
+                // result publish date
                 sb.AppendLine($"<div style=\"margin-top:20px;font-size:15px;font-weight:bold;padding-right:100px;\">{(dr_studet["ResultDeclarationDate"] ?? dr_studet["ResultDeclareDate"])}</div>");
-                sb.AppendLine($"<div style=\"margin-top:28px;font-size:15px;font-weight:bold;padding-right:160px;\">{(dr_studet["ResultDeclarationDate"] ?? dr_studet["ResultDeclareDate"])}</div>");
+                sb.AppendLine($"<div style=\"margin-top:28px;font-size:15px;font-weight:bold;padding-right:160px;\">{(dr_studet["ResultDeclarationDate"] ?? dr_studet["ResultDeclarationDate_Reval"])}</div>");
+
                 sb.AppendLine("</div>");
                 sb.AppendLine($"<div style=\"width:50%;text-align:center;float:right;margin-top:-10px; \">");
                 sb.AppendLine($"<img src=\"data:{reg_signmime};base64,{reg_signbase64}\" style=\"width:80px;margin-right:-200px;\" />");
