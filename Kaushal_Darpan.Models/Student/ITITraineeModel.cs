@@ -59,6 +59,7 @@ namespace Kaushal_Darpan.Models.Student
         public string? Trade { get; set; }
         public string? TraineeName { get; set; }
         public int Unit { get; set; }
+        public string? log_Id { get; set; }
     }
 
 

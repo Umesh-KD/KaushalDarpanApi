@@ -469,7 +469,9 @@ namespace Kaushal_Darpan.Api.Controllers
                                     StateRegNumber = item.StateRegNumber,
                                     Trade = item.Trade,
                                     TraineeName = item.TraineeName,
-                                    Unit = item.Unit
+                                    Unit = item.Unit,
+                                    log_Id = items.Log_id
+
                                 });
                             }
                         }
