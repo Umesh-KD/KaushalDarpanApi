@@ -2,8 +2,11 @@
 using ClosedXML.Excel;
 using DocumentFormat.OpenXml;
 using Kaushal_Darpan.Api.Code.Attribute;
+using Kaushal_Darpan.Api.Code.PlaywrightPdf;
+using Kaushal_Darpan.Api.HtmlTempleteFile;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
+using Kaushal_Darpan.Models.MarksheetDownloadModel;
 using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.StudentMaster;
 using Kaushal_Darpan.Models.ViewStudentDetailsModel;
@@ -25,11 +28,18 @@ namespace Kaushal_Darpan.Api.Controllers
 
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IPlaywrightPdfService _pdfService;
+        private readonly IPrintHtmlFile _printHtmlFile;
 
-        public PreExamStudentController(IMapper mapper, IUnitOfWork unitOfWork)
+        public PreExamStudentController(IMapper mapper,
+            IUnitOfWork unitOfWork,
+            IPrintHtmlFile printHtmlFile,
+            IPlaywrightPdfService pdfService)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+            _pdfService = pdfService;
+            _printHtmlFile = printHtmlFile;
         }
 
         [HttpPost("GetPreExamStudent")]
@@ -2264,5 +2274,165 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+
+
+        #region Leftout Student Migration Certificate 
+        [RoleActionFilter(EnumRole.Admin, EnumRole.Admin_NonEng)]
+        [HttpPost("GenerateLeftOutStudentMigrationCertificate")]
+        public async Task<ApiResult<string>> GenerateLeftOutStudentMigrationCertificate([FromBody] LeftOutStudentMigrationCertificateDataModel Model)
+        {
+            ActionName = "GenerateLeftOutStudentMigrationCertificate([FromBody] LeftOutStudentMigrationCertificateDataModel Model)";
+            //
+            var result = new ApiResult<string>();
+            var logfilename = "_LeftOutMigrationCertificateDownload";
+            var Session = string.Empty;
+            try
+            {
+                CommonFuncationHelper.WriteTextLog($"--------------------- 1. start get migration data:: ------------------------", logfilename);
+
+                // get the migration certificate data for left out students
+                var data = await _unitOfWork.MarksheetDownloadRepository.GetLeftOutStudentMigrationCertificateDetail(Model);
+                if (data == null)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    return result;
+                }
+                data.IPAddress = CommonFuncationHelper.GetIpAddress();
+                data.ModifyBy = Model.ModifyBy;
+
+                CommonFuncationHelper.WriteTextLog($"--------------------- 2. save serial no: ------------------------", logfilename);
+                // serial no.
+                if (string.IsNullOrWhiteSpace(data.SRNO))
+                {
+                    data.SRNO = await _unitOfWork.MarksheetDownloadRepository.SaveMigrationCertificateSRN(Model);
+                    await _unitOfWork.SaveChangesAsync();
+                }
+                // safter generate then serial no. validate                
+                if (string.IsNullOrWhiteSpace(data.SRNO))
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = "Migration certificate serial number is missing!";
+                    return result;
+                }
+
+
+                // session
+                Session = data.YearName;
+
+                // mak path for saving file
+                var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{Constants.MigrationCertificateFolder}/{Session}";
+
+                //create folder
+                if (!System.IO.Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
+
+                // new path
+                string timestamp_str = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                var fileName = $"StudentMigrationCertificate_{data.StudentName}_{timestamp_str}.pdf";
+                string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{Constants.MigrationCertificateFolder}/{Session}/{fileName}";
+
+                CommonFuncationHelper.WriteTextLog($"--------------------- 3. get html: ------------------------", logfilename);
+
+                // get html
+                var sb = await _printHtmlFile.GetHtmlOfMigrationCertificate(data);
+                var _html = sb.ToString();
+
+                // remove last blank page
+                string endTag = "<div class='page-break'></div></body></html>";
+                if (_html.EndsWith(endTag, StringComparison.OrdinalIgnoreCase))
+                {
+                    _html = _html.Substring(0, _html.Length - endTag.Length)
+                                 + "</body></html>";
+                }
+
+                // generate pdf
+                var pdfBytes = await _pdfService.GenerateAsync(_html,
+                                    new PdfOptions
+                                    {
+                                        Width = "7.5in",
+                                        Height = "8in",
+                                        MarginTop = "3mm",
+                                        MarginBottom = "0mm",
+                                        MarginLeft = "10mm",
+                                        MarginRight = "10mm"
+                                    });
+
+                CommonFuncationHelper.WriteTextLog($"--------------------- 4. save file in folder: ------------------------", logfilename);
+                // save file in folder
+                await System.IO.File.WriteAllBytesAsync(filepath, pdfBytes);
+
+                // create an object for new record
+                MigrationCertificateSaveDataModel objMigrationDiploma = new MigrationCertificateSaveDataModel();
+
+                objMigrationDiploma.MigrationID = data.MigrationID ?? 0;// pk
+
+                objMigrationDiploma.Enrollment = Convert.ToString(data.EnrollmentNo) ?? string.Empty;
+                objMigrationDiploma.InstituteId = Convert.ToInt32(data.InstituteID);
+                //objMigrationDiploma.SrDiploma = Convert.ToInt32(data.SrDiploma);
+                objMigrationDiploma.SRNO = Convert.ToString(data.SRNO);
+                objMigrationDiploma.PublishDate = Convert.ToString(data.PublishDate);
+                objMigrationDiploma.IsLocked = Convert.ToByte(data.IsLocked);
+                objMigrationDiploma.MigrationPrintingDate = Convert.ToString(data.MigrationPrintingDate);
+                objMigrationDiploma.IsRwhResult = Convert.ToByte(data.IsRWHResult);
+                objMigrationDiploma.RwhResultId = Convert.ToInt32(data.RWHResultID);
+                objMigrationDiploma.IsReval = Convert.ToByte(data.IsReval);
+                objMigrationDiploma.IsRevisedIssueDate = Convert.ToByte(data.IsRevisedIssueDate);
+                objMigrationDiploma.ResultId = Convert.ToInt32(data.ExamResultID);
+                objMigrationDiploma.RevisedId = Convert.ToInt32(data.RevisedId);
+                objMigrationDiploma.IsBlock = Convert.ToByte(data.IsBlock);
+                objMigrationDiploma.StudentId = Convert.ToInt32(data.StudentID);
+                objMigrationDiploma.IsDiploma = Convert.ToByte(data.IsDiploma);
+                objMigrationDiploma.IsDuplicate = Convert.ToByte(data.IsDuplicate);
+                objMigrationDiploma.DuplicateMigrationId = Convert.ToInt32(data.DuplicateMigrationId);
+                objMigrationDiploma.RequestId = Convert.ToInt32(data.RequestId);
+                objMigrationDiploma.IsIssued = Convert.ToByte(data.IsIssued);
+                objMigrationDiploma.ResultTypeID = Convert.ToInt32(data.ResultTypeID);
+                objMigrationDiploma.EndTermID = Convert.ToInt32(data.EndTermID);
+                objMigrationDiploma.EffectiveEndTermID = Convert.ToInt32(data.EffectiveEndTermID);
+                objMigrationDiploma.IsRevised = Convert.ToBoolean(data.IsRevised);
+                objMigrationDiploma.SemesterID = Convert.ToInt32(data.SemesterID);
+                objMigrationDiploma.IPAddress = CommonFuncationHelper.GetIpAddress();
+                objMigrationDiploma.ModifyBy = Convert.ToInt32(data.ModifyBy);
+
+                objMigrationDiploma.Dis_FileName = fileName;
+                objMigrationDiploma.FileName = $"{Session}/{fileName}";
+
+                // log
+                CommonFuncationHelper.WriteTextLog($"--------------------- 5. save in db and end: ------------------------", logfilename);
+
+                // save
+                await _unitOfWork.MarksheetDownloadRepository.AddUpdateMigrationCertificate(objMigrationDiploma);
+                await _unitOfWork.SaveChangesAsync();
+
+                // success
+                result.Data = $"{Session}/{fileName}";
+                result.State = EnumStatus.Success;
+                result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                CommonFuncationHelper.WriteTextLog($"--------------------- 6. error : {ex.Message} ------------------------", logfilename);
+
+                await _unitOfWork.DisposeAsync();
+
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+                // Write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+
+            }
+            return result;
+        }
+        #endregion
     }
 }

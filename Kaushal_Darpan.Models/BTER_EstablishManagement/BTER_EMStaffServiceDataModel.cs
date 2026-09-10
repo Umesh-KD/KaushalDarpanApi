@@ -22,6 +22,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public string? EndDate { get; set; }
         public int? ModeOfTraining { get; set; }
         public string? Venue { get; set; }
+        public string? Remarks { get; set; }
         public int? UserID { get; set; }
         public int? StaffID { get; set; }
         public string? TrainingDoc { get; set; }

@@ -114,15 +114,6 @@ namespace Kaushal_Darpan.Api.Controllers
                 var result = new ApiResult<int>();
                 try
                 {
-
-                    if (!ModelState.IsValid)
-                    {
-                        result.State = EnumStatus.Error;
-                        result.ErrorMessage = "Validation failed!";
-                        return result;
-                    }
-
-
                     result.Data = await _unitOfWork.iDTEItemsMasterRepository.SaveData(request);
                     await _unitOfWork.SaveChangesAsync();
                     if (result.Data>0)
@@ -141,6 +132,11 @@ namespace Kaushal_Darpan.Api.Controllers
                     {
                         result.State = EnumStatus.Warning;
                         result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
+                    }
+                    else if (result.Data == -3)
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.ErrorMessage = "User Not Mapped With Any Office!";
                     }
                     else
                     {

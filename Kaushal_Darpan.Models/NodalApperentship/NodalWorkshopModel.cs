@@ -158,7 +158,7 @@ namespace Kaushal_Darpan.Models.NodalApperentship
         //public List<string>? BusinessName { get; set; }
 
         public string? BusinessName { get; set; }
-        public int NumberofTrainees { get; set; }
+        public string? NumberofTrainees { get; set; }
         public string? Numberofapprentices { get; set; }
         public string? Remarks { get; set; }
         public int UserId { get; set; }
@@ -221,6 +221,8 @@ namespace Kaushal_Darpan.Models.NodalApperentship
         public int DistrictID { get; set; }
         public int TypeID { get; set; }
         public int MonthID { get; set; }
+        public int PortalYear { get; set; }
+        public int PortalMonth { get; set; }
         public int TradeID { get; set; }
         public int FinancialYearID { get; set; }
         public string? PassYear { get; set; }

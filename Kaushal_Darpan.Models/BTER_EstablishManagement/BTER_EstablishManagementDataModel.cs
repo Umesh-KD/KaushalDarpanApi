@@ -42,6 +42,9 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public string? MultiGuestHouseIDs { get; set; }
         public string? OrderNo { get; set; }
         public int? VacancyID { get; set; }
+        public int? BranchID { get; set; }
+        public int? PostServiceTypeID { get; set; }
+        public int? ChildPostServiceTypeID { get; set; }
         public List<BTER_EM_StaffHostelListModel>? GuestHouseIDs { get; set; }
     }
 
@@ -74,6 +77,12 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? QualificationIDaf { get; set; }
         public int? QualificationIDbe { get; set; }
         public string? DateOfImplementation { get; set; }
+        public int? BugetHeadID { get; set; }
+        public int? SalaryDrawnInstituteID { get; set; }
+        public int? IsSpeciallyAbledPerson { get; set; }
+        public int? IsEmpWorkingOnDeputationToOther { get; set; }
+        public int? StateID { get; set; }
+        public int? DistrictID { get; set; }
     }
 
     public class BTER_EM_GetPersonalDetailByUserID
@@ -143,6 +152,8 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? VacancyID { get; set; }
         public int? BugetHeadID { get; set; }
         public int? BugetHeadTypeID { get; set; }
+        public int? PostServiceTypeID { get; set; }
+        public int? ChildPostServiceTypeID { get; set; }
     }
 
     public class BTER_EM_StaffMasterSearchModel
@@ -165,6 +176,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? FilterStaffTypeID { get; set; }
         public string? FilterName { get; set; }
         public string? FilterSSOID { get; set; }
+        public int? BranchID { get; set; }
     }
 
     public class BTER_EM_AddStaffDetailsDataModel
@@ -216,6 +228,8 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public string? Address { get; set; }
 
         public int? OfficeID { get; set; }
+        public int? PostServiceTypeID { get; set; }
+        public int? ChildPostServiceTypeID { get; set; }
     }
 
     public class BTER_EM_AddServiceHistoryDataModel
@@ -258,6 +272,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
 
         public string? TransferToOfficeName { get; set; }
         public string? DateOfTransfer { get; set; }
+        public string? TransferTime { get; set; }
 
         // Promotion
         public bool? IsPromotion { get; set; }
@@ -267,6 +282,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public string? ToDesignationName { get; set; }
         public string? ServiceBranchName { get; set; }
         public string? ToBranchNamePromotion { get; set; }
+        public string? PromotionTime { get; set; }
 
         public string? DateOfpromotion { get; set; }
 
@@ -571,6 +587,20 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
     }
 
 
+    public class RetirementProcessModel:RequestBaseModel
+    {
+        public int? StaffID { get; set; }
+        public int? StaffUserID { get; set; }
+        public string? RetirementOrderDate { get; set; }
+        public string? RetirementDocument { get; set; }
+        public string? Dis_RetirementDocument { get; set; }
+        public string? RetirementRemarks { get; set; }
+        public int CreatedBy { get; set; }
+        public int DepartmentID { get; set; }
+        public int ProfileStatus { get; set; }
+        public int ModifyBy { get; set; }
+    }
+
     public class BTER_DesignationWiseBranchDataModel
     {
         public int DepartmentID { get; set; } = 0;
@@ -608,6 +638,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? EndTermId { get; set; }
         public int? DepartmentID { get; set; }
         public int? ManagementTypeID { get; set; }
+        public int? PostServiceTypeID { get; set; }
         public string? OrderNo { get; set; }
     }
 

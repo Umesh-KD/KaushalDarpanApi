@@ -1,5 +1,6 @@
 ﻿
 using AngleSharp.Html;
+using DocumentFormat.OpenXml.EMMA;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Models.CommonModel;
 using Kaushal_Darpan.Models.MarksheetDownloadModel;
@@ -190,6 +191,16 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 StringBuilder sb_hm = new StringBuilder();
                 StringBuilder sb_h = new StringBuilder();
 
+                // publish date html
+                var _publishDataStr = $"<strong>Date of Result Declaration : {resultPublishModel?.PublishDate}</strong>";
+
+                // reval
+                if (body.ResultTypeId == (int)EnumResultType.RevaluationResult)
+                {
+                    _publishDataStr = $"<strong>Date of Result Declaration : {resultPublishModel?.PublishDate_Main}</strong><br> <strong>Date of issue : {resultPublishModel?.PublishDate}</strong>";
+                }
+
+
                 // heading
                 sb_hm.AppendLine("        <table cellspacing=\"0\" cellpadding=\"5\" style=\"width:100%; border-collapse:collapse; border: 1px solid #c3c3c3; font-family:Arial, sans-serif; font-size:14px;\">");
                 sb_hm.AppendLine("            <tr>");
@@ -204,9 +215,11 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                     sb_hm.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_4"]}</strong>");
                 }
                 sb_hm.AppendLine("                </td>");
-                sb_hm.AppendLine("                <td style=\"width:20%; text-align:right; vertical-align:bottom;\">");
-                sb_hm.AppendLine("                    <strong>Date of Result Declaration</strong><br>");
-                sb_hm.AppendLine($"                    <strong>{resultPublishModel?.ResultDeclarationDate}</strong>");
+                sb_hm.AppendLine("                <td style=\"width:25%; text-align:right; vertical-align:bottom;\">");
+
+                // add publish data html
+                sb_hm.AppendLine(_publishDataStr);
+
                 sb_hm.AppendLine("                </td>");
                 sb_hm.AppendLine("            </tr>");
                 sb_hm.AppendLine("        </table>");
@@ -314,7 +327,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                             {
                                 if (k == 1)
                                 {
-                                    sb.AppendLine($"<td rowspan=\"{dataRowBlockCount}\" colspan=\"{dt_tabluerdet1.Columns.Count}\" style=\"text-align:center;font-weight:bolder;text-transform: uppercase;font-size:1.5em;letter-spacing:3px;\"> {dr[dc.ColumnName]} </td>");
+                                    sb.AppendLine($"<td rowspan=\"{dataRowBlockCount}\" colspan=\"{dt_tabluerdet1.Columns.Count}\" style=\"text-align:center;font-weight:bolder;text-transform: uppercase;font-size:1.5em;\"> {dr[dc.ColumnName]} </td>");
                                 }
                                 break;// print one then rest exclude from creation
                             }
@@ -456,6 +469,15 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
             {
                 StringBuilder sb_hm = new StringBuilder();
 
+                // publish date html
+                var _publishDataStr = $"<strong>Date of Result Declaration : {resultPublishModel?.PublishDate}</strong>";
+
+                // reval
+                if (body.ResultTypeId == (int)EnumResultType.RevaluationResult)
+                {
+                    _publishDataStr = $"<strong>Date of Result Declaration : {resultPublishModel?.PublishDate_Main}</strong><br> <strong>Date of issue : {resultPublishModel?.PublishDate}</strong>";
+                }
+
                 // heading main
                 sb_hm.AppendLine("        <table cellspacing=\"0\" cellpadding=\"5\" style=\"width:100%; border-collapse:collapse; border: 1px solid #c3c3c3; font-family:Arial, sans-serif; font-size:14px;\" >");
                 sb_hm.AppendLine("            <tr>");
@@ -471,8 +493,10 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 }
                 sb_hm.AppendLine("                </td>");
                 sb_hm.AppendLine("                <td style=\"width:20%; text-align:right; vertical-align:bottom;\">");
-                sb_hm.AppendLine("                    <strong>Date of Result Declaration</strong><br>");
-                sb_hm.AppendLine($"                    <strong>{resultPublishModel?.ResultDeclarationDate}</strong>");
+
+                // add publish data html
+                sb_hm.AppendLine(_publishDataStr);
+
                 sb_hm.AppendLine("                </td>");
                 sb_hm.AppendLine("            </tr>");
                 sb_hm.AppendLine("        </table>");
@@ -1973,8 +1997,8 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                     .Select(x => Convert.ToString(x["EndTermName"]))
                     .FirstOrDefault() ?? "";
 
-                string YearName = dt.AsEnumerable()
-                    .Select(x => Convert.ToString(x["YearName"]))
+                string TermYear = dt.AsEnumerable()
+                    .Select(x => Convert.ToString(x["TermYear"]))
                     .FirstOrDefault() ?? "";
 
                 string TermNameHindi = dt.AsEnumerable()
@@ -2090,7 +2114,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 sb.AppendLine("<table style='width:100%;margin-top:15px;'>");
                 sb.AppendLine("<tr>");
                 sb.AppendLine("<td class='hindi' style='text-align:left;font-weight:bold;'>");
-                sb.AppendLine("क्रमांकः एफ(12) प्राशिम/गोप./2026/");
+                sb.AppendLine($"क्रमांकः एफ(12) प्राशिम/गोप./{TermYear}/");
                 sb.AppendLine("</td>");
                 sb.AppendLine("<td class='hindi' style='text-align:right;padding-right:65px;font-weight:bold;'>");
                 sb.AppendLine($"दिनांकः");
@@ -2105,18 +2129,14 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 // Category Wise Data
                 foreach (var group in groupedData)
                 {
-                    //सत्र 2024 - 2025(छठे सेमेस्टर, नवंबर 2024) के अनुचित साधनों के मामलों पर गठित समिति ने 09 / 10 / 2025 को 
-                    //    आयोजित अपनी बैठक में संपूर्ण रिकॉर्ड का अवलोकन, अध्ययन और विचार - विमर्श करने के बाद 
-                    //    निम्नलिखित रोल नंबर वाले छात्रों को बोर्ड की दंड अनुसूची की धारा 2(दो) के तहत दंडित करने का निर्णय लिया है
-                    //{ group.Key.CodeID}
-
+                    // main 
                     sb.AppendLine($@"
             <div class='hindi' style='text-align:justify;margin-top:15px;'>
-                सत्र {financialYear} (सेमेस्टर पद्धति {group.Key.SemesterNameHindi} {group.Key.TermNameHindi}, {YearName}) के अनुचित साधन के मामलों की समिति ने 
-                    {DateTime.Now:dd/MM/yyyy} को हुई बैठक में संपूर्ण रिकॉर्ड के अवलोकन,अध्ययन एवं विचार विमर्श के पश्चात् निम्न रोल नंबर के विद्यार्थियों को मंडल की दण्ड सारणी की
+                सत्र {financialYear} (सेमेस्टर पद्धति {group.Key.SemesterNameHindi} {group.Key.TermNameHindi}, {TermYear}) के अनुचित साधन के मामलों की समिति ने संपूर्ण रिकॉर्ड के अवलोकन,अध्ययन एवं विचार विमर्श के पश्चात् निम्न रोल नंबर के विद्यार्थियों को मंडल की दण्ड सारणी की
                     श्रेणी {group.Key.UFMCategoryName} के अन्तर्गत दण्डित करने का निर्णय दिया गया है :-
             </div>");
 
+                    // table
                     sb.AppendLine("<table class='roll-table'>");
 
                     int count = 0;
@@ -2151,23 +2171,30 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
 
                     sb.AppendLine("</table>");
 
-                }
-
-                sb.AppendLine($@"
-            <div class='hindi' style='text-align:justify;margin-bottom:25px;'>
+                    // category
+                    var ufmcategory = Convert.ToInt32(group.Key.UFMCategory ?? "0");
+                    if (Convert.ToInt32(group.Key.UFMCategory ?? "0") == 1)
+                    {
+                        sb.AppendLine($@"
+            <div class='hindi' style='text-align:justify;margin-top:15px;'>
+                उपरोक्त रोल नंबर के परीक्षार्थियों को जिस विषय की परीक्षा में अनुचित साधन प्रयोग में लेते हुए पकड़ा गया था, उस विषय की परीक्षा निरस्त की जाती है।
+            </div>");
+                    }
+                    else if (Convert.ToInt32(group.Key.UFMCategory ?? "0") != 5)
+                    {
+                        sb.AppendLine($@"
+            <div class='hindi' style='text-align:justify;margin-top:15px;'>
                 उपरोक्त रोल नम्बर के परीक्षार्थियों की सत्र {FinancialYearName}
-                में दी गयी डिप्लोमा {CourseTypeHindiName} {TermNameHindi}, {YearName} की समस्त सैद्धान्तिक एवं प्रायोगिक विषयों की
+                में दी गयी डिप्लोमा {CourseTypeHindiName} {TermNameHindi}, {TermYear} की समस्त सैद्धान्तिक एवं प्रायोगिक विषयों की
                 परीक्षाएं (जिसमें छात्र बैठा) निरस्त की जाती हैं।
             </div>");
+                    }
+
+                }
+
 
                 // Signature
-                //sb.AppendLine("<div class='signature'>");
-                //sb.AppendLine("(रघुनाथ सिंह)<br/>");
-                //sb.AppendLine("संयुक्त निदेशक (गोपनीय)<br/><br/>");
-                //sb.AppendLine("दिनांक:");
-                //sb.AppendLine("</div>");
-
-                // Signature
+                sb.AppendLine("</br>");
                 sb.AppendLine("<div class='signature'>");
                 sb.AppendLine("(रघुनाथ सिंह)<br/>");
                 sb.AppendLine("संयुक्त निदेशक (गोपनीय)");
@@ -2177,7 +2204,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 sb.AppendLine("<table style='width:100%; margin-top:30px;'>");
                 sb.AppendLine("<tr>");
                 sb.AppendLine("<td style='text-align:left; font-weight:bold;'>");
-                sb.AppendLine("क्रमांक : एफ6(12)प्राशिम/गोप./2026/");
+                sb.AppendLine($"क्रमांक : एफ6(12)प्राशिम/गोप./{TermYear}/");
                 sb.AppendLine("</td>");
                 sb.AppendLine("<td style='text-align:right;padding-right:65px;font-weight:bold;'>");
                 sb.AppendLine($"दिनांक :");
@@ -3029,8 +3056,8 @@ thead th{
                 #region div set according to dep. printer (set margin-top in pixel also in footer that you set in minus here)
                 int css_margintopfordept = 30;
                 // div set according to dep. printer (set margin-top in pixel also in footer that you set in minus here)
-               sb.AppendLine($"<div style='margin-top:{css_margintopfordept}px;'>");
-               
+                sb.AppendLine($"<div style='margin-top:{css_margintopfordept}px;'>");
+
                 // srn
                 //sb.AppendLine("        <div style=\"text-align:right;font-size:16px; font-weight:bold; padding-right:0px;padding-top:25px; height:20px;\">");
                 sb.AppendLine("        <div style=\"text-align:right;font-size:16px; font-weight:bold; padding-right:0px;padding-top:0px; height:40px; margin-top:0px; \">");
@@ -3434,8 +3461,11 @@ thead th{
                 sb.AppendLine($"<div style=\"width:95%; height:100px; margin-top:-5px;\">");
 
                 sb.AppendLine("<div style=\"width:50%;float:left;text-align:right;\">");
-                sb.AppendLine($"<div style=\"margin-top:20px;font-size:15px;font-weight:bold;padding-right:100px;\">{(dr_studet["ResultDeclarationDate"] ?? dr_studet["ResultDeclareDate"])}</div>");
-                sb.AppendLine($"<div style=\"margin-top:28px;font-size:15px;font-weight:bold;padding-right:160px;\">{(dr_studet["ResultDeclarationDate"] ?? dr_studet["ResultDeclareDate"])}</div>");
+
+                // result publish date
+                sb.AppendLine($"<div style=\"margin-top:20px;font-size:15px;font-weight:bold;padding-right:100px;\">{dr_studet["ResultDeclarationDate"]}</div>");
+                sb.AppendLine($"<div style=\"margin-top:28px;font-size:15px;font-weight:bold;padding-right:160px;\">{dr_studet["ResultDeclarationDate_Reval"]}</div>");
+
                 sb.AppendLine("</div>");
                 sb.AppendLine($"<div style=\"width:50%;text-align:center;float:right;margin-top:-10px; \">");
                 sb.AppendLine($"<img src=\"data:{reg_signmime};base64,{reg_signbase64}\" style=\"width:80px;margin-right:-200px;\" />");
@@ -4766,12 +4796,15 @@ border:1px solid #000;'>
                 sb.AppendLine("      </div>");
 
                 sb.AppendLine($"      <div class=\"division\" style=\"margin-left:60px; text-align:left;\">{data.CourseDuration}</div>");
+
+
                 sb.AppendLine($"      <div class=\"completion-date\" style=\"margin-left:60px; text-align:left;\">{data.ResultDate}</div>");
 
                 // signature 
                 sb.AppendLine($"      <div class=\"signature\"><img src=\"data:{reg_signmime};base64,{reg_signbase64}\" style=\"width:80px;\"/></div>");
 
-                sb.AppendLine($"      <div class=\"sign-date\">{data.DiplomaPrintingDate}</div>");
+                string diplomaPrintingDate = Convert.ToDateTime(data.DiplomaPrintingDate).ToString("dd-MM-yyyy");
+                sb.AppendLine($"      <div class=\"sign-date\">{diplomaPrintingDate}</div>");
                 sb.AppendLine("  </div>");
 
                 sb.AppendLine("</div>");
@@ -4945,204 +4978,109 @@ border:1px solid #000;'>
         {
             try
             {
+                // set sign of registrar                
+                string reg_signFilepath = $"{ConfigurationHelper.StaticFileRootPath}{data.RegistrarSignFile}";
+                byte[] reg_signbytes = System.IO.File.ReadAllBytes(CommonFuncationHelper.IsFileExisitsOrDefault(reg_signFilepath));
+                string reg_signbase64 = Convert.ToBase64String(reg_signbytes);
+                string reg_signext = Path.GetExtension(reg_signFilepath).ToLower();
+                string reg_signmime = reg_signext switch
+                {
+                    ".png" => "image/png",
+                    ".jpg" => "image/jpeg",
+                    ".jpeg" => "image/jpeg",
+                    ".gif" => "image/gif",
+                    _ => "image/png"
+                };
+
                 StringBuilder sb = new StringBuilder();
 
                 sb.AppendLine("<!DOCTYPE html>");
-                sb.AppendLine("<html>");
+                sb.AppendLine("<html lang=\"en\">");
                 sb.AppendLine("<head>");
-                sb.AppendLine("<meta charset='UTF-8'>");
+                sb.AppendLine("<meta charset=\"UTF-8\">");
+                sb.AppendLine("<title>Provisional Certificate</title>");
 
                 sb.AppendLine("<style>");
-
-                // A4 exact size
-                sb.AppendLine("@page {");
-                sb.AppendLine("    size: A4;");
-                sb.AppendLine("    margin: 0;");
-                sb.AppendLine("}");
-
-                sb.AppendLine("* {");
-                sb.AppendLine("    box-sizing: border-box;");
-                sb.AppendLine("}");
-
-                sb.AppendLine("html, body {");
-                sb.AppendLine("    margin: 0;");
-                sb.AppendLine("    padding: 0;");
-                sb.AppendLine("    width: 210mm;");
-                sb.AppendLine("    height: 297mm;");
-                sb.AppendLine("    background: transparent;");
-                sb.AppendLine("}");
-
-                sb.AppendLine("body {");
-                sb.AppendLine("    position: relative;");
-                sb.AppendLine("    font-family: Arial, Helvetica, sans-serif;");
-                sb.AppendLine("}");
-
-                sb.AppendLine(".value {");
-                sb.AppendLine("    position: absolute;");
-                sb.AppendLine("    white-space: nowrap;");
-                sb.AppendLine("    font-size: 14px;");
-                sb.AppendLine("    line-height: 1;");
-                sb.AppendLine("}");
-
+                sb.AppendLine("body { font-size:20px; font-family: Arial, sans-serif;white-space: nowrap; }");
+                sb.AppendLine(".certificate { width: 7.5in; height: 8in; }");
+                sb.AppendLine(".name-block { margin-top: 285px; line-height: 1.6; width:100%; float:left; }");
+                sb.AppendLine(".name-block div { margin-bottom: 2px; }");
+                sb.AppendLine(".code-row { margin-top: 30px;  width:100%; float:left;padding-left:0px; }");
+                sb.AppendLine(".branch { margin-top: 60px;  width:100%; float:left; }");
+                sb.AppendLine(".session-row { margin-top: 50px; width:100%; float:left; }");
+                sb.AppendLine(".session-left { display:flex; align-items:center; gap:170px; }");
+                sb.AppendLine(".honours {  margin-right: 80px;  margin-top:8px;}");
+                sb.AppendLine(".duration { margin-top: 20px;  width:100%; float:left;  }");
+                sb.AppendLine(".signature-row { margin-top: 60px; width:100%; float:left; }");
+                sb.AppendLine(".completion-date { margin-top: 12px; }");
+                sb.AppendLine(".signature-img { text-align:right; margin-top:-105px; float:right; margin-right:50px;}");
+                sb.AppendLine(".issue-date { margin-top: 28px;  }");
                 sb.AppendLine("</style>");
-                sb.AppendLine("</head>");
 
+                sb.AppendLine("</head>");
                 sb.AppendLine("<body>");
 
-                // =========================================================
-                // 1. S.NO
-                // =========================================================
-                //
-                // Original position:
-                // Top-right area
-                //
-                sb.AppendLine(
-                    $"<div class='value' style='left:174mm; top:11.5mm;'>"
-                    + $"{data.SRNO}"
-                    + "</div>");
+                sb.AppendLine("<div class=\"certificate\">");
+                sb.AppendLine("<div style='text-align:right; height:20px;padding-right:0px;'>");
+                sb.AppendLine($"{data.SRNO}</div>");
 
+                sb.AppendLine("<div class=\"name-block\">");
+                sb.AppendLine("<span style=\"width:30%;float:left;\">&nbsp;</span>");
+                sb.AppendLine("<span style=\"float:right;width:70%;\">");
+                sb.AppendLine($"<div>{data.StudentName}</div>");
+                sb.AppendLine($"<div>{data.FatherName}</div>");
+                sb.AppendLine("</span>");
+                sb.AppendLine("</div>");
 
-                // =========================================================
-                // 2. STUDENT NAME
-                // =========================================================
-                //
-                // Original:
-                // AASU SINGH
-                //
-                sb.AppendLine(
-                    $"<div class='value' style='left:89mm; top:69mm;'>"
-                    + $"{data.StudentName}"
-                    + "</div>");
+                sb.AppendLine("<div class=\"code-row\">");
+                sb.AppendLine("<div style=\"width:30%;float:left;\">&nbsp;</div>");
+                sb.AppendLine($"<div style=\"width:20%;float:left;\">{data.EnrollmentNo}</div>");
+                sb.AppendLine("<div style=\"width:30%;float:left;\">&nbsp;</div>");
+                sb.AppendLine($"<div style=\"width:20%;float:left;\">{data.RollNo}</div>");
+                sb.AppendLine("</div>");
 
+                sb.AppendLine("<div class=\"branch\">");
+                sb.AppendLine("<span style=\"width:30%;float:left;\">&nbsp;</span>");
+                sb.AppendLine($"<span style=\"width:70%;float:left;\">{data.StreamName}</span>");
+                sb.AppendLine("</div>");
 
-                // =========================================================
-                // 3. FATHER / MOTHER NAME
-                // =========================================================
-                //
-                // S/O SANG SINGH
-                //
-                sb.AppendLine(
-                    $"<div class='value' style='left:89mm; top:76mm;'>"
-                    + $"{data.FatherName}"
-                    + "</div>");
+                sb.AppendLine("<div class=\"session-row\">");
+                sb.AppendLine("<div style=\"width:13%;float:left;\">&nbsp;</div>");
+                sb.AppendLine("<div style=\"width:87%;float:left;\">");
+                sb.AppendLine($"<div>{data.FinalDiplomaTermName}</div>");
 
+                sb.AppendLine("<div class=\"session-left\">");
+                sb.AppendLine($"<div>Session {data.SessionName}</div>");
+                sb.AppendLine($"<div class=\"honours\">{data.Division}</div>");
+                sb.AppendLine("</div>");
 
-                // =========================================================
-                // 4. ENROLLMENT NO
-                // =========================================================
-                //
-                // CE20220001/001
-                //
-                sb.AppendLine(
-                    $"<div class='value' style='left:87mm; top:103mm;'>"
-                    + $"{data.EnrollmentNo}"
-                    + "</div>");
+                sb.AppendLine("</div>");
+                sb.AppendLine("</div>");
 
+                sb.AppendLine("<div class=\"duration\">");
+                sb.AppendLine($"Duration of The Course : {data.CourseDuration} Years");
+                sb.AppendLine("</div>");
 
-                // =========================================================
-                // 5. ROLL NO
-                // =========================================================
-                //
-                // 6500003
-                //
-                sb.AppendLine(
-                    $"<div class='value' style='left:168mm; top:103mm;'>"
-                    + $"{data.RollNo}"
-                    + "</div>");
+                sb.AppendLine("<div class=\"signature-row\">");
 
-
-                // =========================================================
-                // 6. DIPLOMA NAME
-                // =========================================================
-                //
-                // DIPLOMA IN CIVIL ENGINEERING
-                //
-                sb.AppendLine(
-                    $"<div class='value' style='left:85mm; top:129mm;'>"
-                    + $"{data.StreamName}"
-                    + "</div>");
-
-
-                // =========================================================
-                // 7. DIPLOMA / EXAM DATE
-                // =========================================================
-                //
-                // May-2024
-                //
-                sb.AppendLine(
-                    $"<div class='value' style='left:48mm; top:149mm;'>"
-                    + $"{data.FinalDiplomaTermName}"
-                    + "</div>");
-
-
-                // =========================================================
-                // 8. SESSION
-                // =========================================================
-                //
-                // Session 2024
-                //
-                sb.AppendLine(
-                    $"<div class='value' style='left:48mm; top:156mm;'>"
-                    + $"Session {data.SessionName}"
-                    + "</div>");
-
-
-                // =========================================================
-                // 9. DIVISION
-                // =========================================================
-                //
-                // First (Honours)
-                //
-                sb.AppendLine(
-                    $"<div class='value' style='left:129mm; top:158mm;'>"
-                    + $"{data.Division}"
-                    + "</div>");
-
-
-                // =========================================================
-                // 10. COURSE DURATION
-                // =========================================================
-                //
-                // 3 Years
-                //
-                sb.AppendLine(
-                    $"<div class='value' style='left:91mm; top:175mm;'>"
-                    + $"{data.CourseDuration}"
-                    + "</div>");
-
-
-                // =========================================================
-                // 11. DIPLOMA COMPLETION DATE
-                // =========================================================
-                //
-                // 24-04-2025
-                //
+                sb.AppendLine("<div class=\"completion-date\" style=\"width:330px;text-align:center;\">");
 
                 string resultDate = Convert.ToDateTime(data.ResultDate).ToString("dd-MM-yyyy");
+                sb.AppendLine($"<div>Diploma Completion Date : {resultDate}</div>");
 
-                sb.AppendLine(
-                    $"<div class='value' style='left:82mm; top:224mm;'>"
-                    + $"{resultDate}"
-                    + "</div>");
+                string diplomaPrintingDate = Convert.ToDateTime(data.DiplomaPrintingDate).ToString("dd-MM-yyyy");
+                sb.AppendLine($"<div class=\"issue-date\">{diplomaPrintingDate}</div>");
+                sb.AppendLine("</div>");
 
-
-                // =========================================================
-                // 12. PRINTING DATE
-                // =========================================================
-                //
-                // 27-11-2025
-                //
-
-                string printingDate = Convert
-                    .ToDateTime(data.DiplomaPrintingDate)
-                    .ToString("dd-MM-yyyy");
-
-                sb.AppendLine(
-                     $"<div class='value' style='left:51mm; top:247mm;'>"
-                     + $"{printingDate}"
-                     + "</div>");
+                sb.AppendLine("<div class=\"signature-img\">");
+                sb.AppendLine($"<img src=\"data:{reg_signmime};base64,{reg_signbase64}\" style=\"width:80px;\"/>");
 
 
+                sb.AppendLine("</div>");
+
+                sb.AppendLine("</div>");
+
+                sb.AppendLine("</div>");
                 sb.AppendLine("</body>");
                 sb.AppendLine("</html>");
 
@@ -5163,8 +5101,23 @@ border:1px solid #000;'>
         {
             try
             {
-                StringBuilder sb = new StringBuilder();
 
+                // set sign of registrar                
+                string reg_signFilepath = $"{ConfigurationHelper.StaticFileRootPath}{data.RegistrarSignFile}";
+                byte[] reg_signbytes = System.IO.File.ReadAllBytes(CommonFuncationHelper.IsFileExisitsOrDefault(reg_signFilepath));
+                string reg_signbase64 = Convert.ToBase64String(reg_signbytes);
+                string reg_signext = Path.GetExtension(reg_signFilepath).ToLower();
+                string reg_signmime = reg_signext switch
+                {
+                    ".png" => "image/png",
+                    ".jpg" => "image/jpeg",
+                    ".jpeg" => "image/jpeg",
+                    ".gif" => "image/gif",
+                    _ => "image/png"
+                };
+
+
+                StringBuilder sb = new StringBuilder();
                 sb.AppendLine("<!DOCTYPE html>");
                 sb.AppendLine("<html>");
                 sb.AppendLine("<head>");
@@ -5172,147 +5125,235 @@ border:1px solid #000;'>
 
                 sb.AppendLine("<style>");
 
-                // =========================================================
-                // A4 PAGE
-                // =========================================================
-
-                sb.AppendLine("@page {");
-                sb.AppendLine("    size: A4;");
-                sb.AppendLine("    margin: 0;");
-                sb.AppendLine("}");
-
-                sb.AppendLine("* {");
-                sb.AppendLine("    box-sizing: border-box;");
-                sb.AppendLine("}");
-
-                sb.AppendLine("html, body {");
-                sb.AppendLine("    margin: 0;");
-                sb.AppendLine("    padding: 0;");
-                sb.AppendLine("    width: 210mm;");
-                sb.AppendLine("    height: 297mm;");
-                sb.AppendLine("    background: transparent;");
+                sb.AppendLine("body {");
+                sb.AppendLine("    font-size:18px;");
                 sb.AppendLine("}");
 
                 sb.AppendLine("body {");
-                sb.AppendLine("    position: relative;");
-                sb.AppendLine("    font-family: Arial, Helvetica, sans-serif;");
+                sb.AppendLine("    font-family: Arial, sans-serif;");
                 sb.AppendLine("}");
 
-                // =========================================================
-                // COMMON VALUE STYLE
-                // =========================================================
-
-                sb.AppendLine(".value {");
-                sb.AppendLine("    position: absolute;");
-                sb.AppendLine("    white-space: nowrap;");
-                sb.AppendLine("    font-size: 14px;");
-                sb.AppendLine("    line-height: 1;");
-                sb.AppendLine("    font-family: Arial, Helvetica, sans-serif;");
+                sb.AppendLine(".certificate {");
+                sb.AppendLine("    width: 7.5in;");
+                sb.AppendLine("    height: 8in;");
+                sb.AppendLine("    box-sizing: border-box;");
+                sb.AppendLine("    padding: 0px 0px 0px 15px;");
+                // sb.AppendLine("    overflow: hidden;");
                 sb.AppendLine("}");
+
 
                 sb.AppendLine("</style>");
-
                 sb.AppendLine("</head>");
+
                 sb.AppendLine("<body>");
 
-                // =========================================================
-                // 1. S.NO
-                // =========================================================
-                //
-                // Example:
-                // 26DM000003
-                //
-                // Top-right corner
-                // =========================================================
+                sb.AppendLine("<div class='certificate'>");
 
-                sb.AppendLine(
-                    $"<div class='value' " +
-                    $"style='left:174mm; top:11mm;'>" +
-                    $"{data.SRNO}" +
-                    "</div>");
+                sb.AppendLine("<div style='text-align:right; height:20px;letter-spacing: -1px;padding-right:20px;'>");
+                sb.AppendLine($"{data.SRNO}");
+                sb.AppendLine("</div>");
+
+                // =====================================================
+                // Rajasthan Government - BLANK, POSITION PRESERVED
+                // =====================================================
+
+                sb.AppendLine("<div class='center' >");
+                sb.AppendLine("&nbsp;");
+                sb.AppendLine("</div>");
 
 
-                // =========================================================
-                // 2. STUDENT NAME
-                // =========================================================
-                //
-                // Example:
-                // PRINCE CHOUDHARY
-                //
-                // =========================================================
+                // =====================================================
+                // Government of Rajasthan - BLANK
+                // =====================================================
 
-                sb.AppendLine(
-                    $"<div class='value' " +
-                    $"style='left:77mm; top:121mm;'>" +
-                    $"{data.StudentName}" +
-                    "</div>");
+                sb.AppendLine("<div class='center' >");
+                sb.AppendLine("&nbsp;");
+                sb.AppendLine("</div>");
 
 
-                // =========================================================
-                // 3. FATHER'S NAME
-                // =========================================================
-                //
-                // Example:
-                // JHABAR MAL THALOR
-                //
-                // =========================================================
+                // =====================================================
+                // Board Hindi - BLANK
+                // =====================================================
 
-                sb.AppendLine(
-                    $"<div class='value' " +
-                    $"style='left:77mm; top:143mm;'>" +
-                    $"{data.FatherName}" +
-                    "</div>");
+                sb.AppendLine("<div class='center' style='margin-top:15px;'>");
+                sb.AppendLine("&nbsp;");
+                sb.AppendLine("</div>");
 
 
-                // =========================================================
-                // 4. ENROLLMENT NO
-                // =========================================================
-                //
-                // Example:
-                // EE20220023/025
-                //
-                // =========================================================
+                // =====================================================
+                // Board English - BLANK
+                // =====================================================
 
-                sb.AppendLine(
-                    $"<div class='value' " +
-                    $"style='left:78mm; top:169mm;'>" +
-                    $"{data.EnrollmentNo}" +
-                    "</div>");
+                sb.AppendLine("<div class='center' >");
+                sb.AppendLine("&nbsp;");
+                sb.AppendLine("</div>");
 
 
-                // =========================================================
-                // 5. PRINTING DATE
-                // =========================================================
-                //
-                // Example:
-                // 23-06-2026
-                //
-                // =========================================================
+                // =====================================================
+                // Certificate Hindi Title - BLANK
+                // =====================================================
 
-                string diplomaPrintingDate = "";
-
-                if (DateTime.TryParse(
-                        Convert.ToString(data.MigrationPrintingDate),
-                        out DateTime printingDate))
-                {
-                    diplomaPrintingDate =
-                        printingDate.ToString("dd-MM-yyyy");
-                }
-
-                sb.AppendLine(
-                    $"<div class='value' " +
-                    $"style='left:45mm; top:276mm;'>" +
-                    $"{diplomaPrintingDate}" +
-                    "</div>");
+                sb.AppendLine("<div class='center' style='margin-top:20px;'>");
+                sb.AppendLine("&nbsp;");
+                sb.AppendLine("</div>");
 
 
-                // =========================================================
-                // END
-                // =========================================================
+                // =====================================================
+                // Certificate English Title - BLANK
+                // =====================================================
 
+                sb.AppendLine("<div class='center' >");
+                sb.AppendLine("&nbsp;");
+                sb.AppendLine("</div>");
+
+                // =====================================================
+                // Certificate English Title - BLANK
+                // =====================================================
+
+                sb.AppendLine("<div class='center' >");
+                sb.AppendLine("&nbsp;");
+                sb.AppendLine("</div>");
+
+                // =====================================================
+                // Certificate English Title - BLANK
+                // =====================================================
+
+                sb.AppendLine("<div class='center' >");
+                sb.AppendLine("&nbsp;");
+                sb.AppendLine("</div>");
+
+                sb.AppendLine("<div class='center' >");
+                sb.AppendLine("&nbsp;");
+                sb.AppendLine("</div>");
+
+
+                // =====================================================
+                // STUDENT NAME - VALUE ONLY
+                // Original position preserved
+                // =====================================================
+
+                sb.AppendLine("<div style='margin-top:85px;letter-spacing: -1px;'>");
+
+                sb.AppendLine("<span style='display:inline-block; width:235px;'>");
+                sb.AppendLine("&nbsp;");
+                sb.AppendLine("</span>");
+
+                sb.AppendLine("<span>");
+                sb.AppendLine($"{data.StudentName}");
+                sb.AppendLine("</span>");
+
+                sb.AppendLine("</div>");
+
+
+                // =====================================================
+                // FATHER NAME - VALUE ONLY
+                // Original position preserved
+                // =====================================================
+
+                sb.AppendLine("<div style='margin-top:40px;letter-spacing: -1px;'>");
+
+                sb.AppendLine("<span style='display:inline-block; width:235px;'>");
+                sb.AppendLine("&nbsp;");
+                sb.AppendLine("</span>");
+
+                sb.AppendLine("<span>");
+                sb.AppendLine($"{data.FatherName}");
+                sb.AppendLine("</span>");
+
+                sb.AppendLine("</div>");
+
+
+                // =====================================================
+                // ENROLLMENT NO - VALUE ONLY
+                // Original position preserved
+                // =====================================================
+
+                sb.AppendLine("<div style='margin-top:42px;letter-spacing: -1px;'>");
+
+                sb.AppendLine("<span style='display:inline-block; width:235px;'>");
+                sb.AppendLine("&nbsp;");
+                sb.AppendLine("</span>");
+
+                sb.AppendLine("<span>");
+                sb.AppendLine($"{data.EnrollmentNo}");
+                sb.AppendLine("</span>");
+
+                sb.AppendLine("</div>");
+
+
+                // =====================================================
+                // HINDI DECLARATION - BLANK
+                // Height/position preserved
+                // =====================================================
+
+                sb.AppendLine("<div style='margin-top:30px; line-height:1.5;'>");
+                sb.AppendLine("&nbsp;<br>");
+                sb.AppendLine("&nbsp;<br>");
+                sb.AppendLine("&nbsp;");
+                sb.AppendLine("</div>");
+
+
+
+                // =====================================================
+                // ENGLISH DECLARATION - BLANK
+                // Height/position preserved
+                // =====================================================
+
+                sb.AppendLine("<div style='margin-top:25px; line-height:1.5;'>");
+                sb.AppendLine("&nbsp;<br>");
+                sb.AppendLine("&nbsp;<br>");
+                sb.AppendLine("&nbsp;");
+                sb.AppendLine("</div>");
+
+
+                // =====================================================
+                // PLACE - BLANK
+                // Position preserved
+                // =====================================================
+
+
+
+
+                // =====================================================
+                // DATE - BLANK
+                // REGISTRAR - KEEP
+                // =====================================================
+
+                sb.AppendLine("<div style='margin-top:90px;letter-spacing: -1px;'>");
+
+                sb.AppendLine("<span>");
+                sb.AppendLine("&nbsp;");
+                sb.AppendLine("&nbsp;");
+                sb.AppendLine("</span>");
+
+                string migrationPrintingDate = Convert.ToDateTime(data.MigrationPrintingDate).ToString("dd-MM-yyyy");
+                sb.AppendLine("<span style='margin-left:80px; '>");
+                sb.AppendLine($"{migrationPrintingDate}");
+                sb.AppendLine("</span>");
+
+
+                // =====================================================
+                // REGISTRAR
+                // =====================================================
+
+                sb.AppendLine("<span style='float:right; margin-right:60px; margin-top:-80px;'>");
+                sb.AppendLine($"<img src=\"data:{reg_signmime};base64,{reg_signbase64}\" style=\"width:80px;\"/>");
+                sb.AppendLine("<br><br>");
+                sb.AppendLine("");
+                sb.AppendLine("</span>");
+
+                sb.AppendLine("</div>");
+
+
+                // =====================================================
+                // CLOSE
+                // =====================================================
+
+                sb.AppendLine("</div>");
                 sb.AppendLine("</body>");
                 sb.AppendLine("</html>");
 
+                //
                 return sb;
             }
             catch
@@ -5840,7 +5881,7 @@ body {
 
 <div class='header'>
 
-    <div class='reg'>
+    <div class='reg' style='padding-right:170px;item-align:left;width:80%;'>
         रजि.
     </div>
 
@@ -5864,7 +5905,7 @@ body {
         {System.Net.WebUtility.HtmlEncode(registrationNo)}
     </td>
 
-    <td class='right' style='width:40%;'>
+    <td class='right' style='width:40%;padding-right:170px;'>
         दिनांक:
         {System.Net.WebUtility.HtmlEncode(reportDate)}
     </td>
@@ -5876,7 +5917,7 @@ body {
 
     <td class='left' style='padding-top:25px;'>
         <div class='principle'>
-            PRINCIPLE
+            PRINCIPAL
         </div>
         <div class='college'>
             {System.Net.WebUtility.HtmlEncode(instituteName)}
@@ -5914,7 +5955,7 @@ body {
 <div class='body-text' style='padding-left:55px;'>
 
     इस पत्र के साथ आपको
-    {System.Net.WebUtility.HtmlEncode(EndTermHindi)} सत्र {System.Net.WebUtility.HtmlEncode(sessionName)}
+    {System.Net.WebUtility.HtmlEncode(EndTermHindi)} (सत्र {System.Net.WebUtility.HtmlEncode(sessionName)})
     परीक्षा के अस्थाई डिप्लोमा प्रमाण पत्र एवं प्रव्रजन प्रमाण पत्र
     निम्नानुसार भिजवाये जा रहे हैं :-
 
@@ -6018,10 +6059,17 @@ body {
                     sb.Append(@"
 </tbody>
 
-</table>
+</table>");
 
-</div>
-");
+                    // =========================================================
+                    // sign
+                    // =========================================================
+                    if (pageNo == pageCount)
+                    {
+                        sb.Append("<div class='right' style='margin-right:100px;margin-top:50px;'><b>भवदीय</b></div>");
+                        sb.Append("<div class='right' style='margin-right:30px;margin-top:40px;'><b>संयुक्त निदेशक (रजिस्ट्रार)</b></div>");
+                    }
+                    sb.Append("</div>");
                 }
 
 
@@ -6871,7 +6919,7 @@ body {
                 // =========================================================
                 // RWH ROLL NUMBER PAGE
                 // =========================================================
-                
+
                 if (!string.IsNullOrWhiteSpace(RWHRollNo) &&
     !string.Equals(RWHRollNo, "NIL", StringComparison.OrdinalIgnoreCase))
                 {

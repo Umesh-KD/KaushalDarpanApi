@@ -163,6 +163,55 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<int> UnlockBundle1(RevertBundleModel entity)
+        {
+            _actionName = "UpdateSaveData(List<ITITheoryMarksModel> entity)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandText = "USP_ITI_unlockexaminerbundle";
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        // Add parameters with appropriate null handling
+                        command.Parameters.AddWithValue("@AppointExaminerID", entity.AppointExaminerID);
+                        command.Parameters.AddWithValue("@Remark", entity.Remark);
+                        command.Parameters.AddWithValue("@FinalSubmit", entity.FinalSubmit);
+                        command.Parameters.AddWithValue("@CenterID", entity.CenterID);
+                        command.Parameters.AddWithValue("@SemesterID", entity.SemesterID);
+                        command.Parameters.AddWithValue("@StreamID", entity.StreamID);
+                        command.Parameters.AddWithValue("@SubjectName", entity.SubjectName);
+                        command.Parameters.AddWithValue("@EndTermID", entity.EndTermID);
+
+                        command.Parameters.Add("@Return", SqlDbType.Int);// out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);// out
+                    }
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
 
 
         public async Task<DataTable> GetTheoryMarksRptData(TheorySearchModel body)

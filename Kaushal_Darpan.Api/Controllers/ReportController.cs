@@ -16042,7 +16042,7 @@ Sr.<br/>No.
                     SchemeID = body.SchemeID,
                     EffectiveEndTermId = body.EffectiveFromEndTermId
                 };
-                var resultPublishModel = await Task.Run(() => _unitOfWork.CommonFunctionRepository.HasResultPublishedForRoleAndOtherInfo(hasPublishBody));
+                var resultPublishModel = await _unitOfWork.CommonFunctionRepository.HasResultPublishedForRoleAndOtherInfo(hasPublishBody);
                 if (resultPublishModel.ResultPublished == 0)
                 {
                     result.State = EnumStatus.Error;
@@ -16051,7 +16051,7 @@ Sr.<br/>No.
                 }
 
                 // get all streams 
-                var streams_data = await Task.Run(() => _unitOfWork.ReportRepository.GetStreamResultRptTabulation(body));
+                var streams_data = await _unitOfWork.ReportRepository.GetStreamResultRptTabulation(body);
 
                 if (streams_data?.Rows?.Count == 0)
                 {
@@ -16099,20 +16099,20 @@ Sr.<br/>No.
                     var tabular_data = new DataSet();
                     if (body.ResultTypeId == (int)EnumResultType.MainResult)
                     {
-                        tabular_data = await Task.Run(() => _unitOfWork.ReportRepository.GetTabularDetailsResultRptTabulation(body));
-                        //tabular_data = await Task.Run(() => _unitOfWork.CommonFunctionRepository.Dummy_GetTestUspDataByAction("_get_data_to_test"));
+                        tabular_data = await _unitOfWork.ReportRepository.GetTabularDetailsResultRptTabulation(body);
+                        //tabular_data = await _unitOfWork.CommonFunctionRepository.Dummy_GetTestUspDataByAction("_get_data_to_test");
                     }
                     else if (body.ResultTypeId == (int)EnumResultType.RwhResult || body.ResultTypeId == (int)EnumResultType.RwhRevalEffected)
                     {
-                        tabular_data = await Task.Run(() => _unitOfWork.ReportRepository.GetTabularDetailsResultRptTabulationRWH(body));
+                        tabular_data = await _unitOfWork.ReportRepository.GetTabularDetailsResultRptTabulationRWH(body);
                     }
                     else if (body.ResultTypeId == (int)EnumResultType.RevaluationResult)
                     {
-                        tabular_data = await Task.Run(() => _unitOfWork.ReportRepository.GetTabularDetailsResultRptTabulationReval(body));
+                        tabular_data = await _unitOfWork.ReportRepository.GetTabularDetailsResultRptTabulationReval(body);
                     }
                     else if (body.ResultTypeId == (int)EnumResultType.Ufm)
                     {
-                        tabular_data = await Task.Run(() => _unitOfWork.ReportRepository.GetTabularDetailsResultRptTabulationufm(body));
+                        tabular_data = await _unitOfWork.ReportRepository.GetTabularDetailsResultRptTabulationufm(body);
                     }
                     else
                     {
@@ -16135,7 +16135,7 @@ Sr.<br/>No.
 
 
                 // get consolidate summary of tabular details
-                var consolidate_data = await Task.Run(() => _unitOfWork.ReportRepository.GetConsolidatedDetailsResultRptTabulation(body, lstStreamId));
+                var consolidate_data = await _unitOfWork.ReportRepository.GetConsolidatedDetailsResultRptTabulation(body, lstStreamId);
                 if (consolidate_data?.Rows.Count > 0)
                 {
                     //get html
@@ -19799,7 +19799,8 @@ Sr.<br/>No.
                                 RollNo = student.RollNo,
                                 SemesterID = student.SemesterID,
                                 ResultType = student.ResultTypeID,
-                                EffectiveEndTermID = student.EffectiveEndTermID
+                                EffectiveEndTermID = student.EffectiveEndTermID,
+                                HasBulk = 1
                             };
 
                             // get mark sheet data for each student
@@ -21598,12 +21599,12 @@ Web Site : www.techedu.rajasthan.gov.in
                             var pdfBytes = await _pdfService.GenerateAsync(_html,
                                 new PdfOptions
                                 {
-                                    Format = "A4",
-                                    MarginTop = "10mm",
+                                    Width = "7.5in",
+                                    Height = "8in",
+                                    MarginTop = "3mm",
                                     MarginBottom = "0mm",
                                     MarginLeft = "10mm",
-                                    MarginRight = "10mm",
-                                    PrintBackground = true
+                                    MarginRight = "10mm"
                                 });
 
 
@@ -21678,8 +21679,8 @@ Web Site : www.techedu.rajasthan.gov.in
                             EnrollmentNo = student.EnrollmentNo
                         });
 
-                        CommonFuncationHelper.WriteTextLog($"2. loop error for student : {student.StudentName}", logfilename);
-                        CommonFuncationHelper.WriteTextLog($"2.1. loop error : {ex1.Message}", logfilename);
+                        CommonFuncationHelper.WriteTextLog($"2 loop error  for student : {ex1.Message}", logfilename);
+                        CommonFuncationHelper.WriteTextLog($"2.1. loop error for student : {student.StudentName}", logfilename);
                     }
 
                     CommonFuncationHelper.WriteTextLog($"--------------------- main loop end: {i} ------------------------", logfilename);
@@ -21747,7 +21748,7 @@ Web Site : www.techedu.rajasthan.gov.in
         public async Task<ApiResult<string>> StudentMigrationCertificateDownloadChunk([FromBody] List<MigrationCertificateDownloadSearchModel> Model)
         {
             ActionName = "StudentMigrationCertificateDownloadChunk([FromBody] List<MigrationCertificateDownloadSearchModel> Model)";
-
+            //
             var result = new ApiResult<string>();
             var logfilename = "_MigrationCertificateDownload";
             var Session = string.Empty;
@@ -21813,15 +21814,15 @@ Web Site : www.techedu.rajasthan.gov.in
                             }
 
                             var pdfBytes = await _pdfService.GenerateAsync(_html,
-                                new PdfOptions
-                                {
-                                    Format = "A4",
-                                    MarginTop = "10mm",
-                                    MarginBottom = "0mm",
-                                    MarginLeft = "10mm",
-                                    MarginRight = "10mm",
-                                    PrintBackground = true
-                                });
+                                                new PdfOptions
+                                                {
+                                                    Width = "7.5in",
+                                                    Height = "8in",
+                                                    MarginTop = "3mm",
+                                                    MarginBottom = "0mm",
+                                                    MarginLeft = "10mm",
+                                                    MarginRight = "10mm"
+                                                });
 
                             await System.IO.File.WriteAllBytesAsync(filepath, pdfBytes);
 
@@ -21854,7 +21855,7 @@ Web Site : www.techedu.rajasthan.gov.in
                             objMigrationDiploma.IsIssued = Convert.ToByte(student.IsIssued);
                             objMigrationDiploma.ResultTypeID = Convert.ToInt32(student.ResultTypeID);
                             objMigrationDiploma.EndTermID = Convert.ToInt32(student.EndTermID);
-                            objMigrationDiploma.EffectiveEndTermID = Convert.ToInt32(student.EffectiveFromEndTermId);
+                            objMigrationDiploma.EffectiveEndTermID = Convert.ToInt32(student.EffectiveEndTermID);
                             objMigrationDiploma.IsRevised = Convert.ToBoolean(student.IsRevised);
                             objMigrationDiploma.SemesterID = Convert.ToInt32(student.SemesterID);
                             objMigrationDiploma.IPAddress = CommonFuncationHelper.GetIpAddress();
@@ -21865,7 +21866,7 @@ Web Site : www.techedu.rajasthan.gov.in
 
 
                             // save
-                            await _unitOfWork.MarksheetDownloadRepository.AddUpdateMigrationCertificate(objMigrationDiploma);
+                            await _unitOfWork.MarksheetDownloadRepository.SaveMigrationCertificate(objMigrationDiploma);
                             await _unitOfWork.SaveChangesAsync();
 
                             CommonFuncationHelper.WriteTextLog($"1.8. save student done : {student.StudentName}", logfilename);
@@ -22097,7 +22098,7 @@ Web Site : www.techedu.rajasthan.gov.in
             {
                 var data = await _unitOfWork.ReportRepository.GetCertificateLetterReport(filterModel);
 
-                if (data == null || data.Tables.Count == 0 || data.Tables[0].Rows.Count == 0)
+                if (data == null || data.Tables.Count < 2 || data.Tables[0].Rows.Count == 0 || data.Tables[1].Rows.Count == 0)
                 {
                     result.State = EnumStatus.Warning;
                     result.Message = Constants.MSG_DATA_NOT_FOUND;
@@ -22180,8 +22181,8 @@ Web Site : www.techedu.rajasthan.gov.in
             return result;
         }
         #endregion
-    
-            [HttpPost("getITIDynamicReport")]
+
+        [HttpPost("getITIDynamicReport")]
         public async Task<ApiResult<DataTable>> getITIDynamicReport(ITI_DynamicReport model)
         {
             ActionName = "GetITI_FinalReport(ITI_FinalReportModule model)";
@@ -22215,5 +22216,43 @@ Web Site : www.techedu.rajasthan.gov.in
             }
             return result;
         }
+
+
+
+        [HttpPost("GetZoneWiseAllotmentReport")]
+        public async Task<ApiResult<DataTable>> GetZoneWiseAllotmentReport(ITI_FinalReportModule model)
+        {
+            ActionName = "GetITI_FinalReport(ITI_FinalReportModule model)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ReportRepository.GetZoneWiseAllotmentReport(model));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
     }
-    }
+}

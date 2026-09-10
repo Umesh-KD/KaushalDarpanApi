@@ -8099,6 +8099,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@RoleID", model.RoleID);
                         command.Parameters.AddWithValue("@TradeID", model.TradeID);
                         command.Parameters.AddWithValue("@PassYear", model.PassYear);
+                        command.Parameters.AddWithValue("@PortalMonth", model.PortalMonth);
+                        command.Parameters.AddWithValue("@PortalYear", model.PortalYear);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         ds = await command.FillAsync();
 
@@ -9627,42 +9629,39 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<DataSet> GetCertificateLetterReport(CertificateReportModel model)
         {
             _actionName = "GetCertificateLetterReport()";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                var ds = new DataSet();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    var ds = new DataSet();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "Usp_Bter_DownloadCertificateLetter";
-                        //command.Parameters.AddWithValue("@Action", "certificate-letter-download");
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "Usp_Bter_DownloadCertificateLetter";
+                    //command.Parameters.AddWithValue("@Action", "certificate-letter-download");
 
-                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
-                        command.Parameters.AddWithValue("@ResultType", model.ExamTypeID);
-                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", model.CourseTypeID);
-                        command.Parameters.AddWithValue("@EffectiveFromEndTermId", model.EffectiveFromEndTermId);
+                    command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                    command.Parameters.AddWithValue("@ResultType", model.ExamTypeID);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", model.CourseTypeID);
+                    command.Parameters.AddWithValue("@EffectiveFromEndTermId", model.EffectiveFromEndTermId);
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        ds = await command.FillAsync();
-                    }
-                    return ds;
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    ds = await command.FillAsync();
                 }
-                catch (Exception ex)
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
         #endregion
 
@@ -11024,7 +11023,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
         #endregion
-            
+
         public async Task<DataTable> getITIDynamicReport(ITI_DynamicReport model)
         {
             _actionName = "GetITI_FinalReport(ITI_FinalReportModule model)";
@@ -11041,7 +11040,41 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@ShowManagementType", model.ShowManagementType);
                     command.Parameters.AddWithValue("@ShowTradeDuration", model.ShowTradeDuration);
                     command.Parameters.AddWithValue("@FilterByAllotmentType", model.FilterByAllotmentType);
-       
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
+
+
+        public async Task<DataTable> GetZoneWiseAllotmentReport(ITI_FinalReportModule model)
+        {
+            _actionName = "GetZoneWiseAllotmentReport(ITI_FinalReportModule model)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_ITI_AdmissionAllotmentReport";
+                    command.Parameters.AddWithValue("@AcedemicYearID", model.FinancialYearID);
+                    command.Parameters.AddWithValue("@Action", model.Action);
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
                 }

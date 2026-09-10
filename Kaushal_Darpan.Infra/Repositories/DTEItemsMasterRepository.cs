@@ -203,6 +203,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Specification", request.Specification);
                         command.Parameters.AddWithValue("@MappingId", request.MappingId);
                         command.Parameters.AddWithValue("@RoleID", request.RoleID);
+                        command.Parameters.AddWithValue("@UserID", request.UserID);
+                        command.Parameters.AddWithValue("@OfficeID", request.OfficeID);
                         command.Parameters.Add("@Return", SqlDbType.Int); // out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
 
@@ -457,7 +459,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<DataTable> GetAllAuctionList(DTEItemsSearchModel SearchReq)
         {
-            _actionName = "GetAllData()";
+            _actionName = "GetAllAuctionList(DTEItemsSearchModel SearchReq)";
             return await Task.Run(async () =>
             {
                 try
@@ -679,7 +681,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<DataTable> GetAll_INV_GetCommonIssueDDL(inventoryIssueHistorySearchModel SearchReq)
         {
-            _actionName = "GetAllData()";
+            _actionName = "GetAll_INV_GetCommonIssueDDL(inventoryIssueHistorySearchModel SearchReq)";
             return await Task.Run(async () =>
             {
                 try
@@ -717,7 +719,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<DataTable> GetConsumeItemList(DTEItemsSearchModel SearchReq)
         {
-            _actionName = "GetAllData()";
+            _actionName = "GetConsumeItemList(DTEItemsSearchModel SearchReq)";
             return await Task.Run(async () =>
             {
                 try
@@ -843,7 +845,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<DataTable> GetAll_INV_returnItem(ItemsIssueReturnModels SearchReq)
         {
-            _actionName = "GetAllData()";
+            _actionName = "GetAll_INV_returnItem(ItemsIssueReturnModels SearchReq)";
             return await Task.Run(async () =>
             {
                 try

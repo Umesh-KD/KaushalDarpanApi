@@ -59,6 +59,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetBudgetHeadById_EM(int id);
         Task<DataTable> GetStaff_GuestHouseList(StaffGuestHouseSearchModel body);
         Task<bool> SaveStaff_GuestHouseIDs(StaffGuestHouseSearchModel body);
+        Task<bool> SaveRetirementAction(RetirementProcessModel body);
         Task<DataTable> Bter_EM_GetCommonDropdownData(EM_CommonDropdownDataModel body);
         Task<DataTable> GetEstablishmentReportData(BTER_EM_GetStaffListDataModel body);
         Task<int> SaveStaffQualificationData(StaffQualificationDataModel request);

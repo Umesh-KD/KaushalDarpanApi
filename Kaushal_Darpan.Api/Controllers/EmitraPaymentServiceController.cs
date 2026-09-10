@@ -5,6 +5,7 @@ using DocumentFormat.OpenXml.Drawing;
 using DocumentFormat.OpenXml.EMMA;
 using DocumentFormat.OpenXml.Office2010.ExcelAc;
 using EmitraEmitraEncrytDecryptClient;
+using ICSharpCode.SharpZipLib.Checksum;
 using iTextSharp.text.pdf.spatial;
 using Kaushal_Darpan.Api.Models;
 using Kaushal_Darpan.Core.Entities;
@@ -4577,6 +4578,127 @@ namespace Kaushal_Darpan.Api.Controllers
             return requestDetailsModel;
         }
 
+
+        #endregion
+
+
+
+
+        #region "Refund API"
+
+        //check status verify
+        [HttpPost("RefundAndTrasactionCancel")]
+        public async Task<ApiResult<EmitraResponseParametersModel>> RefundAndTrasactionCancel(RPPTransactionStatusDataModel Model)
+        {
+            ActionName = "GetTransactionStatus(RPPTransactionStatusDataModel Model)";
+            var result = new ApiResult<EmitraResponseParametersModel>();
+            try
+            {
+
+                MobilaAppCancelMerchanttokenResponse _MobilaAppCancelMerchanttokenResponse = new MobilaAppCancelMerchanttokenResponse();
+                VerifywallettransactionsResponse _VerifywallettransactionsResponse = new VerifywallettransactionsResponse();
+                System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+                //get payment details form database
+                EmitraRequestDetailsModel dataModel = new EmitraRequestDetailsModel();
+                dataModel.ServiceID = Model.ServiceID;
+                dataModel.DepartmentID = Model.DepartmentID;
+                dataModel.ID = Model.ID;
+                var data = await _unitOfWork.CommonFunctionRepository.GetEmitraServiceDetails(dataModel);
+                if (data == null)
+                {
+                    result.State = EnumStatus.Error;
+                    result.Data = new EmitraResponseParametersModel();
+                    result.ErrorMessage = "Payment Integrations Details Not Found.!";
+                    return result;
+                }
+
+                //new services Changes
+                string requestBody = JsonConvert.SerializeObject(new
+                {
+                    cleintId = data.MERCHANTCODE,
+                    clientSecret = data.ClientSecret
+                });
+                HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(data.TokenURL);
+                webRequest.Method = "POST";
+                webRequest.ContentType = "application/json";
+                webRequest.Headers.Add("Access-Control-Allow-Origin", "*");
+                webRequest.Timeout = 30000;
+                using (var streamWriter = new StreamWriter(webRequest.GetRequestStream()))
+                {
+                    streamWriter.Write(requestBody);
+                }
+
+                using (HttpWebResponse response = (HttpWebResponse)webRequest.GetResponse())
+                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                {
+                    string responseText = reader.ReadToEnd();
+                    _MobilaAppCancelMerchanttokenResponse = JsonConvert.DeserializeObject<MobilaAppCancelMerchanttokenResponse>(responseText);
+
+                    if (_MobilaAppCancelMerchanttokenResponse?.statusCode == 200 && _MobilaAppCancelMerchanttokenResponse.data != null)
+
+                    {
+
+
+
+                        string checkSumn= EmitraHelper.GenerateSha256HashNew(data.MERCHANTCODE+ data.SERVICEID+ Model.PRN+data.CHECKSUMKEY);
+
+                        string token = _MobilaAppCancelMerchanttokenResponse.data.access_token;
+                        string requestStatusBody = JsonConvert.SerializeObject(new
+                        {
+                            MERCHANTCODE = data.MERCHANTCODE,
+                            SERVICEID = data.SERVICEID,
+                            PRN = Model.PRN,
+                            AMOUNT = Model.AMOUNT,
+                            CHECKSUM= checkSumn
+
+                        });
+                        data.VerifyURL = "https://emitraapp.rajasthan.gov.in/em/aggregator/api/payment/refundByPrn";
+                        HttpWebRequest statusRequest = (HttpWebRequest)WebRequest.Create(data.VerifyURL);
+                        statusRequest.Method = "POST";
+                        statusRequest.ContentType = "application/json";
+                        statusRequest.Headers.Add("Authorization", "Bearer " + token);
+                        statusRequest.Headers.Add("X-Api-Name", "PAYMENT_REFUND_BY_PRN");
+                        statusRequest.Headers.Add("Access-Control-Allow-Origin", "*");
+                        statusRequest.Timeout = 30000;
+                        using (var streamWriter = new StreamWriter(statusRequest.GetRequestStream()))
+                        {
+                            streamWriter.Write(requestStatusBody);
+                        }
+                        using (HttpWebResponse statusResponse = (HttpWebResponse)statusRequest.GetResponse())
+                        {
+                            using (StreamReader readerCHeck = new StreamReader(response.GetResponseStream()))
+                            {
+                                string responseTextCheck = readerCHeck.ReadToEnd();
+                                _VerifywallettransactionsResponse = JsonConvert.DeserializeObject<VerifywallettransactionsResponse>(responseTextCheck);
+
+                                dynamic stuff = JsonConvert.DeserializeObject(responseTextCheck);
+                                string STATUS = stuff.STATUS;
+                                string RESPONSECODE = stuff.RESPONSECODE;
+
+
+
+                               
+                            }
+                        }
+                    }
+                }
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
 
         #endregion
 

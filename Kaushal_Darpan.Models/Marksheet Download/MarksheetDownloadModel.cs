@@ -70,6 +70,7 @@
         public string? RollNo { get; set; }
         public string? DOB { get; set; }
         public int? EffectiveEndTermID { get; set; }
+        public short? HasBulk { get; set; }
     }
 
     public class MarksheetSaveDataModel
@@ -468,6 +469,7 @@
         public string? Division { get; set; } = string.Empty;
         public string? CourseDuration { get; set; } = string.Empty;
         public int? EffectiveFromEndTermId { get; set; } = 0;
+        public string? YearName { get; set; } = string.Empty;
 
     }
 

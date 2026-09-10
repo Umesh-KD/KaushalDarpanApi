@@ -2288,6 +2288,49 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+
+        [HttpPost("SaveRetirementAction")]
+        public async Task<ApiResult<bool>> SaveRetirementAction([FromBody] RetirementProcessModel request)
+        {
+            ActionName = "SaveRetirementAction([FromBody] StaffGuestHouseSearchModel request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+                    result.Data = await _unitOfWork.BTER_EstablishManagementRepository.SaveRetirementAction(request);
+                    await _unitOfWork.SaveChangesAsync();
+                    if (result.Data)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_UPDATE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+
+
         [HttpPost("Bter_EM_GetCommonDropdownData")]
         public async Task<ApiResult<DataTable>> Bter_EM_GetCommonDropdownData(EM_CommonDropdownDataModel model)
         {

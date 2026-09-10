@@ -348,5 +348,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetGuestHouseSlip(GeustHouseSlipModule model);
         Task<DataTable> GetITI_FinalReport(ITI_FinalReportModule model);
         Task<DataTable> getITIDynamicReport(ITI_DynamicReport model);
+        Task<DataTable> GetZoneWiseAllotmentReport(ITI_FinalReportModule model);
     }
 }

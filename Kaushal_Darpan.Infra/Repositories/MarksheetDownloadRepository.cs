@@ -6,6 +6,7 @@ using Kaushal_Darpan.Models.GuestRoomManagementModel;
 using Kaushal_Darpan.Models.HrMaster;
 using Kaushal_Darpan.Models.MarksheetDownloadModel;
 using Kaushal_Darpan.Models.PaperSetter;
+using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.SetExamAttendanceMaster;
 using Newtonsoft.Json;
 using System;
@@ -48,11 +49,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.Parameters.AddWithValue("@action", "_getStuListForMarksheet_main");
                     }
-                    else if(body.ResultTypeID == (int)EnumResultType.RevaluationResult)
+                    else if (body.ResultTypeID == (int)EnumResultType.RevaluationResult)
                     {
                         command.Parameters.AddWithValue("@action", "_getStuListForMarksheet_reval");
                     }
-                    else if(body.ResultTypeID == (int)EnumResultType.RwhResult)
+                    else if (body.ResultTypeID == (int)EnumResultType.RwhResult)
                     {
                         command.Parameters.AddWithValue("@action", "_getStuListForMarksheet_RWH");
                     }
@@ -243,65 +244,62 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<DataSet> MarksheetLetterDownload(MarksheetDownloadSearchModel model)
         {
             _actionName = "MarksheetLetterDownload(MarksheetDownloadSearchModel model)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                var ds = new DataSet();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    var ds = new DataSet();
-                    using (var command = await _dbContext.CreateCommandAsync())
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    if (model.ExamTypeID == (int)EnumResultType.RevaluationResult)
                     {
-                        command.CommandType = CommandType.StoredProcedure;
-                        
-                        if (model.ExamTypeID == (int)EnumResultType.RevaluationResult) 
-                        {
-                            command.CommandText = "USP_GetMarksheetLetterData_AfterReval";
-                            command.Parameters.AddWithValue("@Action", "_getStuListMarksheetLetter_reval");
-                        }
-                        else if (model.ExamTypeID == (int)EnumResultType.RwhResult)
-                        {
-                            command.CommandText = "USP_GetMarksheetLetterData_RWH";
-                            command.Parameters.AddWithValue("@Action", "_getStuListMarksheetLetter_rwh");
-                            command.Parameters.AddWithValue("@EffectiveFromEndTermId", model.EffectiveFromEndTermId);
-                        }
-                        else if (model.ExamTypeID == (int)EnumResultType.RwhRevalEffected)
-                        {
-                            command.CommandText = "USP_GetMarksheetLetterData_RWH_Reval";
-                            command.Parameters.AddWithValue("@Action", "_getStuListMarksheetLetter_rwh_reval");
-                            command.Parameters.AddWithValue("@EffectiveFromEndTermId", model.EffectiveFromEndTermId);
-                        }
-                        else
-                        {
-                            command.CommandText = "USP_GetMarksheetData";
-                            command.Parameters.AddWithValue("@Action", "_getStuListMarksheetLetter_main");
-                        }
-
-                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
-                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
-                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                        command.Parameters.AddWithValue("@ExamTypeID", model.ExamTypeID);
-
-                        command.Parameters.AddWithValue("@FinancialYearID", model.AcademicYearID);
-                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEngID);
-
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        ds = await command.FillAsync();
+                        command.CommandText = "USP_GetMarksheetLetterData_AfterReval";
+                        command.Parameters.AddWithValue("@Action", "_getStuListMarksheetLetter_reval");
                     }
-                    return ds;
-                }
-                catch (Exception ex)
-                {
-                    var errorDesc = new ErrorDescription
+                    else if (model.ExamTypeID == (int)EnumResultType.RwhResult)
                     {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
+                        command.CommandText = "USP_GetMarksheetLetterData_RWH";
+                        command.Parameters.AddWithValue("@Action", "_getStuListMarksheetLetter_rwh");
+                        command.Parameters.AddWithValue("@EffectiveFromEndTermId", model.EffectiveFromEndTermId);
+                    }
+                    else if (model.ExamTypeID == (int)EnumResultType.RwhRevalEffected)
+                    {
+                        command.CommandText = "USP_GetMarksheetLetterData_RWH_Reval";
+                        command.Parameters.AddWithValue("@Action", "_getStuListMarksheetLetter_rwh_reval");
+                        command.Parameters.AddWithValue("@EffectiveFromEndTermId", model.EffectiveFromEndTermId);
+                    }
+                    else
+                    {
+                        command.CommandText = "USP_GetMarksheetData";
+                        command.Parameters.AddWithValue("@Action", "_getStuListMarksheetLetter_main");
+                    }
+
+                    command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                    command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@ExamTypeID", model.ExamTypeID);
+
+                    command.Parameters.AddWithValue("@FinancialYearID", model.AcademicYearID);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEngID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    ds = await command.FillAsync();
                 }
-            });
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         public async Task<DataTable> Get5thSemBackPaperReport(BackPaperReportDataModel body)
@@ -359,6 +357,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@RollNo", model.RollNo);
                     command.Parameters.AddWithValue("@DOB", model.DOB);
                     command.Parameters.AddWithValue("@ResultTypeID", model.ResultType);
+                    command.Parameters.AddWithValue("@HasBulk", model.HasBulk);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     ds = await command.FillAsync();
@@ -430,6 +429,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@DOB", model.DOB);
                     command.Parameters.AddWithValue("@ResultTypeID", model.ResultType);
                     command.Parameters.AddWithValue("@EffectiveEndTermIDNew", model.EffectiveEndTermID);
+                    command.Parameters.AddWithValue("@HasBulk", model.HasBulk);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     ds = await command.FillAsync();
@@ -503,6 +503,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@RollNo", model.RollNo);
                     command.Parameters.AddWithValue("@DOB", model.DOB);
                     command.Parameters.AddWithValue("@ResultTypeID", model.ResultType);
+                    command.Parameters.AddWithValue("@HasBulk", model.HasBulk);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     ds = await command.FillAsync();
@@ -832,7 +833,6 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
         #region Migration Diploma Certificate download
-
         public async Task<DataTable> GetStudentsMigrationDiplomaCertificate(DiplomaCertificateDownloadSearchModel body)
         {
             _actionName = "GetStudentsMigrationDiplomaCertificate(DiplomaCertificateDownloadSearchModel body)";
@@ -895,7 +895,8 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
-        public async Task<int> AddUpdateMigrationCertificate(MigrationCertificateSaveDataModel request)
+        // only insert
+        public async Task<int> SaveMigrationCertificate(MigrationCertificateSaveDataModel request)
         {
             _actionName = "AddUpdateMigrationCertificate(MigrationCertificateSaveDataModel request)";
             try
@@ -959,10 +960,156 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+        public async Task<MigrationCertificateDownloadSearchModel> GetLeftOutStudentMigrationCertificateDetail(LeftOutStudentMigrationCertificateDataModel model)
+        {
+            _actionName = "GetLeftOutStudentMigrationCertificateDetail(LeftOutStudentMigrationCertificateDataModel model)";
+            try
+            {
+                MigrationCertificateDownloadSearchModel data = new MigrationCertificateDownloadSearchModel();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetStudentLeftOutForMigrationCertificate";
 
+                    command.Parameters.AddWithValue("@action", "_getLeftOutStudentMigrationCertificateDetail");
+
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@EndTermId", model.EndTermID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                    command.Parameters.AddWithValue("@StudentId", model.StudentId);
+                    command.Parameters.AddWithValue("@SemesterId", model.SemesterId);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                    var dataTable = await command.FillAsync_DataTable();
+                    //
+                    data = CommonFuncationHelper.ConvertDataTable<MigrationCertificateDownloadSearchModel>(dataTable);
+                }
+                return data;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<string> SaveMigrationCertificateSRN(LeftOutStudentMigrationCertificateDataModel request)
+        {
+            _actionName = "SaveMigrationCertificateSRN(LeftOutStudentMigrationCertificateDataModel request)";
+            try
+            {
+                int result = 0;
+                string? DocSerialNo = string.Empty;
+                using (var command = await _dbContext.CreateCommandAsync(true))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_SaveGeneratedStuMigrationCertificateSRN";
+                    command.CommandTimeout = 0;
+
+                    command.Parameters.AddWithValue("@action", "_saveGeneratedSelectedStudentMigrationCertificateSRN");
+                    command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
+                    command.Parameters.AddWithValue("@EndTermId", request.EndTermID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", request.Eng_NonEng);
+                    command.Parameters.AddWithValue("@StudentId", request.StudentId);
+                    command.Parameters.AddWithValue("@SemesterId", request.SemesterId);
+
+                    // out
+                    command.Parameters.Add("@DocSerialNo", SqlDbType.VarChar, 100);
+                    command.Parameters["@DocSerialNo"].Direction = ParameterDirection.Output;
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
+
+                    DocSerialNo = Convert.ToString(command.Parameters["@DocSerialNo"].Value);
+                }
+
+                return DocSerialNo;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<int> AddUpdateMigrationCertificate(MigrationCertificateSaveDataModel request)
+        {
+            _actionName = "AddUpdateMigrationCertificate(MigrationCertificateSaveDataModel request)";
+            try
+            {
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_SaveStudentMigrationCertificateData";
+                    command.CommandTimeout = 0;
+
+                    command.Parameters.AddWithValue("@action", "_addUpdateStudentMigrationCertificateData");
+
+                    command.Parameters.AddWithValue("@MigrationID", request.MigrationID); // id
+                    command.Parameters.AddWithValue("@enrollment", request.Enrollment);
+                    command.Parameters.AddWithValue("@institute_id", request.InstituteId);
+                    command.Parameters.AddWithValue("@sr_migration", request.SrNo); // FD srno.
+                    command.Parameters.AddWithValue("@result_date", request.ResultDate); // publish date
+                    command.Parameters.AddWithValue("@is_locked", request.IsLocked);
+                    command.Parameters.AddWithValue("@migration_printing_date", request.MigrationPrintingDate); // printing date
+                    command.Parameters.AddWithValue("@is_rwh_result", request.IsRwhResult);
+                    command.Parameters.AddWithValue("@rwh_result_id", request.RwhResultId);
+                    command.Parameters.AddWithValue("@is_reval", request.IsReval);
+                    command.Parameters.AddWithValue("@is_revised_issue_date", request.IsRevisedIssueDate);
+                    command.Parameters.AddWithValue("@result_id", request.ResultId);// examresultid
+                    command.Parameters.AddWithValue("@revised_id", request.RevisedId);
+                    command.Parameters.AddWithValue("@is_block", request.IsBlock); //
+                    command.Parameters.AddWithValue("@student_id", request.StudentId);
+                    command.Parameters.AddWithValue("@modifed", request.ModifyBy);
+                    command.Parameters.AddWithValue("@is_diploma", request.IsDiploma);
+                    command.Parameters.AddWithValue("@is_duplicate", request.IsDuplicate);
+                    command.Parameters.AddWithValue("@duplicate_migration_id", request.DuplicateMigrationId);
+                    command.Parameters.AddWithValue("@request_id", request.RequestId);
+                    command.Parameters.AddWithValue("@is_issued", request.IsIssued);
+                    command.Parameters.AddWithValue("@ResultTypeID", request.ResultTypeID);
+                    command.Parameters.AddWithValue("@EndTermID", request.EndTermID); // current end term id and rwh
+                    command.Parameters.AddWithValue("@EffectiveEndTermID", request.EffectiveEndTermID); // current end term id
+                    command.Parameters.AddWithValue("@IsRevised", request.IsRevised);
+                    command.Parameters.AddWithValue("@FileName", request.FileName); // with file path
+                    command.Parameters.AddWithValue("@Dis_FileName", request.Dis_FileName); // only file name
+                    command.Parameters.AddWithValue("@SemesterID", request.SemesterID);
+                    command.Parameters.AddWithValue("@IpAddress", request.IPAddress);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
         #endregion
-
-
 
     }
 }

@@ -46,8 +46,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
                         command.Parameters.AddWithValue("@DistrictID", body.DistrictID);
                         command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                        command.Parameters.AddWithValue("@CheckStatus", body.CheckStatus);
                         command.Parameters.AddWithValue("@action", "_GetAllExaminer");
-
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -500,6 +500,51 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+        public async Task<int> DeleteStudent(List<ItiAssignStudentExaminer> model)
+        {
+            _actionName = "SaveStudent(List<ItiAssignStudentExaminer> model)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    int retval = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandText = "USP_DeleteExaminerstudents";
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        // Add parameters with appropriate null handling
+                        command.Parameters.AddWithValue("@action", "_SaveSelectedForBridgeCourse");
+                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
+
+                        command.Parameters.Add("@Retval", SqlDbType.Int);// out
+                        command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+
+                        retval = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
+                    }
+                    return retval;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
 
         public async Task<DataTable> GetItiExaminerDashboardTiles(ITI_ExaminerDashboardModel body)
         {

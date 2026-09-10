@@ -73,6 +73,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ParentRoleID", request.ParentRoleID);
                         command.Parameters.AddWithValue("@OrderNo", request.OrderNo);
                         command.Parameters.AddWithValue("@VacancyID", request.VacancyID);
+                        command.Parameters.AddWithValue("@BranchID", request.BranchID);
+                        command.Parameters.AddWithValue("@ChildPostServiceTypeID", request.ChildPostServiceTypeID);
+                        command.Parameters.AddWithValue("@PostServiceTypeID", request.PostServiceTypeID);
 
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
@@ -217,6 +220,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@VacancyID", request.VacancyID);
                         command.Parameters.AddWithValue("@BugetHeadTypeID", request.BugetHeadTypeID);
                         command.Parameters.AddWithValue("@BugetHeadID", request.BugetHeadID);
+                        command.Parameters.AddWithValue("@PostServiceTypeID", request.PostServiceTypeID);
+                        command.Parameters.AddWithValue("@ChildPostServiceTypeID", request.ChildPostServiceTypeID);
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
 
@@ -272,6 +277,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@FilterName", body.FilterName);
                         command.Parameters.AddWithValue("@FilterSSOID", body.FilterSSOID);
                         command.Parameters.AddWithValue("@FilterStaffTypeID", body.FilterStaffTypeID);
+                        command.Parameters.AddWithValue("@BranchID", body.BranchID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -392,6 +398,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@StateID", request.StateID);
                         command.Parameters.AddWithValue("@DistrictID", request.DistrictID);
                         command.Parameters.AddWithValue("@OfficeID", request.OfficeID);
+                        command.Parameters.AddWithValue("@PostServiceTypeID", request.PostServiceTypeID);
+                        command.Parameters.AddWithValue("@ChildPostServiceTypeID", request.ChildPostServiceTypeID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         result = await command.ExecuteNonQueryAsync();
@@ -1245,7 +1253,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
-
                         dataSet = await command.FillAsync();
                     }
 
@@ -2359,6 +2366,54 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+
+        public async Task<bool> SaveRetirementAction(RetirementProcessModel body)
+        {
+            _actionName = "SaveRetirementAction(RetirementProcessModel body)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_BTER_EM_StaffUpdateRetirement";
+                        command.Parameters.AddWithValue("@Action", "UpdateStaff_Retirement");
+                        command.Parameters.AddWithValue("@StaffID", body.StaffID);
+                        command.Parameters.AddWithValue("@StaffUserID", body.StaffUserID);
+                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                        command.Parameters.AddWithValue("@RetirementRemark", body.RetirementRemarks);
+                        command.Parameters.AddWithValue("@RetirementOrderDate", body.RetirementOrderDate);
+                        command.Parameters.AddWithValue("@RetirementOrder", body.RetirementDocument);
+                        command.Parameters.AddWithValue("@dis_RetirementOrder", body.Dis_RetirementDocument);
+                        command.Parameters.AddWithValue("@ProfileStatus", body.ProfileStatus);
+                        command.Parameters.AddWithValue("@ModifyBy", body.ModifyBy);
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        // Execute the command
+                        result = await command.ExecuteNonQueryAsync();
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
         public async Task<DataTable> Bter_EM_GetCommonDropdownData(EM_CommonDropdownDataModel body)
         {
             _actionName = "Bter_EM_GetCommonDropdownData(EM_CommonDropdownDataModel body)";
@@ -2386,6 +2441,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@EndTermId", body.EndTermId);
                         command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
                         command.Parameters.AddWithValue("@ManagementTypeID", body.ManagementTypeID);
+                        command.Parameters.AddWithValue("@PostServiceTypeID", body.PostServiceTypeID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -2445,6 +2501,12 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@DateOfImplementation", body.DateOfImplementation);
                     command.Parameters.AddWithValue("@QualificationIDbe", body.QualificationIDbe);
                     command.Parameters.AddWithValue("@QualificationIDaf", body.QualificationIDaf);
+                    command.Parameters.AddWithValue("@BugetHeadID", body.BugetHeadID);
+                    command.Parameters.AddWithValue("@SalaryDrawnInstituteID", body.SalaryDrawnInstituteID);
+                    command.Parameters.AddWithValue("@IsSpeciallyAbledPerson", body.IsSpeciallyAbledPerson);
+                    command.Parameters.AddWithValue("@IsEmpWorkingOnDeputationToOther", body.IsEmpWorkingOnDeputationToOther);
+                    command.Parameters.AddWithValue("@StateID", body.StateID);
+                    command.Parameters.AddWithValue("@DistrictID", body.DistrictID);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();

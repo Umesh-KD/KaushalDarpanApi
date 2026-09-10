@@ -14,6 +14,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetAllData(AdminUserSearchModel body);
         Task<AdminUserDetailModel> GetById(AdminUserSearchModel body);
         Task <List<Branchlist>> GetHodBranch(AdminUserSearchModel body);
+        Task <List<Branchlist>> GetAllstaffBranch(AdminUserSearchModel body);
         Task<int> SaveData(AdminUserDetailModel productDetails);
         Task<int> AssignHOD(AssignHodBranch productDetails);
         Task<bool> UpdateData(AdminUserDetailModel productDetails);

@@ -93,6 +93,7 @@ namespace Kaushal_Darpan.Models.ITI_DataMasterModel
         public int? DistrictID { get; set; }
         public int? UserID { get; set; }
         public string? DateOfBirth{ get;set;}
+        public string? AID{ get;set;}
 
 
     }
