@@ -34,7 +34,7 @@ namespace Kaushal_Darpan.Models.PreExamStudent
         public int? PendingCollegeFeeStatus { get; set; }
     }
 
-    public class PreExam_UpdateEnrollmentNoModel :RequestBaseModel
+    public class PreExam_UpdateEnrollmentNoModel : RequestBaseModel
     {
         public string? StudentID { get; set; }
         public string? EnrollmentNo { get; set; }
@@ -115,7 +115,7 @@ namespace Kaushal_Darpan.Models.PreExamStudent
         public string SubjectName { get; set; }
 
     }
-    public class OptionalSubjectModel:RequestBaseModel
+    public class OptionalSubjectModel : RequestBaseModel
     {
         public Int32 StudentID { get; set; }
         public string RowJson { get; set; } = "[]";
@@ -135,7 +135,7 @@ namespace Kaushal_Darpan.Models.PreExamStudent
     }
 
 
-    public class PreExamSearchModel:RequestBaseModel
+    public class PreExamSearchModel : RequestBaseModel
     {
         public int StudentExamType { get; set; }
         public int InstitueID { get; set; }
@@ -145,7 +145,7 @@ namespace Kaushal_Darpan.Models.PreExamStudent
         public int status { get; set; }
     }
 
-    public class StudentAttendenceModel:RequestBaseModel
+    public class StudentAttendenceModel : RequestBaseModel
     {
         public int StudentExamID { get; set; }
         public int AttendenceID { get; set; }
@@ -200,30 +200,30 @@ namespace Kaushal_Darpan.Models.PreExamStudent
 
     public class ExamPaperMarkDataModel
     {
-        public string SubjectName { get; set; }           
+        public string SubjectName { get; set; }
         public int MaxMarks { get; set; }
         public int MinPassMarks { get; set; }
         public int MarksSecured { get; set; }
-        public string Remarks { get; set; }              
+        public string Remarks { get; set; }
     }
 
     public class ITIExamination_UpdateEnrollmentNoModel
     {
 
-            public int StudentID { get; set; } = 0;
-            public int StudentExamID { get; set; } = 0;
-           
-           
-         
-            public string OrderNo { get; set; }
-            public string OrderDate { get; set; }
-           
-            public int CreatedBy { get; set; } = 0;
-            public string? FolderName { get; set; }
-            public string FileName { get; set; }
+        public int StudentID { get; set; } = 0;
+        public int StudentExamID { get; set; } = 0;
+
+
+
+        public string OrderNo { get; set; }
+        public string OrderDate { get; set; }
+
+        public int CreatedBy { get; set; } = 0;
+        public string? FolderName { get; set; }
+        public string FileName { get; set; }
         public bool IsDropout { get; set; }
 
-        }
+    }
 
     public class GetDocumentDetails_RejectAtBter_DataModel
     {
@@ -231,13 +231,13 @@ namespace Kaushal_Darpan.Models.PreExamStudent
         public int? FileNameWithDynamicPath { get; set; }
     }
 
-    public class RejectAtBterStudentDataModel: RequestBaseModel
+    public class RejectAtBterStudentDataModel : RequestBaseModel
     {
         public int? StudentExamID { get; set; }
         public int? StudentID { get; set; }
     }
 
-    public class GetPartiallyDetainedStudentDataModel: RequestBaseModel
+    public class GetPartiallyDetainedStudentDataModel : RequestBaseModel
     {
         public string? Name { get; set; }
         public string? EnrollmentNo { get; set; }
@@ -254,5 +254,11 @@ namespace Kaushal_Darpan.Models.PreExamStudent
         public int? StudentExamPaperID { get; set; }
         public int? StudentExamPaperMarksID { get; set; }
         public int? UserID { get; set; }
+    }
+
+    public class LeftOutStudentMigrationCertificateDataModel : ResponseBaseModel
+    {
+        public int StudentId { get; set; }
+        public int SemesterId { get; set; }
     }
 }
