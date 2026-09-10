@@ -112,6 +112,7 @@ public class TokenResponse
         public int RoleID { get; set; }
         public int AcedmicYearID { get; set; }
         public string? Action { get; set; }
+        public int? IsAadharData { get; set; }
 
     }
 
@@ -126,6 +127,7 @@ public class TokenResponse
         public int TotalPage { get; set; }
         public string? SessionID { get; set; }
         public string? Log_id { get; set; }
+        public int? IsAadharData { get; set; }
 
     }
 
