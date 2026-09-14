@@ -287,6 +287,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public string? PromotionTime { get; set; }
 
         public string? DateOfpromotion { get; set; }
+        public bool? IsCurrentlyWorking { get; set; }
 
         // Multiple Documents
         public List<BTER_EM_DocumentServiceHistoryDataModel>? TransferDocuments { get; set; } = new List<BTER_EM_DocumentServiceHistoryDataModel>();
