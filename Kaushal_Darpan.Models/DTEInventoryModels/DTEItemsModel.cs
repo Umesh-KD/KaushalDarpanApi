@@ -77,7 +77,7 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int? ConditionID { get; set; }
         public int? IsAuction { get; set; }
         public int CategoryId { get; set; }
-
+        public int UserID { get; set; }
     }
     public class DTEItemsDetailsModel
     {
@@ -152,6 +152,7 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int TradeId { get; set; }
         public int StaffID { get; set; }
         public int UserID { get; set; }
+        public int OfficeID { get; set; }
         public int ItemID { get; set; }
         public int? IssuedId { get; set; }
         public int? ItemDetailsId { get; set; }
