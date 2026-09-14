@@ -255,11 +255,23 @@ namespace Kaushal_Darpan.Api.Controllers
                     {
                         result.State = EnumStatus.Success;
                         if (request.CandidateID == 0)
-                        {
+                        {                           
                             result.Message = Constants.MSG_SAVE_SUCCESS;
                         }
                         else
                         {
+                            try
+                            {
+
+                                ITIStudentEnrollmentController obj = new ITIStudentEnrollmentController(null, _unitOfWork);
+                                List<NCVTChunkInfoDataModel> requestS = new List<NCVTChunkInfoDataModel>();
+                                requestS.Add(new NCVTChunkInfoDataModel { AIDS = request.AID });
+                                obj.UploadTraineeData(requestS);
+                            }
+                            catch (Exception EX)
+                            {
+
+                            }
                             result.Message = Constants.MSG_UPDATE_SUCCESS;
                         }
                     }
@@ -469,7 +481,9 @@ namespace Kaushal_Darpan.Api.Controllers
                                     StateRegNumber = item.StateRegNumber,
                                     Trade = item.Trade,
                                     TraineeName = item.TraineeName,
-                                    Unit = item.Unit
+                                    Unit = item.Unit,
+                                    log_Id = items.Log_id
+
                                 });
                             }
                         }

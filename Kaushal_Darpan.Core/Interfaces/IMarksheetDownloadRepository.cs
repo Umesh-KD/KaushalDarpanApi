@@ -1,6 +1,7 @@
 ﻿using Kaushal_Darpan.Models.Examiners;
 using Kaushal_Darpan.Models.HrMaster;
 using Kaushal_Darpan.Models.MarksheetDownloadModel;
+using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.SetExamAttendanceMaster;
 using System;
 using System.Collections.Generic;
@@ -23,13 +24,20 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataSet> GetStudentResultReval_public(StudentResultSearchModel model);
         Task<int> AddUpdateMarksheet(MarksheetSaveDataModel request);
 
-
         Task<DataTable> GetStudentsDiplomaCertificate(DiplomaCertificateDownloadSearchModel filterModel);
+        
         Task<DataTable> GetStudentsProvisionalDiplomaCertificate(DiplomaCertificateDownloadSearchModel filterModel);
+       
         Task<DataTable> GetStudentsMigrationDiplomaCertificate(DiplomaCertificateDownloadSearchModel filterModel);
 
         Task<int> AddUpdateFinalDiplomaCertificate(FinalDiplomaCertificateSaveDataModel request);
-        Task<int> AddUpdateMigrationCertificate(MigrationCertificateSaveDataModel request);
+        
+        Task<int> SaveMigrationCertificate(MigrationCertificateSaveDataModel request);
+        
         Task<int> AddUpdateProvisionalDiplomaCertificate(ProvisionalDiplomaCertificateSaveDataModel request);
+        
+        Task<string> SaveMigrationCertificateSRN(LeftOutStudentMigrationCertificateDataModel request);
+        Task<int> AddUpdateMigrationCertificate(MigrationCertificateSaveDataModel request);
+        Task<MigrationCertificateDownloadSearchModel> GetLeftOutStudentMigrationCertificateDetail(LeftOutStudentMigrationCertificateDataModel model);
     }
 }

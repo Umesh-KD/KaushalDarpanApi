@@ -206,6 +206,7 @@ namespace Kaushal_Darpan.Models.CommonModel
         public string ExamType { get; set; }
         public int SemesterID { get; set; }
         public int ResultTypeID { get; set; }
+        public string PublishDate_Main { get; set; }
     }
     public class ValidateOrStudentsWithMsgRequestModel : RequestBaseModel
     {

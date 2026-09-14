@@ -23,8 +23,9 @@ using Microsoft.Playwright;
 using Newtonsoft.Json.Serialization;
 using System.Net;
 using System.Text;
-//using static Org.BouncyCastle.Math.EC.ECCurve;
-//using Hangfire.MemoryStorage;
+using Kaushal_Darpan.Api.Code.Hangfire;
+using Hangfire.Dashboard;
+using Kaushal_Darpan.Api.HangFireServices;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -35,12 +36,15 @@ builder.Services.Configure<IISServerOptions>(options =>
     options.MaxRequestBodySize = null; // unlimited
 });
 
+builder.Services.AddHangfire(config =>
+{
+    config.UseSqlServerStorage(
+        builder.Configuration.GetConnectionString("DbConnection")
+    );
+});
+
 // Add services to the container.
 builder.Services.AddControllers();
-
-
-
-
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -278,16 +282,12 @@ builder.WebHost.ConfigureKestrel(options =>
 
 
 // Add Hangfire services
-builder.Services.AddHangfire(config =>
-    config.SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
-          .UseSimpleAssemblyNameTypeSerializer()
-          .UseRecommendedSerializerSettings()
-          //.UseMemoryStorage()); // Replace with .UseSqlServerStorage(...) in production
-          .UseSqlServerStorage(builder.Configuration.GetConnectionString("DbConnection")));
+
 builder.Services.AddHangfireServer();
 
 // Register your service
-builder.Services.AddScoped<IMyService, MyService>();
+builder.Services.AddScoped<HangfireJob>();
+
 
 
 // Set native DLL path (relative to output)
@@ -299,6 +299,7 @@ builder.Services.AddSingleton<IConverter>(new SynchronizedConverter(new PdfTools
 
 builder.Services.AddScoped<IPrintHtmlFile, PrintHtmlFile>();
 
+builder.Services.AddScoped<ISidhDataExport, SidhDataExport>();
 
 #region Playwright pdf
 var playwright = await Playwright.CreateAsync();
@@ -335,6 +336,8 @@ builder.Services.AddSingleton(browser);
 builder.Services.AddSingleton(new PlaywrightBrowserManager(browser));
 
 builder.Services.AddScoped<IPlaywrightPdfService, PlaywrightPdfService>();
+
+
 #endregion
 
 builder.Services.AddSignalR()
@@ -358,8 +361,23 @@ var app = builder.Build();
 var httpContextAccessor = app.Services.GetRequiredService<IHttpContextAccessor>();
 CommonFuncationHelper.Configure(httpContextAccessor);
 
-app.UseHangfireDashboard(); // optional dashboard
-app.MapHangfireDashboard(); // dashboard URL: /hangfire
+// Hangfire Dashboard - Production Authentication
+
+//app.UseHangfireDashboard("/hangfire");
+app.UseHangfireDashboard("/hangfire", new DashboardOptions
+{
+    Authorization = new[]
+    {
+        new HangfireCustomBasicAuthenticationFilter(
+            "admin",// id
+            "YourStrongPassword" // pass
+        )
+    }
+});
+
+
+HangfireScheduler.RegisterJobs();
+
 
 // Configure the HTTP request pipeline.
 if (ConfigurationHelper.IsLocal == true)
@@ -377,6 +395,8 @@ else
     // Strict-Transport-Security (HSTS) header (forces HTTPS)
     app.UseHsts();
 }
+
+
 
 //routing
 app.UseRouting();
@@ -447,7 +467,6 @@ app.UseStaticFiles(new StaticFileOptions
 
 //app.UseMiddleware<RestrictUrlFactory>();
 app.UseMiddleware<PGMKMiddleware>();
-
 app.UseCookiePolicy();
 
 //security
@@ -458,7 +477,13 @@ app.UseAuthentication();
 
 app.UseAuthorization();
 
-app.MapControllers().RequireCors("corepolicy"); ;
+// Collect HTTP request metrics
+// Expose metrics endpoint
+
+
+
+app.MapControllers().RequireCors("corepolicy");
+
 
 app.MapHub<SignalRHub>("/api/api/SignalRHub")
    .RequireCors("signalrpolicy"); // signal-r

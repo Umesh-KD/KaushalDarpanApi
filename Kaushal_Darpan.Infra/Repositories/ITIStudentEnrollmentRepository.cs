@@ -828,6 +828,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@UserID", model.UserID);
                         command.Parameters.AddWithValue("@RoleID", model.RoleID);
                         command.Parameters.AddWithValue("@AcedmicYearID", model.AcedmicYearID);
+                        command.Parameters.AddWithValue("@IsAadharData", model.IsAadharData);
                         
                         
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
@@ -869,6 +870,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@MaxAID", model.MaxAID);
                         command.Parameters.AddWithValue("@MinAID", model.MinAID);
                         command.Parameters.AddWithValue("@SessionID", model.SessionID);
+                        command.Parameters.AddWithValue("@IsAadharData", model.IsAadharData);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
                     }

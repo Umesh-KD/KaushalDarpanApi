@@ -243,11 +243,161 @@ namespace Utility
             }
         }
 
-     
-     
 
 
 
+
+
+
+        //public static byte[] GeneratePDFGetByte_Cfrom(StringBuilder HtmlString, string PageOriantation = "", string watermarkImagePath = "", bool IsShowBorder = false)
+        //{
+        //    Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
+        //    float leftMargin = 55f;
+        //    float rightMargin = 20f;
+        //    float topMargin = 10f;     // no fake header space now
+        //    float bottomMargin = 25f;
+
+        //    string headerHtml = "";
+        //    string footerHtml = "";
+
+        //    // ----------- FIND HEADER FOOTER -------------
+        //    var headerMatch = Regex.Match(HtmlString.ToString(),
+        //        @"<table[^>]*id\s*=\s*[""']pdf-header[""'][^>]*>.*?</table>",
+        //        RegexOptions.Singleline | RegexOptions.IgnoreCase);
+
+        //    var footerMatch = Regex.Match(HtmlString.ToString(),
+        //        @"<table[^>]*id\s*=\s*[""']pdf-footer[""'][^>]*>.*?</table>",
+        //        RegexOptions.Singleline | RegexOptions.IgnoreCase);
+
+        //    if (headerMatch.Success)
+        //        headerHtml = headerMatch.Value;
+
+        //    if (footerMatch.Success)
+        //        footerHtml = footerMatch.Value;
+
+        //    // ----------- REMOVE HEADER FOOTER FROM HTML BODY -------------
+        //    string cleanedHtml = HtmlString.ToString();
+
+        //    cleanedHtml = Regex.Replace(cleanedHtml,
+        //        @"<table[^>]*id\s*=\s*[""']pdf-header[""'][^>]*>.*?</table>",
+        //        "", RegexOptions.Singleline | RegexOptions.IgnoreCase);
+
+        //    cleanedHtml = Regex.Replace(cleanedHtml,
+        //        @"<table[^>]*id\s*=\s*[""']pdf-footer[""'][^>]*>.*?</table>",
+        //        "", RegexOptions.Singleline | RegexOptions.IgnoreCase);
+
+
+        //    // ----------- PAGE BREAK CSS (VERY IMPORTANT) -------------
+        //    string pageBreakCss = @"
+        //<style>
+        //    .page-break{ page-break-before:always; }
+        //    table{ page-break-inside:auto; }
+        //    tr{ page-break-inside:avoid; page-break-after:auto; }
+        //</style>";
+
+        //    // ----------- INSERT HEADER AFTER EVERY PAGE BREAK -------------
+        //    if (!string.IsNullOrWhiteSpace(headerHtml))
+        //    {
+        //        // header for first page
+        //        cleanedHtml = headerHtml + cleanedHtml;
+
+        //        // header for next students
+        //        cleanedHtml = cleanedHtml.Replace(
+        //            "<div class=\"page-break\"></div>",
+        //            "<div class=\"page-break\"></div>" + headerHtml
+        //        );
+        //    }
+
+        //    HtmlString.Clear();
+        //    HtmlString.Append(pageBreakCss + cleanedHtml);
+
+        //    using (var memoryStream = new MemoryStream())
+        //    {
+        //        Document pdfDoc =
+        //            PageOriantation == "" ? new Document(PageSize.A4, leftMargin, rightMargin, topMargin, bottomMargin)
+        //            : PageOriantation == "LANDSCAPE" ? new Document(PageSize.A4.Rotate(), leftMargin, rightMargin, topMargin, bottomMargin)
+        //            : PageOriantation == "LANDSCAPE A4" ? new Document(PageSize.LEGAL.Rotate(), leftMargin, rightMargin, topMargin, bottomMargin)
+        //            : new Document(PageSize.A4.Rotate(), leftMargin, rightMargin, topMargin, bottomMargin);
+
+        //        PdfWriter writer = PdfWriter.GetInstance(pdfDoc, memoryStream);
+
+        //        writer.PageEvent = new PdfPageNumberEvent();
+
+        //        var fontPath1 = $"{ConfigurationHelper.RootPath}/fonts/K010_1.TTF";
+        //        var fontPath2 = $"{ConfigurationHelper.RootPath}/fonts/krdv011.ttf";
+        //        var fontPath = $"{ConfigurationHelper.RootPath}/StaticFiles/fonts/";
+
+        //        // ----------- BORDER -------------
+        //        if (IsShowBorder)
+        //            writer.PageEvent = new PageBorderHelper();
+
+        //        // ----------- FOOTER ONLY (HEADER REMOVED HERE) -------------
+
+        //            var footerOnly = new PdfHeaderFooter("", footerHtml, fontPath1, fontPath2);
+
+
+
+
+
+
+
+
+
+        //        // ----------- WATERMARK -------------
+        //        if (!string.IsNullOrWhiteSpace(watermarkImagePath))
+        //        {
+        //            writer.PageEvent = new PdfWatermark(watermarkImagePath);
+        //        }
+
+        //        pdfDoc.Open();
+
+        //        try
+        //        {
+        //            var fontProvider = new XMLWorkerFontProvider(XMLWorkerFontProvider.DONTLOOKFORFONTS);
+        //            fontProvider.Register(fontPath1, "Kruti Dev 010");
+        //            fontProvider.Register(fontPath2, "Kruti Dev 010");
+
+        //            try
+        //            {
+        //                fontProvider.Register(Path.Combine(fontPath, "Georgia", "Georgia.ttf"), "Georgia");
+        //                fontProvider.Register(Path.Combine(fontPath, "roman_new_times", "times.ttf"), "times");
+        //            }
+        //            catch { }
+
+        //            var cssFiles = new CssFilesImpl();
+        //            cssFiles.Add(XMLWorkerHelper.GetInstance().GetDefaultCSS());
+
+        //            var cssResolver = new StyleAttrCSSResolver(cssFiles);
+        //            var cssAppliers = new CssAppliersImpl(fontProvider);
+        //            var context = new HtmlPipelineContext(cssAppliers);
+
+        //            context.SetAcceptUnknown(true).AutoBookmark(true).SetTagFactory(Tags.GetHtmlTagProcessorFactory());
+
+        //            var htmlPipeline = new HtmlPipeline(context, new PdfWriterPipeline(pdfDoc, writer));
+        //            var cssPipeline = new CssResolverPipeline(cssResolver, htmlPipeline);
+
+        //            var worker = new XMLWorker(cssPipeline, true);
+        //            var xmlParser = new XMLParser(true, worker, Encoding.UTF8);
+
+        //            using (var sr = new StringReader(HtmlString.ToString()))
+        //            {
+        //                xmlParser.Parse(sr);
+        //            }
+
+        //            pdfDoc.Close();
+        //            writer.Close();
+
+        //            return memoryStream.ToArray();
+        //        }
+        //        catch
+        //        {
+        //            pdfDoc.Close();
+        //            writer.Close();
+        //            throw;
+        //        }
+        //    }
+        //}
 
         public static byte[] GeneratePDFGetByte_Cfrom(StringBuilder HtmlString, string PageOriantation = "", string watermarkImagePath = "", bool IsShowBorder = false)
         {
@@ -287,14 +437,13 @@ namespace Utility
                 @"<table[^>]*id\s*=\s*[""']pdf-footer[""'][^>]*>.*?</table>",
                 "", RegexOptions.Singleline | RegexOptions.IgnoreCase);
 
-
             // ----------- PAGE BREAK CSS (VERY IMPORTANT) -------------
             string pageBreakCss = @"
-        <style>
-            .page-break{ page-break-before:always; }
-            table{ page-break-inside:auto; }
-            tr{ page-break-inside:avoid; page-break-after:auto; }
-        </style>";
+    <style>
+        .page-break{ page-break-before:always; }
+        table{ page-break-inside:auto; }
+        tr{ page-break-inside:avoid; page-break-after:auto; }
+    </style>";
 
             // ----------- INSERT HEADER AFTER EVERY PAGE BREAK -------------
             if (!string.IsNullOrWhiteSpace(headerHtml))
@@ -333,16 +482,8 @@ namespace Utility
                     writer.PageEvent = new PageBorderHelper();
 
                 // ----------- FOOTER ONLY (HEADER REMOVED HERE) -------------
-              
-                    var footerOnly = new PdfHeaderFooter("", footerHtml, fontPath1, fontPath2);
-                 
 
-
-
-
-                
-
-  
+                var footerOnly = new PdfHeaderFooter("", footerHtml, fontPath1, fontPath2);
 
                 // ----------- WATERMARK -------------
                 if (!string.IsNullOrWhiteSpace(watermarkImagePath))
@@ -398,8 +539,6 @@ namespace Utility
                 }
             }
         }
-
-
 
         public static void MergePDFs(string outPutFilePath, params string[] filesPath)
         {

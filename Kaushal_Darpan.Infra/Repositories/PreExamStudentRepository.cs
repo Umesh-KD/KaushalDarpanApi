@@ -4,6 +4,7 @@ using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.ApplicationData;
 using Kaushal_Darpan.Models.AppointExaminer;
 using Kaushal_Darpan.Models.DocumentDetails;
+using Kaushal_Darpan.Models.MarksheetDownloadModel;
 using Kaushal_Darpan.Models.PlacementShortListStudentMaster;
 using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.StaffMaster;
@@ -12,6 +13,7 @@ using Kaushal_Darpan.Models.SubjectMaster;
 using Kaushal_Darpan.Models.ViewStudentDetailsModel;
 using Newtonsoft.Json;
 using System.Data;
+using System.Drawing;
 using System.Reflection;
 using System.Text;
 
@@ -30,6 +32,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             _pageName = "PreExamStudentRepository";
             _IPAddress = CommonFuncationHelper.GetIpAddress();
         }
+       
         public async Task<DataTable> GetPreExamStudent(PreExamStudentModel model)
         {
             _actionName = "GetPreExamStudent(PreExamStudentModel model)";
@@ -2027,7 +2030,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.CommandText = "USP_RevokePartiallyDetainedStudent";
 
                     command.Parameters.AddWithValue("@StudentPaperData", JsonConvert.SerializeObject(model));
-                    command.Parameters.AddWithValue("@IPAddress", _IPAddress); 
+                    command.Parameters.AddWithValue("@IPAddress", _IPAddress);
 
                     command.Parameters.Add("@Retval", SqlDbType.Int);// out
                     command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
@@ -2052,6 +2055,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
     }
 }
 

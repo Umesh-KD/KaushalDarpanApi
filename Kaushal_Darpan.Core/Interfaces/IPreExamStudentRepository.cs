@@ -1,4 +1,5 @@
-﻿using Kaushal_Darpan.Models.PlacementShortListStudentMaster;
+﻿using Kaushal_Darpan.Models.MarksheetDownloadModel;
+using Kaushal_Darpan.Models.PlacementShortListStudentMaster;
 using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.StudentMaster;
 using Kaushal_Darpan.Models.ViewStudentDetailsModel;
@@ -57,5 +58,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> UpdateOptionalSubjectAfterEligibleStudent(OptionalSubjectModel optionalSubject);
         Task<DataTable> GetPartiallyDetainedStudentList(GetPartiallyDetainedStudentDataModel model);
         Task<int> RevokePartiallyDetainedStudent(List<RevokePartiallyDetainedStudentDataModel> model);
+       
     }
 }

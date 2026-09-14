@@ -39,7 +39,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
-                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    result.Message = Constants.MSG_DELETE_SUCCESS;
                 }
                 else
                 {
