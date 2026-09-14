@@ -177,6 +177,8 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public string? FilterName { get; set; }
         public string? FilterSSOID { get; set; }
         public int? BranchID { get; set; }
+        public int? ProfileStatus { get; set; }
+        public int? DesignationID { get; set; }
     }
 
     public class BTER_EM_AddStaffDetailsDataModel
