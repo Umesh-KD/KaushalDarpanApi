@@ -1196,10 +1196,11 @@ namespace Kaushal_Darpan.Api.Controllers
 
                             // Date at the end of the report
                             sb1.Append("<tr>");
-                            sb1.Append("<td colspan='" + colspan + "' style='text-align: right; font-size: 11px; padding-top: 8px; border:0;'>");
+                            sb1.Append("<td colspan='" + colspan + "' style='text-align: right; font-size: 11px; padding-top: 10px; border:0;'>");
                             sb1.Append("<b>Date: " + DateTime.Now.ToString("dd/MM/yyyy") + "</b>");
                             sb1.Append("</td>");
                             sb1.Append("</tr>");
+
 
                             sb1.Append("</tbody>");
                             sb1.Append("</table>");
