@@ -171,6 +171,7 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int? ItemCategoryId { get; set; }
         public int? IsConsume { get; set; }        // -1 = All
         public int? EquipmentWorking { get; set; } // -1 = All, 0/1 = both
+        public string? SSOID { get; set; }
     }
     public class itemReturnModel
     {

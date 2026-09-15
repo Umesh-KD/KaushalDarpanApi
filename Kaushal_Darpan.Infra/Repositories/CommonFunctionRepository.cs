@@ -608,7 +608,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         //        }
         //    });
         //}
-        public async Task<DataTable> StreamMaster(int DepartmentID = 0, int StreamType = 0, int EndTermId = 0)
+        public async Task<DataTable> StreamMaster(int DepartmentID = 0, int StreamType = 0, int EndTermId = 0, bool IsForEstablishment = false)
         {
             _actionName = "StreamMaster()";
             return await Task.Run(async () =>
@@ -623,6 +623,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
                         command.Parameters.AddWithValue("@EndTermId", EndTermId);
                         command.Parameters.AddWithValue("@StreamType", StreamType);
+                        command.Parameters.AddWithValue("@IsForEstablishment", IsForEstablishment);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
