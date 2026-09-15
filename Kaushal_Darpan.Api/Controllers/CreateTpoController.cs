@@ -43,8 +43,9 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 else
                 {
-                    result.State = EnumStatus.Warning;
-                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;                  
+                      
                 }
             }
             catch (Exception ex)
@@ -201,6 +202,12 @@ namespace Kaushal_Darpan.Api.Controllers
                         result.Data = true;
                         result.State = EnumStatus.Success;
                         result.Message = Constants.MSG_NO_DATA_UPDATE;
+                    }
+                    else if (isSave ==-3)
+                    {
+                        result.Data = true;
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = "SSOID Alredy Exists";
                     }
                     else if (isSave > 0)
                     {
