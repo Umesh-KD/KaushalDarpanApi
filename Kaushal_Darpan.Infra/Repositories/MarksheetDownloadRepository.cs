@@ -250,8 +250,13 @@ namespace Kaushal_Darpan.Infra.Repositories
                 using (var command = await _dbContext.CreateCommandAsync())
                 {
                     command.CommandType = CommandType.StoredProcedure;
+                    if (model.ExamTypeID == (int)EnumResultType.MainResult)
+                    {
+                        command.CommandText = "USP_GetMarksheetData";
+                        command.Parameters.AddWithValue("@Action", "_getStuListMarksheetLetter_main");
+                    }
 
-                    if (model.ExamTypeID == (int)EnumResultType.RevaluationResult)
+                    else if (model.ExamTypeID == (int)EnumResultType.RevaluationResult)
                     {
                         command.CommandText = "USP_GetMarksheetLetterData_AfterReval";
                         command.Parameters.AddWithValue("@Action", "_getStuListMarksheetLetter_reval");
@@ -270,8 +275,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     }
                     else
                     {
-                        command.CommandText = "USP_GetMarksheetData";
-                        command.Parameters.AddWithValue("@Action", "_getStuListMarksheetLetter_main");
+                        command.CommandText = "USP_GetMarksheetLetter_UFM";
+                        command.Parameters.AddWithValue("@Action", "getMarksheetLetter_UFM");
                     }
 
                     command.Parameters.AddWithValue("@SemesterID", model.SemesterID);

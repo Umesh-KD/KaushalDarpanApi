@@ -103,6 +103,8 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int EquipmentId { get; set; }
         public int TradeId { get; set; }
         public int InstituteID { get; set; }
+        public int UserID { get; set; }
+        public string SSOID { get; set; }
     }
 
     public class ItemsIssueReturnModels : RequestBaseModel
@@ -144,7 +146,9 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int? StreamID { get; set; }
         public int? LabID { get; set; }
         public int? RoleID { get; set; }
+        public int? OfficeID { get; set; }
         public string? IndentNo { get; set; }
+        public string? SSOID { get; set; }
     }
 
     public class ItemsDetails
