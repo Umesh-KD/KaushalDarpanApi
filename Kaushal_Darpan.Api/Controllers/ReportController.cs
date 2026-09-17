@@ -10762,6 +10762,24 @@ namespace Kaushal_Darpan.Api.Controllers
                         System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
                         //images
                         data.Tables[0].TableName = "Student_PassListSemester1";
+
+                        string statusLabel = model.PassFailID == 2 ? "Fail Student" : "Pass Student";
+                        string reportTitle = model.PassFailID == 2
+                            ? "Yearly Apr 2025 Examination Result (Fail List)"
+                            : "Yearly Apr 2025 Examination Result (Pass List)";
+
+                        if (!data.Tables[0].Columns.Contains("StudentStatusLabel"))
+                            data.Tables[0].Columns.Add("StudentStatusLabel", typeof(string));
+
+                        if (!data.Tables[0].Columns.Contains("ReportTitle"))
+                            data.Tables[0].Columns.Add("ReportTitle", typeof(string));
+
+                        foreach (System.Data.DataRow row in data.Tables[0].Rows)
+                        {
+                            row["StudentStatusLabel"] = statusLabel;
+                            row["ReportTitle"] = reportTitle;
+                        }
+
                         //data.Tables[1].TableName = "Student_PassListSemester2";
 
                         //data.Tables[0].Rows[0]["ITILogo"] = $"{ConfigurationHelper.StaticFileRootPath}/ITILogo.jpg";
