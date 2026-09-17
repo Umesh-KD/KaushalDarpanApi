@@ -847,6 +847,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@status", SearchReq.status);
                     command.Parameters.AddWithValue("@IsStaff", SearchReq.IsStaff);
                     command.Parameters.AddWithValue("@IssueStatus", SearchReq.IssueStatus);
+                    command.Parameters.AddWithValue("@SSOID", SearchReq.SSOID);
+                    command.Parameters.AddWithValue("@OfficeID", SearchReq.OfficeID);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
@@ -1094,6 +1096,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@UserID", SearchReq.UserID);
                     command.Parameters.AddWithValue("@RoleID", SearchReq.RoleID);
                     command.Parameters.AddWithValue("@LabID", SearchReq.StreamID);
+                    command.Parameters.AddWithValue("@SSOID", SearchReq.SSOID);
+                    command.Parameters.AddWithValue("@OfficeID", SearchReq.OfficeID);
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
                 }
@@ -1348,6 +1352,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@RoleID", SearchReq.RoleID);
                     command.Parameters.AddWithValue("@status", SearchReq.status);
                     command.Parameters.AddWithValue("@IsStaff", SearchReq.IsStaff);
+                    command.Parameters.AddWithValue("@OfficeID", SearchReq.OfficeID);
+                    command.Parameters.AddWithValue("@SSOID", SearchReq.SSOID);
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
                 }
@@ -1384,6 +1390,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@RoleID", SearchReq.RoleID);
                     command.Parameters.AddWithValue("@status", SearchReq.status);
                     command.Parameters.AddWithValue("@IsStaff", SearchReq.IsStaff);
+                    command.Parameters.AddWithValue("@OfficeID", SearchReq.OfficeID);
+                    command.Parameters.AddWithValue("@SSOID", SearchReq.SSOID);
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
                 }
@@ -1495,6 +1503,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@RoleID", SearchReq.RoleID);
                     command.Parameters.AddWithValue("@status", SearchReq.status);
                     command.Parameters.AddWithValue("@IsStaff", SearchReq.IsStaff);
+                    command.Parameters.AddWithValue("@SSOID", SearchReq.SSOID);
+                    command.Parameters.AddWithValue("@OfficeID", SearchReq.OfficeID);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();

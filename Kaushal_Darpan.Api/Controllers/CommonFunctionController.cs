@@ -610,15 +610,15 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-        [HttpGet("StreamMaster/{DepartmetnID}/{StreamType}/{EndTermId}")]
-        public async Task<ApiResult<DataTable>> StreamMaster(int DepartmetnID = 0, int StreamType = 0, int EndTermId = 0)
+        [HttpGet("StreamMaster/{DepartmetnID}/{StreamType}/{EndTermId}/{IsForEstablishment}")]
+        public async Task<ApiResult<DataTable>> StreamMaster(int DepartmetnID = 0, int StreamType = 0, int EndTermId = 0, bool IsForEstablishment = false)
         {
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<DataTable>();
                 try
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.StreamMaster(DepartmetnID, StreamType, EndTermId);
+                    var data = await _unitOfWork.CommonFunctionRepository.StreamMaster(DepartmetnID, StreamType, EndTermId, IsForEstablishment);
                     if (data.Rows.Count > 0)
                     {
                         result.Data = data;

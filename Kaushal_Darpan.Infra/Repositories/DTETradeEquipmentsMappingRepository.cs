@@ -491,6 +491,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Eng_NonEng", SearchReq.Eng_NonEng);
                         command.Parameters.AddWithValue("@RoleID", SearchReq.RoleID);
                         command.Parameters.AddWithValue("@EndTermID", SearchReq.EndTermID);
+                        command.Parameters.AddWithValue("@UserID", SearchReq.UserID);
+                        command.Parameters.AddWithValue("@OfficeID", SearchReq.OfficeID);
+                        command.Parameters.AddWithValue("@SSOID", SearchReq.SSOID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }

@@ -477,6 +477,14 @@ namespace Kaushal_Darpan.Api.Controllers
                                 sb1.Append("</tr>");
 
                             }
+
+                            // Add today's date at the end
+                            sb1.Append("<tr>");
+                            sb1.Append("<td colspan='" + colspan + "' style='text-align: right; font-size: 11px; padding-top: 10px;'>");
+                            sb1.Append("<b>Date: " + DateTime.Now.ToString("dd/MM/yyyy") + "</b>");
+                            sb1.Append("</td>");
+                            sb1.Append("</tr>");
+
                             sb1.Append("</table>");
                             sb1.Append("<div style='margin-top:10px;'>&nbsp;</div>");
                         }
@@ -1185,6 +1193,14 @@ namespace Kaushal_Darpan.Api.Controllers
                                 sb1.Append("</tr>");
 
                             }
+
+                            // Date at the end of the report
+                            sb1.Append("<tr>");
+                            sb1.Append("<td colspan='" + colspan + "' style='text-align: right; font-size: 11px; padding-top: 10px; border:0;'>");
+                            sb1.Append("<b>Date: " + DateTime.Now.ToString("dd/MM/yyyy") + "</b>");
+                            sb1.Append("</td>");
+                            sb1.Append("</tr>");
+
 
                             sb1.Append("</tbody>");
                             sb1.Append("</table>");
