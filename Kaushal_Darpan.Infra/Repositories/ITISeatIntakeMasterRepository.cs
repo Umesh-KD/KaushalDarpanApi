@@ -1291,6 +1291,59 @@ namespace Kaushal_Darpan.Infra.Repositories
             //});
         }
 
+        public async Task<int> ChangeSchemeType(SeatIntakeChangeStatusModel request)
+        {
+            _actionName = "ChangeSchemeType(SeatIntakeChangeStatusModel request)";
+            //return await Task.Run(async () =>
+            //{
+            try
+            {
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
+                {
+                    command.CommandText = "USP_SCVT_TONCVT";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@SeatIntakeID", request.SeatIntakeID);
+                    command.Parameters.AddWithValue("@CollegeID", request.CollegeID);
+                    command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                    command.Parameters.AddWithValue("@FinancialYearID", request.AcademicYearID);
+
+                    command.Parameters.AddWithValue("@TradeID", request.TradeId);
+                    //command.Parameters.AddWithValue("@TradeSchemeId", request.TradeSchemeId);
+
+                    // Add IP Address parameter
+                    command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+                    //command.Parameters.AddWithValue("@Action", request.Action);
+                    command.Parameters.AddWithValue("@OrderDate", request.OrderDate);
+                    command.Parameters.AddWithValue("@OrderNo", request.OrderNo);
+                    command.Parameters.AddWithValue("@Remark", request.Remark);
+                    // Add the return parameter
+                    command.Parameters.Add("@Return", SqlDbType.Int); // out
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    // Execute the command
+                    result = await command.ExecuteNonQueryAsync();
+                    result = Convert.ToInt32(command.Parameters["@Return"].Value); // out
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errorDetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errorDetails, ex);
+            }
+            //});
+        }
+
 
 
         public async Task<DataTable> GetActiveSeatIntakeAdmission(BTERSeatIntakeSearchModel request)
