@@ -9,6 +9,7 @@ using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.CertificateDownload;
 using Kaushal_Darpan.Models.CompanyMaster;
+using Kaushal_Darpan.Models.MarksheetDownloadModel;
 using Kaushal_Darpan.Models.Student;
 
 namespace Kaushal_Darpan.Infra.Repositories
@@ -148,6 +149,45 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<DataSet> DownloadDiplomaForwardingLetter(DiplomaCertificateModel model)
+        {
+            _actionName = "DownloadDiplomaForwardingLetter(DiplomaCertificateModel model)";
+            try
+            {
+                var ds = new DataSet();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
 
+                    command.CommandText = "USP_BTER_DownloadDiplomaForwardingLetter";
+                    command.Parameters.AddWithValue("@Action", "diplomaForwardingLetter");
+
+                    command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                    //command.Parameters.AddWithValue("@ExamTypeID", model.ExamTypeID);
+
+                    //command.Parameters.AddWithValue("@FinancialYearID", model.AcademicYearID);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    //command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEngID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    ds = await command.FillAsync();
+                }
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
     }
 }
