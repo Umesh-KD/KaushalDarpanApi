@@ -97,7 +97,7 @@ namespace Kaushal_Darpan.Api.HangFireServices
                             else
                                 Inner_result.Message = "No data updated.";
 
-                            break;
+                            //break;
                         }
                     }
                     else
