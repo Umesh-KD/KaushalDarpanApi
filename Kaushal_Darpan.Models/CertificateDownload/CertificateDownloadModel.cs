@@ -48,6 +48,7 @@ namespace Kaushal_Darpan.Models.CertificateDownload
         public int EndTermID { get; set; }
         public int DepartmentID { get; set; }
         public int CourseTypeID { get; set; }
+        public int Eng_NonEng { get; set; }
 
     }
 
@@ -61,5 +62,4 @@ namespace Kaushal_Darpan.Models.CertificateDownload
         public int? StudentExamPaperID { get; set; } = 0;
 
     }
-
 }

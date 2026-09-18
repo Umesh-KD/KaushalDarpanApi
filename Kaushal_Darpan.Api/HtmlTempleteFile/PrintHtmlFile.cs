@@ -1,10 +1,13 @@
 ﻿
 using AngleSharp.Html;
+using DocumentFormat.OpenXml.Bibliography;
+
 using DocumentFormat.OpenXml.EMMA;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Models.CommonModel;
 using Kaushal_Darpan.Models.MarksheetDownloadModel;
 using Kaushal_Darpan.Models.TheoryMarks;
+using Microsoft.Playwright;
 using System.Data;
 using System.Text;
 
@@ -6970,5 +6973,612 @@ body {
         }
 
         #endregion
+
+        #region Diploma Forwarding Letter
+        public async Task<StringBuilder> DiplomaForwardingLetterHtml(DataSet ds)
+        {
+            StringBuilder sb = new StringBuilder();
+            try
+            {
+                DataRow headerRow = ds.Tables[0].Rows[0];
+
+                string registrationNo = Convert.ToString(headerRow["registrationNo"]);
+                string instituteName = Convert.ToString(headerRow["InstituteName"]);
+                string instituteCode = Convert.ToString(headerRow["InstituteCode"]);
+                string reportDate = Convert.ToString(headerRow["Date"]);
+
+                // If these columns are available in your first table
+                string session = Convert.ToString(headerRow["YearName"]);
+                string address = Convert.ToString(headerRow["Address"]);
+                string pinCode = Convert.ToString(headerRow["PinCode"]);
+                string EndTermHindi = Convert.ToString(headerRow["EndTermHindi"]);
+
+                sb.Append(@"<!DOCTYPE html> <html lang=""hi"">");
+                sb.Append(@" 
+                    <head>
+                        <meta charset=""UTF-8"">
+                        <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+                        <title>डिप्लोमा प्रमाण पत्र</title>
+                    </head>
+                ");
+                sb.Append(@" <body style=""margin:0; padding:0; background:#fff; color:#000; font-family:'Noto Sans Devanagari','Mangal',Arial,sans-serif;"">");
+                sb.Append(@" <div style=""width:794px; margin:0 auto; padding:28px 26px 25px 26px; background:#fff; font-size:14px; line-height:1.45;"">");
+                // < !-- ================= HEADER ================= -->
+                sb.Append(@" <div style=""position:relative; width:100%; min-height:82px; text-align:center;"">");
+                // <!-- Registered -->
+                sb.Append(@" <div style=""position:absolute; right:5px; top:0; font-size:14px; font-weight:bold;"">रजिस्टर्ड पार्सल</div>");
+                // <!-- Government -->
+                sb.Append(@"<div style=""font-size:22px; font-weight:bold; line-height:1.3;"">राजस्थान सरकार</div>");
+                // <!-- Department -->
+                sb.Append(@" <div style=""font-size:20px; font-weight:bold; line-height:1.4;"">प्राविधिक शिक्षा मण्डल, राजस्थान, जोधपुर</div>");
+                // <!-- Address -->
+                sb.Append(@" <div style=""font-size:14px; line-height:1.3;"">ईन्द्रप्रस्थ रोड जोधपुर</div>");
+                sb.Append(@" </div>");
+
+                // <!-- ================= LETTER / DATE ================= -->
+                sb.Append(@" <table style="" width:100%; border-collapse:collapse; margin-top:5px; "">
+        <tr>
+
+            <!-- Left -->
+            <td style=""width:70%;vertical-align:top;font-size:14px;"">
+
+                <div style=""font-weight:bold; margin-bottom:8px; ""> क्रमांक:-" + registrationNo + @" </div>
+                <div style=""font-weight:bold; margin-bottom:4px;"">PRINCIPAL </div>
+                <div style="" font-weight:bold; margin-bottom:3px; "">" + instituteName + @"</div>
+                <div style=""font-weight:bold; margin-bottom:3px; ""> "+ address + @" </div>
+                <div style=""font-weight:bold; "">  "+ pinCode + @" </div></td>
+
+            <!-- Right -->
+            <td style="" width:30%; vertical-align:top; text-align:center; font-size:13px;"">
+                <div style=""font-weight:bold; margin-bottom:8px;"">दिनांक </div>
+                <div style=""display:inline-block; border:1px solid #000; padding:5px 9px; font-size:16px; font-weight:bold; min-width:35px;"">" + instituteCode + @"</div>
+            </td>
+        </tr>
+    </table>
+");
+                // <!-- ================= SUBJECT ================= -->
+
+                sb.Append(@"
+   <div style=""width:100%; margin-top:5px; margin-left:85px; font-weight:bold; font-size:14px; line-height:1.5;"">
+        विषय :- सेमेस्टर परीक्षा में उत्तीर्ण विद्यार्थियों के मूल डिप्लोमा प्रमाण पत्र भिजवाने बाबत ।
+    </div>");
+
+                //    <!-- ================= SALUTATION ================= -->
+                sb.Append(@"<div style="" margin-top:18px; font-weight:bold; font-size:14px;""> महोदय,</div>");
+
+                //    <!-- ================= PARAGRAPH ================= -->
+
+                sb.Append(@"
+  <div style=""margin-top:4px; text-align:justify; font-size:14px; line-height:1.65;"">
+        सत्र "+ EndTermHindi + @" की परीक्षा में उत्तीर्ण विद्यार्थियों के मूल डिप्लोमा प्रमाण पत्र ब्रांचवार संलग्न सूची
+        अनुसार भिजवाये जा रहे हैं :-
+    </div>");
+
+                // <!-- ================= TABLE ================= -->
+
+                sb.Append(@"
+<table style="" width:100%; border-collapse:collapse; margin-top:5px; font-size:14px; text-align:center;"">
+<thead>
+<tr>
+    <th style=""border:1px solid #000;padding:4px 5px;width:16%;"">
+       ब्रांच कोड
+    </th>
+    <th style=""border:1px solid #000;padding:4px 5px;width:60%;"">
+       ब्रांच का नाम
+    </th>
+    <th style=""border:1px solid #000;padding:4px 5px;width:24%;"">
+        कुल प्रमाण पत्र
+    </th>
+</tr>
+</thead>
+
+<tbody>
+");
+
+                int totalCertificates = 0;
+
+                foreach (DataRow row in ds.Tables[1].Rows)
+                {
+                    string BranchCode = Convert.ToString(row["BranchCode"]);
+                    string BranchName = Convert.ToString(row["BranchName"]);
+                    string TOTAL = Convert.ToString(row["TOTAL"]);
+
+                    int totalStudent = row["TOTAL"] == DBNull.Value ? 0 : Convert.ToInt32(row["TOTAL"]);
+                    totalCertificates += totalStudent;
+
+                    sb.Append(@"
+    <tr>
+        <td style=""border:1px solid #000;padding:3px;font-weight:bold;"">"
+                            + BranchCode + @"
+        </td>
+
+        <td style=""border:1px solid #000;padding:3px;font-weight:bold;"">"
+                            + BranchName + @"
+        </td>
+
+        <td style=""border:1px solid #000;padding:3px;font-weight:bold;"">"
+                            + TOTAL + @"
+        </td>
+    </tr>");
+                }
+
+                sb.Append(@"
+    <tr>
+        <td colspan=""2"" style="" border:1px solid #000; padding:4px; text-align:right; font-weight:bold;""> कुल योग :- </td>
+        <td style=""border:1px solid #000; padding:4px; font-weight:bold;""> " + totalCertificates + @" </td>
+    </tr>
+
+</tbody>
+</table>
+");
+
+                //<!-- ================= INSTRUCTIONS ================= -->
+                sb.Append(@"<div style="" margin-top:3px; font-weight:bold; font-size:14px;""> आवश्यक निर्देश :- </div>
+
+    <div style=""margin-top:2px;font-size:14px; line-height:1.7;"">
+        <div style=""margin-bottom:2px;  padding-left:4px; ""><b>1.</b>
+            मूल डिप्लोमा प्रमाण पत्र प्राप्त होते ही प्राप्ति सूचना भिजवायें।
+        </div>
+        <div style="" margin-bottom:2px; padding-left:4px;"">
+            <b>2.</b>
+            मूल डिप्लोमा प्रमाण पत्र में प्रिंट संबंधी त्रुटि पाये जाने पर पत्र प्राप्त होने के 30 दिन के अन्तर
+            तक इस डिप्लोमा को मण्डल को लौटायें।
+        </div>
+        <div style=""margin-bottom:2px; padding-left:4px;"">
+            <b>3.</b>
+            उक्त विषयों में मूल डिप्लोमा प्रमाण पत्र प्राप्त करने के लिए आवश्यक रूप से विभिन्न माध्यमों
+            U.P.C. (Under Postal Certificate)/email/mobile phone/etc तथा प्रिंट मीडिया द्वारा सूचित करे।
+        </div>
+        <div style=""padding-left:4px;"">
+            <b>4.</b>
+            मूल डिप्लोमा प्रमाण पत्र छात्रों को हस्तान्तरित करने से पूर्व, डिप्लोमा प्रमाण पत्र के पीछे
+            आप संस्थान की मोहर सहित हस्ताक्षर करे।
+        </div>
+    </div>");
+
+                //<!-- ================= SECOND PAGE ================= -->
+                sb.Append(@"
+<div style="" width:794px; min-height:1123px; margin:0 auto; padding:28px 40px 25px 40px; background:#fff; font-size:13px; line-height:1.45; page-break-before:always;"">
+
+<!-- ================= HEADER ================= -->
+
+    <div style=""position:relative; width:100%; min-height:82px; text-align:center; "">
+        <div style=""font-size:22px; font-weight:bold; line-height:1.3;""> राजस्थान सरकार</div>
+        <div style="" font-size:20px; font-weight:bold; line-height:1.4; ""> प्राविधिक शिक्षा मण्डल, राजस्थान, जोधपुर </div>
+        <div style=""font-size:14px; line-height:1.3;""> इन्द्रप्रस्थ रोड जोधपुर</div>
+    </div>
+
+    <div style="" margin-top:22px; margin-left:22px; font-size:14px; font-weight:bold;""> संलग्न :- उपरोक्तानुसार (" + totalCertificates + @" मूल प्रमाण पत्र )</div>
+    <div style="" width:100%; margin-top:18px; margin-right:15px; text-align:right; padding-right:5px; font-size:13px; font-weight:bold;"">
+        <div style="" margin-bottom:24px; ""> भवदीय</div>
+        <div style="" margin-top:10px;"">संयुक्त निदेशक एवं रजिस्ट्रार</div>
+    </div>
+</div>
+");
+
+                DataTable studentTable = ds.Tables[2];
+
+                var branchGroups = studentTable.AsEnumerable()
+                    .GroupBy(row => new
+                    {
+                        BranchID = row["BranchID"] == DBNull.Value
+                            ? 0
+                            : Convert.ToInt32(row["BranchID"]),
+
+                        BranchName = Convert.ToString(row["BranchName"])
+                    })
+                    .ToList();
+
+                // STUDENT DETAILS HEADER
+
+                sb.Append(@"
+<div style="" width:794px; min-height:1123px; margin:0 auto; padding:28px 40px 25px 40px; background:#fff; font-size:14px; line-height:1.45; page-break-before:always;"">
+
+<div style=""
+    width:100%;
+    text-align:center;
+    margin-bottom:22px;
+"">
+
+    <div style=""
+        font-size:22px;
+        font-weight:bold;
+        line-height:1.3;
+    "">
+        राजस्थान सरकार
+    </div>
+
+    <div style=""
+        font-size:20px;
+        font-weight:bold;
+        line-height:1.4;
+    "">
+        प्राविधिक शिक्षा मण्डल, राजस्थान, जोधपुर
+    </div>
+
+    <div style=""
+        font-size:14px;
+        line-height:1.3;
+    "">
+        इन्द्रप्रस्थ रोड जोधपुर
+    </div>
+
+</div>
+
+
+<div style=""
+    font-size:14px;
+    font-weight:bold;
+    line-height:1.6;
+    margin-bottom:25px;
+"">
+    सत्र मई 2024 परीक्षा में उत्तीर्ण निम्न नामांकन संख्या वाले विद्यार्थियों के मूल डिप्लोमा प्रमाण पत्र
+    भिजवाये जा रहे हैं :-
+</div>
+
+
+<div style=""
+    font-size:14px;
+    font-weight:bold;
+    margin-bottom:3px;
+"">
+    Institute&nbsp;&nbsp;:
+    <span style=""margin-left:10px;"">
+        (" + instituteCode + @")" + instituteName + @"
+    </span>
+</div>
+");
+                // BRANCH LOOP
+
+                foreach (var branch in branchGroups)
+                {
+                    string branchName = Convert.ToString(branch.Key.BranchName);
+
+                    // Convert branch rows to list so we can handle first row separately
+                    List<DataRow> branchStudents = branch.ToList();
+
+                    if (branchStudents.Count == 0)
+                        continue;
+
+
+                    // ============================================================
+                    // FIXED COLUMN WIDTHS
+                    // These MUST be identical in every table
+                    // ============================================================
+
+                    string colSrNo = "8%";
+                    string colEnrollment = "25%";
+                    string colName = "38%";
+                    string colDiploma = "29%";
+
+
+                    // ============================================================
+                    // BRANCH HEADER + COLUMN HEADER + FIRST STUDENT
+                    //
+                    // Keeping these together prevents the branch header from
+                    // appearing at the bottom of the previous page.
+                    // ============================================================
+
+                    DataRow firstStudent = branchStudents[0];
+
+                    string firstSrNo =
+                        Convert.ToString(firstStudent["SrNo"]);
+
+                    string firstEnrollmentNo =
+                        Convert.ToString(firstStudent["EnrollmentNo"]);
+
+                    string firstStudentName =
+                        Convert.ToString(firstStudent["StudentName"]);
+
+                    string firstDiplomaNo =
+                        Convert.ToString(firstStudent["TemporaryDiplomaCertificateNo"]);
+
+
+                    sb.Append(@"
+
+    <div style=""
+        width:100%;
+        margin:0;
+        padding:0;
+        page-break-inside:avoid;
+        break-inside:avoid;
+    "">
+
+        <table style=""
+            width:100%;
+            border-collapse:collapse;
+            border-spacing:0;
+            table-layout:fixed;
+            margin:15px 0 0 0;
+            padding:0;
+            font-size:14px;
+        "">
+
+            <colgroup>
+
+                <col style=""width:" + colSrNo + @";"">
+                <col style=""width:" + colEnrollment + @";"">
+                <col style=""width:" + colName + @";"">
+                <col style=""width:" + colDiploma + @";"">
+
+            </colgroup>
+
+            <tbody>
+
+
+                <!-- ================= BRANCH NAME ================= -->
+
+                <tr>
+
+                    <td colspan=""4""
+                        style=""
+                            border:1px solid #000;
+                            padding:4px 5px;
+                            font-size:14px;
+                            font-weight:bold;
+                            line-height:1.3;
+                            text-align:left;
+                        "">
+                        Branch&nbsp;:&nbsp;" + branchName + @"
+                    </td>
+
+                </tr>
+
+
+                <!-- ================= COLUMN HEADER ================= -->
+
+                <tr>
+
+                    <td style=""
+                        border:1px solid #000;
+                        padding:4px 3px;
+                        text-align:left;
+                        font-weight:bold;
+                        white-space:nowrap;
+                    "">
+                        क्र0सं0
+                    </td>
+
+                    <td style=""
+                        border:1px solid #000;
+                        padding:4px 3px;
+                        text-align:left;
+                        font-weight:bold;
+                        white-space:nowrap;
+                    "">
+                        नामांकन संख्या
+                    </td>
+
+                    <td style=""
+                        border:1px solid #000;
+                        padding:4px 3px;
+                        text-align:left;
+                        font-weight:bold;
+                        white-space:nowrap;
+                    "">
+                        विद्यार्थी का नाम
+                    </td>
+
+                    <td style=""
+                        border:1px solid #000;
+                        padding:4px 3px;
+                        text-align:left;
+                        font-weight:bold;
+                        white-space:nowrap;
+                    "">
+                        डिप्लोमा प्रमाण पत्र संख्या
+                    </td>
+
+                </tr>
+
+
+                <!-- ================= FIRST STUDENT ================= -->
+
+                <tr>
+
+                    <td style=""
+                        border:1px solid #000;
+                        padding:4px;
+                        text-align:left;
+                        font-weight:bold;
+                        vertical-align:middle;
+                    "">
+                        " + firstSrNo + @"
+                    </td>
+
+                    <td style=""
+                        border:1px solid #000;
+                        padding:4px;
+                        text-align:left;
+                        font-weight:bold;
+                        vertical-align:middle;
+                        word-break:break-word;
+                    "">
+                        " + firstEnrollmentNo + @"
+                    </td>
+
+                    <td style=""
+                        border:1px solid #000;
+                        padding:4px;
+                        text-align:left;
+                        font-weight:bold;
+                        vertical-align:middle;
+                    "">
+                        " + firstStudentName + @"
+                    </td>
+
+                    <td style=""
+                        border:1px solid #000;
+                        padding:4px;
+                        text-align:left;
+                        font-weight:bold;
+                        vertical-align:middle;
+                    "">
+                        " + firstDiplomaNo + @"
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+    ");
+
+
+                    // ============================================================
+                    // REMAINING STUDENTS
+                    // ============================================================
+
+                    for (int i = 1; i < branchStudents.Count; i++)
+                    {
+                        DataRow row = branchStudents[i];
+
+                        string srNo =
+                            Convert.ToString(row["SrNo"]);
+
+                        string enrollmentNo =
+                            Convert.ToString(row["EnrollmentNo"]);
+
+                        string studentName =
+                            Convert.ToString(row["StudentName"]);
+
+                        string diplomaNo =
+                            Convert.ToString(row["TemporaryDiplomaCertificateNo"]);
+
+
+                        sb.Append(@"
+
+        <table style=""
+            width:100%;
+            border-collapse:collapse;
+            border-spacing:0;
+            table-layout:fixed;
+            margin:0;
+            padding:0;
+            font-size:14px;
+        "">
+
+            <colgroup>
+
+                <col style=""width:" + colSrNo + @";"">
+                <col style=""width:" + colEnrollment + @";"">
+                <col style=""width:" + colName + @";"">
+                <col style=""width:" + colDiploma + @";"">
+
+            </colgroup>
+
+            <tbody>
+
+                <tr style=""
+                    page-break-inside:avoid;
+                    break-inside:avoid;
+                "">
+
+                    <td style=""
+                        border:1px solid #000;
+                        padding:4px;
+                        text-align:left;
+                        font-weight:bold;
+                        vertical-align:middle;
+                    "">
+                        " + srNo + @"
+                    </td>
+
+                    <td style=""
+                        border:1px solid #000;
+                        padding:4px;
+                        text-align:left;
+                        font-weight:bold;
+                        vertical-align:middle;
+                        word-break:break-word;
+                    "">
+                        " + enrollmentNo + @"
+                    </td>
+
+                    <td style=""
+                        border:1px solid #000;
+                        padding:4px;
+                        text-align:left;
+                        font-weight:bold;
+                        vertical-align:middle;
+                    "">
+                        " + studentName + @"
+                    </td>
+
+                    <td style=""
+                        border:1px solid #000;
+                        padding:4px;
+                        text-align:left;
+                        font-weight:bold;
+                        vertical-align:middle;
+                    "">
+                        " + diplomaNo + @"
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+        ");
+                    }
+                }
+
+                // ATTACHMENT + SIGNATURE
+
+                sb.Append(@"
+
+    <!-- ================= ATTACHMENT ================= -->
+
+    <div style=""
+        margin-top:15px;
+        margin-left:15px;
+        font-size:14px;
+        font-weight:bold;
+        line-height:1.5;
+    "">
+        संलग्न :- उपरोक्तानुसार (
+        " + totalCertificates + @"
+        मूल प्रमाण पत्र )
+    </div>
+
+
+    <!-- ================= SIGNATURE ================= -->
+
+    <div style=""
+        width:100%;
+        margin-top:22px;
+        text-align:right;
+        padding-right:15px;
+        font-size:14px;
+        font-weight:bold;
+    "">
+        <div>
+            संयुक्त निदेशक एवं रजिस्ट्रार
+        </div>
+
+    </div>
+
+
+</div>
+");
+
+                sb.Append(@"</div></body></html>");
+                return sb;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(
+                    "Error generating Diploma Forwarding Letter HTML.",
+                    ex
+                );
+            }
+        }
+
+        #endregion
     }
+
 }
