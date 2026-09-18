@@ -169,8 +169,21 @@
                         <td style="font-size: 12px;"><b>Note: </b> <span style="display: inline-block; border-bottom: dotted 1px #cfcfcf;"> {#=GetITIStudent_Marksheet_SingleDetails.Note=#}</span></td>
                     </tr>
                     <tr>
-                        <td style="font-size: 12px;"><b>RESULT: </b><span style="display: inline-block; border-bottom: dotted 1px #cfcfcf;"> {#=GetITIStudent_Marksheet_SingleDetails.stResult=#}</span></td>
+                        <!--<td style="font-size: 12px;"><b>RESULT: </b><span style="display: inline-block; border-bottom:
+        dotted 1px #cfcfcf;"> {#=GetITIStudent_Marksheet_SingleDetails.stResult=#}</span></td>-->
+
+                        <td style="font-size: 12px; ">
+                            <b>RESULT:</b> {#=GetITIStudent_Marksheet_SingleDetails.stResult=#}
+                            <span style="  display:inline-block; color:#fff; ">---------- </span>
+                            <b>PERCENTAGE:</b>   {#=GetITIStudent_Marksheet_SingleDetails.Percentage=#}%
+                        </td>
+
+
+
                     </tr>
+
+
+
                     <!--<tr>
                         <td style="font-size: 12px; text-align: left;">
                         <b>Result Declaration Date:</b> 
