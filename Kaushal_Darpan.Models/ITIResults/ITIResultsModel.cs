@@ -16,6 +16,7 @@ namespace Kaushal_Darpan.Models.ITIResults
         public string Action { get; set; }
         public int ExamType { get; set; }
         public int TradeScheme { get; set; }
+        public int RoleID { get; set; }
 
     }
 
@@ -33,6 +34,7 @@ namespace Kaushal_Darpan.Models.ITIResults
         public int StudentType { get; set; }
         public int is_appeared { get; set; }
         public int TradeId { get; set; }
+        public int RoleID { get; set; }
         public string? EnrollmentNo { get; set; }
 
     }
