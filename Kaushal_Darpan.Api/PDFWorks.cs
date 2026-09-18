@@ -1245,7 +1245,7 @@ public class PdfPageNumberEvent : PdfPageEventHelper
         float bottom = footerY;
 
         // -------- LEFT SIDE : PRINT DATE ----------
-        string printedDate = "Printed on : " + DateTime.Now.ToString("dd-MM-yyyy hh:mm tt");
+        string printedDate = "Generated on : " + DateTime.Now.ToString("dd-MM-yyyy hh:mm tt");
 
         cb.BeginText();
         cb.SetFontAndSize(baseFont, 9);

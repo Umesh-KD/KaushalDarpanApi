@@ -46,7 +46,7 @@
                                         <div style="text-align:center;float:right; ">
                                             <img src="{#=GetITIStudent_Marksheet_SingleDetails.ITILogo=#}" style="width:100px;" /><br />
                                             <img src="{#=GetITIStudent_Marksheet_SingleDetails.QRCode=#}"
-                                                 style="width:90px;height:90px;" />
+                                                 style="width:100px;height:100px;" />
                                         </div>
                                         <!--Duplicate Marksheet-->
                                         {#IF.GetITIStudent_Marksheet_SingleDetails.RequestTypeID=2#}
@@ -169,8 +169,21 @@
                         <td style="font-size: 12px;"><b>Note: </b> <span style="display: inline-block; border-bottom: dotted 1px #cfcfcf;"> {#=GetITIStudent_Marksheet_SingleDetails.Note=#}</span></td>
                     </tr>
                     <tr>
-                        <td style="font-size: 12px;"><b>RESULT: </b><span style="display: inline-block; border-bottom: dotted 1px #cfcfcf;"> {#=GetITIStudent_Marksheet_SingleDetails.stResult=#}</span></td>
+                        <!--<td style="font-size: 12px;"><b>RESULT: </b><span style="display: inline-block; border-bottom:
+        dotted 1px #cfcfcf;"> {#=GetITIStudent_Marksheet_SingleDetails.stResult=#}</span></td>-->
+
+                        <td style="font-size: 12px; ">
+                            <b>RESULT:</b> {#=GetITIStudent_Marksheet_SingleDetails.stResult=#}
+                            <span style="  display:inline-block; color:#fff; ">---------- </span>
+                            <b>PERCENTAGE:</b>   {#=GetITIStudent_Marksheet_SingleDetails.Percentage=#}%
+                        </td>
+
+
+
                     </tr>
+
+
+
                     <!--<tr>
                         <td style="font-size: 12px; text-align: left;">
                         <b>Result Declaration Date:</b> 
