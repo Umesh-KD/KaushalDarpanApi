@@ -35,5 +35,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
         Task<StringBuilder> GetTemporaryDiplomaCertificateHtml(DataSet ds);
         Task<StringBuilder> GetMArksheetLetterhHtml(DataSet ds);
         Task<StringBuilder> DiplomaForwardingLetterHtml(DataSet ds);
+        Task<StringBuilder> DiplomaPassedStudentRegisterReportHtml(DataSet ds);
+        Task<StringBuilder> PendingDiplomaCertificateReportHtml(DataSet ds);
     }
 }

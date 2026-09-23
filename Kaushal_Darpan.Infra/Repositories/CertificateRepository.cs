@@ -189,5 +189,87 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+        public async Task<DataSet> DownloadDiplomaPassedStudentRegisterReport(DiplomaCertificateModel model)
+        {
+            _actionName = "DownloadDiplomaPassedStudentRegisterReport(DiplomaCertificateModel model)";
+            try
+            {
+                var ds = new DataSet();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.CommandText = "USP_BTER_DownloadDiplomaPassedRegisterStuReport";
+                    command.Parameters.AddWithValue("@Action", "diplomaPassedRegisterStuReport");
+
+                    command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                    //command.Parameters.AddWithValue("@ExamTypeID", model.ExamTypeID);
+
+                    //command.Parameters.AddWithValue("@FinancialYearID", model.AcademicYearID);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    //command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEngID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    ds = await command.FillAsync();
+                }
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<DataSet> DownloadPendingDiplomaCertificateReport(DiplomaCertificateModel model)
+        {
+            _actionName = "DownloadPendingDiplomaCertificateReport(DiplomaCertificateModel model)";
+            try
+            {
+                var ds = new DataSet();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.CommandText = "USP_BTER_PendingDiplomaCertificateReport";
+                    command.Parameters.AddWithValue("@Action", "getPendingDiplomaCertificateReport");
+
+                    command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                    //command.Parameters.AddWithValue("@ExamTypeID", model.ExamTypeID);
+
+                    //command.Parameters.AddWithValue("@FinancialYearID", model.AcademicYearID);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    //command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEngID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    ds = await command.FillAsync();
+                }
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
     }
 }
