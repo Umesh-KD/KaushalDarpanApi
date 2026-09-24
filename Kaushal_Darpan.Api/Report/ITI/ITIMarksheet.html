@@ -77,7 +77,7 @@
                     <tr>
                         <td style="font-size: 12px; width: 16%;"><b>Name</b></td>
                         <td style="font-size: 12px; width: 35%; border-bottom: 1px solid #808080"><span style="display:block;border-bottom:solid 1px #000;padding-bottom:3px">{#=GetITIStudent_Marksheet_SingleDetails.StudentName=#}</span></td>
-                        <td style="font-size: 12px; width: 15%; text-align: right; "><b>Registration/Roll No.</b></td>
+                        <td style="font-size: 12px; width: 15%; text-align: right; "><b>Enrollment/Roll No.</b></td>
                         <td style="font-size: 12px; width: 35%; border-bottom: 1px solid #808080"><span style="display:block;border-bottom:solid 1px #000;padding-bottom:3px">{#=GetITIStudent_Marksheet_SingleDetails.EnrollmentNo=#} / {#=GetITIStudent_Marksheet_SingleDetails.RollNo=#}</span></td>
                     </tr>
                     <tr>
@@ -134,7 +134,7 @@
                 <table style="border-collapse: collapse; width: 100%;  " cellpadding="7" cellspacing="0">
                     <tr>
                         <th style="border: 0.1px solid #000; font-size: 12px; text-align: center; width:10%;">S.No.</th>
-                        <th style="border: 0.1px solid #000; font-size: 12px; text-align: left; width: 45%;">Summative Assessment</th>
+                        <th style="border: 0.1px solid #000; font-size: 12px; text-align: left; width: 45%;">Subjects</th>
                         <th style="border: 0.1px solid #000; font-size: 12px; text-align: center; width: 15%;">Max. Marks</th>
                         <th style="border: 0.1px solid #000; font-size: 12px; text-align: center; width: 15%;">Min. Pass Marks</th>
                         <th style="border: 0.1px solid #000; font-size: 12px; text-align: center; width: 15%;" colspan="2">Marks Secured</th>
@@ -173,9 +173,9 @@
         dotted 1px #cfcfcf;"> {#=GetITIStudent_Marksheet_SingleDetails.stResult=#}</span></td>-->
 
                         <td style="font-size: 12px; ">
-                            <b>RESULT:</b> {#=GetITIStudent_Marksheet_SingleDetails.stResult=#}
+                            <b>Result:</b> <b>{#=GetITIStudent_Marksheet_SingleDetails.stResult=#}</b>
                             <span style="  display:inline-block; color:#fff; ">---------- </span>
-                            <b>PERCENTAGE:</b>   {#=GetITIStudent_Marksheet_SingleDetails.Percentage=#}%
+                            <b>PERCENTAGE:</b>  {#=GetITIStudent_Marksheet_SingleDetails.Percentage=#}%
                         </td>
 
 
@@ -194,7 +194,7 @@
                     </tr>-->
                     <tr>
                         <td style="font-size: 12px; text-align: left;">
-                            <b>Result Declaration Date:</b> <span>{#=GetITIStudent_Marksheet_SingleDetails.ResultDeclarationDate=#}</span>
+                            <b>Result Declaration Date: <span>{#=GetITIStudent_Marksheet_SingleDetails.ResultDeclarationDate=#}</span> </b> 
                             <!--REVISED DATE START-->
                             {#IF.GetITIStudent_Marksheet_SingleDetails.IsRevised=1#}
                             <br />
@@ -235,7 +235,7 @@
                 <table style="border-collapse: collapse; width: 100%; " border="0" cellpadding="0" cellspacing="0">
                     <tr>
                         <td width="30%" style="font-size: 13px; vertical-align: bottom; padding-left:120px" height="100" align="center">
-                            Signature of Principal<br />
+                            Signature and Seal of Principal<br />
                             {#=GetITIStudent_Marksheet_SingleDetails.SignatureOfPrincipal=#}
                         </td>
 
