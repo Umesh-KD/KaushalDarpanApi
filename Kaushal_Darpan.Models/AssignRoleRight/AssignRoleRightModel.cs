@@ -20,6 +20,11 @@
         public int DepartmentID { get; set; }
         public int Eng_NonEng { get; set; }
         public int ParentRoleID { get; set; }
+
+        public List<int> InstituteIDs { get; set; } = new List<int>();
+        public string? InstituteIDList { get; set; }
+
+
     }
 
     public class GetAssignedRoleDataModel

@@ -7025,8 +7025,8 @@ body {
                 <div style=""font-weight:bold; margin-bottom:8px; ""> क्रमांक:-" + registrationNo + @" </div>
                 <div style=""font-weight:bold; margin-bottom:4px;"">PRINCIPAL </div>
                 <div style="" font-weight:bold; margin-bottom:3px; "">" + instituteName + @"</div>
-                <div style=""font-weight:bold; margin-bottom:3px; ""> "+ address + @" </div>
-                <div style=""font-weight:bold; "">  "+ pinCode + @" </div></td>
+                <div style=""font-weight:bold; margin-bottom:3px; ""> " + address + @" </div>
+                <div style=""font-weight:bold; "">  " + pinCode + @" </div></td>
 
             <!-- Right -->
             <td style="" width:30%; vertical-align:top; text-align:center; font-size:13px;"">
@@ -7050,7 +7050,7 @@ body {
 
                 sb.Append(@"
   <div style=""margin-top:4px; text-align:justify; font-size:14px; line-height:1.65;"">
-        सत्र "+ EndTermHindi + @" की परीक्षा में उत्तीर्ण विद्यार्थियों के मूल डिप्लोमा प्रमाण पत्र ब्रांचवार संलग्न सूची
+        सत्र " + EndTermHindi + @" की परीक्षा में उत्तीर्ण विद्यार्थियों के मूल डिप्लोमा प्रमाण पत्र ब्रांचवार संलग्न सूची
         अनुसार भिजवाये जा रहे हैं :-
     </div>");
 
@@ -7579,6 +7579,706 @@ body {
         }
 
         #endregion
-    }
 
+        #region Diploma Passed Student Register Report
+        public async Task<StringBuilder> DiplomaPassedStudentRegisterReportHtml(DataSet ds)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            try
+            {
+                if (ds == null || ds.Tables.Count <= 1 || ds.Tables[1].Rows.Count == 0)
+                    return sb;
+
+                DataTable dt = ds.Tables[1];
+
+                sb.Append(@"
+<!DOCTYPE html>
+<html lang=""en"">
+<head>
+    <meta charset=""UTF-8"">
+    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+    <title>Register of Students Passed in Diploma</title>
+
+    <style>
+        @page {
+            size: A4 landscape;
+            margin: 0;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 297mm;
+            background: #fff;
+        }
+
+        body {
+            color: #000;
+            font-family: Arial, 'Noto Sans Devanagari', 'Mangal', sans-serif;
+            font-size: 11px;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        tr {
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        thead {
+            display: table-header-group;
+        }
+    </style>
+</head>
+
+<body style=""margin:0; padding:0; background:#fff; color:#000; font-family:Arial, 'Noto Sans Devanagari', 'Mangal', sans-serif; font-size:11px;"">
+");
+
+                // ============================================================
+                // GROUP DATA BY BRANCH
+                // ============================================================
+
+                var branchGroups = dt.AsEnumerable()
+                    .GroupBy(x => Convert.ToInt32(x["BranchID"]))
+                    .ToList();
+
+                for (int branchIndex = 0; branchIndex < branchGroups.Count; branchIndex++)
+                {
+                    var branchGroup = branchGroups[branchIndex];
+
+                    bool isFirstBranch = branchIndex == 0;
+                    bool isLastBranch = branchIndex == branchGroups.Count - 1;
+
+                    DataRow firstRow = branchGroup.First();
+
+                    string branchName =
+                        Convert.ToString(firstRow["BranchName"]);
+
+                    string courseDuration =
+                        Convert.ToString(firstRow["CourseDuration"]);
+
+                    string diplomaPrintDate =
+                        Convert.ToString(firstRow["DiplomaPrintDate"]);
+
+                    // ========================================================
+                    // PAGE BREAK
+                    // ========================================================
+
+                    string pageBreakBefore =
+                        isFirstBranch
+                            ? ""
+                            : "page-break-before:always; break-before:page;";
+
+                    sb.Append($@"
+<div style=""width:297mm; height:210mm; box-sizing:border-box; margin:0; padding:10mm 8mm 10mm 8mm; background:#fff; position:relative; {pageBreakBefore}"">
+");
+
+                    // ========================================================
+                    // MAIN HEADER - ONLY FIRST PAGE
+                    // ========================================================
+
+                    if (isFirstBranch)
+                    {
+                        sb.Append(@"
+<div style=""width:100%; text-align:center; margin-bottom:10px;"">
+    <div style=""font-size:20px; font-weight:normal; line-height:1.2; margin-bottom:10px;"">
+        Board of Technical Education Rajasthan, Jodhpur
+    </div>
+
+    <div style=""font-size:17px; font-weight:normal; line-height:1.3; margin-bottom:10px;"">
+        Register of Students passed in Diploma under Semester Scheme for the Session : MAY 2024
+    </div>
+</div>
+");
+                    }
+
+                    // ========================================================
+                    // INSTITUTE / DURATION / PROGRAM / DIPLOMA DATE
+                    // ========================================================
+
+                    sb.Append($@"
+<table style=""width:100%; border-collapse:collapse; margin:0 0 4px 0; font-size:13px; font-weight:bold;"">
+    <tr>
+        <td style=""width:55%; text-align:left; padding:1px 3px; vertical-align:top;"">
+            Institute : &nbsp; (009) Govt. Polytechnic College, Jodhpur
+        </td>
+
+        <td style=""width:45%; text-align:right; padding:1px 3px; vertical-align:top;"">
+            Duration of the course : &nbsp; {System.Net.WebUtility.HtmlEncode(courseDuration)} Years
+        </td>
+    </tr>
+
+    <tr>
+        <td style=""width:55%; text-align:left; padding:1px 3px; vertical-align:top;"">
+            Program : &nbsp; {System.Net.WebUtility.HtmlEncode(branchName)}
+        </td>
+
+        <td style=""width:45%; text-align:right; padding:1px 3px; vertical-align:top;"">
+            Diploma Print Date : &nbsp; {System.Net.WebUtility.HtmlEncode(diplomaPrintDate)}
+        </td>
+    </tr>
+</table>
+");
+
+                    // ========================================================
+                    // STUDENT TABLE
+                    // ========================================================
+
+                    sb.Append(@"
+<table style=""width:100%; border-collapse:collapse; table-layout:fixed; font-size:11px; margin:0;"">
+
+    <colgroup>
+        <col style=""width:3.8%;"">
+        <col style=""width:13%;"">
+        <col style=""width:17.5%;"">
+        <col style=""width:9.5%;"">
+        <col style=""width:9.5%;"">
+        <col style=""width:8.5%;"">
+        <col style=""width:6.5%;"">
+        <col style=""width:5.5%;"">
+        <col style=""width:7%;"">
+        <col style=""width:19.7%;"">
+    </colgroup>
+
+    <thead style=""display:table-header-group;"">
+
+        <tr>
+
+            <th style=""border:1px solid #000; padding:4px; text-align:left; vertical-align:middle; font-weight:bold;"">
+                S.No.
+            </th>
+
+            <th style=""border:1px solid #000; padding:4px; text-align:left; vertical-align:middle; font-weight:bold;"">
+                Roll No./ Enrollment
+            </th>
+
+            <th style=""border:1px solid #000; padding:4px; text-align:left; vertical-align:middle; font-weight:bold;"">
+                Name of Student<br>
+                Father's Name
+            </th>
+
+            <th style=""border:1px solid #000; padding:4px; text-align:left; vertical-align:middle; font-weight:bold;"">
+                Certificate No.
+            </th>
+
+            <th style=""border:1px solid #000; padding:4px; text-align:left; vertical-align:middle; font-weight:bold;"">
+                CGPA/Division
+            </th>
+
+            <th style=""border:1px solid #000; padding:4px; text-align:left; vertical-align:middle; font-weight:bold;"">
+                Result Decl.<br>
+                Date
+            </th>
+
+            <th style=""border:1px solid #000; padding:4px; text-align:left; vertical-align:middle; font-weight:bold;"">
+                Checked<br>
+                by
+            </th>
+
+            <th style=""border:1px solid #000; padding:4px; text-align:left; vertical-align:middle; font-weight:bold;"">
+                Section<br>
+                OIC
+            </th>
+
+            <th style=""border:1px solid #000; padding:4px; text-align:left; vertical-align:middle; font-weight:bold;"">
+                Initial of<br>
+                Registrar
+            </th>
+
+            <th style=""border:1px solid #000; padding:4px; text-align:left; vertical-align:middle; font-weight:bold;"">
+                Remark
+            </th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+");
+
+                    // ========================================================
+                    // STUDENT DATA
+                    // ========================================================
+
+                    int srNo = 1;
+
+                    foreach (DataRow row in branchGroup)
+                    {
+                        string enrollmentNo =
+                            Convert.ToString(row["EnrollmentNo"]);
+
+                        string rollNo =
+                            Convert.ToString(row["RollNo"]);
+
+                        string studentName =
+                            Convert.ToString(row["StudentName"]);
+
+                        string fatherName =
+                            Convert.ToString(row["FatherName"]);
+
+                        string certificateNo =
+                            Convert.ToString(row["TemporaryDiplomaCertificateNo"]);
+
+                        string cgpa =
+                            Convert.ToString(row["CGPA"]);
+
+                        string division =
+                            Convert.ToString(row["Division"]);
+
+                        string resultDate = "";
+
+                        if (row["ResultDeclareDate"] != DBNull.Value &&
+                            row["ResultDeclareDate"] != null)
+                        {
+                            resultDate =
+                                Convert.ToString(row["ResultDeclareDate"]);
+                        }
+
+                        sb.Append($@"
+<tr style=""page-break-inside:avoid; break-inside:avoid;"">
+
+    <td style=""border:1px solid #000; padding:3px 4px; vertical-align:top;"">
+        {srNo}
+    </td>
+
+    <td style=""border:1px solid #000; padding:3px 4px; vertical-align:top;"">
+
+        <div style=""line-height:1.25; white-space:nowrap;"">
+            {System.Net.WebUtility.HtmlEncode(rollNo)}
+        </div>
+
+        <div style=""line-height:1.25; white-space:nowrap;"">
+            {System.Net.WebUtility.HtmlEncode(enrollmentNo)}
+        </div>
+
+    </td>
+
+    <td style=""border:1px solid #000; padding:3px 4px; vertical-align:top;"">
+
+        <div style=""line-height:1.25; text-transform:uppercase;"">
+            {System.Net.WebUtility.HtmlEncode(studentName)}
+        </div>
+
+        <div style=""line-height:1.25; text-transform:uppercase;"">
+            {System.Net.WebUtility.HtmlEncode(fatherName)}
+        </div>
+
+    </td>
+
+    <td style=""border:1px solid #000; padding:3px 4px; vertical-align:top;"">
+        {System.Net.WebUtility.HtmlEncode(certificateNo)}
+    </td>
+
+    <td style=""border:1px solid #000; padding:3px 4px; vertical-align:top;"">
+
+        <div style=""line-height:1.25; margin-bottom:2px;"">
+            {System.Net.WebUtility.HtmlEncode(cgpa)}
+        </div>
+
+        <div style=""line-height:1.25;"">
+            {System.Net.WebUtility.HtmlEncode(division)}
+        </div>
+
+    </td>
+
+    <td style=""border:1px solid #000; padding:3px 4px; vertical-align:top;"">
+        {System.Net.WebUtility.HtmlEncode(resultDate)}
+    </td>
+
+    <td style=""border:1px solid #000; padding:3px 4px; vertical-align:top;"">
+    </td>
+
+    <td style=""border:1px solid #000; padding:3px 4px; vertical-align:top;"">
+    </td>
+
+    <td style=""border:1px solid #000; padding:3px 4px; vertical-align:top;"">
+    </td>
+
+    <td style=""border:1px solid #000; padding:3px 4px; vertical-align:top;"">
+    </td>
+
+</tr>
+");
+
+                        srNo++;
+                    }
+
+                    sb.Append(@"
+    </tbody>
+
+</table>
+");
+
+                    // ========================================================
+                    // FOOTER - LAST PAGE ONLY
+                    // ========================================================
+
+                    if (isLastBranch)
+                    {
+                        sb.Append(@"
+<div style=""position:absolute; left:8mm; right:8mm; bottom:5mm; font-size:11px;"">
+
+    <span style=""float:left;"">
+        Prepared by
+    </span>
+
+</div>
+");
+                    }
+
+                    sb.Append(@"
+</div>
+");
+                }
+
+                sb.Append(@"
+</body>
+</html>
+");
+
+                return await Task.FromResult(sb);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(
+                    "Error generating Diploma Passed Student Register Report HTML.",
+                    ex
+                );
+            }
+        }
+        #endregion
+
+        #region Diploma Passed Student Register Report
+        public async Task<StringBuilder> PendingDiplomaCertificateReportHtml(DataSet ds)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            try
+            {
+                DataTable headerTable = ds.Tables[0];
+                DataTable dt = ds.Tables[1];
+
+                string EndTermName = headerTable.Rows.Count > 0
+                    ? headerTable.Rows[0]["EndTermName"]?.ToString() ?? ""
+                    : "";
+
+                sb.Append(@"<!DOCTYPE html>
+<html lang=""en"">
+<head>
+    <meta charset=""UTF-8"">
+    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+  
+
+    <style>
+        @page {
+            size: A4 landscape;
+            margin: 10mm;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            background: #fff;
+            color: #000;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 14px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        tr {
+            page-break-inside: avoid;
+        }
+
+        td {
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+
+<body style=""margin:0; padding:0; background:#fff; color:#000; font-family:Arial, Helvetica, sans-serif; font-size:14px;"">
+
+<div style=""width:100%; margin:0; padding:0; box-sizing:border-box;"">
+");
+
+                // ============================================================
+                // MAIN HEADER - ONLY FIRST PAGE
+                // ============================================================
+
+                sb.Append(@"
+<div style=""text-align:center; padding-top:25px; margin-bottom:12px; page-break-after:avoid;"">
+
+    <div style=""font-size:28px; font-weight:normal; line-height:1.2;"">
+        Board of Technical Education Rajasthan, Jodhpur
+    </div>
+
+    <div style=""font-size:21px; font-weight:normal; line-height:1.4; margin-top:8px;"">
+        Pending Diploma Certificate Report for the Session : " + EndTermName + @"
+    </div>
+
+</div>
+");
+
+                // ============================================================
+                // ENGINEERING
+                // ============================================================
+
+                sb.Append(@"
+<div style=""font-size:16px; font-weight:bold; margin-bottom:5px; page-break-after:avoid;"">
+    Engineering
+</div>
+");
+
+                // ============================================================
+                // MAIN TABLE
+                // ============================================================
+
+                sb.Append(@"
+<table style=""width:100%; border-collapse:collapse; table-layout:fixed; font-size:14px; page-break-before:avoid;"">
+
+    <tr style=""font-weight:bold; text-align:left; vertical-align:middle;"">
+
+        <td rowspan=""2"" style=""width:4%; border:1px solid #000; padding:5px 4px;"">
+            S.No.
+        </td>
+
+        <td rowspan=""2"" style=""width:40%; border:1px solid #000; padding:5px 4px;"">
+            Programs
+        </td>
+
+        <td rowspan=""2"" style=""width:9%; border:1px solid #000; padding:5px 4px;"">
+            Total Student
+        </td>
+
+        <td rowspan=""2"" style=""width:15%; border:1px solid #000; padding:5px 4px;"">
+            Roll Number
+        </td>
+
+        <td colspan=""2"" style=""width:11%; border:1px solid #000; padding:5px 4px; text-align:center;"">
+            Certificate No.
+        </td>
+
+        <td rowspan=""2"" style=""width:8%; border:1px solid #000; padding:5px 4px;"">
+            Print Date
+        </td>
+
+        <td rowspan=""2"" style=""width:9%; border:1px solid #000; padding:5px 4px;"">
+            Prepared by
+        </td>
+
+        <td rowspan=""2"" style=""width:6%; border:1px solid #000; padding:5px 4px;"">
+            Remark
+        </td>
+
+    </tr>
+
+    <tr style=""font-weight:bold; text-align:center;"">
+
+        <td style=""width:5.5%; border:1px solid #000; padding:4px;"">
+            From
+        </td>
+
+        <td style=""width:5.5%; border:1px solid #000; padding:4px;"">
+            To
+        </td>
+
+    </tr>
+");
+
+                // ============================================================
+                // GROUP BY INSTITUTE
+                // ============================================================
+
+                var instituteGroups = dt.AsEnumerable()
+                    .GroupBy(row => row["instituteID"])
+                    .ToList();
+
+                int grandTotal = 0;
+
+                foreach (var instituteGroup in instituteGroups)
+                {
+                    DataRow firstRow = instituteGroup.First();
+
+                    string instituteID = Convert.ToString(firstRow["instituteID"]);
+                    string instituteName = Convert.ToString(firstRow["InstituteName"]);
+
+                    int instituteTotal = 0;
+
+                    // --------------------------------------------------------
+                    // INSTITUTE HEADER
+                    // --------------------------------------------------------
+
+                    sb.Append(@"
+    <tr style=""page-break-inside:avoid;"">
+
+        <td colspan=""9"" style=""border:1px solid #000; padding:5px 4px; font-size:14px;"">
+            <span style=""font-weight:bold;"">Institute :</span>
+            &nbsp;
+            " + instituteName + @"
+        </td>
+
+    </tr>
+");
+
+                    // --------------------------------------------------------
+                    // INSTITUTE BRANCH DATA
+                    // --------------------------------------------------------
+
+                    foreach (DataRow row in instituteGroup)
+                    {
+                        string srNo = Convert.ToString(row["SrNo"]);
+                        string branch = Convert.ToString(row["Branch"]);
+                        string rollNumber = Convert.ToString(row["RollNumber"]);
+                        string certificateNoFrom = Convert.ToString(row["CertificateNoFrom"]);
+                        string certificateNoTo = Convert.ToString(row["CertificateNoTo"]);
+                        string printDate = Convert.ToString(row["PrintDate"]);
+
+                        int totalStudent = 0;
+
+                        if (row["GrandTotal"] != DBNull.Value)
+                        {
+                            int.TryParse(
+                                Convert.ToString(row["GrandTotal"]),
+                                out totalStudent
+                            );
+                        }
+
+                        instituteTotal += totalStudent;
+                        grandTotal += totalStudent;
+
+                        sb.Append(@"
+    <tr style=""page-break-inside:avoid; vertical-align:middle;"">
+
+        <td style=""border:1px solid #000; padding:5px 4px;"">
+            " + srNo + @"
+        </td>
+
+        <td style=""border:1px solid #000; padding:5px 4px;"">
+            " + branch + @"
+        </td>
+
+        <td style=""border:1px solid #000; padding:5px 4px;"">
+            " + totalStudent + @"
+        </td>
+
+        <td style=""border:1px solid #000; padding:5px 4px; white-space:nowrap;"">
+            " + rollNumber + @"
+        </td>
+
+        <td style=""border:1px solid #000; padding:5px 4px;"">
+            " + certificateNoFrom + @"
+        </td>
+
+        <td style=""border:1px solid #000; padding:5px 4px;"">
+            " + certificateNoTo + @"
+        </td>
+
+        <td style=""border:1px solid #000; padding:5px 4px; white-space:nowrap;"">
+            " + printDate + @"
+        </td>
+
+        <td style=""border:1px solid #000; padding:5px 4px;"">
+            &nbsp;
+        </td>
+
+        <td style=""border:1px solid #000; padding:5px 4px;"">
+            &nbsp;
+        </td>
+
+    </tr>
+");
+                    }
+
+                    // --------------------------------------------------------
+                    // INSTITUTE TOTAL
+                    // --------------------------------------------------------
+
+                    sb.Append(@"
+    <tr style=""page-break-inside:avoid;"">
+
+        <td colspan=""2"" style=""border:1px solid #000; padding:5px 4px; text-align:right; font-weight:bold;"">
+            Total :
+        </td>
+
+        <td style=""border:1px solid #000; padding:5px 4px; font-weight:bold;"">
+            " + instituteTotal + @"
+        </td>
+
+        <td colspan=""6"" style=""border:1px solid #000; padding:5px 4px;"">
+            &nbsp;
+        </td>
+
+    </tr>
+");
+                }
+
+                // ============================================================
+                // GRAND TOTAL
+                // ============================================================
+
+                sb.Append(@"
+    <tr style=""page-break-inside:avoid;"">
+
+        <td colspan=""2"" style=""border:1px solid #000; padding:5px 4px; text-align:right; font-weight:bold;"">
+            Grand Total :
+        </td>
+
+        <td style=""border:1px solid #000; padding:5px 4px; font-weight:bold;"">
+            " + grandTotal + @"
+        </td>
+
+        <td colspan=""6"" style=""border:1px solid #000; padding:5px 4px;"">
+            &nbsp;
+        </td>
+
+    </tr>
+
+</table>
+");
+
+                // ============================================================
+                // PAGE FOOTER
+                // ============================================================
+
+                sb.Append(@"
+<div style=""
+    position:fixed;
+    bottom:8px;
+    left:10mm;
+    right:10mm;
+    text-align:right;
+    font-size:14px;
+"">
+    <span class=""page-number""></span>
+</div>
+");
+
+                sb.Append(@"
+</div>
+
+</body>
+</html>
+");
+
+                return sb;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(
+                    "Error generating Diploma Forwarding Letter HTML.",
+                    ex
+                );
+            }
+        }
+        #endregion
+    }
 }

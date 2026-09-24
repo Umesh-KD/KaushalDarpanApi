@@ -15,5 +15,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetAllMigrationCertificateData(CertificateSearchModel filterModel);
         Task<DataTable> GetAllProvisionalCertificateData(CertificateSearchModel filterModel);
         Task<DataSet> DownloadDiplomaForwardingLetter(DiplomaCertificateModel model);
+        Task<DataSet> DownloadDiplomaPassedStudentRegisterReport(DiplomaCertificateModel model);
+        Task<DataSet> DownloadPendingDiplomaCertificateReport(DiplomaCertificateModel model);
     }
 }
