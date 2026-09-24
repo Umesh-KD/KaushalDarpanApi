@@ -1099,6 +1099,46 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+
+        public async Task<DataTable> FowardReport(int PKID = 0,string Type="")
+        {
+            _actionName = "ApprenticeshipRegistrationRPTDelete_byID(ID)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0; DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+
+                        command.CommandText = "USP_forwarddataapprentship";
+                        command.CommandType = CommandType.StoredProcedure;
+         
+                        command.Parameters.AddWithValue("@PKID", PKID);
+                        command.Parameters.AddWithValue("@Type", Type);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
         public async Task<DataTable> Get_PassingRegistrationReportAllData(ApprenticeshipRegistrationSearchModal request)
         {
             _actionName = "Get_PassingRegistrationReportAllData(WorkshopProgressRPTSearchModal model)";
