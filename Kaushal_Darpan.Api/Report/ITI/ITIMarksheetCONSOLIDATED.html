@@ -37,7 +37,8 @@
 
                         <!-- Center: Main Heading -->
                         <td style="text-align: center; vertical-align: middle;">
-                            <h4 style="margin: 10px 0px 0px 0px; font-size: 17px; display: inline-block;">
+                            <h4 style="margin:4px 0px 0px 0px;font-size:14px">{#=MarksheetConsolidated.TopHeading1=#}</h4>
+                            <h4 style="margin: 2px 0px 2px 0px; font-size: 13px; display: inline-block;">
                                 {#=MarksheetConsolidated.Heading1=#}
                             </h4>
                         </td>
@@ -93,7 +94,7 @@
                     <tr>
                         <td style="font-size: 12px; width: 16.5%;"><b>Name</b></td>
                         <td style="font-size: 12px; width: 35%; border-bottom: 1px solid #808080"><span style="display:block;border-bottom:solid 1px #000;padding-bottom:3px">{#=MarksheetConsolidated.StudentName=#}</span></td>
-                        <td style="font-size: 12px; width: 15%; text-align: right; "><b>Registration/Roll No.</b></td>
+                        <td style="font-size: 12px; width: 15%; text-align: right; "><b>Enrollment/Roll No.</b></td>
                         <td style="font-size: 12px; width: 35%; border-bottom: 1px solid #808080"><span style="display:block;border-bottom:solid 1px #000;padding-bottom:3px">{#=MarksheetConsolidated.EnrollmentNo=#} / {#=MarksheetConsolidated.RollNo=#}</span></td>
                     </tr>
                     <tr>
@@ -208,14 +209,14 @@
                     </tr>
                     <tr>
                         <td style="font-size: 12px; ">
-                            <b>RESULT:</b> {#=MarksheetConsolidated.stResult=#}
+                            <b>Result: {#=MarksheetConsolidated.stResult=#}</b> 
                             <span style="  display:inline-block; color:#fff; ">---------- </span>
-                            <b>PERCENTAGE:</b>   {#=MarksheetConsolidated.Percentage=#}%
+                            <b>Percentage: {#=MarksheetConsolidated.Percentage=#}%</b>   
                         </td>
                     </tr>
                     <tr>
                         <td style="font-size: 12px; text-align: left;">
-                            <b>Result Declaration Date:</b> <span>{#=MarksheetConsolidated.ResultDeclarationDate=#}</span>
+                            <b>Result Declaration Date:  <span>{#=MarksheetConsolidated.ResultDeclarationDate=#}</span></b>
                             {#IF.MarksheetConsolidated.IsRevised=1#}
                             <br />
                             <b>Revised Date:</b> <span>{#=MarksheetConsolidated.RevisedDate=#}</span>
@@ -281,7 +282,7 @@
                 <table style="border-collapse: collapse; width: 100%; " border="0" cellpadding="5" cellspacing="0">
                     <tr>
                         <td width="30%" style="font-size: 12px; vertical-align: bottom; padding-left:120px" height="100" align="center">
-                            Signature of Principal<br />
+                            Signature and Seal of Principal<br />
                             {#=MarksheetConsolidated.SignatureOfPrincipal=#}
                         </td>
 
