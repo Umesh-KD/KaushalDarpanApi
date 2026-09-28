@@ -1631,6 +1631,207 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
+        #region  update seat data through Excel
+
+        [HttpPost("UpdateITISeatDataBulk"), DisableRequestSizeLimit]
+        public async Task<ApiResult<IActionResult>> UpdateITISeatDataBulk([FromForm] UploadFileModel model)
+        {
+            ActionName = "UpdateITISeatDataBulk([FromForm] UploadFileModel model)";
+            var result = new ApiResult<IActionResult>();
+
+            try
+            {
+                //  Validate file presence
+                if (model.file == null || model.file.Length == 0)
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = Constants.MSG_INVALID_REQUEST;
+                    return result;
+                }
+
+                //  Read the Excel file
+                using (var stream = model.file.OpenReadStream())
+                {
+
+                    System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                    StringWriter swSQL = new StringWriter(sb);
+
+                    System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+
+                    // Read Excel file into DataSet
+                    using (var reader = ExcelReaderFactory.CreateReader(stream))
+                    {
+                        var ds = reader.AsDataSet(new ExcelDataSetConfiguration()
+                        {
+                            ConfigureDataTable = (_) => new ExcelDataTableConfiguration()
+                            {
+                                UseHeaderRow = true // Treat first row as headers
+                            }
+                        });
+
+                        if (ds == null || ds.Tables.Count == 0)
+                        {
+                            result.State = EnumStatus.Error;
+                            result.Message = "No worksheets found in the Excel file.";
+                            return result;
+                        }
+
+                        DataTable dt = ds.Tables[0];
+
+                        foreach (DataColumn col in dt.Columns)
+                        {
+                            string trimmedName = col.ColumnName.Trim();
+                            if (col.ColumnName != trimmedName)
+                            {
+
+                                if (!dt.Columns.Contains(trimmedName))
+                                {
+                                    col.ColumnName = trimmedName;
+                                }
+                            }
+                        }
+
+
+                        var columnNames = dt.Columns.Cast<DataColumn>()
+                                            .Select(c => c.ColumnName.Trim())
+                                            .ToList();
+
+                        var dynamicDataList = dt.AsEnumerable().Select(row =>
+                        {
+                            var newRow = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+                            //foreach (var colName in columnNames)
+                            //{
+
+                            //    newRow[colName] = row[colName] == DBNull.Value ? null : row[colName];
+                            //}
+
+                            foreach (var colName in columnNames)
+                            {
+                                var cellValue = row[colName];
+
+                                if (cellValue == DBNull.Value)
+                                {
+                                    newRow[colName] = null;
+                                }
+                                else if (cellValue is double d)
+                                {
+                                    // If it’s actually an integer (like 1.0 → 1)
+                                    if (d % 1 == 0)
+                                        newRow[colName] = Convert.ToInt64(d); // or int if range safe
+                                    else
+                                        newRow[colName] = d; // keep decimal values like 10.5
+                                }
+                                else
+                                {
+                                    newRow[colName] = cellValue;
+                                }
+                            }
+                            return newRow;
+                        }).ToList();
+
+                        // -------------------------------------------------
+                        // Validate Excel rows
+                        // -------------------------------------------------
+
+                        if (dynamicDataList == null ||
+                            dynamicDataList.Count == 0)
+                        {
+                            result.State = EnumStatus.Error;
+                            result.Message =
+                                "No data found in the Excel file.";
+
+                            return result;
+                        }
+
+
+                        int totalrows = dynamicDataList.Count;
+
+                        //var chunk = dynamicDataList.Skip(processed).Take(chunksize).ToList();
+                        var updateResponse = await _unitOfWork.ITISeatIntakeMasterRepository.UpdateITISeatDataBulk(dynamicDataList);
+
+                        if (updateResponse.Success)
+                        {
+                            await _unitOfWork.SaveChangesAsync();
+
+                            result.State = EnumStatus.Success;
+                            result.Message =
+                                Constants.MSG_UPDATE_SUCCESS;
+
+                            // If ApiResult.Data is IActionResult
+                            result.Data = new OkObjectResult(new
+                            {
+                                message = Constants.MSG_UPDATE_SUCCESS
+                            });
+
+                            return result;
+                        }
+
+                        if (updateResponse.MissingData != null &&  updateResponse.MissingData.Rows.Count > 0)
+                        {
+                            result.State = EnumStatus.Error;
+                            result.Message =
+                                "Following Key_su records do not exist.";
+
+                            // Return DataTable directly through IActionResult
+                            result.Data = new OkObjectResult(new
+                            {
+                                message = "Following Key_su records do not exist.",
+                                missingData = updateResponse.MissingData
+                            });
+
+                            return result;
+                        }
+
+                        //intRowCounter++;
+                        //if (result.Data)
+                        //{
+                        //    processed += currentChunkSize;
+                        //    //processed += chunk.Count;
+                        //}
+                        //else
+                        //{
+                        //    allChunksSucceeded = false;
+                        //    break;
+                        //}
+                        //}
+
+
+
+                        //if (result.Data)
+                        //{
+                        //    result.State = EnumStatus.Success;
+                        //    result.Message = Constants.MSG_UPDATE_SUCCESS;
+                        //}
+                        //else
+                        //{
+                        //    result.State = EnumStatus.Error;
+                        //    result.Message = Constants.MSG_UPDATE_ERROR;
+
+                        //}
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                // Write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
+        }
+
+
+        #endregion
+
 
     }
 }
