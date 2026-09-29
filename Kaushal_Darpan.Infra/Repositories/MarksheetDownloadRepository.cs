@@ -287,6 +287,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@FinancialYearID", model.AcademicYearID);
                     command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                     command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEngID);
+                    command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     ds = await command.FillAsync();
