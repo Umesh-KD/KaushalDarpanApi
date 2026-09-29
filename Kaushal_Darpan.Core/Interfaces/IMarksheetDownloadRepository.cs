@@ -39,5 +39,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<string> SaveMigrationCertificateSRN(LeftOutStudentMigrationCertificateDataModel request);
         Task<int> AddUpdateMigrationCertificate(MigrationCertificateSaveDataModel request);
         Task<MigrationCertificateDownloadSearchModel> GetLeftOutStudentMigrationCertificateDetail(LeftOutStudentMigrationCertificateDataModel model);
+        Task<DataSet> GetStudentResultUFM_public(StudentResultSearchModel model);
     }
 }

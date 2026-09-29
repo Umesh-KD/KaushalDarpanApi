@@ -530,6 +530,43 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+        public async Task<DataSet> GetStudentResultUFM_public(StudentResultSearchModel model)
+        {
+            _actionName = "GetStudentResultUFM_public(StudentResultSearchModel model)";
+            try
+            {
+                var ds = new DataSet();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_Rpt_GetStudentResult_UFM";
+
+                    command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@RollNo", model.RollNo);
+                    command.Parameters.AddWithValue("@DOB", model.DOB);
+                    command.Parameters.AddWithValue("@ResultTypeID", model.ResultType);
+                    command.Parameters.AddWithValue("@HasBulk", model.HasBulk);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    ds = await command.FillAsync();
+                }
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
         public async Task<int> AddUpdateMarksheet(MarksheetSaveDataModel request)
         {
             _actionName = "AddUpdateMarksheet(MarksheetSaveDataModel request)";
