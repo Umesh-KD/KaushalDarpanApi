@@ -337,6 +337,9 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public string? ProbationCompletionDate { get; set; }
         public string? WhatsAppNumber { get; set; }
         public string? Email { get; set; }
+        public string? SalaryDrawnPost { get; set; }
+        public string? BudgetHead { get; set; }
+        public string? SalaryDrawnBranch { get; set; }
 
         // Service History
         public List<BTER_EM_AddServiceHistoryDataModel> ServiceHistoryList { get; set; }

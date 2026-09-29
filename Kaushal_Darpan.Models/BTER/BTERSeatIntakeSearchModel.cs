@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -69,5 +70,14 @@ namespace Kaushal_Darpan.Models.ITI_SeatIntakeMaster
         public string? Action { get; set; }
         public int EndTermId { get; set; } = 0;
     }
+    public class ITISeatBulkUpdateResponse
+    {
+        public int Result { get; set; }
+
+        public string Message { get; set; }
+
+        public DataTable MissingData { get; set; }
+    }
+
 }
 //
