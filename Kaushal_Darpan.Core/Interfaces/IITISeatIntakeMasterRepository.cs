@@ -58,5 +58,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> ChangeSchemeType(SeatIntakeChangeStatusModel request);
         Task<DataTable> GetActiveSeatIntakeAdmission(BTERSeatIntakeSearchModel request);
 
+        Task<(bool Success, DataTable MissingData)> UpdateITISeatDataBulk(List<Dictionary<string, object>> model);
+
     }
 }

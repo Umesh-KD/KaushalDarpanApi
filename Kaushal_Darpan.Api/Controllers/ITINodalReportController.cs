@@ -1242,6 +1242,47 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
+
+        [HttpPost("FowardReport/{PKid}/{Type}")]
+        public async Task<ApiResult<DataTable>> FowardReport(int PKid = 0,string Type="")
+        {
+
+            ActionName = "ApprenticeshipRegistrationRPTDelete_byID()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await _unitOfWork.ITINodalReportRepository.FowardReport(PKid, Type);
+                await _unitOfWork.SaveChangesAsync();
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
         #endregion
 
     }

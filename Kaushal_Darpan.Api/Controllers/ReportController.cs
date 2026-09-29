@@ -10645,6 +10645,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                         System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
                         data.Tables[0].TableName = "StateTradeCertificate";
+                        data.Tables[1].TableName = "StateTradeCertificate_Headings";
 
                         data.Tables[0].Rows[0]["logo"] = $"{ConfigurationHelper.StaticFileRootPath}/NE-100.png";
                         data.Tables[0].Rows[0]["signlogo"] = $"{ConfigurationHelper.StaticFileRootPath}/" + data.Tables[0].Rows[0]["signlogo"];

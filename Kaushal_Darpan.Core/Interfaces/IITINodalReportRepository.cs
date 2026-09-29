@@ -42,6 +42,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> Get_FresherRegistrationReportAllData(ApprenticeshipRegistrationSearchModal body);
 
         Task<DataTable> ApprenticeshipRegistrationRPTDelete_byID(int PKID);
+        Task<DataTable> FowardReport(int PKID,string Type);
         Task<int> PassoutRegistrationRPTDelete_byID(int PKID);
         Task<int> FresherRegistrationRPTDelete_byID(int PKID);
 
