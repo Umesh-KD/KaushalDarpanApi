@@ -228,6 +228,10 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
                     result.Data = await Task.Run(() => _unitOfWork.MarksheetDownloadRepository.GetStudentResultReval_public(model));
                 }
+                else if (model.ResultType == (int)EnumResultType.Ufm)
+                {
+                    result.Data = await Task.Run(() => _unitOfWork.MarksheetDownloadRepository.GetStudentResultUFM_public(model));
+                }
                 else
                 {
                     result.State = EnumStatus.Warning;
