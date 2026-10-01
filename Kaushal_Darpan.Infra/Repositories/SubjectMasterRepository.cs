@@ -183,8 +183,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                         command.Parameters.AddWithValue("@ActiveStatus", request.ActiveStatus);
 
-
-                        command.Parameters.AddWithValue("@CreatedBy", request.ModifyBy);
+                        command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
                         command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
                         command.Parameters.AddWithValue("@Credits", request.SubjectCredits);
                         command.Parameters.AddWithValue("@EndTermID", request.EndTermID);
