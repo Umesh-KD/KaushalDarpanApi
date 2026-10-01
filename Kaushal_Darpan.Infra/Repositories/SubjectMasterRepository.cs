@@ -40,6 +40,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_SubjectMasterList";
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                         command.Parameters.AddWithValue("@CourseType", model.CourseType);
+                        command.Parameters.AddWithValue("@BranchID", model.BranchID);
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -60,6 +63,46 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+        public async Task<DataTable> GetParentSubjectList(SubjectSearchModel model)
+        {
+            _actionName = "GetParentSubjectList()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_SubjectMasterList";
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@CourseType", model.CourseType);
+                        command.Parameters.AddWithValue("@BranchID", model.BranchID);
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
+                        command.Parameters.AddWithValue("@Action", "_getParentSubjectList");
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
         public async Task<SubjectMaster> GetById(int PK_ID, int DepartmentID)
         {
             _actionName = "GetById(int PK_ID)";
@@ -145,6 +188,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
                         command.Parameters.AddWithValue("@Credits", request.SubjectCredits);
                         command.Parameters.AddWithValue("@EndTermID", request.EndTermID);
+
+                        command.Parameters.AddWithValue("@IsElective", request.IsElective);
+                        command.Parameters.AddWithValue("@SchemeID", request.SchemeID);
+                        //command.Parameters.AddWithValue("@ParentSubjectID", request.ParentSubjectID);
                  
 
 
