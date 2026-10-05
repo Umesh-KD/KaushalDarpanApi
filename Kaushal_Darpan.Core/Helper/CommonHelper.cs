@@ -307,6 +307,8 @@ namespace Kaushal_Darpan.Core.Helper
         public int? ChunkSize { get; set; }
         public string? FileName { get; set; }
 
+        public int? Active { get; set; }
+
     }
     public class UploadBTERFileModel
     {
