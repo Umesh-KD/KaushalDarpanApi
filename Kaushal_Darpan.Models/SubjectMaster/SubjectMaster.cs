@@ -41,6 +41,11 @@ namespace Kaushal_Darpan.Models.SubjectMaster
         public decimal SubjectCredits { get; set; }
 
 
+        public bool? IsElective { get; set; }
+        public int? SchemeID { get; set; }
+        //public int? ParentSubjectID { get; set; }
+
+
     }
 
     public class SubjectSearchModel
@@ -50,6 +55,7 @@ namespace Kaushal_Darpan.Models.SubjectMaster
         public int DepartmentID { get; set; }
         public int SubjectID { get; set; }
         public int  CourseType{get; set;}
+        public int? SchemeID { get; set;}
     }
     public class ParentSubjectMap
     {
