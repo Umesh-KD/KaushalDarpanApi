@@ -1401,7 +1401,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         #region update seat data through excel dynamically
 
-        public async Task<(bool Success, DataTable MissingData)> UpdateITISeatDataBulk(List<Dictionary<string, object>> model)
+        public async Task<(bool Success, DataTable MissingData)> UpdateITISeatDataBulk(List<Dictionary<string, object>> model,int Active=0)
         {
             _actionName = "UpdateITISeatDataBulk(TimeTableModel model)";
             return await Task.Run(async () =>
@@ -1416,19 +1416,15 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_UpdateITISeatDataBulk";
                         command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
-                        //command.Parameters.AddWithValue("@action", action);
-                        //command.Parameters.AddWithValue("@rowcount", rowcount);
+                        command.Parameters.AddWithValue("@Active", Active);
+                     
 
                         command.Parameters.Add("@Retval", SqlDbType.Int); // out
                         command.Parameters["@Retval"].Direction = ParameterDirection.Output; // out
 
 
                         _sqlQuery = command.GetSqlExecutableQuery();
-                        // Execute the command
-                        //result = await command.ExecuteNonQueryAsync();
-                        //result = Convert.ToInt32(command.Parameters["@Retval"].Value); // out
-                                                                                       //_sqlQuery = command.GetSqlExecutableQuery();
-                                                                                       //dataTable = await command.FillAsync_DataTable()
+                       
                               
                           // Get SELECT result from SP
                         dataTable = await command.FillAsync_DataTable();
@@ -1437,35 +1433,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                         result = Convert.ToInt32(
                             command.Parameters["@Retval"].Value
                         );
-                        // ExecuteReader because SP may return missing records
-                        //using (var reader = await command.ExecuteReaderAsync())
-                        //{
-                        //    DataTable dataTable = new DataTable();
-
-                        //    // If SP returned rows, load them into DataTable
-                        //    if (reader.HasRows)
-                        //    {
-                        //        dataTable.Load(reader);
-                        //    }
-
-                        //    response.MissingData = dataTable;
-                        //}
-
-                        // Get output parameter AFTER reader is closed
-                        //response.Result =
-                        //    command.Parameters["@Retval"].Value == DBNull.Value
-                        //        ? 0
-                        //        : Convert.ToInt32(command.Parameters["@Retval"].Value);
-                    
+                        
 
                 }
                     return (result == 1, dataTable);
-                    //var data = new List<UpdateEnrollResponseBulkExcelModel>();
-                    //if (dataTable != null)
-                    //{
-                    //    data = CommonFuncationHelper.ConvertDataTable<List<UpdateEnrollResponseBulkExcelModel>>(dataTable);
-                    //}
-                    //return data;
+                   
                 }
                 catch (Exception ex)
                 {
