@@ -89,8 +89,10 @@ namespace Kaushal_Darpan.Models.ITI_SeatIntakeMaster
     {
         public int SanctionID   { get; set; }
         public int ParentID { get; set; }
+        public int ID { get; set; }
 
         public string? Name { get; set; }
+        public string? Action { get; set; }
 
        
         public int DepartmentID { get; set; }

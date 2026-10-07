@@ -31,6 +31,7 @@ namespace Kaushal_Darpan.Models.CompanyMaster
         public int? FeeForID { get; set; }
         public int? UserID { get; set; }
         public int? StudentID { get; set; }
+        public int? InstituteID { get; set; }
 
     }
     
@@ -44,6 +45,19 @@ namespace Kaushal_Darpan.Models.CompanyMaster
         
 
     }
+
+    public class TranferQueryModel
+    {
+
+        public int GrivienceID { get; set; }
+        public int ModifyBy { get; set; }
+
+        public string? TransferRemarks { get; set; }
+
+
+
+    }
+
 
 
     public class GrivienceSearchModel

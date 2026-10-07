@@ -128,6 +128,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@CategoryName", request.CategoryName);
                     command.Parameters.AddWithValue("@UserID", request.UserID);
                     command.Parameters.AddWithValue("@StudentID", request.StudentID);
+                    command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
 
                     //command.Parameters.Add("@Return", SqlDbType.Int); // out
                     //command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
@@ -352,7 +353,48 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+        public async Task<int> TransferGrievance(TranferQueryModel request)
+        {
+            _actionName = "SaveReopenData(GrivienceReopenModelsDataModel request)";
+            try
+            {
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
+                {
+                    // Set the stored procedure name and type
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GrivienceResponse_IU";
 
+
+                    command.Parameters.AddWithValue("@Action", "Transfer");
+                    command.Parameters.AddWithValue("@GrivienceID", request.GrivienceID);
+                    command.Parameters.AddWithValue("@Remark", request.TransferRemarks);
+           
+
+                    //command.Parameters.Add("@Return", SqlDbType.Int); // out
+                    //command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+
+                    // Execute the command
+                    result = await command.ExecuteNonQueryAsync();
+                    // result = Convert.ToInt32(command.Parameters["@Return"].Value); // out
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
         public async Task<DataTable> GetGrievanceCommonDDL(GrievanceCommonDropdownDataModel body)
         {
             _actionName = "GetGrievanceCommonDDL(GrievanceCommonDropdownDataModel body)";
