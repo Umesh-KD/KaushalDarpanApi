@@ -580,7 +580,8 @@ namespace Kaushal_Darpan.Core.Helper
         Reg = 1322,
         Ex = 1323,
         NotFormFilled = 1324,
-        Detained = 1330
+        Detained = 1330,
+        ExFormNotFilled = 1338
     }
 
     public enum SessionType
