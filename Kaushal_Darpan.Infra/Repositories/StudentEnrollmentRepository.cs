@@ -1482,6 +1482,41 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+        public async Task<DataSet> GetOptionalSubjectsByStudentID_enr(Int32 StudentID, Int32 DepartmentID, Int32 SemesterID)
+        {
+            _actionName = "GetOptionalSubjectsByStudentID_enr(Int32 StudentID, Int32 DepartmentID)";
+            try
+            {
+                DataSet dataSet = new DataSet();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_OptionalSubjectMaster";
+
+                    command.Parameters.AddWithValue("@Action", "OptionalSubject_Enrollment");
+                    command.Parameters.AddWithValue("@StudentID", StudentID);
+                    command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
+                    command.Parameters.AddWithValue("@SemesterID", SemesterID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataSet = await command.FillAsync();
+                }
+                return dataSet;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
     }
 }
 
