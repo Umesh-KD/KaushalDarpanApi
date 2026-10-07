@@ -922,5 +922,43 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+
+        [HttpGet("GetOptionalSubjectsByStudentID_enr/{StudentID}/{DepartmentID}/{SemesterID}")]
+        public async Task<ApiResult<DataSet>> GetOptionalSubjectsByStudentID(Int32 StudentID, Int32 DepartmentID, Int32 SemesterID)
+        {
+            ActionName = "GetOptionalSubjectsByStudentID(Int32 StudentID, Int32 DepartmentID)";
+            var result = new ApiResult<DataSet>();
+            try
+            {
+                var data = await Task.Run(() => _unitOfWork.StudentEnrollmentRepository.GetOptionalSubjectsByStudentID_enr(StudentID, DepartmentID, SemesterID));
+                if (data?.Tables?.Count == 2)
+                {
+                    result.Data = data;
+                    result.State = EnumStatus.Success;
+                    result.Message = "Data load successfully .!";
+
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = "No record found.!";
+                }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
     }
 }

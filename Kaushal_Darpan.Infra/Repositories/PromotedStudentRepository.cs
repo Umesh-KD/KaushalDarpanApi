@@ -561,6 +561,76 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+        public async Task<List<PrometedStudentMasterModel>> GetExamStudentForPromotion(PromotedStudentSearchModel model)
+        {
+            _actionName = "GetExamStudentForPromotion(PromotedStudentSearchModel model)";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    List<PrometedStudentMasterModel> data = new List<PrometedStudentMasterModel>();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_SetEligibleForPromoteStudentData_select";
+
+                        if (model.PromoteStatusID == (int)PromoteStatus.Reg)
+                        {
+                            command.Parameters.AddWithValue("@action", "_setEligibleForPromoteStudentData");
+                        }
+                        else if (model.PromoteStatusID == (int)PromoteStatus.Ex)
+                        {
+                            command.Parameters.AddWithValue("@action", "_setEligibleForPromote_ExStudentData");
+                        }
+                        else if (model.PromoteStatusID == (int)PromoteStatus.NotFormFilled)
+                        {
+                            command.Parameters.AddWithValue("@action", "_setEligibleForPromote_ExStudentData");
+                        }
+                        else if (model.PromoteStatusID == (int)PromoteStatus.Detained)
+                        {
+                            command.Parameters.AddWithValue("@action", "_setEligibleForPromote_ExStudentData");
+                        }
+                        else if (model.PromoteStatusID == (int)PromoteStatus.ExFormNotFilled)
+                        {
+                            command.Parameters.AddWithValue("@action", "_setEligibleForPromote_ExStudentData");
+                        }
+                        else
+                        {
+                            throw new Exception("invalid use of sp!");
+                        }
+                        //parameter
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@StreamID", model.StreamID);
+                        command.Parameters.AddWithValue("@IsBridge", model.IsBridge);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        var dt = await command.FillAsync_DataTable();
+                        if (dt != null)
+                        {
+                            data = CommonFuncationHelper.ConvertDataTable<List<PrometedStudentMasterModel>>(dt);
+                        }
+                    }
+                    return data;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
     }
 }
 

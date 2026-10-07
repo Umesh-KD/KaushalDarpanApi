@@ -146,7 +146,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     var data = await _unitOfWork.ITISeatIntakeMasterRepository.GetAllDataMasterList(request);
                     if (data != null)
                     {
-                       
+
                         result.Data = data;
                         result.State = EnumStatus.Success;
                         result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
@@ -1350,7 +1350,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 result.State = EnumStatus.Success;
                 result.Message = "Data load successfully .!";
-                if (body.Action=="ActiveCollegeTrade")
+                if (body.Action == "ActiveCollegeTrade")
                 {
                     await _unitOfWork.SaveChangesAsync();
                 }
@@ -1363,7 +1363,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 // write error log
                 var nex = new NewException
                 {
-                    PageName = PageName,    
+                    PageName = PageName,
                     ActionName = ActionName,
                     Ex = ex,
                 };
@@ -1481,56 +1481,56 @@ namespace Kaushal_Darpan.Api.Controllers
             ActionName = "ChangeStatusSeatIntake([FromBody] SeatIntakeChangeStatusModel request)";
             //return await Task.Run(async () =>
             //{
-                var result = new ApiResult<int>();
-                try
+            var result = new ApiResult<int>();
+            try
+            {
+                result.Data = await _unitOfWork.ITISeatIntakeMasterRepository.ChangeStatusSeatIntake(request);
+                await _unitOfWork.SaveChangesAsync();
+                if (result.Data > 0)
                 {
-                    result.Data = await _unitOfWork.ITISeatIntakeMasterRepository.ChangeStatusSeatIntake(request);
-                    await _unitOfWork.SaveChangesAsync();
-                    if (result.Data > 0)
+                    result.State = EnumStatus.Success;
+                    if (request.SeatIntakeID == 0)
                     {
-                        result.State = EnumStatus.Success;
-                        if (request.SeatIntakeID == 0)
-                        {
-                            result.Message = Constants.MSG_SAVE_SUCCESS;
-                        }
-                        else
-                        {
-                            result.Message = Constants.MSG_UPDATE_SUCCESS;
-                        }
-                    }
-                    else if (result.Data == -2)
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
                     }
                     else
                     {
-                        result.State = EnumStatus.Error;
-                        if (request.SeatIntakeID == 0)
-                        {
-                            result.ErrorMessage = Constants.MSG_ADD_ERROR;
-                        }
-                        else
-                        {
-                            result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
-                        }
+                        result.Message = Constants.MSG_UPDATE_SUCCESS;
                     }
                 }
-                catch (System.Exception ex)
+                else if (result.Data == -2)
                 {
-                    await _unitOfWork.DisposeAsync();
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
-                    // write error log
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Warning;
+                    result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
                 }
-                return result;
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    if (request.SeatIntakeID == 0)
+                    {
+                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                    }
+                    else
+                    {
+                        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                    }
+                }
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
             //});
         }
 
@@ -1645,7 +1645,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 if (model.file == null || model.file.Length == 0)
                 {
                     result.State = EnumStatus.Error;
-                    result.ErrorMessage = Constants.MSG_INVALID_REQUEST;
+                    result.ErrorMessage = "Please Upload File";
                     return result;
                 }
 
@@ -1691,10 +1691,32 @@ namespace Kaushal_Darpan.Api.Controllers
                             }
                         }
 
-
+                        //validations
+                        string[] requiredHeaders =
+       {
+            "Key_su",
+            "Remark"
+        };
+                        //columnNames
                         var columnNames = dt.Columns.Cast<DataColumn>()
                                             .Select(c => c.ColumnName.Trim())
                                             .ToList();
+
+
+
+                        var missingHeaders = requiredHeaders
+         .Where(x => !columnNames.Contains(x, StringComparer.OrdinalIgnoreCase))
+         .ToList();
+
+                        if (missingHeaders.Any())
+                        {
+                            result.State = EnumStatus.Error;
+                            result.Message =
+                                "Header Is Missing Key_su,Remark";
+
+                            return result;
+                        }
+
 
                         var dynamicDataList = dt.AsEnumerable().Select(row =>
                         {
@@ -1747,7 +1769,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         int totalrows = dynamicDataList.Count;
 
                         //var chunk = dynamicDataList.Skip(processed).Take(chunksize).ToList();
-                        var updateResponse = await _unitOfWork.ITISeatIntakeMasterRepository.UpdateITISeatDataBulk(dynamicDataList);
+                        var updateResponse = await _unitOfWork.ITISeatIntakeMasterRepository.UpdateITISeatDataBulk(dynamicDataList, model.Active??1);
 
                         if (updateResponse.Success)
                         {
@@ -1766,7 +1788,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             return result;
                         }
 
-                        if (updateResponse.MissingData != null &&  updateResponse.MissingData.Rows.Count > 0)
+                        if (updateResponse.MissingData != null && updateResponse.MissingData.Rows.Count > 0)
                         {
                             result.State = EnumStatus.Error;
                             result.Message =

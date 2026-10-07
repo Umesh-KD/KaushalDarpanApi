@@ -253,4 +253,12 @@ namespace Kaushal_Darpan.Models.ItiCompanyMaster
         public int CreatedBy { get; set; }
         public int? UpdatedBy { get; set; }
     }
+
+
+    public class RoleMappingModel
+    {
+        public int MappingID { get; set; }
+        public List<int> RoleIDs { get; set; } = new();
+        public int ModifyBy { get; set; }
+    }
 }

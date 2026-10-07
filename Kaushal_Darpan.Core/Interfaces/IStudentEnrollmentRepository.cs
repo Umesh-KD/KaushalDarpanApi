@@ -39,5 +39,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetEnrolledStudent_ReturnbyExamIncharge(EnrolledPromotedStudentModel model);
         Task<DataTable> GetPreExamStudentReport(PreExamStudentModel model);
         Task<DataTable> GetRejectAtBter_StudentDetails_Enrollment(RejectAtBterStudentDataModel model);
+        Task<DataSet> GetOptionalSubjectsByStudentID_enr(Int32 StudentID, Int32 DepartmentID, Int32 SemesterID);
     }
 }

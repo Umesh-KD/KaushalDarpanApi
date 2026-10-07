@@ -597,5 +597,40 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+
+        [HttpPost("GetExamStudentForPromotion")]
+        public async Task<ApiResult<List<PrometedStudentMasterModel>>> GetExamStudentForPromotion(PromotedStudentSearchModel model)
+        {
+            ActionName = "GetExamStudentForPromotion(PromotedStudentSearchModel model)";
+            var result = new ApiResult<List<PrometedStudentMasterModel>>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.PromotedStudentRepository.GetExamStudentForPromotion(model));
+                result.State = EnumStatus.Success;
+                if (result.Data.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
     }
 }

@@ -309,6 +309,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.CommandText = "USP_UserMasterDeleteById";
 
                     command.Parameters.AddWithValue("@UserAdditionID", request.UserAdditionID);
+                    command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                    command.Parameters.AddWithValue("@IPAddress", _IPAddress);
 
                     command.Parameters.Add("@Ret_Val", SqlDbType.Int); // out
                     command.Parameters["@Ret_Val"].Direction = ParameterDirection.Output;// out

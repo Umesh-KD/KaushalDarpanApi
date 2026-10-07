@@ -77,7 +77,41 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_SanctionDetailsList";
-                        command.Parameters.AddWithValue("@action","GetallData");
+                        command.Parameters.AddWithValue("@action", "GetallData");
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
+        public async Task<DataTable> GetAllDepartmentMapping()
+        {
+            _actionName = "GetAllData()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ModuleDepartmentMapping";
+                        command.Parameters.AddWithValue("@action", "GetallData");
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -203,7 +237,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         result = await command.ExecuteNonQueryAsync();
                     }
                     if (result > 0)
-                        return true;    
+                        return true;
                     else
                         return false;
                 }
@@ -266,7 +300,48 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<int> SaveGrevianceModule(SanctionOrderMasterModel request)
+        {
 
+            _actionName = "SaveDataSanction(SanctionOrderMasterModel request)";
+            try
+            {
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_ModuleDepartmentMapping";
+                    command.Parameters.AddWithValue("@ID", request.ID);
+                    command.Parameters.AddWithValue("@Name", request.Name);
+                    command.Parameters.AddWithValue("@ActiveStatus", request.ActiveStatus);
+                    command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                    command.Parameters.AddWithValue("@ParentID", request.ParentID);
+                    command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
+                    command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                    command.Parameters.AddWithValue("@action", request.Action);
+                    command.Parameters.Add("@Return", SqlDbType.Int);
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output;
+                    _sqlQuery = command.GetSqlExecutableQuery();// sql query
+                    result = await command.ExecuteNonQueryAsync();
+                    result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                }
+                return result;
+            }
+
+
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
         public async Task<int> SaveSanctionOrder(OrderDetailsList request)
         {
             _actionName = "SaveDataSanction(SanctionOrderMasterModel request)";
@@ -411,7 +486,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ID", request.ID);
 
                         result = await command.ExecuteNonQueryAsync();
-                
+
                     }
                     if (result > 0)
                         return true;
@@ -474,7 +549,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         {
             _actionName = "GetAllData()";
             try
-            {              
+            {
                 return await Task.Run(async () =>
                 {
                     DataTable dataTable = new DataTable();
@@ -507,6 +582,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+
+
 
 
         public async Task<DataTable> GetOrderDetailsList_ByDate(OrderDetailsList body)
@@ -558,7 +636,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_SanctionOrderList";
-                         command.Parameters.AddWithValue("@OrderType", body.OrderType);
+                        command.Parameters.AddWithValue("@OrderType", body.OrderType);
                         command.Parameters.AddWithValue("@OrderNo", body.OrderNo);
                         command.Parameters.AddWithValue("@OrderDate", body.OrderDate);
                         command.Parameters.AddWithValue("@SanctionID", body.SanctionID);
@@ -599,7 +677,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_SanctionOrderList";
                         command.Parameters.AddWithValue("@action", "GetByID");
-                        command.Parameters.AddWithValue("@SanctionID",PK_ID);
+                        command.Parameters.AddWithValue("@SanctionID", PK_ID);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -789,5 +867,42 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
         #endregion
+    
+
+
+    public async Task<int> SaveGrevianceRoleMapping(RoleMappingModel request)
+        {
+            _actionName = "SaveGrevianceRoleMapping(RoleMappingModel request)";
+            try
+            {
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_ModuleDepartmentMapping";
+                        command.Parameters.AddWithValue("@action", "SaveRoles");
+                    command.Parameters.AddWithValue("@MappingID", request.MappingID);
+                    command.Parameters.AddWithValue("@RoleIDs", string.Join(",", request.RoleIDs ?? new List<int>()));
+
+                    command.Parameters.Add("@Return", SqlDbType.Int).Direction = ParameterDirection.Output;
+                    _sqlQuery = command.GetSqlExecutableQuery();
+
+                    await command.ExecuteNonQueryAsync();
+                    result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                throw new Exception(CommonFuncationHelper.MakeError(errorDesc), ex);
+            }
+        }
     }
-}
+    }

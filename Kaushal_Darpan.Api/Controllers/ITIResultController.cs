@@ -200,7 +200,8 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
 
 
-                    var data = await _unitOfWork.ITIResultRepository.GetCFormReport(request);
+                    //var data = await _unitOfWork.ITIResultRepository.GetCFormReport(request);
+                    var data = result.Data;
                     if (data?.Tables?.Count > 0 && data.Tables[0].Rows.Count > 0)
                     {
 
