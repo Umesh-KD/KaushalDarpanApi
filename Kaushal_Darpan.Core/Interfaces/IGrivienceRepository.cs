@@ -10,6 +10,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<GrivienceModelsDataModel> GetById(int ID);
         Task<int> SaveData(GrivienceModelsDataModel productDetails);
         Task<int> SaveReopenData(GrivienceReopenModelsDataModel request);       
+        Task<int> TransferGrievance(TranferQueryModel request);       
         Task<bool> DeleteDataByID(GrivienceSearchModel productDetails);
         Task<int> GrivienceResponseSaveData(GrivienceResponseDataModel model);
         Task<GrivienceResponseDataModel> GetGrivienceResponseById(int ID);

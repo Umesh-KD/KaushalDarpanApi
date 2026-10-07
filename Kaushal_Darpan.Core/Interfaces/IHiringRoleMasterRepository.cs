@@ -18,11 +18,13 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetOrderDetailsList_ByDate(OrderDetailsList body);
         Task<DataTable> GetsanctionOrderNotAssign(OrderDetailsList body);
         Task<DataTable> GetAllSanction();
+        Task<DataTable> GetAllDepartmentMapping();
         Task<HiringRoleMasterModel> GetById(int PK_ID);
         Task<SanctionOrderMasterModel> GetByIDSanction(int PK_ID);
         Task<OrderDetailsList> GetByIDSanctionOrder(int PK_ID);
         Task<bool> SaveData(HiringRoleMasterModel productDetails);
         Task<bool> SaveDataSanction(SanctionOrderMasterModel productDetails);
+        Task<int> SaveGrevianceModule(SanctionOrderMasterModel productDetails);
         Task<int> SaveSanctionOrder(OrderDetailsList productDetails);
         Task<bool> UpdateData(HiringRoleMasterModel productDetails);
         Task<bool> DeleteDataByID(HiringRoleMasterModel productDetails);
@@ -33,5 +35,9 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<AnnouncementTypeMasterModel> GetAnnouncementTypeByID(int id);
         Task<bool> SaveAnnouncementType(AnnouncementTypeMasterModel request);
         Task<bool> DeleteAnnouncementTypeByID(AnnouncementTypeMasterModel request);
+        Task<int> SaveGrevianceRoleMapping(RoleMappingModel request);
+
+
+
     }
 }

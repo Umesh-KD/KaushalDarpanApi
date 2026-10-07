@@ -101,6 +101,45 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
+
+        [HttpGet("GetAllDepartmentMapping")]
+        public async Task<ApiResult<DataTable>> GetAllDepartmentMapping()
+        {
+            ActionName = "GetAllData()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.HiringRoleMasterRepository.GetAllDepartmentMapping());
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+
+
         [HttpGet("GetByID/{PK_ID}")]
         public async Task<ApiResult<HiringRoleMasterModel>> GetByID(int PK_ID)
         {
@@ -288,6 +327,57 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+        [HttpPost("SaveGrevianceModule")]
+        public async Task<ApiResult<int>> SaveGrevianceModule([FromBody] SanctionOrderMasterModel request)
+        {
+            ActionName = "SaveGrevianceModule([FromBody] SanctionOrderMasterModel request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+                    result.Data = await _unitOfWork.HiringRoleMasterRepository.SaveGrevianceModule(request);
+                    await _unitOfWork.SaveChangesAsync();
+
+                    switch (result.Data)
+                    {
+                        case 1:
+                            result.State = EnumStatus.Success;
+                            result.Message = "Module saved and mapped successfully.!";
+                            break;
+                        case 2:
+                            result.State = EnumStatus.Warning;   // use EnumStatus.Error if you have no Warning
+                            result.ErrorMessage = "This module is already mapped to the selected department.!";
+                            break;
+                        case 3:
+                            result.State = EnumStatus.Error;
+                            result.ErrorMessage = "Please select a department and enter the module name.!";
+                            break;
+                        default:
+                            result.State = EnumStatus.Error;
+                            result.ErrorMessage = "There was an error saving data.!";
+                            break;
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+
 
         [HttpPost("SaveSanctionOrder")]
         public async Task<ApiResult<int>> SaveSanctionOrder([FromBody] OrderDetailsList request)
@@ -317,7 +407,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         else
                             result.Message = "Updated successfully .!";
                     }
-                    else if(result.Data == -1)
+                    else if (result.Data == -1)
                     {
                         result.State = EnumStatus.Warning;
                         result.Message = "Duplicate Order Name!";
@@ -856,6 +946,45 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
         #endregion
-    }
+    
+    [HttpPost("SaveGrevianceRoleMapping")]
+        public async Task<ApiResult<int>> SaveGrevianceRoleMapping([FromBody] RoleMappingModel request)
+        {
+            ActionName = "SaveGrevianceRoleMapping([FromBody] RoleMappingModel request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+                    result.Data = await _unitOfWork.HiringRoleMasterRepository.SaveGrevianceRoleMapping(request);
+                    await _unitOfWork.SaveChangesAsync();
 
-}
+                    switch (result.Data)
+                    {
+                        case 1:
+                            result.State = EnumStatus.Success;
+                            result.Message = "Roles mapped successfully.!";
+                            break;
+                        case 3:
+                            result.State = EnumStatus.Error;
+                            result.ErrorMessage = "Please select at least one role.!";
+                            break;
+                        default:
+                            result.State = EnumStatus.Error;
+                            result.ErrorMessage = "There was an error saving data.!";
+                            break;
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    var nex = new NewException { PageName = PageName, ActionName = ActionName, Ex = ex };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+    }
+    }
