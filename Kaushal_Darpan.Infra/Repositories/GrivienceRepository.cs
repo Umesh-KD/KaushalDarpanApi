@@ -57,7 +57,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
-        
+    
+
         public async Task<DataTable> GetResponseData(GrivienceSearchModel body)
         {
             _actionName = "GetResponseData(GrivienceSearchModel body)";
@@ -251,6 +252,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
                     command.Parameters.AddWithValue("@ActiveStatus", request.ActiveStatus);
                     command.Parameters.AddWithValue("@DeleteStatus", request.DeleteStatus);
+                    command.Parameters.AddWithValue("@ModuleID", request.ModuleID);
+                    command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
 
                     //command.Parameters.Add("@Return", SqlDbType.Int); // out
                     //command.Parameters["@Return"].Direction = ParameterDirection.Output; // out

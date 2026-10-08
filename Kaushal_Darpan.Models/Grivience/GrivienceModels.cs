@@ -80,17 +80,19 @@ namespace Kaushal_Darpan.Models.CompanyMaster
     {
         public int GrivienceResponseID { get; set; }
         public int GrivienceID { get; set; }
+        public int ModuleID { get; set; }
+        public int DepartmentID { get; set; }
         public string Remark { get; set; }
-        public string ResponseFileAttachment { get; set; }
-        public string DisResponseFileName { get; set; }
+        public string? ResponseFileAttachment { get; set; }
+        public string? DisResponseFileName { get; set; }
         public int StatusID { get; set; }
-        public string RTS { get; set; }
+        public string? RTS { get; set; }
         public int ModifyBy { get; set; }
         public int CreatedBy { get; set; }
-        public string ModifyDate { get; set; }
+        public string? ModifyDate { get; set; }
         public bool ActiveStatus { get; set; }
         public bool DeleteStatus { get; set; }
-        public string ComplainNo { get; set; }
+        public string? ComplainNo { get; set; }
          
     }
 
