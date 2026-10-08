@@ -49,6 +49,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@HeadDescription", request.HeadDescription);
                         command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
                         command.Parameters.AddWithValue("@UnitValue", request.UnitValue);
+                        command.Parameters.AddWithValue("@IsStudentWise", request.IsStudentWise);
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);
                         
                         _sqlQuery = command.GetSqlExecutableQuery();
