@@ -474,7 +474,10 @@ namespace Kaushal_Darpan.Api.Controllers
                             else
                             {
                                 sb1.Append("<tr>");
-                                sb1.Append("<td colspan='" + colspan + "' style='text-align: left;   font-size: 11px;border:1px solid gray;'><b>This is computer generated report, therefore it does not require any physical signature or attestation. Incase if any issue the same can be verified from RCVET, Jodhpur</b></td>");
+                                sb1.Append("<td colspan='" + colspan + "' style='text-align: left;   font-size: 11px;border:1px solid gray;'>" +
+                                    "<b>" +
+                                  Convert.ToString( data.Tables[0].Rows[0]["Note"]) +
+                                    "</b></td>");
                                 sb1.Append("</tr>");
 
                             }
@@ -1190,7 +1193,11 @@ namespace Kaushal_Darpan.Api.Controllers
                             else
                             {
                                 sb1.Append("<tr>");
-                                sb1.Append("<td colspan='" + colspan + "' style='text-align: left;   font-size: 11px;border:0.2px solid #d1d0d0;'><b>This is computer generated report, therefore it does not require any physical signature or attestation. Incase if any issue the same can be verified from RCVET, Jodhpur</b></td>");
+                                //sb1.Append("<td colspan='" + colspan + "' style='text-align: left;   font-size: 11px;border:0.2px solid #d1d0d0;'><b>This is computer generated report, therefore it does not require any physical signature or attestation. Incase if any issue the same can be verified from RCVET, Jodhpur</b></td>");
+                                sb1.Append("<td colspan='" + colspan + "' style='text-align: left;   font-size: 11px;border:0.2px solid #d1d0d0;'>" +
+                                   "<b>" +
+                                 Convert.ToString(data.Tables[0].Rows[0]["Note"]) +
+                                   "</b></td>");
                                 sb1.Append("</tr>");
 
                             }
