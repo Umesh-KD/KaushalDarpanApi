@@ -182,6 +182,7 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<DataTable> CommonMasterDataByAction(CommonMasterModel model);
         Task<DataTable> GetItiVacantPost(VacantPostMaster model);
+        Task<DataTable> GetBterDynamicReport_ddl(RequestBaseModel model);
         Task<List<CommonDDLModel>> GetCenterMasterDDL(RequestBaseModel request);
         Task<List<CommonDDLModel>> GetSubjectMasterDDL_New(CommonDDLSubjectMasterModel request);
         Task<List<CommonDDLModel>> Get_SubjectMasterByCondition(CommonDDLSubjectMasterModel request);
