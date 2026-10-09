@@ -13,6 +13,7 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public string LabName { get; set; } = string.Empty;
         public int staffID { get; set; } = 0;
         public bool ActiveStatus { get; set; } = true;
+        public bool IsOfficerLabIncharge { get; set; }
         public bool DeleteStatus { get; set; } = false;
         public int CreatedBy { get; set; } = 0;
         public int ModifyBy { get; set; } = 0;

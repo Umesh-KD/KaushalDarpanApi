@@ -99,6 +99,7 @@ namespace Kaushal_Darpan.Models.DTEApplicationDashboardModel
 
         public string? ITICode { get; set; }
         public string? TradeCode { get; set; }
+        public string? StreamID { get; set; }
 
 
     }

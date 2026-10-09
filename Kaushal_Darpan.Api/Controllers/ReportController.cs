@@ -13,6 +13,7 @@ using Kaushal_Darpan.Api.Email;
 using Kaushal_Darpan.Api.HtmlTempleteFile;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
+using Kaushal_Darpan.Models;
 using Kaushal_Darpan.Models.ApplicationData;
 using Kaushal_Darpan.Models.BterCertificateReport;
 using Kaushal_Darpan.Models.CampusPostMaster;
@@ -22246,6 +22247,42 @@ Web Site : www.techedu.rajasthan.gov.in
             try
             {
                 result.Data = await Task.Run(() => _unitOfWork.ReportRepository.GetZoneWiseAllotmentReport(model));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+        [HttpPost("GetBterdynamicReport")]
+        public async Task<ApiResult<DataTable>> GetBterdynamicReport(RequestBaseModel model)
+        {
+            ActionName = "GetBterdynamicReport(ITI_FinalReportModule model)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ReportRepository.GetBterdynamicReport(model));
                 result.State = EnumStatus.Success;
                 if (result.Data.Rows.Count == 0)
                 {
