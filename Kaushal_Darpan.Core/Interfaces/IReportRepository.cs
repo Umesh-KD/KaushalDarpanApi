@@ -1,4 +1,5 @@
 ﻿using Kaushal_Darpan.Core.Entities;
+using Kaushal_Darpan.Models;
 using Kaushal_Darpan.Models.ApplicationData;
 using Kaushal_Darpan.Models.AssignRoleRight;
 using Kaushal_Darpan.Models.BTER_EstablishManagement;
@@ -349,5 +350,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetITI_FinalReport(ITI_FinalReportModule model);
         Task<DataTable> getITIDynamicReport(ITI_DynamicReport model);
         Task<DataTable> GetZoneWiseAllotmentReport(ITI_FinalReportModule model);
+        Task<DataTable> GetBterdynamicReport(RequestBaseModel model);
     }
 }
