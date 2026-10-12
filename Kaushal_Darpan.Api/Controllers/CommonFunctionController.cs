@@ -11465,6 +11465,46 @@ namespace Kaushal_Darpan.Api.Controllers
 
         #endregion
 
+        [HttpGet("GetHODWiseStreams/{DepartmentID}/{StreamType}/{UserID}/{EndTermId}")]
+        public async Task<ApiResult<DataTable>> HODWiseStreams(int DepartmentID = 0, int StreamType = 0, int UserID = 0, int EndTermId = 0)
+        {
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<DataTable>();
+                try
+                {
+                    var data = await _unitOfWork.CommonFunctionRepository.HODWiseStreams(DepartmentID,UserID, StreamType, EndTermId);
+                    if (data.Rows.Count > 0)
+                    {
+                        result.Data = data;
+                        result.State = EnumStatus.Success;
+                        result.Message = "Data load successfully .!";
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = "No record found.!";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
     }
 }
 

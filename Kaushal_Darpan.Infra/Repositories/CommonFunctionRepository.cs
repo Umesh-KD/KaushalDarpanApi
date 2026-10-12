@@ -13489,6 +13489,45 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
         #endregion
+
+        public async Task<DataTable> HODWiseStreams(int DepartmentID = 0 , int UserID = 0, int StreamType = 0, int EndTermId = 0)
+        {
+            _actionName = "HODWiseStreams()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_DDL_HODWiseStreams";
+                        command.Parameters.AddWithValue("@UserID", UserID);
+                        command.Parameters.AddWithValue("@EndTermId", EndTermId);
+                        command.Parameters.AddWithValue("@StreamType", StreamType);   // ENG_NonEng
+                        command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
+                        //command.Parameters.AddWithValue("@InstituteId", InstituteId);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
     }
 
 }

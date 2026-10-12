@@ -275,6 +275,7 @@
         public string? Division { get; set; } = string.Empty;
         public string? CourseDuration { get; set; } = string.Empty;
         public int? EffectiveFromEndTermId { get; set; } = 0;
+        public int? IsFinalSubmit { get; set; } = 0;
     }
 
     public class GenerateFinalDiplomaCertificateModel : RequestBaseModel
@@ -319,6 +320,7 @@
         public string Dis_FileName { get; set; } = string.Empty; // file name
         public int SemesterID { get; set; }
         public string? SRNO { get; set; }
+        public int IsFinalSubmit { get; set; }
     }
 
 
@@ -504,6 +506,53 @@
         public string Dis_FileName { get; set; } = string.Empty; // file name
         public int SemesterID { get; set; }
         public string? SRNO { get; set; }
+    }
+
+
+    public class AssignStudentSrNoModel 
+    {
+        public string? StartSRN { get; set; }
+        public int? SRN { get; set; }
+        public int? StudentID { get; set; }
+        public string? InstituteCode { get; set; }
+        public int? SemesterID { get; set; }
+        public int? StreamID { get; set; }
+        public int? EndTermID { get; set; }
+        public string? StreamName { get; set; }
+        public int? StudentTypeID { get; set; }
+        public string? EnrollmentNo { get; set; }
+        public int? CourseType { get; set; }
+        public int? ResultTypeId { get; set; }
+        public string? IPAddress { get; set; }
+        public int? ModifyBy { get; set; }
+        public int? RoleID { get; set; }
+
+    }
+
+    public class EditSrNoModel
+    {
+        public int StudentID { get; set; }
+        public int SemesterID { get; set; }
+        public int EndTermID { get; set; }
+        public int ResultTypeID { get; set;}
+        public string SrNo { get; set; }
+        public int RoleID { get; set; }
+        public int UserID { get; set; }
+        public int DepartmentID { get; set; }
+        public int CourseType { get; set; }
+    }
+
+    public class MassChangeSrNoDiplomaModel
+    {
+        public string SrNo { get; set; }
+        public int RoleID { get; set; }
+        public int UserID { get; set; }
+        public int DepartmentID { get; set; }
+        public int CourseType { get; set; }
+        public string DocSerialNoFrom { get; set; }
+        public string DocSerialNoTo { get; set; }
+        public int SemesterID { get; set; }
+        public int EndTermID { get; set; }
     }
 
 }
