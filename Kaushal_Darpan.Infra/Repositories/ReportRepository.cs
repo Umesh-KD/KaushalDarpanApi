@@ -11158,6 +11158,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@CourseType", model.CourseType);
                     command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
                     command.Parameters.AddWithValue("@EndTermid", model.EndTermID);
+                    command.Parameters.AddWithValue("@EffectiveEndTermId", model.EffectiveEndTermId);
                     command.Parameters.AddWithValue("@StudentID", model.StudentID);
                     command.Parameters.AddWithValue("@ResultTypeId", model.ResultTypeID);
                     command.Parameters.AddWithValue("@DocSerialNo", model.SrNo);
@@ -11203,6 +11204,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@CourseType", model.CourseType);
                     command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
                     command.Parameters.AddWithValue("@EndTermid", model.EndTermID);
+                    command.Parameters.AddWithValue("@EffectiveEndTermId", model.EffectiveEndTermId);
                     command.Parameters.AddWithValue("@DocSerialNo", model.SrNo);
                     command.Parameters.AddWithValue("@DocSerialNoFrom", model.DocSerialNoFrom);
                     command.Parameters.AddWithValue("@DocSerialNoTo", model.DocSerialNoTo);
@@ -11241,8 +11243,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                 using (var command = await _dbContext.CreateCommandAsync(true))
                 {
                     command.CommandType = CommandType.StoredProcedure;
-                    command.CommandText = "USP_NAME";
-                    command.Parameters.AddWithValue("@action", "");
+                    command.CommandText = "USP_SaveStuDiplomaCertificateSRN";
+                    command.Parameters.AddWithValue("@action", "_FinalSubmitStuOrgDiplomaCertificateSRN");
                     command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
                     command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
                     command.Parameters.AddWithValue("@IsBridge", model.IsBridge);
@@ -11250,13 +11252,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@ResultTypeID", model.ResultTypeID);
                     command.Parameters.AddWithValue("@RollNo", model.RollNo);
                     command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-                    command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEngID);
                     command.Parameters.AddWithValue("@IsRevised", model.IsRevised);
                     command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
                     command.Parameters.AddWithValue("@EnrollmentNo", model.EnrollmentNo);
-                    command.Parameters.AddWithValue("@EffectiveFromEndTermId", model.EffectiveFromEndTermId);
+                    command.Parameters.AddWithValue("@EffectiveEndTermId", model.EffectiveEndTermID);
                     command.Parameters.AddWithValue("@IPAddress", model.IPAddress);
-
                     command.Parameters.AddWithValue("@UserID", model.ModifyBy);
                     command.Parameters.AddWithValue("@CourseType", model.Eng_NonEngID);
                     command.Parameters.Add("@Ret_Val", SqlDbType.Int);// out

@@ -22344,7 +22344,7 @@ Web Site : www.techedu.rajasthan.gov.in
                 else if (result.Data == -2)
                 {
                     result.State = EnumStatus.Warning;
-                    result.Message = "Already exists";
+                    result.Message = Constants.MSG_RECORD_ALREADY_EXISTS;
                 }
                 else
                 {
@@ -22360,7 +22360,7 @@ Web Site : www.techedu.rajasthan.gov.in
                 if (ex.Message.Contains("Cannot insert duplicate key"))
                 {
                     result.State = EnumStatus.Warning;
-                    result.Message = "Serial No. already exists.";
+                    result.Message = Constants.MSG_RECORD_ALREADY_EXISTS; 
                 }
                 else
                 {
@@ -22387,6 +22387,11 @@ Web Site : www.techedu.rajasthan.gov.in
             {
                 result.Data = await Task.Run(() => _unitOfWork.ReportRepository.MassChangeSrNoDiploma(model));
                 await _unitOfWork.SaveChangesAsync();
+                if (result.Data == 0)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
                 if (result.Data > 0)
                 {
                     result.State = EnumStatus.Success;
@@ -22395,7 +22400,7 @@ Web Site : www.techedu.rajasthan.gov.in
                 else if (result.Data == -2)
                 {
                     result.State = EnumStatus.Warning;
-                    result.Message = "Already exists";
+                    result.Message =  Constants.MSG_RECORD_ALREADY_EXISTS;
                 }
                 else
                 {
@@ -22411,7 +22416,7 @@ Web Site : www.techedu.rajasthan.gov.in
                 if (ex.Message.Contains("Cannot insert duplicate key"))
                 {
                     result.State = EnumStatus.Warning;
-                    result.Message = "Serial No. already exists.";
+                    result.Message = Constants.MSG_RECORD_ALREADY_EXISTS;
                 }
                 else
                 {
@@ -22437,14 +22442,15 @@ Web Site : www.techedu.rajasthan.gov.in
             try
             {
                 result.Data = await Task.Run(() => _unitOfWork.ReportRepository.LockStudentDiplomaCertificateSrNo(model));
+                await _unitOfWork.SaveChangesAsync();
                 if (result.Data > 0)
                 {
                     result.State = EnumStatus.Success;
                     result.Message = Constants.MSG_SAVE_SUCCESS;
                     return result;
                 }
-                result.State = EnumStatus.Error;
-                result.Message = Constants.MSG_NO_DATA_SAVE;
+                result.State = EnumStatus.Warning;
+                result.Message = Constants.MSG_DATA_NOT_FOUND;
             }
             catch (System.Exception ex)
             {

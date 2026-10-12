@@ -518,6 +518,7 @@
         public int? SemesterID { get; set; }
         public int? StreamID { get; set; }
         public int? EndTermID { get; set; }
+        public int EffectiveEndTermId { get; set; }
         public string? StreamName { get; set; }
         public int? StudentTypeID { get; set; }
         public string? EnrollmentNo { get; set; }
@@ -540,6 +541,7 @@
         public int UserID { get; set; }
         public int DepartmentID { get; set; }
         public int CourseType { get; set; }
+        public int EffectiveEndTermId { get; set; }
     }
 
     public class MassChangeSrNoDiplomaModel
@@ -553,6 +555,7 @@
         public string DocSerialNoTo { get; set; }
         public int SemesterID { get; set; }
         public int EndTermID { get; set; }
+        public int EffectiveEndTermId { get; set; }
     }
 
 }
