@@ -1562,6 +1562,45 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+        public async Task<int> ApproveIssuedItemsByOfficerLabIncharge(List<ApproveIssuedItemsDataModel> request)
+        {
+            _actionName = "ApproveIssuedItemsByOfficerLabIncharge(ApproveIssuedItemsDataModel request)";
+            try
+            {
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
+                {
+                    command.CommandText = "USP_Bter_INV_ApproveIssuedItemsByOfficerLabIncharge";
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.AddWithValue("@ItemList", JsonConvert.SerializeObject(request));
+                    command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+                    command.Parameters.Add("@Return", SqlDbType.Int);
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output;
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
+
+                    result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
         public async Task<int> ApproveSR5Items(List<ApproveIssuedItemsDataModel> request)
         {
             _actionName = "ApproveSR5Items(ApproveIssuedItemsDataModel request)";

@@ -721,6 +721,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@Dis_FileName", request.Dis_FileName); // only file name
                     command.Parameters.AddWithValue("@SemesterID", request.SemesterID);
                     command.Parameters.AddWithValue("@IpAddress", request.IPAddress);
+                    command.Parameters.AddWithValue("@IsFinalSubmit", request.IsFinalSubmit);   // new added 20261009
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     result = await command.ExecuteNonQueryAsync();

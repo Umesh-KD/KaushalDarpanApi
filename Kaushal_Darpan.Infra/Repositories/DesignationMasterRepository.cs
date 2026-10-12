@@ -264,6 +264,199 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+
+
+
+
+        #region Query request start
+
+        public async Task<bool> SaveQueryRequest(QueryRequestModel request)
+        {
+            _actionName = "SaveQueryRequest(QueryRequestModel request)";
+
+            try
+            {
+                int result = 0;
+
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandText = "USP_QueryRequest_AddUpdate";
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.AddWithValue("@RequestID",request.RequestID );
+
+                    command.Parameters.AddWithValue("@RequesterName", (object?)request.RequesterName ?? DBNull.Value );
+
+                    command.Parameters.AddWithValue( "@DepartmentName",(object?)request.DepartmentName ?? DBNull.Value );
+
+                    command.Parameters.AddWithValue("@RequestType",(object?)request.RequestType ?? DBNull.Value);
+
+                    command.Parameters.AddWithValue("@RequestDescription",(object?)request.RequestDescription ?? DBNull.Value);
+
+                    command.Parameters.AddWithValue("@Priority",(object?)request.Priority ?? DBNull.Value);
+
+                    command.Parameters.AddWithValue("@Status",(object?)request.Status ?? DBNull.Value);
+
+                    command.Parameters.AddWithValue("@CreatedBy",request.CreatedBy ?? request.UserID);
+
+                    command.Parameters.AddWithValue("@ModifyBy",request.ModifyBy ?? request.UserID);
+
+                    command.Parameters.AddWithValue("@IPAddress",(object?)_IPAddress ?? DBNull.Value);
+
+                    command.Parameters.Add("@Return", SqlDbType.Int);
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output;
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
+                    result = Convert.ToInt32(command.Parameters["@Return"].Value);
+
+                }
+
+                return result > 0;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<DataTable> GetAllRequests(QueryRequestModel request)
+        {
+            _actionName = "GetAllRequests()";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_QueryRequest_AddUpdate";
+                    command.Parameters.AddWithValue("@Action", "GetAllData");
+                    command.Parameters.AddWithValue("@DepartmentName", (object?)request.DepartmentName ?? DBNull.Value);
+                    command.Parameters.AddWithValue("@RequestType", (object?)request.RequestType ?? DBNull.Value);
+                    command.Parameters.AddWithValue("@Status", (object?)request.Status ?? DBNull.Value);
+
+                    command.Parameters.Add("@Return", SqlDbType.Int);
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output;
+                    //_sqlQuery = command.GetSqlExecutableQuery();
+                    //result = await command.ExecuteNonQueryAsync();
+                    //result = Convert.ToInt32(command.Parameters["@Return"].Value);
+
+
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<QueryRequestModel> GetQueryRequestByID(int RequestID)
+        {
+            _actionName = "GetQueryRequestByID(int RequestID)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_QueryRequest_AddUpdate";
+                    command.Parameters.AddWithValue("@Action", "GetByID");
+                    command.Parameters.AddWithValue("@RequestID", RequestID);
+
+                    command.Parameters.Add("@Return", SqlDbType.Int);
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output;
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+
+                var data = new QueryRequestModel();
+                if (dataTable != null)
+                {
+                    data = CommonFuncationHelper.ConvertDataTable<QueryRequestModel>(dataTable);
+                }
+                return data;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<bool> DeleteQueryRequest(QueryRequestModel request)
+        {
+            _actionName = "DeleteQueryRequest(QueryRequestModel request)";
+            try
+            {
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_QueryRequest_AddUpdate";
+                    command.Parameters.AddWithValue("@Action", "DeleteByID");
+                    command.Parameters.AddWithValue("@RequestID", request.RequestID);
+                    command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                    command.Parameters.AddWithValue("@IPAddress", (object?)_IPAddress ?? DBNull.Value);
+
+                    command.Parameters.Add("@Return", SqlDbType.Int);
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output;
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
+                    result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                }
+                if (result > 0)
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
+
+        #endregion
     }
 }
 

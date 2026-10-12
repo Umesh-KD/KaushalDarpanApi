@@ -33,6 +33,7 @@ using Kaushal_Darpan.Models.ScholarshipMaster;
 using Kaushal_Darpan.Models.StaffMaster;
 using Kaushal_Darpan.Models.TheoryMarks;
 using Kaushal_Darpan.Models.TimeTable;
+using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
 using System.Data;
 using System.Reflection;
@@ -11084,6 +11085,191 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
             catch (Exception ex)
             {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<int> AssignStudentDiplomaCertificateSrNo_bulk(List<AssignStudentSrNoModel> request)
+        {
+            _actionName = "AssignStudentDiplomaCertificateSrNo_bulk(List<AssignStudentSrNoModel>  request)";
+            try
+            {
+                int result = 0;
+                // Added IPAddress in All List without Loop
+                request = request.Select(x =>
+                {
+                    x.IPAddress = _IPAddress;
+                    return x;
+                }).ToList();
+
+                using (SqlCommand command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandText = "USP_SaveGeneratedStuDiplomaCertificateSRN_json";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@action", "_saveGeneratedStuOrgDiplomaCertificateSRN");
+                    command.Parameters.AddWithValue("@IsDebug", 0);
+                    command.Parameters.AddWithValue("@rowJson",JsonConvert.SerializeObject(request));
+                    command.Parameters.Add("@Ret_Val", SqlDbType.Int); // out
+                    command.Parameters["@Ret_Val"].Direction = ParameterDirection.Output; // out
+                    //SqlParameter retVal = command.Parameters.Add("@Ret_Val", SqlDbType.Int);
+                    //retVal.Direction = ParameterDirection.Output;
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
+                    result = Convert.ToInt32(command.Parameters["@Ret_Val"].Value);
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<int> UpdateDiplomaCertificateSrNo(EditSrNoModel model)
+        {
+            _actionName = "UpdateDiplomaCertificateSrNo(EditSrNoModel model)";
+            try
+            {
+                int result = 0;
+                int retval = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandTimeout = 0;
+                    command.CommandText = "USP_SaveStuDiplomaCertificateSRN";
+                    command.Parameters.AddWithValue("@action", "_updateStuOrgDiplomaCertificateSRN");
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@CourseType", model.CourseType);
+                    command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                    command.Parameters.AddWithValue("@EndTermid", model.EndTermID);
+                    command.Parameters.AddWithValue("@EffectiveEndTermId", model.EffectiveEndTermId);
+                    command.Parameters.AddWithValue("@StudentID", model.StudentID);
+                    command.Parameters.AddWithValue("@ResultTypeId", model.ResultTypeID);
+                    command.Parameters.AddWithValue("@DocSerialNo", model.SrNo);
+                    command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                    command.Parameters.AddWithValue("@UserID", model.UserID);
+                    command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                    command.Parameters.Add("@Ret_Val", SqlDbType.Int);// out
+                    command.Parameters["@Ret_Val"].Direction = ParameterDirection.Output;// out
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
+                    retval = Convert.ToInt32(command.Parameters["@Ret_Val"].Value);// out
+                }
+                return retval;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<int> MassChangeSrNoDiploma(MassChangeSrNoDiplomaModel model)
+        {
+            _actionName = "MassChangeSrNoDiploma(MassChangeSrNoDiplomaModel model)";
+            try
+            {
+                int result = 0;
+                int retval = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandTimeout = 0;
+                    command.CommandText = "USP_SaveStuDiplomaCertificateSRN";
+                    command.Parameters.AddWithValue("@action", "_masspUdateStuOrgDiplomaCertificateSRN");
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@CourseType", model.CourseType);
+                    command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                    command.Parameters.AddWithValue("@EndTermid", model.EndTermID);
+                    command.Parameters.AddWithValue("@EffectiveEndTermId", model.EffectiveEndTermId);
+                    command.Parameters.AddWithValue("@DocSerialNo", model.SrNo);
+                    command.Parameters.AddWithValue("@DocSerialNoFrom", model.DocSerialNoFrom);
+                    command.Parameters.AddWithValue("@DocSerialNoTo", model.DocSerialNoTo);
+                    command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                    command.Parameters.AddWithValue("@UserID", model.UserID);
+                    command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                    command.Parameters.Add("@Ret_Val", SqlDbType.Int);// out
+                    command.Parameters["@Ret_Val"].Direction = ParameterDirection.Output;// out
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
+                    retval = Convert.ToInt32(command.Parameters["@Ret_Val"].Value);// out
+                }
+                return retval;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<int> LockStudentDiplomaCertificateSrNo(DiplomaCertificateDownloadSearchModel model)
+        {
+            _actionName = "LockStudentDiplomaCertificateSrNo(DiplomaCertificateDownloadSearchModel model)";
+            try
+            {
+                int result = 0;
+                int retval = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_SaveStuDiplomaCertificateSRN";
+                    command.Parameters.AddWithValue("@action", "_FinalSubmitStuOrgDiplomaCertificateSRN");
+                    command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                    command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                    command.Parameters.AddWithValue("@IsBridge", model.IsBridge);
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@ResultTypeID", model.ResultTypeID);
+                    command.Parameters.AddWithValue("@RollNo", model.RollNo);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@IsRevised", model.IsRevised);
+                    command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
+                    command.Parameters.AddWithValue("@EnrollmentNo", model.EnrollmentNo);
+                    command.Parameters.AddWithValue("@EffectiveEndTermId", model.EffectiveEndTermID);
+                    command.Parameters.AddWithValue("@IPAddress", model.IPAddress);
+                    command.Parameters.AddWithValue("@UserID", model.ModifyBy);
+                    command.Parameters.AddWithValue("@CourseType", model.Eng_NonEngID);
+                    command.Parameters.Add("@Ret_Val", SqlDbType.Int);// out
+                    command.Parameters["@Ret_Val"].Direction = ParameterDirection.Output;// out
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
+                    retval = Convert.ToInt32(command.Parameters["@Ret_Val"].Value);// out
+                }
+                return retval;
+            }
+            catch (Exception ex)
+            {
+
                 var errorDesc = new ErrorDescription
                 {
                     Message = ex.Message,
