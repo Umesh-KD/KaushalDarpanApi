@@ -29,5 +29,30 @@
         public string? DesignationNameEnglish { get; set;}
         public bool? IsActive { get; set;}
     }
+
+    public class QueryRequestModel
+    {
+        public int RequestID { get; set; }
+
+        public string? RequesterName { get; set; }
+
+        public string? DepartmentName { get; set; }
+
+        public string? RequestType { get; set; }
+
+        public string? RequestDescription { get; set; }
+
+        public string? Priority { get; set; }
+
+        public string? Status { get; set; }
+
+        public int UserID { get; set; }
+
+        public int? CreatedBy { get; set; }
+
+        public int? ModifyBy { get; set; }
+
+        public string? IPAddress { get; set; }
+    }
 }
 
