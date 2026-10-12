@@ -22286,6 +22286,11 @@ Web Site : www.techedu.rajasthan.gov.in
             {
                 result.Data = await _unitOfWork.ReportRepository.AssignStudentDiplomaCertificateSrNo_bulk(Model);
                 await _unitOfWork.SaveChangesAsync();
+                if (result.Data == 0)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.ErrorMessage = Constants.MSG_NO_DATA_SAVE;
+                }
                 if (result.Data > 0)
                 {
                     result.State = EnumStatus.Success;
@@ -22294,13 +22299,9 @@ Web Site : www.techedu.rajasthan.gov.in
                 else if (result.Data == -2)
                 {
                     result.State = EnumStatus.Warning;
-                    result.Message = "Already exists";
+                    result.Message = Constants.MSG_RECORD_ALREADY_EXISTS;
                 }
-                else
-                {
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = Constants.MSG_NO_DATA_SAVE;
-                }
+                
             }
             catch (System.Exception ex)
             {
@@ -22309,7 +22310,7 @@ Web Site : www.techedu.rajasthan.gov.in
                 if (ex.Message.Contains("Cannot insert duplicate key"))
                 {
                     result.State = EnumStatus.Warning;
-                    result.Message = "Serial No. already exists.";
+                    result.Message = Constants.MSG_RECORD_ALREADY_EXISTS;
                 }
                 else
                 {
@@ -22336,7 +22337,12 @@ Web Site : www.techedu.rajasthan.gov.in
             {
                 result.Data = await Task.Run(() => _unitOfWork.ReportRepository.UpdateDiplomaCertificateSrNo(model));
                 await _unitOfWork.SaveChangesAsync();
-                if (result.Data > 0)
+                 if (result.Data == 0)
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = Constants.MSG_DATA_NOT_FOUND;
+                }
+                else if (result.Data > 0)
                 {
                     result.State = EnumStatus.Success;
                     result.Message = Constants.MSG_SAVE_SUCCESS;
@@ -22346,12 +22352,6 @@ Web Site : www.techedu.rajasthan.gov.in
                     result.State = EnumStatus.Warning;
                     result.Message = Constants.MSG_RECORD_ALREADY_EXISTS;
                 }
-                else
-                {
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = Constants.MSG_NO_DATA_SAVE;
-                }
-
             }
             catch (System.Exception ex)
             {
@@ -22402,12 +22402,6 @@ Web Site : www.techedu.rajasthan.gov.in
                     result.State = EnumStatus.Warning;
                     result.Message =  Constants.MSG_RECORD_ALREADY_EXISTS;
                 }
-                else
-                {
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = Constants.MSG_NO_DATA_SAVE;
-                }
-
             }
             catch (System.Exception ex)
             {
