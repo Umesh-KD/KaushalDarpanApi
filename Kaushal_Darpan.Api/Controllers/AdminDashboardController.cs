@@ -363,6 +363,43 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+
+        [HttpPost("GetExecutiveDashboard_StateLevel_Web")]
+        public async Task<ApiResult<DataSet>> GetExecutiveDashboard_StateLevel_Web([FromBody] EstablishmentDashboardBTERDataModel model)
+        {
+            ActionName = "GetExecutiveDashboard_StateLevel_Web([FromBody] EstablishmentDashboardBTERDataModel model)";
+            var result = new ApiResult<DataSet>();
+            try
+            {
+                var data = await _unitOfWork.AdminDashboardRepository.GetExecutiveDashboard_StateLevel_Web(model);
+                if (data?.Tables?.Count > 0)
+                {
+                    result.Data = data;
+                    result.State = EnumStatus.Success;
+                    result.Message = "Data load successfully .!";
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
     }
 }
 
