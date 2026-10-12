@@ -1,4 +1,5 @@
 ﻿using Kaushal_Darpan.Core.Entities;
+using Kaushal_Darpan.Models;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Models.ApplicationData;
 using Kaushal_Darpan.Models.AssignRoleRight;
@@ -357,5 +358,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> LockStudentDiplomaCertificateSrNo(DiplomaCertificateDownloadSearchModel Model);
 
 
+        Task<DataTable> GetBterdynamicReport(RequestBaseModel model);
     }
 }

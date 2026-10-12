@@ -19,5 +19,7 @@
         public int SelectedInsituteID { get; set; } = 0;
         public int? SchemeID { get; set; } = 0;
 
+        public string? ActionFlag { get; set; }
+
     }
 }
