@@ -142,6 +142,7 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+        
         [HttpPut("UpdateData")]
         public async Task<ApiResult<bool>> UpdateData([FromBody] DesignationMasterModel request)
         {
@@ -278,5 +279,194 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
 
         }
+
+
+
+
+        #region query-request form start
+
+        [HttpPost("SaveQueryRequest")]
+        public async Task<ApiResult<bool>> SaveQueryRequest([FromBody] QueryRequestModel request)
+        {
+            var result = new ApiResult<bool>();
+
+            try
+            {
+                if (request == null)
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = "Invalid request data!";
+                    return result;
+                }
+
+                result.Data = await _unitOfWork.DesignationMasterRepository.SaveQueryRequest(request);
+
+                await _unitOfWork.SaveChangesAsync();
+
+                if (result.Data)
+                {
+                    result.State = EnumStatus.Success;
+
+                    if (request.RequestID == 0)
+                    {
+                        result.Message = "Request submitted successfully!";
+                    }
+                    else
+                    {
+                        result.Message = "Request updated successfully!";
+                    }
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+
+                    if (request.RequestID == 0)
+                    {
+                        result.ErrorMessage = "Error submitting request!";
+                    }
+                    else
+                    {
+                        result.ErrorMessage = "Error updating request!";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = "SaveQueryRequest",
+                    Ex = ex
+                };
+
+                await CreateErrorLog(nex, _unitOfWork);
+
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+            finally
+            {
+                await _unitOfWork.DisposeAsync();
+            }
+
+            return result;
+        }
+
+    
+        [HttpPost("GetAllRequests")]
+        public async Task<ApiResult<DataTable>> GetAllRequests([FromBody] QueryRequestModel request)
+        {
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.DesignationMasterRepository.GetAllRequests(request));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "Data loaded successfully!";
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = "No records found!";
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Warning;
+                result.ErrorMessage = ex.Message;
+            }
+            finally
+            {
+                await _unitOfWork.DisposeAsync();
+            }
+            return result;
+        }
+
+        [HttpGet("GetQueryRequestByID/{RequestID}")]
+        public async Task<ApiResult<QueryRequestModel>> GetQueryRequestByID(int RequestID)
+        {
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<QueryRequestModel>();
+                try
+                {
+                    var data = await _unitOfWork.DesignationMasterRepository.GetQueryRequestByID(RequestID);
+                    if (data != null)
+                    {
+                        result.Data = data;
+                        result.State = EnumStatus.Success;
+                        result.Message = "Data loaded successfully!";
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = "No record found!";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.ErrorMessage = ex.Message;
+                }
+                finally
+                {
+                    await _unitOfWork.DisposeAsync();
+                }
+                return result;
+            });
+        }
+
+        [HttpDelete("DeleteQueryRequest/{RequestID}/{ModifyBy}")]
+        public async Task<ApiResult<bool>> DeleteQueryRequest(int RequestID, int ModifyBy)
+        {
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+                    var deleteRequest = new QueryRequestModel
+                    {
+                        RequestID = RequestID,
+                        ModifyBy = ModifyBy,
+                    };
+                    result.Data = await _unitOfWork.DesignationMasterRepository.DeleteQueryRequest(deleteRequest);
+                    await _unitOfWork.SaveChangesAsync();
+
+                    if (result.Data)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = "Deleted successfully!";
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = "Error deleting data!";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = "DeleteDataByID",
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                finally
+                {
+                    await _unitOfWork.DisposeAsync();
+                }
+                return result;
+            });
+        }
+
+
+        #endregion query-request form end
+
     }
 }

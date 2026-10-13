@@ -98,6 +98,11 @@ namespace Kaushal_Darpan.Api.Controllers
                         result.State = EnumStatus.Warning;
                         result.Message = "Staff already exists as lab incharge!";
                     }
+                    else if (result.Data == -2)
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = "An Officer Lab In-Charge is already assigned to this laboratory !";
+                    }
                     else
                     {
                         result.State = EnumStatus.Error;

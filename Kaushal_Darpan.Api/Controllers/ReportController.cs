@@ -21454,6 +21454,7 @@ Web Site : www.techedu.rajasthan.gov.in
 
                             objFinalDiploma.Dis_FileName = fileName;
                             objFinalDiploma.FileName = $"{Session}/{fileName}";
+                            objFinalDiploma.IsFinalSubmit = Convert.ToInt32(student.IsFinalSubmit);
 
 
                             // save
@@ -21547,7 +21548,6 @@ Web Site : www.techedu.rajasthan.gov.in
             return result;
         }
         #endregion
-
 
 
         #region Bulk Student Provisional Certificate
@@ -22273,6 +22273,202 @@ Web Site : www.techedu.rajasthan.gov.in
             }
             return result;
         }
+
+
+
+        #region  Assign Student Diploma CertificateSrNo_bulk 20261008
+        [HttpPost("AssignStudentSrNo_Bulk")]
+        public async Task<ApiResult<int>> AssignStudentDiplomaCertificateSrNo_bulk([FromBody] List<AssignStudentSrNoModel> Model)
+        {
+            ActionName = "AssignStudentSrNo_bulk([FromBody] List<AssignStudentSrNoModel> Model)";
+            var result = new ApiResult<int>();
+            try
+            {
+                result.Data = await _unitOfWork.ReportRepository.AssignStudentDiplomaCertificateSrNo_bulk(Model);
+                await _unitOfWork.SaveChangesAsync();
+                if (result.Data == 0)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.ErrorMessage = Constants.MSG_NO_DATA_SAVE;
+                }
+                if (result.Data > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_SAVE_SUCCESS;
+                }
+                else if (result.Data == -2)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_RECORD_ALREADY_EXISTS;
+                }
+                
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                if (ex.Message.Contains("Cannot insert duplicate key"))
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_RECORD_ALREADY_EXISTS;
+                }
+                else
+                {
+                    result.ErrorMessage = ex.Message;
+                }
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        [HttpPost("UpdateDiplomaCertificateSrNo")]
+        public async Task<ApiResult<int>> UpdateDiplomaCertificateSrNo(EditSrNoModel model)
+        {
+            ActionName = "UpdateDiplomaCertificateSrNo(EditSrNoModel model)";
+            var result = new ApiResult<int>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ReportRepository.UpdateDiplomaCertificateSrNo(model));
+                await _unitOfWork.SaveChangesAsync();
+                 if (result.Data == 0)
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = Constants.MSG_DATA_NOT_FOUND;
+                }
+                else if (result.Data > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_SAVE_SUCCESS;
+                }
+                else if (result.Data == -2)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_RECORD_ALREADY_EXISTS;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                if (ex.Message.Contains("Cannot insert duplicate key"))
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_RECORD_ALREADY_EXISTS; 
+                }
+                else
+                {
+                    result.ErrorMessage = ex.Message;
+                }
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        [HttpPost("MassChangeSrNoDiploma")]
+        public async Task<ApiResult<int>> MassChangeSrNoDiploma(MassChangeSrNoDiplomaModel model)
+        {
+            ActionName = "MassChangeSrNoDiploma(MassChangeSrNoDiplomaModel model)";
+            var result = new ApiResult<int>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ReportRepository.MassChangeSrNoDiploma(model));
+                await _unitOfWork.SaveChangesAsync();
+                if (result.Data == 0)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+                if (result.Data > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_SAVE_SUCCESS;
+                }
+                else if (result.Data == -2)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message =  Constants.MSG_RECORD_ALREADY_EXISTS;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                if (ex.Message.Contains("Cannot insert duplicate key"))
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_RECORD_ALREADY_EXISTS;
+                }
+                else
+                {
+                    result.ErrorMessage = ex.Message;
+                }
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        [HttpPost("LockStudentDiplomaCertificateSrNo")]
+        public async Task<ApiResult<int>> LockStudentDiplomaCertificateSrNo([FromBody] DiplomaCertificateDownloadSearchModel model)
+        {
+            ActionName = "LockStudentDiplomaCertificateSrNo([FromBody] DiplomaCertificateDownloadSearchModel body)";
+            var result = new ApiResult<int>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ReportRepository.LockStudentDiplomaCertificateSrNo(model));
+                await _unitOfWork.SaveChangesAsync();
+                if (result.Data > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_SAVE_SUCCESS;
+                    return result;
+                }
+                result.State = EnumStatus.Warning;
+                result.Message = Constants.MSG_DATA_NOT_FOUND;
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        #endregion
+
+
+
+
 
 
         [HttpPost("GetBterdynamicReport")]

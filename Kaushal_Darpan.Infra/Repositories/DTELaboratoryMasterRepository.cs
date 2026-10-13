@@ -65,13 +65,24 @@ namespace Kaushal_Darpan.Infra.Repositories
                     DataTable dataTable = new DataTable();
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
-                        command.CommandText = "select Lab_Id AS LabID,Lab_Name AS LabName,Lab_DepartmentId AS DepartmentID,Lab_BranchId  AS StreamID, "+
-                        "Lab_CollegeId AS InstituteID,Lab_TechnicianId AS staffID,Lab_ActiveStatus AS ActiveStatus,Lab_DeleteStatus AS DeleteStatus , " +
-                        "Lab_CreatedBy AS CreatedBy,Lab_ModifyBy AS ModifyBy from M_DTELabMaster Where Lab_Id ='" + PK_ID + "' ";
-
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_DTELabMaster_Operation";
+                        command.Parameters.AddWithValue("@ActionName", "GetLabDetailByPKId");
+                        command.Parameters.AddWithValue("@Lab_Id", PK_ID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
-                        }
+                    }
+                       //---------------Comment by mahesh 20261006
+                    //using (var command = await _dbContext.CreateCommandAsync())
+                    //{
+                    //    command.CommandText = "select Lab_Id AS LabID,Lab_Name AS LabName,Lab_DepartmentId AS DepartmentID,Lab_BranchId  AS StreamID, "+
+                    //    "Lab_CollegeId AS InstituteID,Lab_TechnicianId AS staffID,Lab_ActiveStatus AS ActiveStatus,Lab_DeleteStatus AS DeleteStatus , " +
+                    //    "Lab_CreatedBy AS CreatedBy,Lab_ModifyBy AS ModifyBy , Lab_IsOfficerLabIncharge from M_DTELabMaster Where Lab_Id ='" + PK_ID + "' ";
+
+                    //    _sqlQuery = command.GetSqlExecutableQuery();
+                    //    dataTable = await command.FillAsync_DataTable();
+                    //}
+
                     var data = new DTELaboratoryDataModel();
                     if (dataTable != null)
                     {
@@ -115,6 +126,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Lab_CollegeId", request.InstituteID);
                         command.Parameters.AddWithValue("@Lab_TechnicianId", request.staffID);
                         command.Parameters.AddWithValue("@Lab_ActiveStatus", request.ActiveStatus);
+                        command.Parameters.AddWithValue("@Lab_IsOfficerLabIncharge", request.IsOfficerLabIncharge);
                         command.Parameters.AddWithValue("@Lab_DeleteStatus", request.DeleteStatus);
                         command.Parameters.AddWithValue("@Lab_CreatedBy", request.CreatedBy);
                         command.Parameters.AddWithValue("@Lab_ModifyBy", request.ModifyBy);
