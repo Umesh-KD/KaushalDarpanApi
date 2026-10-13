@@ -11297,6 +11297,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@RoleID", model.RoleID);
                     command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                     command.Parameters.AddWithValue("@FinancialYearID", model.FinancialYearID);
+               
+                    command.Parameters.AddWithValue("@FromDate", model.FromDate);
+                    command.Parameters.AddWithValue("@ToDate", model.ToDate);
                     command.Parameters.AddWithValue("@ActionType", model.ActionFlag);
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
