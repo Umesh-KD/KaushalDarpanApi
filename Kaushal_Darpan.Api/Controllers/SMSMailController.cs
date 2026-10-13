@@ -5,6 +5,8 @@ using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Models.ApplicationMessageModel;
 using Kaushal_Darpan.Models.CommonModel;
+using Kaushal_Darpan.Models.DesignationMaster;
+
 
 
 //using Newtonsoft.Json;
@@ -849,8 +851,9 @@ namespace Kaushal_Darpan.Api.Controllers
                             try
                             {
                                 ObjET.EmailBody = ObjET.EmailBody;
-
-                                MailMessage message = new MailMessage(OBJES.FromEmail, DR["EmailId"].ToString()!, ObjET.EmailSubject, ObjET.EmailBody);
+                                //EmailId
+                                //MailMessage message = new MailMessage(OBJES.FromEmail, DR["EmailId"].ToString()!, ObjET.EmailSubject, ObjET.EmailBody);
+                                MailMessage message = new MailMessage("divya030401@gmail.com", DR["EmailId"].ToString()!, ObjET.EmailSubject, ObjET.EmailBody);
                                 message.IsBodyHtml = true;
 
                                 message.Attachments.Add(new Attachment("EmailAttachment"));
@@ -937,6 +940,11 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.Message = "Email Template Not found.!";
                     return result;
                 }
+
+                // ============================================================
+                // Check if this is a "Test" run
+                // ============================================================
+                bool isTestRun = string.Equals(request[0].MessageType, "Test", StringComparison.OrdinalIgnoreCase);
 
                 DataRow templateRow = templateTable.Rows[0];
 
@@ -1241,5 +1249,181 @@ namespace Kaushal_Darpan.Api.Controllers
             }
         }
 
+
+
+
+        #region Email Template Start
+        [HttpPost("SaveEmailTemplate")]
+        public async Task<ApiResult<bool>> SaveEmailTemplate([FromBody] EmailTemplateModel request)
+        {
+            var result = new ApiResult<bool>();
+
+            try
+            {
+                if (request == null)
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = "Invalid request data!";
+                    return result;
+                }
+
+                result.Data = await _unitOfWork.SMSMailRepository.SaveEmailTemplate(request);
+
+                await _unitOfWork.SaveChangesAsync();
+
+                if (result.Data)
+                {
+                    result.State = EnumStatus.Success;
+
+                    if (request.ID == 0)
+                    {
+                        result.Message = "Email template submitted successfully!";
+                    }
+                    else
+                    {
+                        result.Message = "Email template updated successfully!";
+                    }
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+
+                    if (request.ID == 0)
+                    {
+                        result.ErrorMessage = "Error submitting email template!";
+                    }
+                    else
+                    {
+                        result.ErrorMessage = "Error updating email template!";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = "SaveEmailTemplate",
+                    Ex = ex
+                };
+
+                await CreateErrorLog(nex, _unitOfWork);
+
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+            finally
+            {
+                await _unitOfWork.DisposeAsync();
+            }
+
+            return result;
+        }
+
+        //[HttpGet("GetEmailTemplateList")]
+        //public async Task<ApiResult<DataTable> GetEmailTemplateList([FromQuery] int id = 0, [FromQuery] string? searchText = null)
+        //{
+        //    var result = new ApiResult<DataTable>();
+
+        //    try
+        //    {
+        //        result.Data = await _unitOfWork.SMSMailRepository.GetEmailTemplateList(id, searchText);
+
+        //        //if (result.Data != null && result.Data.Count > 0)
+        //        //{
+        //        //    result.State = EnumStatus.Success;
+        //        //    result.Message = "Templates retrieved successfully!";
+        //        //}
+        //        //else
+        //        //{
+        //        //    result.State = EnumStatus.Warning;
+        //        //    result.Message = "No templates found.";
+        //        //    result.Data = new List<EmailTemplateModel>();
+        //        //}
+
+        //        //result.Data = await Task.Run(() => _unitOfWork.SMSMailRepository.GetEmailTemplateList(id, searchText));
+        //        result.State = EnumStatus.Success;
+
+        //        if (result.Data != null && result.Data.Rows.Count > 0)
+        //        {
+        //            result.State = EnumStatus.Success;
+        //            result.Message = "Templates retrieved successfully!";
+        //        }
+        //        else
+        //        {
+        //            result.Data ??= new DataTable();
+        //            result.State = EnumStatus.Warning;
+        //            result.Message = "No templates found!";
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        var nex = new NewException
+        //        {
+        //            PageName = PageName,
+        //            ActionName = "GetEmailTemplateList",
+        //            Ex = ex
+        //        };
+
+        //        await CreateErrorLog(nex, _unitOfWork);
+
+        //        result.State = EnumStatus.Error;
+        //        result.ErrorMessage = ex.Message;
+        //        //result.Data = new List<EmailTemplateModel>();
+        //    }
+        //    finally
+        //    {
+        //        await _unitOfWork.DisposeAsync();
+        //    }
+
+        //    return result;
+        //}
+
+
+        [HttpGet("GetEmailTemplateList")]
+        public async Task<ApiResult<DataTable>> GetEmailTemplateList([FromQuery] int id = 0, [FromQuery] string? searchText = null)
+        {
+            var result = new ApiResult<DataTable>();
+
+            try
+            {
+                // Execute repository call (wrap in Task.Run if the repo method is synchronous)
+                result.Data = await Task.Run(() => _unitOfWork.SMSMailRepository.GetEmailTemplateList(id, searchText));
+
+                if (result.Data != null && result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "Templates retrieved successfully!";
+                }
+                else
+                {
+                    result.Data ??= new DataTable();
+                    result.State = EnumStatus.Warning;
+                    result.Message = "No templates found!";
+                }
+            }
+            catch (Exception ex)
+            {
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = "GetEmailTemplateList",
+                    Ex = ex
+                };
+
+                await CreateErrorLog(nex, _unitOfWork);
+
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                result.Data = new DataTable();
+            }
+            finally
+            {
+                await _unitOfWork.DisposeAsync();
+            }
+
+            return result;
+        }
+        #endregion
     }
 }
