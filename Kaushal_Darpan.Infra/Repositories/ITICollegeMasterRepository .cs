@@ -1119,6 +1119,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@action", "_getAllData");
                         command.Parameters.AddWithValue("@DivisionID", model.DivisionID);
                         command.Parameters.AddWithValue("@DistrictID", model.DistrictID);
+                        command.Parameters.AddWithValue("@ManagementTypeId", model.ManagementTypeId);
+                        command.Parameters.AddWithValue("@StreamTypeID", model.StreamTypeID);
+                        command.Parameters.AddWithValue("@StreamID", model.StreamID);
                         command.Parameters.AddWithValue("@SearchText", model.SearchText ?? (object)DBNull.Value);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();

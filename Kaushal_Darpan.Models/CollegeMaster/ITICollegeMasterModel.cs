@@ -96,6 +96,9 @@ public class PolotectnicSearchCollegeModel
 {
     public int DistrictID { get; set; } = 0;
     public int DivisionID { get; set; } = 0;
+    public int ManagementTypeId { get; set; } = 0;
+    public int StreamTypeID { get; set; } = 0;
+    public int StreamID { get; set; } = 0;
     public string? SearchText { get; set; } = string.Empty;
 
 }
