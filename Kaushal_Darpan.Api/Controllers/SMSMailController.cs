@@ -957,6 +957,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 ObjET.BccQuery = Convert.ToString(templateRow["BccQuery"]) ?? "";
                 ObjET.DataQuery = Convert.ToString(templateRow["DataQuery"]) ?? "";
                 ObjET.EmailAttachment = Convert.ToString(templateRow["EmailAttachment"]) ?? "";
+                //ObjET.MessageType = Convert.ToString(templateRow["MessageType"]) ?? "";
 
                 // ============================================================
                 // 2. Get Dynamic Data From DB

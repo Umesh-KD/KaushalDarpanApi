@@ -253,6 +253,8 @@ namespace Kaushal_Darpan.Models.CommonModel
         public string? DataQuery { get; set; }
         public string? EmailAttachment { get; set; }
         public bool IsHtml { get; set; }
+
+        //public string? MessageType { get; set; }
     }
 
     public class EmailSettings

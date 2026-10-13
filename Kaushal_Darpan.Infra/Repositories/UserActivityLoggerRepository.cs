@@ -22,48 +22,45 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<int> SaveUserLogActivity(UserActivityLoggerModel model)
         {
             _actionName = "SaveUserLogActivity(UserActivityLoggerModel model)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
-                    int result = 0;
-                    using (var command = await _dbContext.CreateCommandAsync(true))
-                    {
-                        // Set the stored procedure name and type
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_SaveUserActivityLogger";
+                    // Set the stored procedure name and type
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_SaveUserActivityLogger";
 
-                        command.Parameters.AddWithValue("@action", "_saveUserActivity");
-                        command.Parameters.AddWithValue("@UserName", model.UserName);
-                        command.Parameters.AddWithValue("@ActionName", model.ActionName);
-                        command.Parameters.AddWithValue("@Controller", model.Controller);
-                        command.Parameters.AddWithValue("@PageUrl", model.PageUrl);
-                        command.Parameters.AddWithValue("@IPAddress", model.IpAddress);
-                        command.Parameters.AddWithValue("@CreatedBy", 0);
+                    command.Parameters.AddWithValue("@action", "_saveUserActivity");
+                    command.Parameters.AddWithValue("@UserName", model.UserName);
+                    command.Parameters.AddWithValue("@ActionName", model.ActionName);
+                    command.Parameters.AddWithValue("@Controller", model.Controller);
+                    command.Parameters.AddWithValue("@PageUrl", model.PageUrl);
+                    command.Parameters.AddWithValue("@IPAddress", model.IpAddress);
+                    command.Parameters.AddWithValue("@CreatedBy", model.UserID);
 
-                        command.Parameters.Add("@RetVal", SqlDbType.Int); // out
-                        command.Parameters["@RetVal"].Direction = ParameterDirection.Output;// out
+                    command.Parameters.Add("@RetVal", SqlDbType.Int); // out
+                    command.Parameters["@RetVal"].Direction = ParameterDirection.Output;// out
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        result = await command.ExecuteNonQueryAsync();
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
 
-                        result = Convert.ToInt32(command.Parameters["@RetVal"].Value);// out
-                    }
-                    return result;
+                    result = Convert.ToInt32(command.Parameters["@RetVal"].Value);// out
                 }
-                catch (Exception ex)
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
     }
 }
