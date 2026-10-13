@@ -963,9 +963,24 @@ namespace Kaushal_Darpan.Api.Controllers
                 // 2. Get Dynamic Data From DB
                 // ============================================================
 
-                DataTable dynamicDataTable =
-                    await _unitOfWork.SMSMailRepository
-                        .GetDynamicData(ObjET.DataQuery);
+                DataTable dynamicDataTable=new DataTable();
+
+                if (isTestRun)
+                {
+
+                     dynamicDataTable =
+                        await _unitOfWork.SMSMailRepository
+                            .GetDynamicData(ObjET.ToQuery);
+                }
+                else
+                {
+                     dynamicDataTable =
+                        await _unitOfWork.SMSMailRepository
+                            .GetDynamicData(ObjET.DataQuery);
+
+                }
+
+
 
 
                 // ============================================================
