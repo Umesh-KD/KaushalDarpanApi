@@ -678,6 +678,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@EventStatus", body.EventStatus);
                     command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
                     command.Parameters.AddWithValue("@ApproveStatus", body.ApproveStatus);
+                    command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                    command.Parameters.AddWithValue("@UserID", body.UserID);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
