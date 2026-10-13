@@ -340,5 +340,123 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+
+        public async Task<bool> SaveEmailTemplate(EmailTemplateModel request)
+        {
+            _actionName = "SaveEmailTemplate(EmailTemplateModel request)";
+
+            try
+            {
+                int result = 0;
+
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandText = "USP_EmailTemplate_AddUpdate";
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.AddWithValue("@ID", request.ID);
+                    command.Parameters.AddWithValue("@TemplateCode", (object?)request.TemplateCode ?? DBNull.Value);
+                    command.Parameters.AddWithValue("@TemplateName", (object?)request.TemplateName ?? DBNull.Value);
+                    command.Parameters.AddWithValue("@EmailSubject", (object?)request.EmailSubject ?? DBNull.Value);
+                    command.Parameters.AddWithValue("@EmailBody", (object?)request.EmailBody ?? DBNull.Value);
+                    command.Parameters.AddWithValue("@ToQuery", (object?)request.ToQuery ?? DBNull.Value);
+                    command.Parameters.AddWithValue("@CcQuery", (object?)request.CcQuery ?? DBNull.Value);
+                    command.Parameters.AddWithValue("@BccQuery", (object?)request.BccQuery ?? DBNull.Value);
+                    command.Parameters.AddWithValue("@DataQuery", (object?)request.DataQuery ?? DBNull.Value);
+                    command.Parameters.AddWithValue("@EmailAttachment", (object?)request.EmailAttachment ?? DBNull.Value);
+                    command.Parameters.AddWithValue("@IsHtml", request.IsHtml);
+                    command.Parameters.AddWithValue("@IsActive", request.IsActive);
+                    command.Parameters.AddWithValue("@CreatedBy", (object?)request.CreatedBy ?? request.UserID );
+                    command.Parameters.AddWithValue("@UpdatedBy", (object?)request.UpdatedBy ?? request.UserID );
+                    //command.Parameters.AddWithValue("@IPAddress", (object?)_IPAddress);
+
+                    command.Parameters.Add("@Return", SqlDbType.Int);
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output;
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    await command.ExecuteNonQueryAsync();
+
+                    result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                }
+
+                return result > 0;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<List<EmailTemplateModel>> GetEmailTemplateList(int id = 0, string? searchText = null)
+        {
+            _actionName = "GetEmailTemplateList(int id, string searchText)";
+            var list = new List<EmailTemplateModel>();
+
+            try
+            {
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandText = "USP_EmailTemplate_GetList";
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.AddWithValue("@ID", id);
+                    command.Parameters.AddWithValue("@SearchText", (object?)searchText ?? DBNull.Value);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            list.Add(new EmailTemplateModel
+                            {
+                                ID = reader["ID"] != DBNull.Value ? Convert.ToInt32(reader["ID"]) : 0,
+                                TemplateCode = reader["TemplateCode"]?.ToString() ?? "",
+                                TemplateName = reader["TemplateName"]?.ToString() ?? "",
+                                EmailSubject = reader["EmailSubject"]?.ToString() ?? "",
+                                EmailBody = reader["EmailBody"]?.ToString() ?? "",
+                                ToQuery = reader["ToQuery"] != DBNull.Value ? reader["ToQuery"].ToString() : null,
+                                CcQuery = reader["CcQuery"] != DBNull.Value ? reader["CcQuery"].ToString() : null,
+                                BccQuery = reader["BccQuery"] != DBNull.Value ? reader["BccQuery"].ToString() : null,
+                                DataQuery = reader["DataQuery"] != DBNull.Value ? reader["DataQuery"].ToString() : null,
+                                EmailAttachment = reader["EmailAttachment"] != DBNull.Value ? reader["EmailAttachment"].ToString() : null,
+                                IsHtml = reader["IsHtml"] != DBNull.Value && Convert.ToBoolean(reader["IsHtml"]),
+                                IsActive = reader["IsActive"] != DBNull.Value && Convert.ToBoolean(reader["IsActive"]),
+                                CreatedBy = reader["CreatedBy"] != DBNull.Value ? Convert.ToInt32(reader["CreatedBy"]) : null,
+                                //CreatedDate = reader["CreatedDate"] != DBNull.Value ? Convert.ToDateTime(reader["CreatedDate"]) : null,
+                                UpdatedBy = reader["UpdatedBy"] != DBNull.Value ? Convert.ToInt32(reader["UpdatedBy"]) : null
+                                //UpdatedDate = reader["UpdatedDate"] != DBNull.Value ? Convert.ToDateTime(reader["UpdatedDate"]) : null
+                            });
+                        }
+                    }
+                }
+
+                return list;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
     }
 }

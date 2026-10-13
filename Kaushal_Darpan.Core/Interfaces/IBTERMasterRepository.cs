@@ -15,5 +15,7 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<int> BTERUpdate_CollegeLoginInfo(BTERCollegeLoginInfoSearchModel request);
 
+        Task<DataSet> Get_BTERInstituteDataByID( int InstituteID);
+
     }
 }

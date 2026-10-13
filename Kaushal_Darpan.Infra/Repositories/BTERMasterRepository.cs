@@ -220,6 +220,39 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
+        public async Task<DataSet> Get_BTERInstituteDataByID(int InstituteID)
+        {
+            return await Task.Run(async () =>
+            {
+                _actionName = "Get_BTERInstituteDataByID( int CollegeID request)";
+                try
+                {
+                    DataSet ds = new DataSet();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetBTERCollegeDetail";
+                        command.Parameters.AddWithValue("@action", "_getAllData");
+                        command.Parameters.AddWithValue("@Id", InstituteID);
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        ds = await command.FillAsync();
+                    }
+                    return ds;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
 
     }
 }

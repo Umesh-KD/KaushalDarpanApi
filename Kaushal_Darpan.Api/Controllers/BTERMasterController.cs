@@ -4,6 +4,7 @@ using AutoMapper;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Models.ITIMaster;
+using Kaushal_Darpan.Models.ITIPlanning;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -147,6 +148,49 @@ namespace Kaushal_Darpan.Api.Controllers
                 await CreateErrorLog(nex, _unitOfWork);
             }
             return result;
+        }
+
+
+        [HttpGet("Get_BTERInstituteDataByID/{Id}")]
+        public async Task<ApiResult<DataSet>> Get_BTERInstituteDataByID(int Id)
+        {
+            ActionName = "Get_BTERInstituteDataByID(int Id)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<DataSet>();
+                try
+                {
+                    var data = await _unitOfWork.BTERMasterRepository.Get_BTERInstituteDataByID(Id);
+
+                    if (data.Tables.Count > 0)
+                    {
+                     
+                        result.Data = data;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
         }
 
     }
