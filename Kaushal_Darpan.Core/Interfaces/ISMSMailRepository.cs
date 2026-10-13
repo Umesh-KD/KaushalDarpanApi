@@ -18,5 +18,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetDynamicData(string DataQuery);
         Task<long> SaveEmailLog(EmailLog ModelEmailLog);
 
+        Task<bool> SaveEmailTemplate(EmailTemplateModel response);
+        Task<List<EmailTemplateModel>> GetEmailTemplateList( int id = 0, string? searchText = null);
+
     }
 }

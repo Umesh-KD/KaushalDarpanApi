@@ -258,4 +258,25 @@ namespace Kaushal_Darpan.Models.Student
         public int Eng_NonEng { get; set; }
         public int DepartmentID { get; set; }
     }
+
+
+    public class EmailTemplateModel
+    {
+        public int ID { get; set; }
+        public string TemplateCode { get; set; } = string.Empty;
+        public string TemplateName { get; set; } = string.Empty;
+        public string EmailSubject { get; set; } = string.Empty;
+        public string EmailBody { get; set; } = string.Empty;
+        public string? ToQuery { get; set; }
+        public string? CcQuery { get; set; }
+        public string? BccQuery { get; set; }
+        public string? DataQuery { get; set; }
+        public string? EmailAttachment { get; set; }
+        public bool IsHtml { get; set; } = true;
+        public bool IsActive { get; set; } = true;
+        public bool IsDeleted { get; set; } = false;
+        public int? CreatedBy { get; set; }
+        public int? UpdatedBy { get; set; }
+        public int? UserID { get; set; }
+    }
 }
