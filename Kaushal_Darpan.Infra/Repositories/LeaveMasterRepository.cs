@@ -534,7 +534,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                             command.Parameters.AddWithValue("@RoleID", body.RoleID);
                         }
                         else if (body.RoleID.HasValue && ((body.RoleID == (int)EnumRole.Principal) || (body.RoleID == (int)EnumRole.Principal_NonEng)) || 
-                        (body.RoleID == (int)EnumRole.ITIPrincipal))
+                        (body.RoleID == (int)EnumRole.ITIPrincipal) ||  (body.RoleID == (int)EnumRole.ITIAdmin_SCVT))
                         {
                             command.CommandText = "USP_GetStaffForLeaveCredit";
                         }
