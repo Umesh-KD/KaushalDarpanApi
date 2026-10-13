@@ -1076,6 +1076,13 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DivisionID", model.DivisionID);
                         command.Parameters.AddWithValue("@DistrictID", model.DistrictID);
                         command.Parameters.AddWithValue("@SearchText", model.SearchText ?? (object)DBNull.Value);
+
+                        command.Parameters.AddWithValue("@SchemeTypeID", model.SchemeTypeID);
+                        command.Parameters.AddWithValue("@TradeTypeID", model.TradeTypeID);
+                        command.Parameters.AddWithValue("@ManagementTypeId", model.ManagementTypeId );
+                        command.Parameters.AddWithValue("@TradeID", model.TradeID);
+
+
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -1151,7 +1158,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DistrictID", model.DistrictID);
                         command.Parameters.AddWithValue("@CollegeID", model.InstituteID);
                         command.Parameters.AddWithValue("@TradeID", model.TradeID);
-                        command.Parameters.AddWithValue("@SearchText", model.SearchText);
+                        command.Parameters.AddWithValue("@TradeTypeID", model.TradeTypeID);
+
+
+
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }

@@ -84,6 +84,12 @@ public class ItiSearchCollegeModel
     public int InstituteID { get; set; } = 0;
     public int TradeID { get; set; } = 0;
     public string? Action { get; set; } = string.Empty;
+
+    public int TradeTypeID { get; set; } = 0;
+    public int SchemeTypeID { get; set; } = 0;
+    public int ManagementTypeId { get; set; } = 0;
+
+
 }
 
 public class PolotectnicSearchCollegeModel
