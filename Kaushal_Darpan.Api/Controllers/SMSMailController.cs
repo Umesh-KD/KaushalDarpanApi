@@ -941,6 +941,11 @@ namespace Kaushal_Darpan.Api.Controllers
                     return result;
                 }
 
+                // ============================================================
+                // Check if this is a "Test" run
+                // ============================================================
+                bool isTestRun = string.Equals(request[0].MessageType, "Test", StringComparison.OrdinalIgnoreCase);
+
                 DataRow templateRow = templateTable.Rows[0];
 
                 ObjET.ID = Convert.ToInt32(templateRow["ID"]);
@@ -1315,25 +1320,86 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
+        //[HttpGet("GetEmailTemplateList")]
+        //public async Task<ApiResult<DataTable> GetEmailTemplateList([FromQuery] int id = 0, [FromQuery] string? searchText = null)
+        //{
+        //    var result = new ApiResult<DataTable>();
+
+        //    try
+        //    {
+        //        result.Data = await _unitOfWork.SMSMailRepository.GetEmailTemplateList(id, searchText);
+
+        //        //if (result.Data != null && result.Data.Count > 0)
+        //        //{
+        //        //    result.State = EnumStatus.Success;
+        //        //    result.Message = "Templates retrieved successfully!";
+        //        //}
+        //        //else
+        //        //{
+        //        //    result.State = EnumStatus.Warning;
+        //        //    result.Message = "No templates found.";
+        //        //    result.Data = new List<EmailTemplateModel>();
+        //        //}
+
+        //        //result.Data = await Task.Run(() => _unitOfWork.SMSMailRepository.GetEmailTemplateList(id, searchText));
+        //        result.State = EnumStatus.Success;
+
+        //        if (result.Data != null && result.Data.Rows.Count > 0)
+        //        {
+        //            result.State = EnumStatus.Success;
+        //            result.Message = "Templates retrieved successfully!";
+        //        }
+        //        else
+        //        {
+        //            result.Data ??= new DataTable();
+        //            result.State = EnumStatus.Warning;
+        //            result.Message = "No templates found!";
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        var nex = new NewException
+        //        {
+        //            PageName = PageName,
+        //            ActionName = "GetEmailTemplateList",
+        //            Ex = ex
+        //        };
+
+        //        await CreateErrorLog(nex, _unitOfWork);
+
+        //        result.State = EnumStatus.Error;
+        //        result.ErrorMessage = ex.Message;
+        //        //result.Data = new List<EmailTemplateModel>();
+        //    }
+        //    finally
+        //    {
+        //        await _unitOfWork.DisposeAsync();
+        //    }
+
+        //    return result;
+        //}
+
+
         [HttpGet("GetEmailTemplateList")]
-        public async Task<ApiResult<List<EmailTemplateModel>>> GetEmailTemplateList([FromQuery] int id = 0, [FromQuery] string? searchText = null)
+        public async Task<ApiResult<DataTable>> GetEmailTemplateList([FromQuery] int id = 0, [FromQuery] string? searchText = null)
         {
-            var result = new ApiResult<List<EmailTemplateModel>>();
+            var result = new ApiResult<DataTable>();
 
             try
             {
-                result.Data = await _unitOfWork.SMSMailRepository.GetEmailTemplateList(id, searchText);
+                // Execute repository call (wrap in Task.Run if the repo method is synchronous)
+                result.Data = await Task.Run(() => _unitOfWork.SMSMailRepository.GetEmailTemplateList(id, searchText));
 
-                if (result.Data != null && result.Data.Count > 0)
+                if (result.Data != null && result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
                     result.Message = "Templates retrieved successfully!";
                 }
                 else
                 {
+                    result.Data ??= new DataTable();
                     result.State = EnumStatus.Warning;
-                    result.Message = "No templates found.";
-                    result.Data = new List<EmailTemplateModel>();
+                    result.Message = "No templates found!";
                 }
             }
             catch (Exception ex)
@@ -1349,7 +1415,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
-                result.Data = new List<EmailTemplateModel>();
+                result.Data = new DataTable();
             }
             finally
             {
@@ -1358,7 +1424,6 @@ namespace Kaushal_Darpan.Api.Controllers
 
             return result;
         }
-
         #endregion
     }
 }

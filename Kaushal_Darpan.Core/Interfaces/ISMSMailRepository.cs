@@ -19,7 +19,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<long> SaveEmailLog(EmailLog ModelEmailLog);
 
         Task<bool> SaveEmailTemplate(EmailTemplateModel response);
-        Task<List<EmailTemplateModel>> GetEmailTemplateList( int id = 0, string? searchText = null);
+        Task<DataTable> GetEmailTemplateList( int id = 0, string? searchText = null);
 
     }
 }

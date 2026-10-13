@@ -398,10 +398,11 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
-        public async Task<List<EmailTemplateModel>> GetEmailTemplateList(int id = 0, string? searchText = null)
+        //Task<List<EmailTemplateModel>>
+        public async Task<DataTable> GetEmailTemplateList(int id = 0, string? searchText = null)
         {
             _actionName = "GetEmailTemplateList(int id, string searchText)";
-            var list = new List<EmailTemplateModel>();
+            var DataTable = new DataTable();
 
             try
             {
@@ -415,34 +416,36 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                     _sqlQuery = command.GetSqlExecutableQuery();
 
-                    using (var reader = await command.ExecuteReaderAsync())
-                    {
-                        while (await reader.ReadAsync())
-                        {
-                            list.Add(new EmailTemplateModel
-                            {
-                                ID = reader["ID"] != DBNull.Value ? Convert.ToInt32(reader["ID"]) : 0,
-                                TemplateCode = reader["TemplateCode"]?.ToString() ?? "",
-                                TemplateName = reader["TemplateName"]?.ToString() ?? "",
-                                EmailSubject = reader["EmailSubject"]?.ToString() ?? "",
-                                EmailBody = reader["EmailBody"]?.ToString() ?? "",
-                                ToQuery = reader["ToQuery"] != DBNull.Value ? reader["ToQuery"].ToString() : null,
-                                CcQuery = reader["CcQuery"] != DBNull.Value ? reader["CcQuery"].ToString() : null,
-                                BccQuery = reader["BccQuery"] != DBNull.Value ? reader["BccQuery"].ToString() : null,
-                                DataQuery = reader["DataQuery"] != DBNull.Value ? reader["DataQuery"].ToString() : null,
-                                EmailAttachment = reader["EmailAttachment"] != DBNull.Value ? reader["EmailAttachment"].ToString() : null,
-                                IsHtml = reader["IsHtml"] != DBNull.Value && Convert.ToBoolean(reader["IsHtml"]),
-                                IsActive = reader["IsActive"] != DBNull.Value && Convert.ToBoolean(reader["IsActive"]),
-                                CreatedBy = reader["CreatedBy"] != DBNull.Value ? Convert.ToInt32(reader["CreatedBy"]) : null,
-                                //CreatedDate = reader["CreatedDate"] != DBNull.Value ? Convert.ToDateTime(reader["CreatedDate"]) : null,
-                                UpdatedBy = reader["UpdatedBy"] != DBNull.Value ? Convert.ToInt32(reader["UpdatedBy"]) : null
-                                //UpdatedDate = reader["UpdatedDate"] != DBNull.Value ? Convert.ToDateTime(reader["UpdatedDate"]) : null
-                            });
-                        }
-                    }
+                    //using (var reader = await command.ExecuteReaderAsync())
+                    //{
+                    //    while (await reader.ReadAsync())
+                    //    {
+                    //        list.Add(new EmailTemplateModel
+                    //        {
+                    //            ID = reader["ID"] != DBNull.Value ? Convert.ToInt32(reader["ID"]) : 0,
+                    //            TemplateCode = reader["TemplateCode"]?.ToString() ?? "",
+                    //            TemplateName = reader["TemplateName"]?.ToString() ?? "",
+                    //            EmailSubject = reader["EmailSubject"]?.ToString() ?? "",
+                    //            EmailBody = reader["EmailBody"]?.ToString() ?? "",
+                    //            ToQuery = reader["ToQuery"] != DBNull.Value ? reader["ToQuery"].ToString() : null,
+                    //            CcQuery = reader["CcQuery"] != DBNull.Value ? reader["CcQuery"].ToString() : null,
+                    //            BccQuery = reader["BccQuery"] != DBNull.Value ? reader["BccQuery"].ToString() : null,
+                    //            DataQuery = reader["DataQuery"] != DBNull.Value ? reader["DataQuery"].ToString() : null,
+                    //            EmailAttachment = reader["EmailAttachment"] != DBNull.Value ? reader["EmailAttachment"].ToString() : null,
+                    //            IsHtml = reader["IsHtml"] != DBNull.Value && Convert.ToBoolean(reader["IsHtml"]),
+                    //            IsActive = reader["IsActive"] != DBNull.Value && Convert.ToBoolean(reader["IsActive"]),
+                    //            CreatedBy = reader["CreatedBy"] != DBNull.Value ? Convert.ToInt32(reader["CreatedBy"]) : null,
+                    //            //CreatedDate = reader["CreatedDate"] != DBNull.Value ? Convert.ToDateTime(reader["CreatedDate"]) : null,
+                    //            UpdatedBy = reader["UpdatedBy"] != DBNull.Value ? Convert.ToInt32(reader["UpdatedBy"]) : null
+                    //            //UpdatedDate = reader["UpdatedDate"] != DBNull.Value ? Convert.ToDateTime(reader["UpdatedDate"]) : null
+                    //        });
+                    //    }
+                    //}
+                    DataTable = await command.FillAsync_DataTable();
                 }
 
-                return list;
+                //return list;
+                return DataTable;
             }
             catch (Exception ex)
             {
