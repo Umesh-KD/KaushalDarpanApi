@@ -441,6 +441,140 @@ namespace Kaushal_Darpan.Core.Helper
         EM_NON_GAZETTED_STAFF = 252,
         EM_ADTE_GAZETTED_STAFF = 240,
         EM_ADTE_NON_GAZETTED_STAFF = 241,
+
+        // Add these members inside your existing EnumRole
+
+        PrincipalNonDegree = 207,
+        NodalVerifier = 180,
+        DTENodalVerifier = 185,
+        BTERVerifier = 19,
+        BTERVerifierDiplomaNonENG = 86,
+        BTERVerifierDiplomaLaterl = 87,
+        BTERVerifierDegreeNonEngg = 88,
+        BTERVerifierDegreeLateral = 89,
+
+        HostelWarden = 34,
+        HostelWardenITINCVT = 46,
+        HostelWardenITISCVT = 47,
+        Secretary_JD = 48,
+        Secretary_JD_NonEng = 53,
+        collegeNodel = 21,
+
+        DIRECTOR = 275,
+        HO_DTE = 244,
+        HO_BTER = 272,
+        HO_TTC = 273,
+
+        TITDTETraining = 22,
+        ITI_Verifier = 23,
+        ITIInvisilator = 24,
+        ITIPeon = 25,
+        IITCollegeNodal = 97,
+        TITStudent = 28,
+        TITSupport = 29,
+        ITITeacherNonEngNonEng = 30,
+        TITTPO = 32,
+
+        Principal_SCVT = 20,
+        ITIExaminer_SCVT = 44,
+        GuestRoomWarden = 41,
+
+        HOD_Eng = 60,
+        HOD_NonEng = 61,
+        Principle_NonEng_Degree1Year = 207,
+        Principle_NonEng_Degree2YearLateral = 208,
+        Committee_Incharge = 234,
+
+        ITIPrivateTeacher = 62,
+        ITILabIncharge = 63,
+        StoreKeeper = 201,
+        BTER_StoreIncharge = 238,
+        ITIClerk = 66,
+        ITIAccountant = 67,
+        ITIAAO = 68,
+        ITILibrarian = 69,
+        ITIGuestRoomWarden = 70,
+
+        ITIGovtTeacher = 71,
+        ITIGovtLabIncharge = 72,
+        ITIGovtClerk = 73,
+        ITIGovtAccountant = 74,
+        ITIGovtAAO = 75,
+        ITIGovtLibrarian = 76,
+        ITIGovtGuestRoomWarden = 77,
+
+        Secretary_JD_NCVT = 82,
+        Secretary_JD_SCVT = 83,
+        Registrar_SCVT = 84,
+        Registrar_NCVT = 85,
+        Center_SuperintendentSCVT = 90,
+
+        ITIProfessor_SCVT = 94,
+        ITIADMINISTRATIVEOFFICER = 101,
+        ITIStaff = 190,
+        ITIZonalOfficer = 100,
+        BterClerk = 195,
+        BterAccountant = 196,
+        BterAAO = 197,
+        BterLibrarian = 198,
+        BterLabIncharge = 199,
+        BterLabAttendant = 200,
+        BterEnrITSupport = 206,
+        StudentSectionincharge = 205,
+        StudentSectioninchargeNonEng = 209,
+        ITSupportNonEng = 210,
+
+        StoreKeeper_NCVT = 213,
+        StoreKeeper_SCVT = 214,
+        StoreOfficer = 249,
+
+        DTE_TrainingT2_establishment = 215,
+        DTETrainingT1Training = 216,
+        DTETrainingPlacementAdmin = 217,
+        DTETrainingT3Purchase = 218,
+        DTETrainingT4Scheme = 219,
+        DTETrainingE4Planning = 220,
+        BterStaff = 223,
+        Apprenticeship = 212,
+
+        DTEDegreeCourse1stYear = 80,
+        DTEDegreeCourse2ndYear = 81,
+        GuestFaculty = 225,
+        ShikshaSambal = 226,
+        CandidateRole = 999,
+        GuestHouseAdmin = 227,
+        GuestHouseIncharge = 228,
+
+        ITIPlanningAdmin = 231,
+        ITIBuildingAdmin = 232,
+
+        ITI_Placement_TPO = 229,
+        ITI_Placement_Admin = 233,
+        AdministrartiveStaff = 235,
+        AdministrartiveStaff2 = 236,
+        ITi_PracticalExaminer = 92,
+        ITI_ResultAdmin = 245,
+
+        EM_GAZETTED_STAFF = 251,
+        JD_TTC = 250,
+
+        ExamInchargeSCVT = 253,
+        ExamInchargeNCVT = 254,
+        AdmissionIncharges = 255,
+        HostelIncharge = 258,
+
+        InspectionManager = 102,
+
+        IIP_Admin = 265,
+        IIP_Incharge = 266,
+        Employee = 261,
+        STCSectionOfficer = 262,
+
+        ITI_Instructor = 222,
+
+        BTER_OfficerLabIncharge = 280,
+        ITI_IIP_Incharge = 283,
+        ITI_IIP_Admin = 282
     }
     public enum EnmPaymentGatway
     {
