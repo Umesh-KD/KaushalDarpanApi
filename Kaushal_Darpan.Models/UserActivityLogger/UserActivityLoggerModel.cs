@@ -8,5 +8,6 @@ namespace Kaushal_Darpan.Models.UserActivityLogger
         public string Controller { get; set; } = string.Empty;
         public string PageUrl { get; set; } = string.Empty;
         public string IpAddress { get; set; } = string.Empty;
+        public int UserID { get; set; }
     }    
 }

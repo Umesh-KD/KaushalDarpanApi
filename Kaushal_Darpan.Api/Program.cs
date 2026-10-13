@@ -26,6 +26,7 @@ using System.Text;
 using Kaushal_Darpan.Api.Code.Hangfire;
 using Hangfire.Dashboard;
 using Kaushal_Darpan.Api.HangFireServices;
+using Kaushal_Darpan.Api.Code.Attribute;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -75,7 +76,7 @@ builder.Services.AddScoped<JanAadhaarGenericService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 //builder.Services.AddTransient<RestrictUrlFactory>();// middleware
-//builder.Services.AddTransient<LogUserActivityFilter>();// action filter
+builder.Services.AddTransient<LogUserActivityFilter>();// action filter
 
 //builder.Services.AddScoped<IValidator<ProductDetailsCreateModel>, ProductDetailsCreateModelValidator>();
 builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters().AddValidatorsFromAssemblyContaining<Program>(); // register validators
@@ -274,11 +275,11 @@ builder.WebHost.ConfigureKestrel(options =>
 
 //builder.Services.AddControllersWithViews();
 
-//// action filter
-//builder.Services.AddControllersWithViews(options =>
-//{
-//    options.Filters.Add<LogUserActivityFilter>();
-//});
+// action filter
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add<LogUserActivityFilter>();
+});
 
 
 // Add Hangfire services
