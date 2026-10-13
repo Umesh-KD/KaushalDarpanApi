@@ -74,6 +74,8 @@ namespace Kaushal_Darpan.Models.CompanyMaster
         public int StudentID { get; set; }
         public int UserID { get; set; }
         public string? Action { get; set; }
+        public string? FromDate { get; set; }
+        public string? ToDate { get; set; }
 
     }
     public class GrivienceResponseDataModel

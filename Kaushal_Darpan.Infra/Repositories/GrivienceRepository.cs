@@ -453,6 +453,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@RoleID", body.RoleID);
                     command.Parameters.AddWithValue("@StudentID", body.StudentID);
                     command.Parameters.AddWithValue("@UserID", body.UserID);
+                    command.Parameters.AddWithValue("@FromDate", body.FromDate);
+                    command.Parameters.AddWithValue("@ToDate", body.ToDate);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
