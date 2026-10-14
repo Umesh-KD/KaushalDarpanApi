@@ -360,7 +360,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 string MessageBody = "Final Provisional merit list of Academic Year 2026-27 ITI Admission is published.Please check your merit at kdhte.rajasthan.gov.in/itipublicinfo -DTE,Jodhpur";
                 //string MessageBody = "Final Provisional merit list of Iti Admission is published.Please check your merit at kdhte.rajasthan.gov.in -DTE,Jodhpur"
                 string TempletID = "1007590954352487470";
-                string MobileNo = "7737348604";
+                string MobileNo = "83345874706";
                 string AID = "0";
                 //7737348604
 
@@ -1409,7 +1409,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
                     result.State = EnumStatus.Error;
                     result.ErrorMessage =
-                        "SMS text is required and must be less than 200 characters.";
+                        "SMS text is required and must be less than or equal 200 characters.";
 
                     return result;
                 }
