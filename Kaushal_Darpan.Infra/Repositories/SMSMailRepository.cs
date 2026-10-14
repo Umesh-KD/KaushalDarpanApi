@@ -414,7 +414,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@ID", id);
                     command.Parameters.AddWithValue("@SearchText", (object?)searchText ?? DBNull.Value);
 
-                    _sqlQuery = command.GetSqlExecutableQuery();
+                   _sqlQuery = command.GetSqlExecutableQuery();
 
                     //using (var reader = await command.ExecuteReaderAsync())
                     //{
@@ -461,5 +461,124 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+
+        public async Task<bool> SaveSMSTemplate(SMSTemplateModel request)
+        {
+            _actionName = "SaveSMSTemplate(SMSTemplateModel request)";
+
+            try
+            {
+                int result = 0;
+
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandText = "USP_SMS_Template_AddUpdate";
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.AddWithValue("@ID", request.ID);
+
+                    command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
+
+                    command.Parameters.AddWithValue("@RoleID", request.RoleID);
+
+                    command.Parameters.AddWithValue("@DivisionID", request.DivisionID);
+
+                    command.Parameters.AddWithValue("@DistrictID", request.DistrictID);
+
+                    command.Parameters.AddWithValue("@ManagementTypeID", request.ManagementTypeID);
+
+                    command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
+
+                    command.Parameters.AddWithValue("@SMSText",(object?)request.SMSText ?? DBNull.Value);
+
+                    command.Parameters.AddWithValue("@TemplateID",(object?)request.TemplateID ?? DBNull.Value);
+
+                    command.Parameters.AddWithValue("@CreatedBy",request.CreatedBy > 0 ? request.CreatedBy  : request.UserID);
+
+                    command.Parameters.AddWithValue("@UpdatedBy",(object?)request.UpdatedBy ?? request.UserID);
+
+                    command.Parameters.AddWithValue("@FinancialYearID",(object?)request.FinancialYearID ?? DBNull.Value);
+
+                    command.Parameters.AddWithValue( "@IsActive", request.IsActive);
+
+                    command.Parameters.Add("@Return", SqlDbType.Int);
+                    command.Parameters["@Return"].Direction =
+                        ParameterDirection.Output;
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+
+                    await command.ExecuteNonQueryAsync();
+
+                    result = Convert.ToInt32(
+                        command.Parameters["@Return"].Value);
+                }
+
+                return result > 0;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+
+                var errorDetails = CommonFuncationHelper.MakeError(errorDesc);
+
+                throw new Exception(errorDetails, ex);
+            }
+        }
+
+
+
+        public async Task<DataTable> GetSMSTemplateList(
+            int id = 0,
+            string? searchText = null)
+        {
+            _actionName = "GetSMSTemplateList(int id, string searchText)";
+
+            var dataTable = new DataTable();
+
+            try
+            {
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandText = "USP_SMS_Template_GetList";
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.AddWithValue("@ID", id);
+
+                    command.Parameters.AddWithValue(
+                        "@SearchText",
+                        (object?)searchText ?? DBNull.Value
+                    );
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+
+                    dataTable = await command.FillAsync_DataTable();
+                }
+
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+
+                var errorDetails = CommonFuncationHelper.MakeError(errorDesc);
+
+                throw new Exception(errorDetails, ex);
+            }
+        }
+
+
     }
 }

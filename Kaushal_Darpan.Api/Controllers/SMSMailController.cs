@@ -362,6 +362,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 string TempletID = "1007590954352487470";
                 string MobileNo = "7737348604";
                 string AID = "0";
+                //7737348604
 
                 DataTable dataTable = await _unitOfWork.SMSMailRepository.GetAllUnsendSMS();
                 foreach (DataRow item in dataTable.Rows)
@@ -1336,66 +1337,6 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
-        //[HttpGet("GetEmailTemplateList")]
-        //public async Task<ApiResult<DataTable> GetEmailTemplateList([FromQuery] int id = 0, [FromQuery] string? searchText = null)
-        //{
-        //    var result = new ApiResult<DataTable>();
-
-        //    try
-        //    {
-        //        result.Data = await _unitOfWork.SMSMailRepository.GetEmailTemplateList(id, searchText);
-
-        //        //if (result.Data != null && result.Data.Count > 0)
-        //        //{
-        //        //    result.State = EnumStatus.Success;
-        //        //    result.Message = "Templates retrieved successfully!";
-        //        //}
-        //        //else
-        //        //{
-        //        //    result.State = EnumStatus.Warning;
-        //        //    result.Message = "No templates found.";
-        //        //    result.Data = new List<EmailTemplateModel>();
-        //        //}
-
-        //        //result.Data = await Task.Run(() => _unitOfWork.SMSMailRepository.GetEmailTemplateList(id, searchText));
-        //        result.State = EnumStatus.Success;
-
-        //        if (result.Data != null && result.Data.Rows.Count > 0)
-        //        {
-        //            result.State = EnumStatus.Success;
-        //            result.Message = "Templates retrieved successfully!";
-        //        }
-        //        else
-        //        {
-        //            result.Data ??= new DataTable();
-        //            result.State = EnumStatus.Warning;
-        //            result.Message = "No templates found!";
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        var nex = new NewException
-        //        {
-        //            PageName = PageName,
-        //            ActionName = "GetEmailTemplateList",
-        //            Ex = ex
-        //        };
-
-        //        await CreateErrorLog(nex, _unitOfWork);
-
-        //        result.State = EnumStatus.Error;
-        //        result.ErrorMessage = ex.Message;
-        //        //result.Data = new List<EmailTemplateModel>();
-        //    }
-        //    finally
-        //    {
-        //        await _unitOfWork.DisposeAsync();
-        //    }
-
-        //    return result;
-        //}
-
-
         [HttpGet("GetEmailTemplateList")]
         public async Task<ApiResult<DataTable>> GetEmailTemplateList([FromQuery] int id = 0, [FromQuery] string? searchText = null)
         {
@@ -1440,6 +1381,149 @@ namespace Kaushal_Darpan.Api.Controllers
 
             return result;
         }
+       
+        #endregion
+
+
+        #region SMS Template MAster
+
+        [HttpPost("SaveSMSTemplate")]
+        public async Task<ApiResult<bool>> SaveSMSTemplate(
+            [FromBody] SMSTemplateModel request)
+        {
+            var result = new ApiResult<bool>();
+
+            try
+            {
+                if (request == null)
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = "Invalid request data!";
+                    return result;
+                }
+
+                if (string.IsNullOrWhiteSpace(request.SMSText) ||
+                    request.SMSText.Length >= 200)
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage =
+                        "SMS text is required and must be less than 200 characters.";
+
+                    return result;
+                }
+
+                if (string.IsNullOrWhiteSpace(request.TemplateID))
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = "Template ID is required!";
+                    return result;
+                }
+
+                if (request.DepartmentID <= 0 || request.RoleID <= 0)
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage =
+                        "Please select a valid Department and Role.";
+
+                    return result;
+                }
+
+                result.Data = await _unitOfWork.SMSMailRepository
+                    .SaveSMSTemplate(request);
+
+                await _unitOfWork.SaveChangesAsync();
+
+                if (result.Data)
+                {
+                    result.State = EnumStatus.Success;
+
+                    result.Message = request.ID == 0
+                        ? "SMS template submitted successfully!"
+                        : "SMS template updated successfully!";
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+
+                    result.ErrorMessage = request.ID == 0
+                        ? "Error submitting SMS template!"
+                        : "Error updating SMS template!";
+                }
+            }
+            catch (Exception ex)
+            {
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = "SaveSMSTemplate",
+                    Ex = ex
+                };
+
+                await CreateErrorLog(nex, _unitOfWork);
+
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+            finally
+            {
+                await _unitOfWork.DisposeAsync();
+            }
+
+            return result;
+        }
+
+
+
+
+        [HttpGet("GetSMSTemplateList")]
+        public async Task<ApiResult<DataTable>> GetSMSTemplateList(
+            [FromQuery] int id = 0,
+            [FromQuery] string? searchText = null)
+        {
+            var result = new ApiResult<DataTable>();
+
+            try
+            {
+                result.Data = await Task.Run(() =>
+                    _unitOfWork.SMSMailRepository.GetSMSTemplateList(id, searchText)
+                );
+
+                if (result.Data != null && result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "SMS templates retrieved successfully!";
+                }
+                else
+                {
+                    result.Data ??= new DataTable();
+                    result.State = EnumStatus.Warning;
+                    result.Message = "No SMS templates found!";
+                }
+            }
+            catch (Exception ex)
+            {
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = "GetSMSTemplateList",
+                    Ex = ex
+                };
+
+                await CreateErrorLog(nex, _unitOfWork);
+
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                result.Data = new DataTable();
+            }
+            finally
+            {
+                await _unitOfWork.DisposeAsync();
+            }
+
+            return result;
+        }
+
+
         #endregion
     }
 }
