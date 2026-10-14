@@ -88,6 +88,15 @@ public class ItiSearchCollegeModel
     public int TradeTypeID { get; set; } = 0;
     public int SchemeTypeID { get; set; } = 0;
     public int ManagementTypeId { get; set; } = 0;
+    public int PanchayatsamityId { get; set; } = 0;
+    public int VillageId { get; set; } = 0;
+    public int GrampanchayatId { get; set; } = 0;
+    public int TehsilId { get; set; } = 0;
+
+
+
+
+  
 
 
 }
