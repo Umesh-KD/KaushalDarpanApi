@@ -23,6 +23,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetSMSTemplateList( int id = 0, string? searchText = null);
 
         Task<bool> SaveSMSTemplate(SMSTemplateModel request);
-
+        Task<DataTable> GetAllUnsendSMS_TempalteWise(string templateID = "");
     }
 }

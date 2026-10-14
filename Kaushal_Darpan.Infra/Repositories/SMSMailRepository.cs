@@ -129,6 +129,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+        
+        
         public async Task<bool> UpdateUnsendSMSById(string AID, string response)
         {
             _actionName = "UpdateUnsendSMSById(string AID, string response)";
@@ -533,7 +535,6 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
-
         public async Task<DataTable> GetSMSTemplateList(
             int id = 0,
             string? searchText = null)
@@ -579,6 +580,40 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+
+        public async Task<DataTable> GetAllUnsendSMS_TempalteWise(string templateID = "")
+        {
+            _actionName = "GetAllUnsendSMS_TempalteWise(string TemplateID = \"\")";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    var dt = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.Text;
+                        command.CommandText = $"SELECT * FROM Trn_SendSMS WHERE IsSend = 0 AND TemplateID = '{templateID}'";                       
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dt = await command.FillAsync_DataTable();
+                    }
+
+                    return dt;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
 
     }
 }

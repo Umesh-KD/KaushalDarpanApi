@@ -360,7 +360,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 string MessageBody = "Final Provisional merit list of Academic Year 2026-27 ITI Admission is published.Please check your merit at kdhte.rajasthan.gov.in/itipublicinfo -DTE,Jodhpur";
                 //string MessageBody = "Final Provisional merit list of Iti Admission is published.Please check your merit at kdhte.rajasthan.gov.in -DTE,Jodhpur"
                 string TempletID = "1007590954352487470";
-                string MobileNo = "7737348604";
+                string MobileNo = "83345874706";
                 string AID = "0";
                 //7737348604
 
@@ -409,6 +409,8 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+
+
 
         //[RoleActionFilter(EnumRole.Admin, EnumRole.Admin_NonEng)]
         [HttpPost("SendSMSForStudentEnrollmentData")]
@@ -1403,11 +1405,11 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
 
                 if (string.IsNullOrWhiteSpace(request.SMSText) ||
-                    request.SMSText.Length >= 200)
+                    request.SMSText.Length > 200)
                 {
                     result.State = EnumStatus.Error;
                     result.ErrorMessage =
-                        "SMS text is required and must be less than 200 characters.";
+                        "SMS text is required and must be less than or equal 200 characters.";
 
                     return result;
                 }
@@ -1446,7 +1448,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.State = EnumStatus.Error;
 
                     result.ErrorMessage = request.ID == 0
-                        ? "Error submitting SMS template!"
+                        ? "No User found With this SMS template!"
                         : "Error updating SMS template!";
                 }
             }
@@ -1520,6 +1522,132 @@ namespace Kaushal_Darpan.Api.Controllers
                 await _unitOfWork.DisposeAsync();
             }
 
+            return result;
+        }
+
+
+        [HttpPost("SendMessage_TemplateWise")]
+        public async Task<ApiResult<string>> SendMessage_TemplateWise([FromQuery] string templateID)
+        {
+            ActionName = "SendMessage_TemplateWise([FromQuery] string templateID)";
+
+            var result = new ApiResult<string>();
+            try
+            {
+                if (string.IsNullOrWhiteSpace(templateID))
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = "Template ID is required!";
+                    return result;
+                }
+                //
+                //string MessageBody = "Final Provisional merit list of Academic Year 2026-27 ITI Admission is published.Please check your merit at kdhte.rajasthan.gov.in/itipublicinfo -DTE,Jodhpur";
+                //string MessageBody = "Final Provisional merit list of Iti Admission is published.Please check your merit at kdhte.rajasthan.gov.in -DTE,Jodhpur"
+                //string TempletID = "1007590954352487470";
+                //string MobileNo = "7737348604";
+                //string AID = "0";
+                //7737348604
+
+                DataTable dataTable = await _unitOfWork.SMSMailRepository.GetAllUnsendSMS_TempalteWise(templateID);
+                if (dataTable == null || dataTable.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = "No unsent SMS records found for this template.";
+                    result.Data = "0";
+                    return result;
+                }
+
+                int successCount = 0;
+                int failedCount = 0;
+
+                foreach (DataRow item in dataTable.Rows)
+                {
+                    //AID = item["AID"].ToString();
+                    //MessageBody = item["SMSText"].ToString();
+                    //TempletID = item["TemplateID"].ToString();
+                    //MobileNo = item["MobileNo"].ToString();
+
+                    string aid = item["AID"]?.ToString() ?? "";
+                    string messageBody = item["SMSText"]?.ToString() ?? "";
+                    string mobileNo = item["MobileNo"]?.ToString() ?? "";
+                    string recordTemplateID = item["TemplateID"]?.ToString() ?? "";
+
+                    // Do not send records associated with another template.
+                    if (!string.Equals(
+                        recordTemplateID,
+                        templateID,
+                        StringComparison.Ordinal))
+                    {
+                        continue;
+                    }
+
+                    if (string.IsNullOrWhiteSpace(aid) ||
+                        string.IsNullOrWhiteSpace(messageBody) ||
+                        string.IsNullOrWhiteSpace(mobileNo))
+                    {
+                        failedCount++;
+                        continue;
+                    }
+
+                    try
+                    {
+                        //string Response = await CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, MobileNo, MessageBody, TempletID);
+                        string response = await CommonFuncationHelper.SendSMS(
+                           _sMSConfigurationSetting,
+                           mobileNo,
+                           messageBody,
+                           recordTemplateID
+                        );
+
+                        //var isSend = await _unitOfWork.SMSMailRepository.UpdateUnsendSMSById(aid, response);
+                        //await _unitOfWork.SaveChangesAsync();
+
+                        // Update the record using your existing repository method.
+                        bool isUpdated =
+                            await _unitOfWork.SMSMailRepository
+                                .UpdateUnsendSMSById(aid, response);
+                        await _unitOfWork.SaveChangesAsync();
+
+                        if (isUpdated)
+                        {
+                            successCount++;
+                        }
+                        else
+                        {
+                            failedCount++;
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                }
+                result.Data = "Done";
+                if (result.Data != null)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "SMS Send successfully .!";
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = "No record found.!";
+                }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
             return result;
         }
 
