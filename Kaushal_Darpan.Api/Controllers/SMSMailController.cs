@@ -1448,7 +1448,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.State = EnumStatus.Error;
 
                     result.ErrorMessage = request.ID == 0
-                        ? "Error submitting SMS template!"
+                        ? "No User With found With this SMS template!"
                         : "Error updating SMS template!";
                 }
             }
