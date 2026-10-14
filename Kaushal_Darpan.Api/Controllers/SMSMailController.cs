@@ -1405,7 +1405,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
 
                 if (string.IsNullOrWhiteSpace(request.SMSText) ||
-                    request.SMSText.Length >= 200)
+                    request.SMSText.Length > 200)
                 {
                     result.State = EnumStatus.Error;
                     result.ErrorMessage =
