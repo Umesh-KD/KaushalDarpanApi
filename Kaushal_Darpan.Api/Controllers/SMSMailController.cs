@@ -966,25 +966,41 @@ namespace Kaushal_Darpan.Api.Controllers
                 // 2. Get Dynamic Data From DB
                 // ============================================================
 
-                DataTable dynamicDataTable=new DataTable();
+                //DataTable dynamicDataTable=new DataTable();
 
-                if (isTestRun)
+                //if (isTestRun)
+                //{
+
+                //     dynamicDataTable =
+                //        await _unitOfWork.SMSMailRepository
+                //            .GetDynamicData(ObjET.ToQuery);
+                //}
+                //else
+                //{
+                //     dynamicDataTable =
+                //        await _unitOfWork.SMSMailRepository
+                //            .GetDynamicData(ObjET.DataQuery);
+
+                //}
+
+                DataTable dynamicDataTable = isTestRun
+                    ? await _unitOfWork.SMSMailRepository.GetDynamicData(ObjET.ToQuery)
+                    : await _unitOfWork.SMSMailRepository.GetDynamicData(ObjET.DataQuery);
+
+
+                if (dynamicDataTable == null || dynamicDataTable.Rows.Count == 0)
                 {
-
-                     dynamicDataTable =
-                        await _unitOfWork.SMSMailRepository
-                            .GetDynamicData(ObjET.ToQuery);
+                    result.State = EnumStatus.Warning;
+                    result.Message = "No data found to send email.";
+                    return result;
                 }
-                else
+
+                if (!dynamicDataTable.Columns.Contains("Email"))
                 {
-                     dynamicDataTable =
-                        await _unitOfWork.SMSMailRepository
-                            .GetDynamicData(ObjET.DataQuery);
-
+                    result.State = EnumStatus.Warning;
+                    result.Message = "Query result does not contain an 'Email' column.";
+                    return result;
                 }
-
-
-
 
                 // ============================================================
                 // 3. Email Settings
