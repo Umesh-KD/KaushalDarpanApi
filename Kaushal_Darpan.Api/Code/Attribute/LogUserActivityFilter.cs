@@ -1,4 +1,5 @@
-﻿using Kaushal_Darpan.Core.Interfaces;
+﻿using Kaushal_Darpan.Core.Helper;
+using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Models.UserActivityLogger;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Security.Claims;
@@ -26,7 +27,7 @@ namespace Kaushal_Darpan.Api.Code.Attribute
                 var action = context.ActionDescriptor.RouteValues["action"] ?? "";
                 var controller = context.ActionDescriptor.RouteValues["controller"] ?? "";
                 var pageUrl = context.HttpContext?.Request?.Path ?? "";
-                var ipAddress = context.HttpContext?.Connection?.RemoteIpAddress?.ToString() ?? "";
+                var ipAddress = context.HttpContext?.Connection?.RemoteIpAddress?.ToString() ?? "";// not used
                 var refererUrl = context.HttpContext?.Request?.Headers?.Referer.ToString() ?? "";
                 var frontendUrl = context.HttpContext?.Request?.Headers["X-Frontend-Url"].FirstOrDefault() ?? "";
 

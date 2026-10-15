@@ -36,7 +36,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@ActionName", model.ActionName);
                     command.Parameters.AddWithValue("@Controller", model.Controller);
                     command.Parameters.AddWithValue("@PageUrl", model.PageUrl);
-                    command.Parameters.AddWithValue("@IPAddress", model.IpAddress);
+                    command.Parameters.AddWithValue("@IPAddress", CommonFuncationHelper.GetIpAddress());
                     command.Parameters.AddWithValue("@CreatedBy", model.UserID);
                     command.Parameters.AddWithValue("@RefererUrl", model.RefererUrl);
                     command.Parameters.AddWithValue("@FrontendPageUrl", model.FrontendPageUrl);
