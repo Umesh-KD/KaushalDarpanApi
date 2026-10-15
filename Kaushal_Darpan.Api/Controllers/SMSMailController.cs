@@ -1014,9 +1014,6 @@ namespace Kaushal_Darpan.Api.Controllers
                         // Always use original template body
                         // ----------------------------------------------------
 
-                        string emailBody = ObjET.EmailBody;
-                        string emailSubject = ObjET.EmailSubject;
-
                         // ----------------------------------------------------
                         // Replace Dynamic DB Values
                         // ----------------------------------------------------
@@ -1026,12 +1023,22 @@ namespace Kaushal_Darpan.Api.Controllers
                             //DataRow dataRow = dynamicDataTable.Rows[0];
                             foreach (DataRow DR in dynamicDataTable.Rows)
                             {
+
+                                string emailBody = ObjET.EmailBody;
+                                string emailSubject = ObjET.EmailSubject;
+
                                 foreach (DataColumn column in dynamicDataTable.Columns)
                                 {
-                                    string columnName = column.ColumnName;
+                                    //string columnName = column.ColumnName;
+                                    //string value = Convert.ToString(DR[column]) ?? "";
+                                    //emailBody = emailBody.Replace("{{" + columnName + "}}", value);
+                                    //emailSubject = emailSubject.Replace("{{" + columnName + "}}", value);
+
                                     string value = Convert.ToString(DR[column]) ?? "";
-                                    emailBody = emailBody.Replace("{{" + columnName + "}}", value);
-                                    emailSubject = emailSubject.Replace("{{" + columnName + "}}", value);
+                                    string placeholder = "{{" + column.ColumnName + "}}";
+
+                                    emailBody = emailBody.Replace(placeholder, value);
+                                    emailSubject = emailSubject.Replace(placeholder, value);
                                 }
                                 // ====================================================
                                 // 5. Get To / CC / BCC
