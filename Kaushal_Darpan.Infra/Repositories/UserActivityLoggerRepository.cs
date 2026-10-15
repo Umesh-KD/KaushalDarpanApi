@@ -38,6 +38,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@PageUrl", model.PageUrl);
                     command.Parameters.AddWithValue("@IPAddress", model.IpAddress);
                     command.Parameters.AddWithValue("@CreatedBy", model.UserID);
+                    command.Parameters.AddWithValue("@RefererUrl", model.RefererUrl);
+                    command.Parameters.AddWithValue("@FrontendPageUrl", model.FrontendPageUrl);
 
                     command.Parameters.Add("@RetVal", SqlDbType.Int); // out
                     command.Parameters["@RetVal"].Direction = ParameterDirection.Output;// out

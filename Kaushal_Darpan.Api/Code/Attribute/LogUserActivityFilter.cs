@@ -27,6 +27,8 @@ namespace Kaushal_Darpan.Api.Code.Attribute
                 var controller = context.ActionDescriptor.RouteValues["controller"] ?? "";
                 var pageUrl = context.HttpContext?.Request?.Path ?? "";
                 var ipAddress = context.HttpContext?.Connection?.RemoteIpAddress?.ToString() ?? "";
+                var refererUrl = context.HttpContext?.Request?.Headers?.Referer.ToString() ?? "";
+                var frontendUrl = context.HttpContext?.Request?.Headers["X-Frontend-Url"].FirstOrDefault() ?? "";
 
                 var logModel = new UserActivityLoggerModel
                 {
@@ -34,7 +36,9 @@ namespace Kaushal_Darpan.Api.Code.Attribute
                     ActionName = action,
                     Controller = controller,
                     PageUrl = pageUrl,
-                    IpAddress = ipAddress
+                    IpAddress = ipAddress,
+                    RefererUrl = refererUrl,
+                    FrontendPageUrl = frontendUrl
                 };
 
                 _unitOfWork.UserActivityLoggerRepository.SaveUserLogActivity(logModel).Wait();//save
@@ -53,7 +57,7 @@ namespace Kaushal_Darpan.Api.Code.Attribute
 
         private KDClaimPrincipal GetCustomPrincipal(ActionExecutingContext context)
         {
-            KDClaimPrincipal _KDClaimPrincipal =new KDClaimPrincipal();
+            KDClaimPrincipal _KDClaimPrincipal = new KDClaimPrincipal();
             var _claimsPrincipal = context.HttpContext?.User;
             if (_claimsPrincipal.Identity != null)
             {
