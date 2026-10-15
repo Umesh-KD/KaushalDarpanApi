@@ -97,6 +97,7 @@ namespace Kaushal_Darpan.Models.DispatchMaster
         public int TradeID { get; set; }
         public int ExaminerID { get; set; } 
         public int SemesterID { get; set; }
+        public int BundleID { get; set; }
      
         public int EndTermID { get; set; }
         public int TotalStudent { get; set; }
