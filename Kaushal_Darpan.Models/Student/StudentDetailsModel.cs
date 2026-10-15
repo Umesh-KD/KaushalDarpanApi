@@ -279,4 +279,30 @@ namespace Kaushal_Darpan.Models.Student
         public int? UpdatedBy { get; set; }
         public int? UserID { get; set; }
     }
+
+
+    public class SMSTemplateModel
+    {
+        public int ID { get; set; }
+
+        public int DepartmentID { get; set; }
+        public int RoleID { get; set; }
+        public int? DivisionID { get; set; }
+        public int? DistrictID { get; set; }
+        public int? ManagementTypeID { get; set; }
+        public int? InstituteID { get; set; }
+
+        public string? SMSText { get; set; }
+        public string? TemplateID { get; set; }
+
+        public int CreatedBy { get; set; }
+        public int? UpdatedBy { get; set; }
+        public int UserID { get; set; }
+
+        public int? FinancialYearID { get; set; }
+
+        public bool IsActive { get; set; } = true;
+
+        public int? EndTermID { get; set; } 
+    }
 }

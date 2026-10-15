@@ -20,6 +20,9 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<bool> SaveEmailTemplate(EmailTemplateModel response);
         Task<DataTable> GetEmailTemplateList( int id = 0, string? searchText = null);
+        Task<DataTable> GetSMSTemplateList( int id = 0, string? searchText = null);
 
+        Task<bool> SaveSMSTemplate(SMSTemplateModel request);
+        Task<DataTable> GetAllUnsendSMS_TempalteWise(string templateID = "");
     }
 }

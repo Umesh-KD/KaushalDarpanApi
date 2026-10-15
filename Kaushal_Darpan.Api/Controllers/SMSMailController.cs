@@ -360,8 +360,9 @@ namespace Kaushal_Darpan.Api.Controllers
                 string MessageBody = "Final Provisional merit list of Academic Year 2026-27 ITI Admission is published.Please check your merit at kdhte.rajasthan.gov.in/itipublicinfo -DTE,Jodhpur";
                 //string MessageBody = "Final Provisional merit list of Iti Admission is published.Please check your merit at kdhte.rajasthan.gov.in -DTE,Jodhpur"
                 string TempletID = "1007590954352487470";
-                string MobileNo = "7737348604";
+                string MobileNo = "83345874706";
                 string AID = "0";
+                //7737348604
 
                 DataTable dataTable = await _unitOfWork.SMSMailRepository.GetAllUnsendSMS();
                 foreach (DataRow item in dataTable.Rows)
@@ -408,6 +409,8 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+
+
 
         //[RoleActionFilter(EnumRole.Admin, EnumRole.Admin_NonEng)]
         [HttpPost("SendSMSForStudentEnrollmentData")]
@@ -963,25 +966,41 @@ namespace Kaushal_Darpan.Api.Controllers
                 // 2. Get Dynamic Data From DB
                 // ============================================================
 
-                DataTable dynamicDataTable=new DataTable();
+                //DataTable dynamicDataTable=new DataTable();
 
-                if (isTestRun)
+                //if (isTestRun)
+                //{
+
+                //     dynamicDataTable =
+                //        await _unitOfWork.SMSMailRepository
+                //            .GetDynamicData(ObjET.ToQuery);
+                //}
+                //else
+                //{
+                //     dynamicDataTable =
+                //        await _unitOfWork.SMSMailRepository
+                //            .GetDynamicData(ObjET.DataQuery);
+
+                //}
+
+                DataTable dynamicDataTable = isTestRun
+                    ? await _unitOfWork.SMSMailRepository.GetDynamicData(ObjET.ToQuery)
+                    : await _unitOfWork.SMSMailRepository.GetDynamicData(ObjET.DataQuery);
+
+
+                if (dynamicDataTable == null || dynamicDataTable.Rows.Count == 0)
                 {
-
-                     dynamicDataTable =
-                        await _unitOfWork.SMSMailRepository
-                            .GetDynamicData(ObjET.ToQuery);
+                    result.State = EnumStatus.Warning;
+                    result.Message = "No data found to send email.";
+                    return result;
                 }
-                else
+
+                if (!dynamicDataTable.Columns.Contains("Email"))
                 {
-                     dynamicDataTable =
-                        await _unitOfWork.SMSMailRepository
-                            .GetDynamicData(ObjET.DataQuery);
-
+                    result.State = EnumStatus.Warning;
+                    result.Message = "Query result does not contain an 'Email' column.";
+                    return result;
                 }
-
-
-
 
                 // ============================================================
                 // 3. Email Settings
@@ -1011,9 +1030,6 @@ namespace Kaushal_Darpan.Api.Controllers
                         // Always use original template body
                         // ----------------------------------------------------
 
-                        string emailBody = ObjET.EmailBody;
-                        string emailSubject = ObjET.EmailSubject;
-
                         // ----------------------------------------------------
                         // Replace Dynamic DB Values
                         // ----------------------------------------------------
@@ -1023,12 +1039,22 @@ namespace Kaushal_Darpan.Api.Controllers
                             //DataRow dataRow = dynamicDataTable.Rows[0];
                             foreach (DataRow DR in dynamicDataTable.Rows)
                             {
+
+                                string emailBody = ObjET.EmailBody;
+                                string emailSubject = ObjET.EmailSubject;
+
                                 foreach (DataColumn column in dynamicDataTable.Columns)
                                 {
-                                    string columnName = column.ColumnName;
+                                    //string columnName = column.ColumnName;
+                                    //string value = Convert.ToString(DR[column]) ?? "";
+                                    //emailBody = emailBody.Replace("{{" + columnName + "}}", value);
+                                    //emailSubject = emailSubject.Replace("{{" + columnName + "}}", value);
+
                                     string value = Convert.ToString(DR[column]) ?? "";
-                                    emailBody = emailBody.Replace("{{" + columnName + "}}", value);
-                                    emailSubject = emailSubject.Replace("{{" + columnName + "}}", value);
+                                    string placeholder = "{{" + column.ColumnName + "}}";
+
+                                    emailBody = emailBody.Replace(placeholder, value);
+                                    emailSubject = emailSubject.Replace(placeholder, value);
                                 }
                                 // ====================================================
                                 // 5. Get To / CC / BCC
@@ -1336,66 +1362,6 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
-        //[HttpGet("GetEmailTemplateList")]
-        //public async Task<ApiResult<DataTable> GetEmailTemplateList([FromQuery] int id = 0, [FromQuery] string? searchText = null)
-        //{
-        //    var result = new ApiResult<DataTable>();
-
-        //    try
-        //    {
-        //        result.Data = await _unitOfWork.SMSMailRepository.GetEmailTemplateList(id, searchText);
-
-        //        //if (result.Data != null && result.Data.Count > 0)
-        //        //{
-        //        //    result.State = EnumStatus.Success;
-        //        //    result.Message = "Templates retrieved successfully!";
-        //        //}
-        //        //else
-        //        //{
-        //        //    result.State = EnumStatus.Warning;
-        //        //    result.Message = "No templates found.";
-        //        //    result.Data = new List<EmailTemplateModel>();
-        //        //}
-
-        //        //result.Data = await Task.Run(() => _unitOfWork.SMSMailRepository.GetEmailTemplateList(id, searchText));
-        //        result.State = EnumStatus.Success;
-
-        //        if (result.Data != null && result.Data.Rows.Count > 0)
-        //        {
-        //            result.State = EnumStatus.Success;
-        //            result.Message = "Templates retrieved successfully!";
-        //        }
-        //        else
-        //        {
-        //            result.Data ??= new DataTable();
-        //            result.State = EnumStatus.Warning;
-        //            result.Message = "No templates found!";
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        var nex = new NewException
-        //        {
-        //            PageName = PageName,
-        //            ActionName = "GetEmailTemplateList",
-        //            Ex = ex
-        //        };
-
-        //        await CreateErrorLog(nex, _unitOfWork);
-
-        //        result.State = EnumStatus.Error;
-        //        result.ErrorMessage = ex.Message;
-        //        //result.Data = new List<EmailTemplateModel>();
-        //    }
-        //    finally
-        //    {
-        //        await _unitOfWork.DisposeAsync();
-        //    }
-
-        //    return result;
-        //}
-
-
         [HttpGet("GetEmailTemplateList")]
         public async Task<ApiResult<DataTable>> GetEmailTemplateList([FromQuery] int id = 0, [FromQuery] string? searchText = null)
         {
@@ -1440,6 +1406,275 @@ namespace Kaushal_Darpan.Api.Controllers
 
             return result;
         }
+       
+        #endregion
+
+
+        #region SMS Template MAster
+
+        [HttpPost("SaveSMSTemplate")]
+        public async Task<ApiResult<bool>> SaveSMSTemplate(
+            [FromBody] SMSTemplateModel request)
+        {
+            var result = new ApiResult<bool>();
+
+            try
+            {
+                if (request == null)
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = "Invalid request data!";
+                    return result;
+                }
+
+                if (string.IsNullOrWhiteSpace(request.SMSText) ||
+                    request.SMSText.Length > 200)
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage =
+                        "SMS text is required and must be less than or equal 200 characters.";
+
+                    return result;
+                }
+
+                if (string.IsNullOrWhiteSpace(request.TemplateID))
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = "Template ID is required!";
+                    return result;
+                }
+
+                if (request.DepartmentID <= 0 || request.RoleID <= 0)
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage =
+                        "Please select a valid Department and Role.";
+
+                    return result;
+                }
+
+                result.Data = await _unitOfWork.SMSMailRepository
+                    .SaveSMSTemplate(request);
+
+                await _unitOfWork.SaveChangesAsync();
+
+                if (result.Data)
+                {
+                    result.State = EnumStatus.Success;
+
+                    result.Message = request.ID == 0
+                        ? "SMS template submitted successfully!"
+                        : "SMS template updated successfully!";
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+
+                    result.ErrorMessage = request.ID == 0
+                        ? "No User found With this SMS template!"
+                        : "Error updating SMS template!";
+                }
+            }
+            catch (Exception ex)
+            {
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = "SaveSMSTemplate",
+                    Ex = ex
+                };
+
+                await CreateErrorLog(nex, _unitOfWork);
+
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+            finally
+            {
+                await _unitOfWork.DisposeAsync();
+            }
+
+            return result;
+        }
+
+
+
+
+        [HttpGet("GetSMSTemplateList")]
+        public async Task<ApiResult<DataTable>> GetSMSTemplateList(
+            [FromQuery] int id = 0,
+            [FromQuery] string? searchText = null)
+        {
+            var result = new ApiResult<DataTable>();
+
+            try
+            {
+                result.Data = await Task.Run(() =>
+                    _unitOfWork.SMSMailRepository.GetSMSTemplateList(id, searchText)
+                );
+
+                if (result.Data != null && result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "SMS templates retrieved successfully!";
+                }
+                else
+                {
+                    result.Data ??= new DataTable();
+                    result.State = EnumStatus.Warning;
+                    result.Message = "No SMS templates found!";
+                }
+            }
+            catch (Exception ex)
+            {
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = "GetSMSTemplateList",
+                    Ex = ex
+                };
+
+                await CreateErrorLog(nex, _unitOfWork);
+
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                result.Data = new DataTable();
+            }
+            finally
+            {
+                await _unitOfWork.DisposeAsync();
+            }
+
+            return result;
+        }
+
+
+        [HttpPost("SendMessage_TemplateWise")]
+        public async Task<ApiResult<string>> SendMessage_TemplateWise([FromQuery] string templateID)
+        {
+            ActionName = "SendMessage_TemplateWise([FromQuery] string templateID)";
+
+            var result = new ApiResult<string>();
+            try
+            {
+                if (string.IsNullOrWhiteSpace(templateID))
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = "Template ID is required!";
+                    return result;
+                }
+                //
+                //string MessageBody = "Final Provisional merit list of Academic Year 2026-27 ITI Admission is published.Please check your merit at kdhte.rajasthan.gov.in/itipublicinfo -DTE,Jodhpur";
+                //string MessageBody = "Final Provisional merit list of Iti Admission is published.Please check your merit at kdhte.rajasthan.gov.in -DTE,Jodhpur"
+                //string TempletID = "1007590954352487470";
+                //string MobileNo = "7737348604";
+                //string AID = "0";
+                //7737348604
+
+                DataTable dataTable = await _unitOfWork.SMSMailRepository.GetAllUnsendSMS_TempalteWise(templateID);
+                if (dataTable == null || dataTable.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = "No unsent SMS records found for this template.";
+                    result.Data = "0";
+                    return result;
+                }
+
+                int successCount = 0;
+                int failedCount = 0;
+
+                foreach (DataRow item in dataTable.Rows)
+                {
+                    //AID = item["AID"].ToString();
+                    //MessageBody = item["SMSText"].ToString();
+                    //TempletID = item["TemplateID"].ToString();
+                    //MobileNo = item["MobileNo"].ToString();
+
+                    string aid = item["AID"]?.ToString() ?? "";
+                    string messageBody = item["SMSText"]?.ToString() ?? "";
+                    string mobileNo = item["MobileNo"]?.ToString() ?? "";
+                    string recordTemplateID = item["TemplateID"]?.ToString() ?? "";
+
+                    // Do not send records associated with another template.
+                    if (!string.Equals(
+                        recordTemplateID,
+                        templateID,
+                        StringComparison.Ordinal))
+                    {
+                        continue;
+                    }
+
+                    if (string.IsNullOrWhiteSpace(aid) ||
+                        string.IsNullOrWhiteSpace(messageBody) ||
+                        string.IsNullOrWhiteSpace(mobileNo))
+                    {
+                        failedCount++;
+                        continue;
+                    }
+
+                    try
+                    {
+                        //string Response = await CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, MobileNo, MessageBody, TempletID);
+                        string response = await CommonFuncationHelper.SendSMS(
+                           _sMSConfigurationSetting,
+                           mobileNo,
+                           messageBody,
+                           recordTemplateID
+                        );
+
+                        //var isSend = await _unitOfWork.SMSMailRepository.UpdateUnsendSMSById(aid, response);
+                        //await _unitOfWork.SaveChangesAsync();
+
+                        // Update the record using your existing repository method.
+                        bool isUpdated =
+                            await _unitOfWork.SMSMailRepository
+                                .UpdateUnsendSMSById(aid, response);
+                        await _unitOfWork.SaveChangesAsync();
+
+                        if (isUpdated)
+                        {
+                            successCount++;
+                        }
+                        else
+                        {
+                            failedCount++;
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                }
+                result.Data = "Done";
+                if (result.Data != null)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "SMS Send successfully .!";
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = "No record found.!";
+                }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
         #endregion
     }
 }

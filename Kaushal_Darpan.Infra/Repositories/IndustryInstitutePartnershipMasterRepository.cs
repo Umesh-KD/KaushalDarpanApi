@@ -711,13 +711,21 @@ namespace Kaushal_Darpan.Infra.Repositories
                 using (var command = await _dbContext.CreateCommandAsync())
                 {
                     command.CommandType = CommandType.StoredProcedure;
-                    command.CommandText = "USP_IIP_GetCompanyEventStaffList";
+                    if(body.DepartmentID == 1)
+                    {
+                        command.CommandText = "USP_IIP_GetCompanyEventStaffList";
+                    }
+                    else
+                    {
+                        command.CommandText = "USP_IIP_GetCompanyEventStaffList_ITI";
+                    }
                     command.Parameters.AddWithValue("@Action", "GetByCompanyID");
 
                     command.Parameters.AddWithValue("@CompanyID", body.CompanyID);
                     command.Parameters.AddWithValue("@RoleID", body.RoleID);
                     command.Parameters.AddWithValue("@StaffID", body.StaffID);
                     command.Parameters.AddWithValue("@EventStatus", body.EventStatus);
+                    command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
@@ -1061,7 +1069,14 @@ namespace Kaushal_Darpan.Infra.Repositories
                 using (var command = await _dbContext.CreateCommandAsync())
                 {
                     command.CommandType = CommandType.StoredProcedure;
-                    command.CommandText = "USP_IIP_GetConsentReportData";
+                    if(body.DepartmentID == 1)
+                    {
+                        command.CommandText = "USP_IIP_GetConsentReportData";
+                    }
+                    else
+                    {
+                        command.CommandText = "USP_IIP_GetConsentReportData_ITI";
+                    }
                     command.Parameters.AddWithValue("@Action", body.Action);
 
                     command.Parameters.AddWithValue("@EventID", body.EventID);
@@ -1071,6 +1086,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@EventStatusID", body.EventStatusID);
                     command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
                     command.Parameters.AddWithValue("@Event", body.Event);
+                    command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
