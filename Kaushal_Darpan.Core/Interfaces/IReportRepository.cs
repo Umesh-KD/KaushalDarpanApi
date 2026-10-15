@@ -35,6 +35,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static Kaushal_Darpan.Models.BterApplication.PreviewApplicationFormmodel;
 using static Kaushal_Darpan.Models.ITIApplication.ItiApplicationPreviewDataModel;
+using Kaushal_Darpan.Models.PlacementShortListStudentMaster;
 
 namespace Kaushal_Darpan.Core.Interfaces
 {
@@ -359,5 +360,6 @@ namespace Kaushal_Darpan.Core.Interfaces
 
 
         Task<DataTable> GetBterdynamicReport(RequestBaseModel model);
+        Task<DataTable> GetPlacementdynamicReport(PlacementDynamicReportModel model);
     }
 }

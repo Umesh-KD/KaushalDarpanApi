@@ -27,6 +27,7 @@ using Kaushal_Darpan.Models.MarksheetDownloadModel;
 using Kaushal_Darpan.Models.NodalApperentship;
 using Kaushal_Darpan.Models.OptionalFormatReport;
 using Kaushal_Darpan.Models.PlacementReport;
+using Kaushal_Darpan.Models.PlacementShortListStudentMaster;
 using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.Report;
 using Kaushal_Darpan.Models.ScholarshipMaster;
@@ -11300,6 +11301,45 @@ namespace Kaushal_Darpan.Infra.Repositories
                
                     command.Parameters.AddWithValue("@FromDate", model.FromDate);
                     command.Parameters.AddWithValue("@ToDate", model.ToDate);
+                    command.Parameters.AddWithValue("@ActionType", model.ActionFlag);
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
+        public async Task<DataTable> GetPlacementdynamicReport(PlacementDynamicReportModel model)
+        {
+            _actionName = "GetPlacementdynamicReport(PlacementDynamicReportModel model)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetPlacementDynamic_Actions";
+                    //command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
+                    command.Parameters.AddWithValue("@InstituteID", model.InstituteId);
+                    command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@FinancialYearID", model.FinancialYearID);
+
+                    //command.Parameters.AddWithValue("@ToDate", model.ToDate);
+                    //command.Parameters.AddWithValue("@ToDate", model.ToDate);
                     command.Parameters.AddWithValue("@ActionType", model.ActionFlag);
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();

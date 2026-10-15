@@ -39,6 +39,7 @@ using Kaushal_Darpan.Models.Report;
 using Kaushal_Darpan.Models.StaffMaster;
 using Kaushal_Darpan.Models.TheoryMarks;
 using Kaushal_Darpan.Models.TimeTable;
+using Kaushal_Darpan.Models.PlacementShortListStudentMaster;
 using Microsoft.AspNetCore.Mvc;
 using QRCoder;
 using System.Data;
@@ -22479,6 +22480,42 @@ Web Site : www.techedu.rajasthan.gov.in
             try
             {
                 result.Data = await Task.Run(() => _unitOfWork.ReportRepository.GetBterdynamicReport(model));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+        [HttpPost("GetPlacementdynamicReport")]
+        public async Task<ApiResult<DataTable>> GetPlacementdynamicReport(PlacementDynamicReportModel model)
+        {
+            ActionName = "GetPlacementdynamicReport(ITI_FinalReportModule model)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ReportRepository.GetPlacementdynamicReport(model));
                 result.State = EnumStatus.Success;
                 if (result.Data.Rows.Count == 0)
                 {
