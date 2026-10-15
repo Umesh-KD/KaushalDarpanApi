@@ -1124,7 +1124,15 @@ namespace Kaushal_Darpan.Api.Controllers
 
                                     if (!string.IsNullOrWhiteSpace(ObjET.EmailAttachment))
                                     {
-                                        string attachmentPath = ObjET.EmailAttachment;
+                                        //string attachmentPath = ObjET.EmailAttachment;
+                                        // ObjET.EmailAttachment contains only the file name
+                                        string fileName = Path.GetFileName(ObjET.EmailAttachment);
+
+                                        // Build the full physical path
+                                        string attachmentPath = Path.Combine(
+                                           ConfigurationHelper.StaticFileRootPath,
+                                            fileName
+                                        );
                                         // Check file
                                         if (System.IO.File.Exists(attachmentPath))
                                         {
