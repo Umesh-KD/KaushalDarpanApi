@@ -383,6 +383,42 @@ namespace Kaushal_Darpan.Infra.Repositories
                 var errorDesc = new ErrorDescription
                 {
                     Message = ex.Message,
+                    PageName = _pageName,   
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<DataSet> GetBterHostelHouseDashboard(EstablishmentDashboardBTERDataModel model)
+        {
+            _actionName = "GetBterHostelHouseDashboard(EstablishmentDashboardBTERDataModel model)";
+            try
+            {
+                DataSet dataSet = new DataSet();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_BTER_HostelDashboard";
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                    command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                    command.Parameters.AddWithValue("@UserID", model.UserID);
+                    command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                    command.Parameters.AddWithValue("@OfficeID", model.OfficeID);
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataSet = await command.FillAsync();   // returns DataSet
+                }
+                return dataSet;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
                     PageName = _pageName,
                     ActionName = _actionName,
                     SqlExecutableQuery = _sqlQuery

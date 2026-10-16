@@ -364,6 +364,49 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
+
+        [HttpPost("GetBterHostelHouseDashboard")]
+        public async Task<ApiResult<DataSet>> GetBterHostelHouseDashboard([FromBody] EstablishmentDashboardBTERDataModel model)
+        {
+            ActionName = "GetBterHostelHouseDashboard([FromBody] EstablishmentDashboardBTERDataModel model)";
+            var result = new ApiResult<DataSet>();
+            try
+            {
+                result.Data = await _unitOfWork.AdminDashboardRepository.GetBterHostelHouseDashboard(model);
+
+                // a DataSet has no Rows, so check that it has tables and that at least one has data
+                if (result.Data != null
+                    && result.Data.Tables.Count > 0
+                    && result.Data.Tables.Cast<DataTable>().Any(t => t.Rows.Count > 0))
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+
         [HttpPost("GetExecutiveDashboard_StateLevel_Web")]
         public async Task<ApiResult<DataSet>> GetExecutiveDashboard_StateLevel_Web([FromBody] EstablishmentDashboardBTERDataModel model)
         {

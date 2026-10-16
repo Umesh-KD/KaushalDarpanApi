@@ -16,6 +16,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetTransferRelievingDashData(EM_TransferRelievingDashSearchModel model);
         Task<DataTable> GetStaffTrainingDashboardData(EM_StaffTrainingDashboardSearchModel model);
         Task<DataTable> GetBTEREstablishmentDashboard(EstablishmentDashboardBTERDataModel model);
+        Task<DataSet> GetBterHostelHouseDashboard(EstablishmentDashboardBTERDataModel model);
         Task<DataSet> GetExecutiveDashboard_StateLevel_Web(EstablishmentDashboardBTERDataModel model);
     }
 }
