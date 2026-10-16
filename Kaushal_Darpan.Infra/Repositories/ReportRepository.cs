@@ -11337,7 +11337,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@RoleID", model.RoleID);
                     command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                     command.Parameters.AddWithValue("@FinancialYearID", model.FinancialYearID);
-
                     command.Parameters.AddWithValue("@CampusPostID", model.CampusPostID);
                     //command.Parameters.AddWithValue("@ToDate", model.ToDate);
                     command.Parameters.AddWithValue("@ActionType", model.ActionFlag);

@@ -217,4 +217,18 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public List<EquipmentListModel> EquipmentList { get; set; } = new();
     }
 
+
+
+    //-------------------Inventory analytics dashboard ------------------------------
+
+    public class InventoryDashDynamicDataModel
+    {
+        public string? Action { get; set; }
+        public int CategoryId { get; set; }
+        public int EquipmentId { get; set; }
+        public int InstituteID { get; set; }
+        public int RoleID { get; set; }
+    }
+
+
 }
