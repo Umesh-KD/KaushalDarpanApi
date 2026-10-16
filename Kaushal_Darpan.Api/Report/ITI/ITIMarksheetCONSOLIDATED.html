@@ -1,5 +1,5 @@
 ﻿
-<div style="width:100%;padding:0px 35px;">
+<div style="width:100%;padding:0px 30px;">
     <table style="border-collapse: collapse; width: 100%; font-family: Arial; font-size:14px" border="0" cellpadding="5" cellspacing="0">
         <tr>
             <td style="padding-bottom:0px;">
@@ -30,7 +30,7 @@
             <td align="center" style="text-align: center; font-size: 13px; font-weight:600; padding-top:0px;">
 
                 <!-- Bulletproof Row for Alignment -->
-                <table style="width: 100%; border-collapse: collapse; margin-bottom: 3px;">
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 0px;">
                     <tr>
                         <!-- Left blank space to balance the centering -->
                         <td style="width: 25%;"></td>
@@ -46,7 +46,7 @@
                         <!-- Right: Revised Badge -->
                         <td style="width: 25%; text-align: right; vertical-align: middle;">
                             {#IF.MarksheetConsolidated.IsRevised=1#}
-                            <span style="font-size: 18px; font-weight: bold; white-space: nowrap;">
+                            <span style="font-size: 16px; font-weight: bold; white-space: nowrap;">
                                 {#=MarksheetConsolidated.RevisedName=#}
                             </span>
                             {#ENDIF.MarksheetConsolidated.IsRevised=1#}
@@ -89,8 +89,8 @@
             </table>
         </td>-->
 
-            <td style="padding:15px 0px;">
-                <table style="margin-bottom: 5px; border-collapse: separate; width: 100%;" border="0" cellpadding="5" cellspacing="5" border-spacing: 0 20px;>
+            <td style="padding:7px 0px;">
+                <table style="margin-bottom: 1px; border-collapse: separate; width: 100%;" border="0" cellpadding="5" cellspacing="5" border-spacing: 0 20px;>
                     <tr>
                         <td style="font-size: 12px; width: 16.5%;"><b>Name</b></td>
                         <td style="font-size: 12px; width: 35%; border-bottom: 1px solid #808080"><span style="display:block;border-bottom:solid 1px #000;padding-bottom:3px">{#=MarksheetConsolidated.StudentName=#}</span></td>
@@ -203,7 +203,7 @@
         </tr>
         <tr>
             <td>
-                <table style="border-collapse:collapse;margin-top:10px; " border="0" cellpadding="5" cellspacing="0">
+                <table style="border-collapse:collapse;margin-top:3px; " border="0" cellpadding="5" cellspacing="0">
                     <tr>
                         <td style="font-size: 12px;"><b>Note: </b> {#=MarksheetConsolidated.Note=#}</td>
                     </tr>
@@ -219,7 +219,7 @@
                             <b>Result Declaration Date:  <span>{#=MarksheetConsolidated.ResultDeclarationDate=#}</span></b>
                             {#IF.MarksheetConsolidated.IsRevised=1#}
                             <br />
-                            <b>Revised Date:</b> <span>{#=MarksheetConsolidated.RevisedDate=#}</span>
+                            <b>Revised Date: <span>{#=MarksheetConsolidated.RevisedDate=#}</span></b> 
                             {#ENDIF.MarksheetConsolidated.IsRevised=1#}
                         </td>
                     </tr>

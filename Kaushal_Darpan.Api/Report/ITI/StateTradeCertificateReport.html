@@ -257,10 +257,10 @@
             <td style="padding: 10px 0; width: 30%">
                 Revised Date
             </td>
-            <td style="width: 30%">
-                <span style="border-bottom: 1px solid gray; font-weight:bold ;font-family: Georgia," Times New Roman", Times, serif;" font-weight:bold;">
-                    <u>{#=StateTradeCertificate.RevisedDate=#}</u>
-                </span>
+            <td style="border-bottom: 1px solid gray; width: 30%; font-family:Times New Roman," Times", serif;">
+                <!--<span style="border-bottom: 1px solid gray; font-weight:bold ;font-family: Georgia," Times New Roman", Times, serif;" font-weight:bold;">-->
+                <b>{#=StateTradeCertificate.RevisedDate=#}</b>
+                <!--</span>-->
             </td>
             {#ENDIF.StateTradeCertificate.IsRevised=1 && StateTradeCertificate.isRevisedShowOnCert=1#}
         </tr>
