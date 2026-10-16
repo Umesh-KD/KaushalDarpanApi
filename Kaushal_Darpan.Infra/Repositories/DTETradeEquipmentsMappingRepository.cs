@@ -85,7 +85,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@EquipmentId", request.EquipmentId);
                         command.Parameters.AddWithValue("@Quantity", request.Quantity);
                         command.Parameters.AddWithValue("@Status", request.Status);
-                        command.Parameters.AddWithValue("@ActiveStatus", request.ActiveStatus);  
+                        command.Parameters.AddWithValue("@ActiveStatus", request.ActiveStatus);
                         command.Parameters.AddWithValue("@DeleteStatus", request.DeleteStatus);
                         command.Parameters.AddWithValue("@RTS", request.RTS ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
@@ -142,11 +142,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ItemID", request.ItemID);
                         command.Parameters.AddWithValue("@Status", request.Status);
                         command.Parameters.AddWithValue("@Remark", request.Remark);
-                      
-                    
+
+
                         command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
-                    
-       
+
+
                         command.Parameters.Add("@Return", SqlDbType.Int); // out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
 
@@ -183,7 +183,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             _actionName = "SaveEquipmentsMappingRequestData(DTERequestTradeEquipmentsMapping request)";
             return await Task.Run(async () =>
             {
-                
+
 
                 try
                 {
@@ -396,7 +396,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
-        
+
         public async Task<bool> DeleteDataByID(DTETradeEquipmentsMapping request)
         {
             _actionName = "DeleteDataByID(DTETradeEquipmentsMapping request)";
@@ -628,7 +628,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.CommandText = "USP_CategoryItems";
-                   
+
                     command.Parameters.AddWithValue("@Action", model.Action);
                     command.Parameters.AddWithValue("@CategoryId", model.CategoryId);
                     command.Parameters.AddWithValue("@EquipmentId", model.EquipmentId);
@@ -657,6 +657,50 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errorDetails, ex);
             }
         }
+
+
+
+        public async Task<DataTable> GetInventoryDynamicDashData(InventoryDashDynamicDataModel model)
+        {
+            DataTable ds = new DataTable();
+
+            try
+            {
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_INV_AnalyticDashboard_Actions";
+
+                    command.Parameters.AddWithValue("@Action", model.Action);
+                    command.Parameters.AddWithValue("@CategoryId", model.CategoryId);
+                    command.Parameters.AddWithValue("@EquipmentId", model.EquipmentId);
+                    command.Parameters.AddWithValue("@InstituteId", model.InstituteID);
+                    command.Parameters.AddWithValue("@RoleId", model.RoleID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+
+                    ds = await command.FillAsync_DataTable();
+                }
+
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+
+                var errorDetails = CommonFuncationHelper.MakeError(errorDesc);
+
+                throw new Exception(errorDetails, ex);
+            }
+        }
+    
+    
     }
 }
 

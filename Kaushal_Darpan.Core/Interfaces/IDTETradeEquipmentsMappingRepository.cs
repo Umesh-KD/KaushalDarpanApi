@@ -24,6 +24,7 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<int> UpdateStatusRevert(DTETEquipmentsRequestMappingRevert request);
         Task<DataSet> GetDynamicReportData(ItemsDataModels model);
+        Task<DataTable> GetInventoryDynamicDashData(InventoryDashDynamicDataModel model);
 
     }
 }
