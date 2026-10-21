@@ -95,6 +95,7 @@ namespace Kaushal_Darpan.Models.Test
         public string? Dis_CommitteeDocs { get; set; }
         public int? DTECommitteID { get; set; }
         public string? PrincipalCommitteeEndDate { get; set; }
+        public string? DTECommitteeEndDate { get; set; }
     }
 
     public class UpdateApplicationStatusDataModel_Committee
