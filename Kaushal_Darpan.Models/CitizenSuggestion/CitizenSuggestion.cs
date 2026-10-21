@@ -68,6 +68,9 @@ namespace Kaushal_Darpan.Models.CitizenSuggestion
         public int QueryAging { get; set; }
         public int CitizenQueryStatus { get; set; }
         public int RoleId { get; set; }
+        public string? FromDate { get; set; }
+        public string? ToDate { get; set; }
+
     }
 
     public class UserRatingDataModel
