@@ -108,6 +108,7 @@ public class PolotectnicSearchCollegeModel
     public int ManagementTypeId { get; set; } = 0;
     public int StreamTypeID { get; set; } = 0;
     public int StreamID { get; set; } = 0;
+    public int TehsilId { get; set; } = 0;
     public string? SearchText { get; set; } = string.Empty;
 
 }
