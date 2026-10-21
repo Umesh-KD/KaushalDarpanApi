@@ -1129,6 +1129,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ManagementTypeId", model.ManagementTypeId);
                         command.Parameters.AddWithValue("@StreamTypeID", model.StreamTypeID);
                         command.Parameters.AddWithValue("@StreamID", model.StreamID);
+                        command.Parameters.AddWithValue("@TehsilId", model.TehsilId);
                         command.Parameters.AddWithValue("@SearchText", model.SearchText ?? (object)DBNull.Value);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();

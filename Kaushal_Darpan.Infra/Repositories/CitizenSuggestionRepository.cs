@@ -50,6 +50,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@QueryAging", model.QueryAging);
                         command.Parameters.AddWithValue("@CitizenQueryStatus", model.CitizenQueryStatus);
                         command.Parameters.AddWithValue("@RoleId", model.RoleId);
+                        command.Parameters.AddWithValue("@FromDate", model.FromDate);
+                        command.Parameters.AddWithValue("@ToDate", model.ToDate);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
