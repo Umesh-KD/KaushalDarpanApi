@@ -2341,7 +2341,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@StaffID", body.StaffID);
                         command.Parameters.AddWithValue("@StaffUserID", body.StaffUserID);
                         command.Parameters.AddWithValue("@StaffGuestHouseIDs", body.StaffGuestHouseIDs);
-                        command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                        command.Parameters.AddWithValue("@RoleIDs", body.RoleIDs);
                         command.Parameters.AddWithValue("@ModifyBy", body.ModifyBy);
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);
 

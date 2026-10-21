@@ -590,6 +590,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? StaffUserID { get; set; }
         public int? ModifyBy { get; set; }
         public string? StaffGuestHouseIDs { get; set; }
+        public string? RoleIDs { get; set; }
     }
 
 
