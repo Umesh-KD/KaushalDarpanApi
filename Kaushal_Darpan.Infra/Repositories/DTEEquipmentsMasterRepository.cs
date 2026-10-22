@@ -167,7 +167,14 @@ namespace Kaushal_Darpan.Infra.Repositories
                     int result = 0;
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
-                        command.CommandText = $"update M_DTEEquipmentsMaster  set ActiveStatus=0,DeleteStatus=1,ModifyBy='{request.ModifyBy} ',ModifyDate=GETDATE(),IPAddress='{_IPAddress}'Where EquipmentsId = {request.EquipmentsId}";
+                        //command.CommandText = $"update M_DTEEquipmentsMaster  set ActiveStatus=0,DeleteStatus=1,ModifyBy='{request.ModifyBy} ',ModifyDate=GETDATE(),IPAddress='{_IPAddress}'Where EquipmentsId = {request.EquipmentsId}";
+                        command.CommandText = $@"UPDATE M_DTEEquipmentsMaster SET 
+                            ActiveStatus = CASE WHEN ActiveStatus = 1 THEN 0 ELSE 1 END,
+                            DeleteStatus = CASE WHEN ActiveStatus = 1 THEN 1 ELSE 0 END,
+                            ModifyBy = '{request.ModifyBy}',
+                            ModifyDate = GETDATE(),
+                            IPAddress = '{_IPAddress}'
+                        WHERE EquipmentsId = {request.EquipmentsId}";
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         result = await command.ExecuteNonQueryAsync();
