@@ -1949,6 +1949,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@FilterBy", model.FilterBy);
                         command.Parameters.AddWithValue("@DistrictID", model.DistrictID);
                         command.Parameters.AddWithValue("@CategoryID", model.CategoryID);
+                        command.Parameters.AddWithValue("@CollegeID", model.CollegeID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();

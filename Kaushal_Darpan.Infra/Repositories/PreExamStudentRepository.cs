@@ -130,6 +130,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
                         command.Parameters.AddWithValue("@IsYearly", model.IsYearly);
                         command.Parameters.AddWithValue("@Year_SemID", model.Year_SemID);
+                        command.Parameters.AddWithValue("@StudentFilterStatusId", model.StudentFilterStatusId);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }

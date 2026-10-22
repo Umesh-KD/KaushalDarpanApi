@@ -943,6 +943,50 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
+
+
+        [HttpPost("UserProfileStatusHistoryLog")]
+        public async Task<ApiResult<DataTable>> UserProfileStatusHistoryLog([FromBody] Bter_Govt_EM_UserRequestHistoryListSearchDataModel request)
+        {
+            ActionName = "GetBter_Govt_EM_UserProfileStatusHt([FromBody] Bter_Govt_EM_UserRequestHistoryListSearchDataModel request)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                // Pass the entire model to the repository
+                result.Data = await _unitOfWork.BTER_EstablishManagementRepository.UserProfileStatusHistoryLog(request);
+
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
         [HttpPost("Bter_GOVT_EM_ApproveRejectStaff")]
         public async Task<ApiResult<bool>> Bter_GOVT_EM_ApproveRejectStaff([FromBody] RequestUpdateStatus request)
         {
