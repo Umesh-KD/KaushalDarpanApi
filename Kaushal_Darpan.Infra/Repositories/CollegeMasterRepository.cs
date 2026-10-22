@@ -93,6 +93,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@PageNumber", model.PageNumber);
                     command.Parameters.AddWithValue("@PageSize", model.PageSize);
 
+                    command.Parameters.AddWithValue("@FromDate", model.FromDate);
+                    command.Parameters.AddWithValue("@ToDate", model.ToDate);
+
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
                 }
