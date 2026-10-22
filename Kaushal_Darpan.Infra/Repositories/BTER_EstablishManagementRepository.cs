@@ -1074,6 +1074,45 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
         #endregion
 
+        public async Task<DataTable> UserProfileStatusHistoryLog(Bter_Govt_EM_UserRequestHistoryListSearchDataModel Model)
+        {
+            _actionName = "GetAllData()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Bter_Govt_EM_UserProfileStatusLog";
+                        // Add parameters to the stored procedure from the model                        
+                        command.Parameters.AddWithValue("@UserID", Model.StaffUserID);
+                        command.Parameters.AddWithValue("@StaffID", Model.StaffID);
+                        command.Parameters.AddWithValue("@DepartmentID", Model.DepartmentID);
+                        command.Parameters.AddWithValue("@Action", "UserProfileStatusHt");
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
         public async Task<bool> Bter_GOVT_EM_ApproveRejectStaff(RequestUpdateStatus request)
         {
             _actionName = "LockandSubmit(StaffMasterModel request)";

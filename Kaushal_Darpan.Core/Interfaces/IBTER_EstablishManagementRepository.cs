@@ -30,6 +30,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetBTER_Govt_EM_GetUserProfileStatus(int ID);
         Task<int> BTER_Govt_EM_ServiceDetailsOfPersonnelDeleteByID(BTERGovtEM_DeleteByIdStaffServiceDelete body);
         Task<DataTable> GetBter_Govt_EM_UserProfileStatusHt(Bter_Govt_EM_UserRequestHistoryListSearchDataModel Model);
+        Task<DataTable> UserProfileStatusHistoryLog(Bter_Govt_EM_UserRequestHistoryListSearchDataModel Model);
         Task<bool> Bter_GOVT_EM_ApproveRejectStaff(RequestUpdateStatus productDetails);
         Task<BTER_EM_AddStaffDetailsDataModel> BTER_EM_GetBterStaffSubjectListModelStaffID(int PK_ID, int DepartmentID);
         Task<List<BTER_EM_AddServiceHistoryDataModel>> BTER_EM_GetBterServiceListData(int PK_ID, int DepartmentID);
