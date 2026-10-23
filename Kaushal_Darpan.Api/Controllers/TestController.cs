@@ -4,6 +4,7 @@ using DinkToPdf.Contracts;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
+using Kaushal_Darpan.Api.Code.Attribute;
 using Kaushal_Darpan.Api.Code.Helper;
 using Kaushal_Darpan.Api.HtmlTempleteFile;
 using Kaushal_Darpan.Core.Helper;
@@ -12,6 +13,7 @@ using Kaushal_Darpan.Infra;
 using Kaushal_Darpan.Models.DateConfiguration;
 using Kaushal_Darpan.Models.SMSConfigurationSetting;
 using Kaushal_Darpan.Models.Test;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Data;
@@ -828,13 +830,12 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         #region  placemnt resumes shift test
-
         [HttpGet("MovePlacementResumes")]
         public async Task<string> MovePlacementResumes()
         {
             try
             {
-                CommonFuncationHelper.WriteTextLog("MovePlacementResumes start:" , "TestMovePlacementResumes");
+                CommonFuncationHelper.WriteTextLog("MovePlacementResumes start:", "TestMovePlacementResumes");
 
                 string sourceRootPath = ConfigurationHelper.StaticFileRootPath;
 
@@ -916,7 +917,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     await _unitOfWork.SaveChangesAsync();
                 }
 
-                CommonFuncationHelper.WriteTextLog($"Rename Updating is END successfully !!", "TestMovePlacementResumes");                
+                CommonFuncationHelper.WriteTextLog($"Rename Updating is END successfully !!", "TestMovePlacementResumes");
 
 
                 CommonFuncationHelper.WriteTextLog($"Successfully moved count {movedCount} !!", "TestMovePlacementResumes");
@@ -929,10 +930,21 @@ namespace Kaushal_Darpan.Api.Controllers
                 return $"Error: {ex.Message}";
             }
         }
-        
-        
         #endregion
 
+        //[Authorize(Policy = "ApiScope")]
+        [CustomeAuthorize(EnumRole.Admin,EnumRole.Guest)]
+        [HttpGet("TestOcelotGet")]
+        public async Task<string> TestOcelotGet()
+        {
+            return "TestOcelotG";
+        }
+
+        [HttpPost("TestOcelotPost")]
+        public async Task<string> TestOcelotPost()
+        {
+            return "TestOcelotP";
+        }
     }
     public class Test
     {
