@@ -26,6 +26,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> CampusPost_UpdateStatus(CampusPost_UpdateStatus_Model request);
         Task<MinMaxAgeDateDataModel> GetMinMaxAgeDate(MinMaxAgeDateDataModel model);
 
+        Task<DataTable> CampusHistoryListNew(CampuspostHistorySearchModel model);
 
     }
 }
