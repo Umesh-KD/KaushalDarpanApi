@@ -45,6 +45,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     new Claim(nameof(model.RoleIDs),model.RoleIDs),
                     new Claim(nameof(model.RoleNames),model.RoleNames),
+                    new Claim("scope", ConfigurationHelper.JwtScope),  // policy if token genrate with wrong then ocalet not validate
                 };
 
             var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(ConfigurationHelper.JwtSecret));
