@@ -94,11 +94,6 @@ public class ItiSearchCollegeModel
     public int TehsilId { get; set; } = 0;
 
 
-
-
-  
-
-
 }
 
 public class PolotectnicSearchCollegeModel
@@ -274,4 +269,20 @@ public class ITICollegeCampusRemovalModel
 {
     public int RoleID { get; set; }
     public int UserID { get; set; }
+}
+public class ScholarshipCourseModel
+{
+    public string Inst_Code { get; set; } = string.Empty;
+
+    public string COURSENAME { get; set; } = string.Empty;
+
+    public int COURSEID { get; set; }
+
+    public string PRCODE { get; set; } = string.Empty;
+
+    public string Trade_code { get; set; } = string.Empty;
+    public int InstituteID { get; set; }
+    public int AcademicYearID { get; set; }
+
+    
 }

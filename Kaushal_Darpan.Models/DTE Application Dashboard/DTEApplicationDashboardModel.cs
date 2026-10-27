@@ -47,7 +47,10 @@ namespace Kaushal_Darpan.Models.DTEApplicationDashboardModel
         public int IsPresent { get; set; }
 
         public string? Action { get; set; }
+
         public string? Type { get; set; }
+        public string? RollNumber { get; set; }
+
 
     }
 

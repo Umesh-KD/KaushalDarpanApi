@@ -1024,6 +1024,12 @@ namespace Kaushal_Darpan.Api.Controllers
                         result.Message = "Duplicate Entry";
 
                     }
+                    else if (result.Data == -3)
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = "This student has already been withdrawn. You cannot take admission again.";
+                    }
+
                     else
                     {
                         result.State = EnumStatus.Error;
