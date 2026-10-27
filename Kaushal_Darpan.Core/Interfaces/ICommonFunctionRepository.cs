@@ -444,5 +444,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<bool> UpdateEmitraPaymentStatusWhatsApp(DResponseWhatsAppModel request);
         Task<SignalRDashboardModel> GetDashboardCountSignalR();
         Task<bool> SaveDashboardCountSignalR();
+        Task<int> Dummy_SaveTestUspDataByAction(string action, string json);
     }
 }
