@@ -194,4 +194,20 @@
         public string? MinAgeDate { get; set; } = "";
         public string? MaxAgeDate { get; set; } = "";
     }
+
+    public class CampuspostHistorySearchModel
+    {
+        public int? CompanyID { get; set; }
+        public int? CollegeID { get; set; }
+        public string? Status { get; set; }
+        public int? DepartmentID { get; set; }
+        public int? SearchBy { get; set; }
+        public string? FromDate { get; set; }
+        public string? ToDate { get; set; }
+        public int? HiringRoleID { get; set; }
+        public string? CreatedBySSOID { get; set; }
+        public int? CampusID { get; set; }
+
+    }
+
 }

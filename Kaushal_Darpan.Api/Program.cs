@@ -208,7 +208,9 @@ builder.Services.AddSwaggerGen(c =>
         In = ParameterLocation.Header,
         Description = "Please insert JWT with Bearer into field",
         Name = "Authorization",
-        Type = SecuritySchemeType.ApiKey
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        BearerFormat = "JWT"
     });
     c.AddSecurityRequirement(new OpenApiSecurityRequirement {
         {
@@ -264,6 +266,13 @@ builder.Services.AddAuthentication(option =>
     //};
 });
 builder.Services.AddAuthorization();
+//builder.Services.AddAuthorization(options =>
+//{
+//    options.AddPolicy("ApiScope", policy =>
+//    {
+//        policy.RequireClaim("scope", ConfigurationHelper.JwtScope);
+//    });
+//});
 // end auth with jwt and jwt token
 
 builder.WebHost.ConfigureKestrel(options =>
