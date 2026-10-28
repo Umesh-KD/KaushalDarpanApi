@@ -404,6 +404,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@PostServiceTypeID", request.PostServiceTypeID);
                         command.Parameters.AddWithValue("@ChildPostServiceTypeID", request.ChildPostServiceTypeID);
 
+                        command.Parameters.AddWithValue("@CurrentDrawnPayLevelID", request.CurrentDrawnPayLevelID);
+                        command.Parameters.AddWithValue("@BasicPay", request.BasicPay);
+
                         _sqlQuery = command.GetSqlExecutableQuery();
                         result = await command.ExecuteNonQueryAsync();
 
