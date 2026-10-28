@@ -8,5 +8,12 @@ namespace Kaushal_Darpan.Models.CommonSubjectMaster
         public string CommonSubjectName { get; set; }
         public string SemesterName { get; set; }
         public string? SubjectNames { get; set; }
+
+        public string? CreatedDate { get; set; }
+        public string? CreatedByName { get; set; }
+        public string? ModifyDate { get; set; }
+        public string? ModifyByName { get; set; }
+        public int? TotalRecords { get; set; }
+
     }
 }

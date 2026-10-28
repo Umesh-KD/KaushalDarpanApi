@@ -21,6 +21,8 @@ namespace Kaushal_Darpan.Models.CollegeMaster
         public int PageSize { get; set; }
         public int RoleID { get; set; } = 0;
         public int CourseType { get; set; } = 0;
+        public string? FromDate { get; set; }
+        public string? ToDate { get; set; }
         public string DistrictIds { get; set; } = "";
 
 

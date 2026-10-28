@@ -18,7 +18,7 @@ namespace Kaushal_Darpan.Core.Helper
         //private static IWebHostEnvironment _env;
         private static IHttpContextAccessor _httpContextAccessor;
 
-        public static void Initialize( IHttpContextAccessor httpContextAccessor)
+        public static void Initialize(IHttpContextAccessor httpContextAccessor)
         {
             //_env = env;
             _httpContextAccessor = httpContextAccessor;
@@ -30,6 +30,7 @@ namespace Kaushal_Darpan.Core.Helper
         public static string JwtIssuer => _configuration["Jwt:Issuer"];
         public static string JwtAudience => _configuration["Jwt:Audience"];
         public static string JwtSecret => _configuration["Jwt:Secret"];
+        public static string JwtScope => _configuration["Jwt:Scope"] ?? "";
         public static int SessionTime => int.Parse(_configuration["SessionTime"] ?? "0");
         public static string JwtAuthority => _configuration["Jwt:Authority"];
         public static string EgrassPaymentSuccessUrl => _configuration["Egrass-Payment-SuccessUrl"];
@@ -88,12 +89,12 @@ namespace Kaushal_Darpan.Core.Helper
         public static readonly string ClientId = "0df7e4099e5fad031ff871400dc07152";
         public static readonly string ClientId_live = "4b555247b9579ec01679d8b73abe7021";
         public static string PrivateCertPath => Path.Combine(StaticFileRootPath, "Keys", "Publickey", "server.pfx");
-        public static string PublicCertPath =>ConfigurationHelper.IsLocal
-            ? 
+        public static string PublicCertPath => ConfigurationHelper.IsLocal
+            ?
             Path.Combine(StaticFileRootPath, "Keys", "Publickey", "RJAAPublicKey.cer") :
              Path.Combine(StaticFileRootPath, "Keys", "Publickey", "RJAAPublicKey_LIVE.cer")
             ;
- 
+
 
 
         public static string BaseUrl

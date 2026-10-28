@@ -6,5 +6,8 @@
         public int? SemesterID { get; set; }
         public int? EndTermID { get; set; }
         public string? SubjectID { get; set; }
+
+        public int? PageNumber { get; set; }
+        public int? PageSize { get; set; }
     }
 }

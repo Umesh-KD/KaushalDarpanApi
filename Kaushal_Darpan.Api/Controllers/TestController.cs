@@ -4,6 +4,7 @@ using DinkToPdf.Contracts;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
+using Kaushal_Darpan.Api.Code.Attribute;
 using Kaushal_Darpan.Api.Code.Helper;
 using Kaushal_Darpan.Api.HtmlTempleteFile;
 using Kaushal_Darpan.Core.Helper;
@@ -12,6 +13,7 @@ using Kaushal_Darpan.Infra;
 using Kaushal_Darpan.Models.DateConfiguration;
 using Kaushal_Darpan.Models.SMSConfigurationSetting;
 using Kaushal_Darpan.Models.Test;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Data;
@@ -687,8 +689,8 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
         // move new eng. student file into new file structure
-        [HttpPost("Dummy_SaveAndMoveNewAdmittedEngStudentImages")]
-        public async Task<string> Dummy_SaveAndMoveNewAdmittedEngStudentImages()
+        [HttpPost("Dummy_SaveAndMoveAdmittedEngStudentImages")]
+        public async Task<string> Dummy_SaveAndMoveAdmittedEngStudentImages()
         {
             try
             {
@@ -826,15 +828,195 @@ namespace Kaushal_Darpan.Api.Controllers
             }
         }
 
+        // move new admitted(enrollment) students images for our folder structure then save in db
+        [HttpPost("Dummy_SaveAndMoveNewAdmittedEngStudentImages")]
+        public async Task<string> Dummy_SaveAndMoveNewAdmittedEngStudentImages()
+        {
+            var logfile = "_Dummy_SaveAndMoveNewAdmittedEngStudentImages";
+            try
+            {
+                // move files and save data of new eng admission
+                //--------paths--------
+                //old (source):
+                //All = \StaticFiles\old-bter-student-images\SemEng_NewAddmission\direct\
+
+                //new (destination):\year\coursetype\applicationid\filename
+                //All = \StaticFiles\Students\BTER\2025\1\20\filename
+                //log
+                CommonFuncationHelper.WriteTextLog("Dummy_SaveAndMoveStudentImages start:", logfile);
+                //data
+                var ds = await _unitOfWork.CommonFunctionRepository.Dummy_GetTestUspDataByAction("_get_data_to_test");
+                DataTable dataTable = ds.Tables[0];
+                //log
+                CommonFuncationHelper.WriteTextLog($"Dummy_GetTestUspDataByAction getdata count = {dataTable.Rows.Count}", logfile);
+                //source path
+                string sourceRootPath = System.IO.Path.Combine(ConfigurationHelper.StaticFileRootPath, "old-bter-student-images", "admission_2026");
+                string destinationRootPath = System.IO.Path.Combine(ConfigurationHelper.StaticFileRootPath, Constants.StudentsFolder, Constants.DepartmentBterFolder);
+
+                if (!Directory.Exists(sourceRootPath))
+                {
+                    return "sourceRootPath Directory does not exist!";
+                }
+                if (!Directory.Exists(destinationRootPath))
+                {
+                    Directory.CreateDirectory(destinationRootPath);
+                }
+
+                // Create DataTable for storing new id
+                DataTable dt = new DataTable();
+                dt.Columns.Add("ApplicationID", typeof(int));
+                dt.Columns.Add("ApplicationId_Old", typeof(int));
+                dt.Columns.Add("CourseType", typeof(int));
+                dt.Columns.Add("AcademicYearID", typeof(int));
+                dt.Columns.Add("FolderYear", typeof(int));
+                dt.Columns.Add("DocumentMasterID", typeof(int));
+                dt.Columns.Add("ColumnName", typeof(string));
+                dt.Columns.Add("Filename", typeof(string));
+                dt.Columns.Add("Dis_FileName", typeof(string));
+                dt.Columns.Add("Type", typeof(string));
+
+                //loop files each student
+                //log
+                CommonFuncationHelper.WriteTextLog("table loop start:", logfile);
+                CommonFuncationHelper.WriteTextLog("all file copy start:", logfile);
+                int i = 0;
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    ++i;
+                    var filename = row["Filename"].ToString();
+                    //make source full path of each students
+                    var sourceFolderPathEach = System.IO.Path.Combine(sourceRootPath, row["Type"].ToString(), "Files", filename);
+                    try
+                    {
+
+                        //log
+                        CommonFuncationHelper.WriteTextLog($"source folder ({sourceFolderPathEach}) loop count = {i}", logfile);
+
+                        //check path
+                        if (!System.IO.File.Exists(sourceFolderPathEach))
+                        {
+                            //log
+                            CommonFuncationHelper.WriteTextLog($"source file not found = {sourceFolderPathEach}", logfile);
+                            continue;
+                        }
+
+                        //make destination path of each students with new id
+                        var destinationfolderPathDB = System.IO.Path.Combine(row["FolderYear"].ToString(), row["CourseType"].ToString(), row["ApplicationID"].ToString());
+                        var destinationFolderPathEach = System.IO.Path.Combine(destinationRootPath, destinationfolderPathDB);
+
+                        //destination path
+                        if (!Directory.Exists(destinationFolderPathEach))
+                        {
+                            Directory.CreateDirectory(destinationFolderPathEach);
+                        }
+
+                        string onlyfileName = Path.GetFileNameWithoutExtension(filename);
+                        string extension = Path.GetExtension(filename);
+
+                        var docmasterid = Convert.ToInt32(row["DocumentMasterID"]);
+
+                        var newFileName = "";
+
+                        if (docmasterid == 3) // StudentPhoto
+                        {
+                            newFileName = $"photograph{extension}";
+                        }
+                        else if (docmasterid == 4) // StudentSign
+                        {
+                            newFileName = $"signature{extension}";
+                        }
+
+                        if (string.IsNullOrWhiteSpace(newFileName))
+                        {
+                            //log
+                            CommonFuncationHelper.WriteTextLog($"master id not not found = {sourceFolderPathEach}", logfile);
+                            continue;
+                        }
+
+                        // make destination full path 
+                        var destinationFullPathEach = System.IO.Path.Combine(destinationFolderPathEach, newFileName);
+
+                        //----- copy file in new folder structure -----
+                        // copy the file
+                        // Open the source file with shared read access
+                        using (var sourceStream = new FileStream(sourceFolderPathEach, System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.ReadWrite))
+                        using (var destinationStream = new FileStream(destinationFullPathEach, System.IO.FileMode.Create, System.IO.FileAccess.Write))
+                        {
+                            await sourceStream.CopyToAsync(destinationStream);// copy
+                        }
+
+                        // add in new table for document table save
+                        DataRow dr = dt.NewRow();
+                        dr["ApplicationID"] = row["ApplicationID"].ToString();
+                        dr["ApplicationId_Old"] = row["ApplicationId_Old"].ToString();
+                        dr["CourseType"] = row["CourseType"].ToString();
+                        dr["AcademicYearID"] = row["AcademicYearID"].ToString();
+                        dr["FolderYear"] = row["FolderYear"].ToString();
+                        dr["DocumentMasterID"] = row["DocumentMasterID"].ToString();
+                        dr["ColumnName"] = row["ColumnName"].ToString();
+                        dr["Filename"] = System.IO.Path.Combine(destinationfolderPathDB, newFileName); //make it folder structure path
+                        dr["Dis_FileName"] = newFileName;
+                        dr["Type"] = row["Type"].ToString();
+
+                        //add in table
+                        dt.Rows.Add(dr);
+                    }
+                    catch (Exception ex)
+                    {
+                        //log
+                        CommonFuncationHelper.WriteTextLog($"Failed to copy file: {sourceFolderPathEach}. Error: {ex.Message}", logfile);
+                    }
+                }
+
+                //log
+                CommonFuncationHelper.WriteTextLog("all file copy end:", logfile);
+                CommonFuncationHelper.WriteTextLog("table loop end:", logfile);
+
+                //check need to insert
+                if (dt.Rows.Count > 0)
+                {
+                    //log
+                    CommonFuncationHelper.WriteTextLog("DB Insert start:", logfile);
+
+                    //convert in json
+                    string json = JsonConvert.SerializeObject(dt);
+
+                    //log
+                    CommonFuncationHelper.WriteTextLog($"DB Insert Start with json : {json}", logfile);
+
+                    //db
+                    var r = await _unitOfWork.CommonFunctionRepository.Dummy_SaveTestUspDataByAction("_save_data_to_test", json);
+                    await _unitOfWork.SaveChangesAsync();
+
+                    //log
+                    CommonFuncationHelper.WriteTextLog($"DB Insert end with count={r}:", logfile);
+
+                    CommonFuncationHelper.WriteTextLog("Success:", logfile);
+                    return "Success";
+                }
+                else
+                {
+                    CommonFuncationHelper.WriteTextLog("no data to insert:", logfile);
+                    return "no data to insert";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //log
+                CommonFuncationHelper.WriteTextLog($"Error: {ex.Message}", logfile);
+                return $"Error: {ex.Message}";
+            }
+        }
+
 
         #region  placemnt resumes shift test
-
         [HttpGet("MovePlacementResumes")]
         public async Task<string> MovePlacementResumes()
         {
             try
             {
-                CommonFuncationHelper.WriteTextLog("MovePlacementResumes start:" , "TestMovePlacementResumes");
+                CommonFuncationHelper.WriteTextLog("MovePlacementResumes start:", "TestMovePlacementResumes");
 
                 string sourceRootPath = ConfigurationHelper.StaticFileRootPath;
 
@@ -916,7 +1098,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     await _unitOfWork.SaveChangesAsync();
                 }
 
-                CommonFuncationHelper.WriteTextLog($"Rename Updating is END successfully !!", "TestMovePlacementResumes");                
+                CommonFuncationHelper.WriteTextLog($"Rename Updating is END successfully !!", "TestMovePlacementResumes");
 
 
                 CommonFuncationHelper.WriteTextLog($"Successfully moved count {movedCount} !!", "TestMovePlacementResumes");
@@ -929,10 +1111,21 @@ namespace Kaushal_Darpan.Api.Controllers
                 return $"Error: {ex.Message}";
             }
         }
-        
-        
         #endregion
 
+        //[Authorize(Policy = "ApiScope")]
+        [CustomeAuthorize(EnumRole.Admin, EnumRole.Guest)]
+        [HttpGet("TestOcelotGet")]
+        public async Task<string> TestOcelotGet()
+        {
+            return "TestOcelotG";
+        }
+
+        [HttpPost("TestOcelotPost")]
+        public async Task<string> TestOcelotPost()
+        {
+            return "TestOcelotP";
+        }
     }
     public class Test
     {

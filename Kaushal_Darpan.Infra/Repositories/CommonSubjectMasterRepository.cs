@@ -42,6 +42,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                         command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@PageNumber", model.PageNumber);
+                        command.Parameters.AddWithValue("@PageSize", model.PageSize);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
