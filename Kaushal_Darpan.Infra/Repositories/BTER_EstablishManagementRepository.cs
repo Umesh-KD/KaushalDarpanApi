@@ -2234,6 +2234,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@Action", body.Action);
                     command.Parameters.AddWithValue("@UserID", body.UserID);
                     command.Parameters.AddWithValue("@HeadName", body.HeadName);
+                    command.Parameters.AddWithValue("@BudgetTypeID", body.BudgetTypeID);
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
                 }

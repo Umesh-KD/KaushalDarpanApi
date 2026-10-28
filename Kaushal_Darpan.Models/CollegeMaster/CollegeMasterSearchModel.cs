@@ -21,8 +21,9 @@ namespace Kaushal_Darpan.Models.CollegeMaster
         public int PageSize { get; set; }
         public int RoleID { get; set; } = 0;
         public int CourseType { get; set; } = 0;
+        public string DistrictIds { get; set; } = "";
 
-        
+
     }
 
     public class CollageDashboardSearchModel

@@ -8698,6 +8698,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Actoin", request.Actoin);
                         command.Parameters.AddWithValue("@FileName", request.FileName);
                         command.Parameters.AddWithValue("@Dis_FileName", request.Dis_FileName);
+                        command.Parameters.AddWithValue("@FromDate", request.FromDate);
+                        command.Parameters.AddWithValue("@ToDate", request.ToDate);
 
 
                         _sqlQuery = command.GetSqlExecutableQuery();
