@@ -30,6 +30,8 @@ namespace Kaushal_Darpan.Models.PreExamStudent
         public int? PromoteStatus { get; set; }
         public int? StudentExamTypeID { get; set; }
         public string? AbcId { get; set; }
+        public string? BranchIDs { get; set; }
+        public string? InstituteIDs { get; set; }
         public int? OptionalSubjectID { get; set; }
         public int? PendingCollegeFeeStatus { get; set; }
     }

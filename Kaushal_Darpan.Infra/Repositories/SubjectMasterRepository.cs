@@ -43,6 +43,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@BranchID", model.BranchID);
                         command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
                         command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
+                        command.Parameters.AddWithValue("@IsParent", model.IsParent);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
