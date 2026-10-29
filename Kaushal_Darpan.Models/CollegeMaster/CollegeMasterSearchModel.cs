@@ -23,6 +23,7 @@ namespace Kaushal_Darpan.Models.CollegeMaster
         public int CourseType { get; set; } = 0;
         public string? FromDate { get; set; }
         public string? ToDate { get; set; }
+        public string DistrictIds { get; set; } = "";
 
 
     }

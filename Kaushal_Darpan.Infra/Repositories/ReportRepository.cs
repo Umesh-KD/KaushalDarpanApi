@@ -1002,6 +1002,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@EndTermID", filterModel.EndTermID);
                         command.Parameters.AddWithValue("@RoleID", filterModel.RoleID);
                         command.Parameters.AddWithValue("@action", filterModel.Type);
+                        command.Parameters.AddWithValue("@RollNumber", filterModel.RollNumber);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }

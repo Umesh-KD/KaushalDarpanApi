@@ -38,6 +38,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@DesignationNameEnglish", request.DesignationNameEnglish);
                     command.Parameters.AddWithValue("@StaffTypeID", request.StaffTypeID);
                     command.Parameters.AddWithValue("@Gaz_NonGaz", request.Gaz_NonGaz);
+                    command.Parameters.AddWithValue("@ActiveStatus", request.ActiveStatus);
+                    command.Parameters.AddWithValue("@FromDate", request.FromDate);
+                    command.Parameters.AddWithValue("@ToDate", request.ToDate);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();

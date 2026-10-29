@@ -82,6 +82,8 @@ namespace Kaushal_Darpan.Models.CommonFunction
         public string Actoin { get; set; } = "";
         public string FileName { get; set; } = "";
         public string Dis_FileName { get; set; } = "";
+        public string ToDate { get; set; } = "";
+        public string FromDate { get; set; } = "";
 
 
     }

@@ -47,5 +47,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<List<BankGuaranteeConsolidatedReportModel>>
          GetBankGuaranteeConsolidatedReport(BankGuaranteeConsolidatedReportRequest request);
         Task<DataTable> ITICollegeCampusRemovalReport(ITICollegeCampusRemovalModel model);
+
+        Task<DataTable> UpdateScholerShipDetails(List<ScholarshipCourseModel> Model);
     }
 }

@@ -89,6 +89,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@Status", model.Status);
                     command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                     command.Parameters.AddWithValue("@CourseType", model.Eng_NonEng);
+                    command.Parameters.AddWithValue("@DistrictIds", model.DistrictIds);
 
                     command.Parameters.AddWithValue("@PageNumber", model.PageNumber);
                     command.Parameters.AddWithValue("@PageSize", model.PageSize);

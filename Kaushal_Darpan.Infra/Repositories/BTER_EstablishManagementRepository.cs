@@ -406,6 +406,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@PostServiceTypeID", request.PostServiceTypeID);
                         command.Parameters.AddWithValue("@ChildPostServiceTypeID", request.ChildPostServiceTypeID);
 
+                        command.Parameters.AddWithValue("@CurrentDrawnPayLevelID", request.CurrentDrawnPayLevelID);
+                        command.Parameters.AddWithValue("@BasicPay", request.BasicPay);
+
                         _sqlQuery = command.GetSqlExecutableQuery();
                         result = await command.ExecuteNonQueryAsync();
 
@@ -2236,6 +2239,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@Action", body.Action);
                     command.Parameters.AddWithValue("@UserID", body.UserID);
                     command.Parameters.AddWithValue("@HeadName", body.HeadName);
+                    command.Parameters.AddWithValue("@BudgetTypeID", body.BudgetTypeID);
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
                 }

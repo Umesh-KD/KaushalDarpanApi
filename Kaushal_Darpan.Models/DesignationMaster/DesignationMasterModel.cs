@@ -26,7 +26,10 @@
         public int StaffTypeID { get; set; }
         public int UserID { get; set; }
         public int Gaz_NonGaz { get; set; }
+        public int ActiveStatus { get; set; }
         public string? DesignationNameEnglish { get; set;}
+        public string? FromDate { get; set;}
+        public string? ToDate { get; set;}
         public bool? IsActive { get; set;}
     }
 

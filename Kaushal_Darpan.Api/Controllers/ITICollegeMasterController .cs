@@ -1782,8 +1782,50 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
             }
             return result;
-
         }
+
+        [HttpPost("UpdateScholerShipDetails")]
+        public async Task<ApiResult<DataTable>> UpdateScholerShipDetails([FromBody] List<ScholarshipCourseModel> model)
+        {
+            ActionName = "UpdateScholerShipDetails()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.State = EnumStatus.Success;
+                result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                result.Data = await _unitOfWork.ITICollegeMasterRepository.UpdateScholerShipDetails(model);
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+
+
+
 
     }
 }

@@ -234,6 +234,10 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? OfficeID { get; set; }
         public int? PostServiceTypeID { get; set; }
         public int? ChildPostServiceTypeID { get; set; }
+        public int? CurrentDrawnPayLevelID { get; set; }
+        public decimal? BasicPay { get; set; }
+
+
     }
 
     public class BTER_EM_AddServiceHistoryDataModel

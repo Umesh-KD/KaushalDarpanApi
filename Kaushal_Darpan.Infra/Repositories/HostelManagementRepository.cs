@@ -1231,7 +1231,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_Get_HostelInstituteMapping";
-                        
+                        command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
