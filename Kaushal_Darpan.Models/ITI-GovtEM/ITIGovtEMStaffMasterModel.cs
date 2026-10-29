@@ -774,6 +774,8 @@
         public int? RoleID { get; set; }
         public int? UserID { get; set; }
         public string SSOID { get; set; }
+        public string? InstituteIDs { get; set; }
+        public string? BranchIDs { get; set; }
     }
 
 
