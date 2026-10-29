@@ -81,6 +81,7 @@ namespace Kaushal_Darpan.Models.StaffMaster
         public int SemesterID { get; set; }
         public int InstituteId { get; set; }
         public DateTime? CreatedDate { get; set; }
+        public int? SchemeID  {get;set;}
     }
     
     public class GetSectionDataModel
