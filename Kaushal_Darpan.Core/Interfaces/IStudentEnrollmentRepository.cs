@@ -41,5 +41,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetRejectAtBter_StudentDetails_Enrollment(RejectAtBterStudentDataModel model);
         Task<DataSet> GetOptionalSubjectsByStudentID_enr(Int32 StudentID, Int32 DepartmentID, Int32 SemesterID);
         Task<int> Save_Student_Optional_Subject(OptionalSubjectModel optionalSubject);
+        Task<bool> HaveOptionalSubject_Enrollment(int StudentID, int SemesterID, int EndTermID);
     }
 }

@@ -1565,6 +1565,40 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+        public async Task<bool> HaveOptionalSubject_Enrollment(int StudentID, int SemesterID, int EndTermID)
+        {
+            _actionName = "HaveOptionalSubject_Enrollment(int StudentID, int SemesterID)";
+            try
+            {
+                bool result = false;
+                using (var command = await _dbContext.CreateCommandAsync(true))
+                {
+                    // Set the stored procedure name and type
+                    command.CommandText = "USP_HaveOptionalSubject_ENR";
+                    command.CommandType = CommandType.StoredProcedure;
+                    // Add parameters with appropriate null handling
+                    command.Parameters.AddWithValue("@StudentID", StudentID);
+                    command.Parameters.AddWithValue("@SemesterID", SemesterID);
+                    command.Parameters.AddWithValue("@EndTermID", EndTermID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = Convert.ToBoolean(await command.ExecuteScalarAsync());
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
     }
 }
 
