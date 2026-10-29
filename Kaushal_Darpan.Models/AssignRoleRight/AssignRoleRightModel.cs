@@ -23,7 +23,7 @@
 
         public List<int> InstituteIDs { get; set; } = new List<int>();
         public string? InstituteIDList { get; set; }
-
+        public string? GuestHouseID { get; set; }
 
     }
 

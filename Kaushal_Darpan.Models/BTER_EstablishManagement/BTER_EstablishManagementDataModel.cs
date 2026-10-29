@@ -154,6 +154,8 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? BugetHeadTypeID { get; set; }
         public int? PostServiceTypeID { get; set; }
         public int? ChildPostServiceTypeID { get; set; }
+        public int? EmpInstituteID { get; set; }
+        public bool? IsEmpWorkingOnDeputationFromOther { get; set; }
     }
 
     public class BTER_EM_StaffMasterSearchModel

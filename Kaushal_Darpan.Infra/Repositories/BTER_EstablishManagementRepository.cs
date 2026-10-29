@@ -223,6 +223,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@BugetHeadID", request.BugetHeadID);
                         command.Parameters.AddWithValue("@PostServiceTypeID", request.PostServiceTypeID);
                         command.Parameters.AddWithValue("@ChildPostServiceTypeID", request.ChildPostServiceTypeID);
+                        //command.Parameters.AddWithValue("@IsEmpWorkingOnDeputationFromOther", request.IsEmpWorkingOnDeputationFromOther);
+                        //command.Parameters.AddWithValue("@EmpInstituteID", request.EmpInstituteID);
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
 
