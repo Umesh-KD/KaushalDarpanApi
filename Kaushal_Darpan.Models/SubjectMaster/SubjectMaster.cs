@@ -56,6 +56,7 @@ namespace Kaushal_Darpan.Models.SubjectMaster
         public int SubjectID { get; set; }
         public int  CourseType{get; set;}
         public int? SchemeID { get; set;}
+        public int? IsParent { get; set;}
     }
     public class ParentSubjectMap
     {

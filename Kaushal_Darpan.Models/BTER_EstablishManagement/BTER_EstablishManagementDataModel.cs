@@ -60,6 +60,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? RoleID { get; set; }
         public int? UserID { get; set; }
         public int? BranchID { get; set; }
+        public int? FilterRoleID { get; set; }
         public string? SSOID { get; set; }
         public string? Name { get; set; }
         public int? status { get; set; }
@@ -154,6 +155,8 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? BugetHeadTypeID { get; set; }
         public int? PostServiceTypeID { get; set; }
         public int? ChildPostServiceTypeID { get; set; }
+        public int? EmpInstituteID { get; set; }
+        public bool? IsEmpWorkingOnDeputationFromOther { get; set; }
     }
 
     public class BTER_EM_StaffMasterSearchModel
@@ -650,6 +653,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? DepartmentID { get; set; }
         public int? ManagementTypeID { get; set; }
         public int? PostServiceTypeID { get; set; }
+        public int? DistrictID { get; set; }
         public string? OrderNo { get; set; }
     }
 

@@ -131,6 +131,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@IsYearly", model.IsYearly);
                         command.Parameters.AddWithValue("@Year_SemID", model.Year_SemID);
                         command.Parameters.AddWithValue("@StudentFilterStatusId", model.StudentFilterStatusId);
+                        command.Parameters.AddWithValue("@BranchIDs", model.BranchIDs);
+                        command.Parameters.AddWithValue("@InstituteIDs", model.InstituteIDs);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }

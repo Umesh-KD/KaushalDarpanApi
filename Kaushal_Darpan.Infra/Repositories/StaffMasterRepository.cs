@@ -865,6 +865,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
                     command.Parameters.AddWithValue("@InstituteId", body.InstituteId);
                     command.Parameters.AddWithValue("@rowjson", JsonConvert.SerializeObject(body.Section));
+                    command.Parameters.AddWithValue("@SchemeID", body.SchemeID);
 
                     command.Parameters.Add("@Return", SqlDbType.Int);
                     command.Parameters["@Return"].Direction = ParameterDirection.Output;
