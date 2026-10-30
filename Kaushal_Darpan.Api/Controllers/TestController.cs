@@ -954,7 +954,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         dr["FolderYear"] = row["FolderYear"].ToString();
                         dr["DocumentMasterID"] = row["DocumentMasterID"].ToString();
                         dr["ColumnName"] = row["ColumnName"].ToString();
-                        dr["Filename"] = System.IO.Path.Combine(destinationfolderPathDB, newFileName); //make it folder structure path
+                        dr["Filename"] = newFileName; 
                         dr["Dis_FileName"] = newFileName;
                         dr["Type"] = row["Type"].ToString();
 
