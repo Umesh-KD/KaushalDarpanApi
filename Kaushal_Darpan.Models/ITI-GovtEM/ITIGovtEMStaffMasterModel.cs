@@ -776,6 +776,8 @@
         public string SSOID { get; set; }
         public string? InstituteIDs { get; set; }
         public string? BranchIDs { get; set; }
+        public int? PostServiceTypeID { get; set; }
+        public int? ChildPostServiceTypeID { get; set; }
     }
 
 
