@@ -1910,6 +1910,14 @@ namespace Kaushal_Darpan.Api.Controllers
                     var data = await _unitOfWork.ReportRepository.GetStudentEnrolledForm(model);
                     if (data?.Tables?.Count == 3)
                     {
+                        // check Student Img/Sign Exists 20261030
+                        if (data.Tables[0].Rows.Count == 0)
+                        {
+                            result.State = EnumStatus.Warning;
+                            result.ErrorMessage = "Student Image Not found";
+                            return result;
+                        }
+
                         //report
                         var fileName = $"EnrolledForm_{model.StudentID}.pdf";
                         var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
